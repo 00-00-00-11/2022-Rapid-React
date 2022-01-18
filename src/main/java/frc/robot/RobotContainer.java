@@ -8,6 +8,8 @@ public class RobotContainer {
 
   // private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
+  // started climber
+
   public RobotContainer() {
 
     configureButtonBindings();
