@@ -26,6 +26,9 @@ public class RobotContainer {
   private void configureButtonBindings() {}
 
   public Command getAutonomousCommand() {
+
+
+    /** 2021 Auto Code
     TrajectoryConfig config = new TrajectoryConfig(
       Units.feetToMeters(2), 
       Units.feetToMeters(2)
@@ -59,5 +62,7 @@ public class RobotContainer {
 
     // Run path following command, then stop at the end.
     return command.andThen(() -> m_driveSubsystem.setOutput(0, 0));
+
+    **/
   }
 }
