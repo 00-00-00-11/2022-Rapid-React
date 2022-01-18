@@ -10,6 +10,7 @@ public class ClimberCommand extends CommandBase {
   /** Creates a new ClimberCommand. */
   public ClimberCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
+
   }
 
   // Called when the command is initially scheduled.
