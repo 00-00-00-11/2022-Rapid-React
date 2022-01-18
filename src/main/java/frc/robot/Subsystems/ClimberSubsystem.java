@@ -5,8 +5,8 @@
 /*
 How Elevator Should Work
 Driver Does:
-1. hook primary onto bar 
-2. retract primary to min 
+1. hook primary onto bar
+2. retract primary to min
 
 
 Automated (Run Once Per Button):
@@ -25,6 +25,7 @@ Automated (Run Once Per Button):
 package frc.robot.Subsystems;
 
 import com.revrobotics.*;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -34,6 +35,9 @@ public class ClimberSubsystem extends SubsystemBase {
 
   CANSparkMax secondaryAnglerMotor;
 
+  DigitalInput elevatorMaxSwitch;
+  DigitalInput elevatorMinSwitch;
+
   public ClimberSubsystem() {
     primaryElevatorMotor =
         new CANSparkMax(
@@ -41,6 +45,9 @@ public class ClimberSubsystem extends SubsystemBase {
     secondaryAnglerMotor =
         new CANSparkMax(
             Constants.ElevatorConstants.ANGLER_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
+
+    elevatorMaxSwitch = new DigitalInput(Constants.ElevatorConstants.ELEVATOR_MAX_SWITCH);
+    elevatorMinSwitch = new DigitalInput(Constants.ElevatorConstants.ELEVATOR_MIN_SWITCH);
   }
 
   @Override
@@ -52,5 +59,11 @@ public class ClimberSubsystem extends SubsystemBase {
   public void elevatorUpDriver(double distance) {
     // PID to set to specific height?
     // Or max height
+
+    if (elevatorMaxSwitch.get() || elevatorMinSwitch.get()) {
+      // stop elevator
+    } else {
+      // run elevator up
+    }
   }
 }
