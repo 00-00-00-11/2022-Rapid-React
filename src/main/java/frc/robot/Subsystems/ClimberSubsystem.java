@@ -56,14 +56,37 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   // button hit by driver, elevator height to max
-  public void elevatorUpDriver(double distance) {
-    // PID to set to specific height?
-    // Or max height
-
+  public void elevatorUpDriver() {
+    // Max height implementation
     if (elevatorMaxSwitch.get() || elevatorMinSwitch.get()) {
       // stop elevator
     } else {
       // run elevator up
     }
+  }
+
+  public void elevatorUpDriver(double distance) {
+    if (elevatorMaxSwitch.get() || elevatorMinSwitch.get()) {
+      // stop elevator
+    } else {
+      // run elevator to set height (PID?)
+    }
+  }
+
+  public void nextRung() {
+    // Run autonomous commands here
+
+    /*
+      1. primary extends small distance
+      2. secondary extends small angle
+      3. primary retracts
+      4. secondary returns to 0 angle
+      5. primary extends partially
+      6. secondary rotates large angle
+      7. primary extends max
+      8. secondary rotates till primary impacts
+      9. primary retracts min
+      10. secondary returns to 0 angle
+    */
   }
 }

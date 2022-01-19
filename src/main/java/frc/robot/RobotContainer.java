@@ -1,23 +1,29 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Commands.ClimberCommand;
-import frc.robot.Subsystems.ClimberSubsystem;
+import edu.wpi.first.wpilibj2.command.button.*;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Commands.*;
+import frc.robot.Subsystems.*;
 
 public class RobotContainer {
 
-  // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  public static final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
 
-  private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
+  public static final ClimberCommand m_climberCommand = new ClimberCommand(m_climberSubsystem);
 
-  // private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  public static Joystick operatorJoystick =
+      new Joystick(Constants.JoystickConstants.OPERATOR_JOYSTICK_PORT);
 
-  private final ClimberCommand m_climberCommand = new ClimberCommand(m_climberSubsystem);
+  Button driverElevatorButton =
+      new JoystickButton(operatorJoystick, Constants.JoystickConstants.DRIVER_ELEVATOR_BUTTON);
+  Button autoElevatorButton =
+      new JoystickButton(operatorJoystick, Constants.JoystickConstants.AUTO_ELEVATOR_BUTTON);
 
   // started climber
 
   public RobotContainer() {
-
     configureButtonBindings();
   }
 
