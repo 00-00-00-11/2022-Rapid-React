@@ -2,18 +2,17 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
+/** 2021 auto imports
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import java.io.IOException;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.Filesystem;
 import java.nio.file.Path;
-
-//temporary, for auto purposes
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
-
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
+**/
+
+import frc.robot.subsystems.*;
 
 public class RobotContainer {
 
@@ -21,7 +20,7 @@ public class RobotContainer {
 
   // private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
-  public final static DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  public final static AutoSubsystem m_autoSubsystem = new AutoSubsystem();
 
   public RobotContainer() {
 
@@ -29,16 +28,10 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {}
-
+/** 2021 Auto Code
   public Command getAutonomousCommand() {
-      // note: add this all to a subsystem later and reference drivebase motors and change when we have drivebase commands
-      CANSparkMAX drivebaseMotor = new CANSparkMAX (0, CANSparkMaxLowLevel.MotorType.kBrushless);
-      encoder = drivebaseMotor.getEncoder();
-      encoder.setPosition(0.0); //Sets motor position to a floating point number
-      if (encoder.getPosition()*6.0*Math.PI/18.0 < 6) //6.0 ft = wheel diameter, 18.0 ft = gearbox ratio
-        drivebaseMotor.set(-0.2);
-
-    /** 2021 Auto Code
+  
+    
     TrajectoryConfig config = new TrajectoryConfig(
       Units.feetToMeters(2), 
       Units.feetToMeters(2)
@@ -73,6 +66,6 @@ public class RobotContainer {
     // Run path following command, then stop at the end.
     return command.andThen(() -> m_driveSubsystem.setOutput(0, 0));
 
-    **/
-  }
+    
+  }**/
 }
