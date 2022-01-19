@@ -4,10 +4,17 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+
+  public static Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+
 
   @Override
   public void robotInit() {
@@ -16,6 +23,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
+    if(compressor.getPressureSwitchValue())
+      compressor.enableDigital();
+    else
+      compressor.disable();
     CommandScheduler.getInstance().run();
   }
 
@@ -53,7 +64,11 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+    
+
+  }
 
   @Override
   public void testInit() {
