@@ -4,12 +4,10 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-
-
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
@@ -18,10 +16,18 @@ public class Intake extends SubsystemBase {
 
   /** Creates a new Intake. */
   public Intake() {
-  leftSolenoid= new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.IntakeConstants.leftSolenoidPortForward, Constants.IntakeConstants.leftSolenoidPortReverse);
-  rightSolenoid= new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.IntakeConstants.rightSolenoidPortForward, Constants.IntakeConstants.rightSolenoidPortReverse);
-  leftSolenoid.set(Value.kReverse);
-  rightSolenoid.set(Value.kReverse);
+    leftSolenoid =
+        new DoubleSolenoid(
+            PneumaticsModuleType.CTREPCM,
+            Constants.IntakeConstants.leftSolenoidPortForward,
+            Constants.IntakeConstants.leftSolenoidPortReverse);
+    rightSolenoid =
+        new DoubleSolenoid(
+            PneumaticsModuleType.CTREPCM,
+            Constants.IntakeConstants.rightSolenoidPortForward,
+            Constants.IntakeConstants.rightSolenoidPortReverse);
+    leftSolenoid.set(Value.kReverse);
+    rightSolenoid.set(Value.kReverse);
   }
 
   public void toggleIntake() {
