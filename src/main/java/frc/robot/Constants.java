@@ -10,6 +10,13 @@ public final class Constants {
 
     public static final int ELEVATOR_MAX_SWITCH = 3;
     public static final int ELEVATOR_MIN_SWITCH = 4;
+
+    public static final int ANGLER_MAX_SWITCH = 5;
+    public static final int ANGLER_MIN_SWITCH = 6;
+
+    public static final double ELEVATOR_SMALL_DISTANCE = 0.1;
+    public static final double ANGLER_SMALL_ANGLE = 0.1;
+    public static final double ANGLER_LARGE_ANGLE = 0.3;
   }
 
   public final class JoystickConstants {
