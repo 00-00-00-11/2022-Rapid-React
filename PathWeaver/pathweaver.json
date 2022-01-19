@@ -3,7 +3,7 @@
   "exportUnit": "Always Meters",
   "maxVelocity": 0.3,
   "maxAcceleration": 0.3,
-  "wheelBase": 21.5,
-  "gameName": "Infinite Recharge",
+  "trackWidth": 21.5,
+  "gameName": "Rapid React",
   "outputDir": "../src/main/deploy"
 }
