@@ -3,24 +3,22 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.commands.ShooterCommand;
+import frc.robot.RobotContainer;
+
 /** An example command that uses an example subsystem. */
-public class ShooterCommand extends CommandBase {
+public class ShootBall extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ShooterCommand m_shooter_subsystem;
 
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new ShootCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ShooterCommand(ShooterCommand subsystem) {
-    m_shooter_subsystem = subsystem;
+  public ShootBall() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_shooter_subsystem);
+    addRequirements(shooterSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -29,11 +27,15 @@ public class ShooterCommand extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute(double feeder_speed, double fly_wheel_speed) {
+      RobotContainer.m_shooter_subsystem.shootBalls(feeder_speed, fly_wheel_speed);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+      RobotContainer.m_shooter_subsystem.shootBalls(0,0);
+  }
 
   // Returns true when the command should end.
   @Override

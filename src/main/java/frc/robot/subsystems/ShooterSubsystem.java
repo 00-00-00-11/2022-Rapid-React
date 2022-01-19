@@ -17,9 +17,9 @@ public class ShooterSubsystem extends SubsystemBase {
     public ShooterSubsystem() {
     }
     /* Shoots the ball */
-    public void shootBalls() {
-        feederMotor.set(.5);
-        flyWheelMotor.set(.5);
+    public void shootBalls(double feeder_speed, double fly_wheel_speed) {
+        feederMotor.set(feeder_speed);
+        flyWheelMotor.set(fly_wheel_speed);
     }
 
     @Override
