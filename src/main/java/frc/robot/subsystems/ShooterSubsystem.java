@@ -15,12 +15,35 @@ public class ShooterSubsystem extends SubsystemBase {
     CANSparkMax feederMotor = new CANSparkMax(Constants.ShooterConstants.FEEDER_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless);
     CANSparkMax flyWheelMotor = new CANSparkMax(Constants.ShooterConstants.FLY_WHEEL_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless);
 
+    /* Shooter CANPIDController Definition */
+    private CANPIDController feederPIDController = feederMotor.getPIDController();
+    private CANPIDController flyWheelPIDController = flyWheelMotor.getPIDController();
+
     public ShooterSubsystem() {
+        /* Feeder PID Controller */
+        feederPIDController.setP(Constants.shooterConstants.kP);
+        feederPIDController.setI(Constants.shooterConstants.kI);
+        feederPIDController.setD(Constants.shooterConstants.kD);
+        feederPIDController.setIZone(Constants.shooterConstants.kIz);
+        feederPIDController.setFF(Constants.shooterConstants.kFF);
+        feederPIDController.setOutputRange(Constants.shooterConstants.kMinOutput, Constants.shooterConstants.kMaxOutput);
+
+        /* Fly Wheel PID Controller */
+        flyWheelPIDController.setP(Constants.shooterConstants.kP);
+        flyWheelPIDController.setI(Constants.shooterConstants.kI);
+        flyWheelPIDController.setD(Constants.shooterConstants.kD);
+        flyWheelPIDController.setIZone(Constants.shooterConstants.kIz);
+        flyWheelPIDController.setFF(Constants.shooterConstants.kFF);
+        flyWheelPIDController.setOutputRange(Constants.shooterConstants.kMinOutput, Constants.shooterConstants.kMaxOutput);
     }
-    /* Shoots the ball */
-    public void shootBalls(double feeder_speed, double fly_wheel_speed) {
-        feederMotor.set(feeder_speed);
-        flyWheelMotor.set(fly_wheel_speed);
+    /* Shoots The Ball */
+    public void shootBalls() {
+        // Sets The Speeds From PID Constants
+        double speed = Constants.shooterConstants.multiplier * Constants.shooterConstants.maxRPM;
+
+        // Spins The Feeder And Fly Wheel Motor
+        topPidController.setReference(speed, ControlType.kVelocity);
+        bottomPidController.setReference(speed, ControlType.kVelocity);
     }
 
     @Override

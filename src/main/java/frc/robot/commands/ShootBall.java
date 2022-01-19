@@ -27,8 +27,8 @@ public class ShootBall extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute(double feeder_speed, double fly_wheel_speed) {
-      RobotContainer.m_shooter_subsystem.shootBalls(feeder_speed, fly_wheel_speed);
+  public void execute() {
+      RobotContainer.m_shooter_subsystem.shootBalls();
   }
 
   // Called once the command ends or is interrupted.

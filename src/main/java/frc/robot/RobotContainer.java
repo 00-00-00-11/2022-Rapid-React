@@ -23,7 +23,7 @@ public class RobotContainer {
   public static Joystick ps4Controller = new Joystick(1);
   Joystickbutton shootButton = new Joystickbutton(ps4Controller, 8); 
   private void configureButtonBindings() {
-    shootButton.whileHeld(new ShootBall(0.5, 0.5));
+    shootButton.whileHeld(new ShootBall());
   }
 
   public Command getAutonomousCommand() {
