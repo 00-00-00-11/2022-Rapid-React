@@ -24,7 +24,7 @@ public class AutoSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void exitTamac () {
+  public void exitTarmac () {
     if (encoder.getPosition()*6.0*Math.PI/18.0 < 6) //6.0 ft = wheel diameter, 18.0 ft = gearbox ratio
       drivebaseMotor.set(-0.2);    
   }
