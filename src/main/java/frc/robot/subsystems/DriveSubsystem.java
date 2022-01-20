@@ -9,8 +9,10 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,9 +20,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class DriveSubsystem extends SubsystemBase {
-  AHRS gyro = new AHRS();
-
-  ShuffleboardTab diffDrive = Shuffleboard.getTab("Differential Drive");
+  AHRS gyro = new AHRS(SPI.Port.kMXP);
 
   CANSparkMax leftMaster =
       new CANSparkMax(
@@ -46,6 +46,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   DifferentialDrive m_drive = new DifferentialDrive(leftMotors, rightMotors);
 
+  ShuffleboardTab driveTab = Shuffleboard.getTab("Drive");
+
   PIDController turnPID =
       new PIDController(
           Constants.DriveConstants.turnKP,
@@ -59,6 +61,7 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Valet Mode", false);
     turnPID.setSetpoint(0);
     turnPID.setTolerance(5);
+
   }
 
   public void setBrake() {
@@ -75,12 +78,16 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void curveDrive(double xSpeed, double rotation, boolean turn) {
-    m_drive.curvatureDrive(xSpeed, rotation, turn);
+    m_drive.curvatureDrive(
+        xSpeed * Constants.DriveConstants.DRIVE_SPEED,
+        rotation * Constants.DriveConstants.TURN_SPEED,
+        turn);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    driveTab.add("Differential Drive", m_drive).withWidget(BuiltInWidgets.kDifferentialDrive);
   }
 
   public double getRoboAngle() {
