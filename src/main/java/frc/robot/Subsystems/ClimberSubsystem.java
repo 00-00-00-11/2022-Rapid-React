@@ -175,7 +175,16 @@ public class ClimberSubsystem extends SubsystemBase {
       5. primary extends partially
     */
 
-    return true;
+    boolean elevatorDone = false;
+
+    if (primaryElevatorMotor.getEncoder().getPosition() > Constants.ElevatorConstants.ELEVATOR_SMALL_DISTANCE) {
+      primaryElevatorMotor.set(0.1);
+    } else {
+      primaryElevatorMotor.set(0);
+      elevatorDone = true;
+    }
+
+    return elevatorDone;
   }
 
   public boolean climber04() {
