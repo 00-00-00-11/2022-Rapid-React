@@ -12,6 +12,8 @@ public class RobotContainer {
   public static final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
 
   public static final ClimberCommand m_climberCommand = new ClimberCommand(m_climberSubsystem);
+  public static final AutoClimberCommand m_autoClimberCommand =
+      new AutoClimberCommand(m_climberSubsystem);
 
   public static Joystick operatorJoystick =
       new Joystick(Constants.JoystickConstants.OPERATOR_JOYSTICK_PORT);

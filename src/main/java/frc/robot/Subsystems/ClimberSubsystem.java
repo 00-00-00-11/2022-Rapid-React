@@ -41,6 +41,14 @@ public class ClimberSubsystem extends SubsystemBase {
   DigitalInput anglerMaxSwitch;
   DigitalInput anglerMinSwitch;
 
+  boolean step001 = false;
+  boolean step002 = false;
+  boolean step003 = false;
+  boolean step004 = false;
+  boolean step005 = false;
+  boolean step006 = false;
+  boolean step007 = false;
+
   public ClimberSubsystem() {
     primaryElevatorMotor =
         new CANSparkMax(
@@ -83,7 +91,8 @@ public class ClimberSubsystem extends SubsystemBase {
     if (elevatorMinSwitch.get()) {
       primaryElevatorMotor.getEncoder().setPosition(0);
     } else {
-      primaryElevatorMotor.set(0.05); // change to whatever direction
+      primaryElevatorMotor.set(
+          Constants.ElevatorConstants.ELEVATOR_SPEED); // change to whatever direction
     }
   }
 
@@ -91,7 +100,7 @@ public class ClimberSubsystem extends SubsystemBase {
     if (anglerMinSwitch.get()) {
       secondaryAnglerMotor.getEncoder().setPosition(0);
     } else {
-      secondaryAnglerMotor.set(0.05); // change to whatever direction
+      secondaryAnglerMotor.set(Constants.ElevatorConstants.ANGLER_SPEED);
     }
   }
 
@@ -115,9 +124,41 @@ public class ClimberSubsystem extends SubsystemBase {
       9. primary retracts min
       10. secondary returns to 0 angle
     */
+
+    if (!step001) {
+      climber001();
+    } else if (!step002) {
+      climber002();
+    } else if (!step003) {
+      climber003();
+    } else if (!step004) {
+      climber004();
+    } else if (!step005) {
+      climber005();
+    } else if (!step006) {
+      climber006();
+    } else if (!step007) {
+      climber007();
+    } else {
+      System.out.println("Climber Done");
+    }
   }
 
-  public boolean climber01() {
+  public boolean checkNextRungComplete() {
+    return step007;
+  }
+
+  public void resetSteps() {
+    step001 = false;
+    step002 = false;
+    step003 = false;
+    step004 = false;
+    step005 = false;
+    step006 = false;
+    step007 = false;
+  }
+
+  public void climber001() {
     /*
       1. primary extends small distance
       2. secondary extends small angle
@@ -127,7 +168,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
     if (primaryElevatorMotor.getEncoder().getPosition()
         > Constants.ElevatorConstants.ELEVATOR_SMALL_DISTANCE) {
-      primaryElevatorMotor.set(0.1);
+      primaryElevatorMotor.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
       primaryElevatorMotor.set(0);
       elevatorDone = true;
@@ -135,16 +176,16 @@ public class ClimberSubsystem extends SubsystemBase {
 
     if (secondaryAnglerMotor.getEncoder().getPosition()
         < Constants.ElevatorConstants.ANGLER_SMALL_ANGLE) {
-      secondaryAnglerMotor.set(0.1);
+      secondaryAnglerMotor.set(Constants.ElevatorConstants.ANGLER_SPEED);
     } else {
       secondaryAnglerMotor.set(0);
       anglerDone = true;
     }
 
-    return anglerDone && elevatorDone;
+    step001 = anglerDone && elevatorDone;
   }
 
-  public boolean climber02() {
+  public void climber002() {
     /*
       3. primary retracts
       4. secondary returns to 0 angle
@@ -154,68 +195,116 @@ public class ClimberSubsystem extends SubsystemBase {
     boolean anglerDone = false;
 
     if (!elevatorMinSwitch.get()) {
-      primaryElevatorMotor.set(-0.1);
+      primaryElevatorMotor.set(-Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
       primaryElevatorMotor.set(0);
       elevatorDone = true;
     }
 
     if (!anglerMinSwitch.get()) {
-      secondaryAnglerMotor.set(-0.1);
+      secondaryAnglerMotor.set(-Constants.ElevatorConstants.ANGLER_SPEED);
     } else {
       secondaryAnglerMotor.set(0);
       anglerDone = true;
     }
 
-    return anglerDone && elevatorDone;
+    step002 = anglerDone && elevatorDone;
   }
 
-  public boolean climber03() {
+  public void climber003() {
     /*
       5. primary extends partially
     */
 
     boolean elevatorDone = false;
 
-    if (primaryElevatorMotor.getEncoder().getPosition() > Constants.ElevatorConstants.ELEVATOR_SMALL_DISTANCE) {
-      primaryElevatorMotor.set(0.1);
+    if (primaryElevatorMotor.getEncoder().getPosition()
+        > Constants.ElevatorConstants.ELEVATOR_SMALL_DISTANCE) {
+      primaryElevatorMotor.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
       primaryElevatorMotor.set(0);
       elevatorDone = true;
     }
 
-    return elevatorDone;
+    step003 = elevatorDone;
   }
 
-  public boolean climber04() {
+  public void climber004() {
     /*
       6. secondary rotates large angle
     */
 
-    return true;
+    boolean secondaryDone = false;
+
+    if (secondaryAnglerMotor.getEncoder().getPosition()
+        < Constants.ElevatorConstants.ANGLER_LARGE_ANGLE) {
+      secondaryAnglerMotor.set(Constants.ElevatorConstants.ANGLER_SPEED);
+    } else {
+      secondaryAnglerMotor.set(0);
+      secondaryDone = true;
+    }
+
+    step004 = secondaryDone;
   }
 
-  public boolean climber05() {
+  public void climber005() {
     /*
       7. primary extends max
     */
 
-    return true;
+    boolean primaryDone = false;
+
+    if (!elevatorMaxSwitch.get()) {
+      primaryElevatorMotor.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
+    } else {
+      primaryElevatorMotor.set(0);
+      primaryDone = true;
+    }
+
+    step005 = primaryDone;
   }
 
-  public boolean climber06() {
+  public void climber006() {
     /*
       8. secondary rotates till primary impacts
     */
 
-    return true;
+    boolean anglerDone = false;
+
+    if (secondaryAnglerMotor.getEncoder().getPosition()
+        > Constants.ElevatorConstants.ANGLER_IMPACT_ANGLE) {
+      secondaryAnglerMotor.set(Constants.ElevatorConstants.ANGLER_SPEED);
+    } else {
+      secondaryAnglerMotor.set(0);
+      anglerDone = true;
+    }
+
+    step006 = anglerDone;
   }
 
-  public boolean climber07() {
+  public void climber007() {
     /*
       9. primary retracts min
       10. secondary returns to 0 angle
     */
-    return true;
+
+    boolean anglerDone = false;
+    boolean elevatorDone = false;
+
+    if (!elevatorMinSwitch.get()) {
+      primaryElevatorMotor.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
+    } else {
+      primaryElevatorMotor.set(0);
+      elevatorDone = true;
+    }
+
+    if (!anglerMinSwitch.get()) {
+      secondaryAnglerMotor.set(Constants.ElevatorConstants.ANGLER_SPEED);
+    } else {
+      secondaryAnglerMotor.set(0);
+      anglerDone = true;
+    }
+
+    step007 = elevatorDone && anglerDone;
   }
 }
