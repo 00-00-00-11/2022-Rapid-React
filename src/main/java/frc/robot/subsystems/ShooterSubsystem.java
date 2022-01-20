@@ -21,26 +21,26 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public ShooterSubsystem() {
         /* Feeder PID Controller */
-        feederPIDController.setP(Constants.shooterConstants.kP);
-        feederPIDController.setI(Constants.shooterConstants.kI);
-        feederPIDController.setD(Constants.shooterConstants.kD);
-        feederPIDController.setIZone(Constants.shooterConstants.kIz);
-        feederPIDController.setFF(Constants.shooterConstants.kFF);
-        feederPIDController.setOutputRange(Constants.shooterConstants.kMinOutput, Constants.shooterConstants.kMaxOutput);
+        feederPIDController.setP(Constants.ShooterConstants.kP);
+        feederPIDController.setI(Constants.ShooterConstants.kI);
+        feederPIDController.setD(Constants.ShooterConstants.kD);
+        feederPIDController.setIZone(Constants.ShooterConstants.kIz);
+        feederPIDController.setFF(Constants.ShooterConstants.kFF);
+        feederPIDController.setOutputRange(Constants.ShooterConstants.kMinOutput, Constants.ShooterConstants.kMaxOutput);
 
         /* Fly Wheel PID Controller */
-        flyWheelPIDController.setP(Constants.shooterConstants.kP);
-        flyWheelPIDController.setI(Constants.shooterConstants.kI);
-        flyWheelPIDController.setD(Constants.shooterConstants.kD);
-        flyWheelPIDController.setIZone(Constants.shooterConstants.kIz);
-        flyWheelPIDController.setFF(Constants.shooterConstants.kFF);
-        flyWheelPIDController.setOutputRange(Constants.shooterConstants.kMinOutput, Constants.shooterConstants.kMaxOutput);
+        flyWheelPIDController.setP(Constants.ShooterConstants.kP);
+        flyWheelPIDController.setI(Constants.ShooterConstants.kI);
+        flyWheelPIDController.setD(Constants.ShooterConstants.kD);
+        flyWheelPIDController.setIZone(Constants.ShooterConstants.kIz);
+        flyWheelPIDController.setFF(Constants.ShooterConstants.kFF);
+        flyWheelPIDController.setOutputRange(Constants.ShooterConstants.kMinOutput, Constants.ShooterConstants.kMaxOutput);
     }
     /* Shoots The Ball */
     public void shootBalls(boolean shoot) {
         if(shoot) {
             // Sets The Speeds From PID Constants
-            double speed = Constants.shooterConstants.multiplier * Constants.shooterConstants.maxRPM;
+            double speed = Constants.ShooterConstants.multiplier * Constants.ShooterConstants.maxRPM;
 
             // Spins The Feeder And Fly Wheel Motor
             feederPIDController.setReference(speed, ControlType.kVelocity);
