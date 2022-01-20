@@ -9,7 +9,9 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
   public static PS4Controller psController = new PS4Controller(Constants.IntakeConstants.ps4Port);
   public static final JoystickButton extendIntakeButton =
-      new JoystickButton(psController, Constants.IntakeConstants.square);
+      new JoystickButton(psController, PS4Controller.Button.kSquare.value);
+  public static final JoystickButton spinIntakeButton =
+      new JoystickButton(psController, PS4Controller.Button.kCircle.value);
 
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public static final Intake m_intake = new Intake();
@@ -22,6 +24,7 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     extendIntakeButton.whenPressed(new IntakeExtend());
+    spinIntakeButton.whenHeld(new IntakeSpin());
   }
 
   public Command getAutonomousCommand() {

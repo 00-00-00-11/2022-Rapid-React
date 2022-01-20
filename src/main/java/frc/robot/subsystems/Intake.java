@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -13,6 +15,7 @@ import frc.robot.Constants;
 public class Intake extends SubsystemBase {
   private DoubleSolenoid leftSolenoid;
   private DoubleSolenoid rightSolenoid;
+  private CANSparkMax intakeMotor;
 
   /** Creates a new Intake. */
   public Intake() {
@@ -26,6 +29,9 @@ public class Intake extends SubsystemBase {
             PneumaticsModuleType.CTREPCM,
             Constants.IntakeConstants.rightSolenoidPortForward,
             Constants.IntakeConstants.rightSolenoidPortReverse);
+    intakeMotor =
+        new CANSparkMax(
+            Constants.IntakeConstants.motorID, CANSparkMaxLowLevel.MotorType.kBrushless);
     leftSolenoid.set(Value.kReverse);
     rightSolenoid.set(Value.kReverse);
   }
@@ -33,6 +39,14 @@ public class Intake extends SubsystemBase {
   public void toggleIntake() {
     leftSolenoid.toggle();
     rightSolenoid.toggle();
+  }
+
+  public void spinIntake() {
+    intakeMotor.set(Constants.IntakeConstants.intakeSpeed);
+  }
+
+  public void stop() {
+    intakeMotor.set(0);
   }
 
   @Override
