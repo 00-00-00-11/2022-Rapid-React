@@ -33,12 +33,17 @@ public class SimDrive extends CommandBase {
 
     double driveSpeed = Constants.DriveConstants.DRIVE_SPEED;
     double leftAxis = RobotContainer.operatorGamepad.getLeftX();
+    double rightAxis = RobotContainer.operatorGamepad.getRightX();
     double r2 = RobotContainer.operatorGamepad.getR2Axis();
     double l2 = RobotContainer.operatorGamepad.getL2Axis();
 
     double speed = (r2 - l2) * driveSpeed * valetSpeed;
 
-    RobotContainer.m_driveSubsystem.curveDrive(speed, leftAxis, false);
+    if (r2 > 0 || l2 > 0) {
+      RobotContainer.m_driveSubsystem.curveDrive(speed, leftAxis, false);
+    } else {
+      RobotContainer.m_driveSubsystem.curveDrive(0, rightAxis, true);
+    }
   }
 
   // Called once the command ends or is interrupted.

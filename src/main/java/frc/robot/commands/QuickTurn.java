@@ -4,7 +4,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveSubsystem;
@@ -36,9 +38,12 @@ public class QuickTurn extends CommandBase {
   public void execute() {
     degrees = driveSub.getAngleBetween(driveSub.getRoboAngle(), target);
     double speed = turnPID.calculate(degrees);
-    speed = Math.max(-1, Math.min(1, speed));
+    MathUtil.clamp(speed, -1, 1);
 
-    driveSub.curveDrive(0, speed, true);
+    driveSub.curveDrive(0, -speed, true);
+
+    System.out.println(speed);
+    SmartDashboard.putNumber("Quick Turn Speed", speed);
   }
 
   // Called once the command ends or is interrupted.

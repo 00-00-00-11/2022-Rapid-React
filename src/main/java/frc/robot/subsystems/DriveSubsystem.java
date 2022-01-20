@@ -11,12 +11,17 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class DriveSubsystem extends SubsystemBase {
   AHRS gyro = new AHRS();
+
+  ShuffleboardTab diffDrive = Shuffleboard.getTab("Differential Drive");
+
   CANSparkMax leftMaster =
       new CANSparkMax(
           Constants.DriveConstants.LEFT_MASTER_CAN, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -53,7 +58,7 @@ public class DriveSubsystem extends SubsystemBase {
     setBrake();
     SmartDashboard.putBoolean("Valet Mode", false);
     turnPID.setSetpoint(0);
-    turnPID.setTolerance(1);
+    turnPID.setTolerance(5);
   }
 
   public void setBrake() {
