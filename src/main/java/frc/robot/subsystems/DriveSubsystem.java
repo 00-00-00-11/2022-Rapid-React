@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+import com.revrobotics.RelativeEncoder;
+
 public class DriveSubsystem extends SubsystemBase {
   AHRS gyro = new AHRS();
   CANSparkMax leftMaster =
@@ -36,6 +38,8 @@ public class DriveSubsystem extends SubsystemBase {
   // CANSparkMax(Constants.DriveConstants.RIGHT_SLAVE_CAN2,
   // CANSparkMaxLowLevel.MotorType.kBrushless);
 
+  RelativeEncoder leftMasterEncoder = leftMaster.getEncoder();
+
   MotorControllerGroup leftMotors = new MotorControllerGroup(leftMaster, leftSlave1);
   MotorControllerGroup rightMotors = new MotorControllerGroup(rightMaster, rightSlave1);
 
@@ -54,6 +58,8 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Valet Mode", false);
     turnPID.setSetpoint(0);
     turnPID.setTolerance(1);
+
+    leftMasterEncoder.setPosition(0.0);
   }
 
   public void setBrake() {
@@ -92,5 +98,9 @@ public class DriveSubsystem extends SubsystemBase {
 
   public PIDController getTurnPID() {
     return turnPID;
+  }
+
+  public double getEncoderPosition () {
+    return leftMasterEncoder.getPosition();
   }
 }

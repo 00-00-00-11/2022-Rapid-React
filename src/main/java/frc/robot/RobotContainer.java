@@ -25,12 +25,10 @@ public class RobotContainer {
   // private final ExampleCommand m_autoCommand = new
   // ExampleCommand(m_exampleSubsystem);
 
+  public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  public static final PS4Controller operatorGamepad = new PS4Controller(0);
+
   public RobotContainer() {
-
-    public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
-    public static final PS4Controller operatorGamepad = new PS4Controller(0);
-    public final static AutoSubsystem m_autoSubsystem = new AutoSubsystem();
-
     m_driveSubsystem.setDefaultCommand(new SimDrive());
     configureButtonBindings();
 
