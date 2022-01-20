@@ -11,7 +11,7 @@ public class ExitTarmac extends CommandBase {
   /** Creates a new ExitTarmac. */
   public ExitTarmac() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_autoSubsystem);
+    addRequirements(RobotContainer.m_driveSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -21,13 +21,14 @@ public class ExitTarmac extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_autoSubsystem.exitTarmac();
+    if (RobotContainer.m_driveSubsystem.getEncoderPosition()*6.0*Math.PI/18.0 < 6) //6.0 ft = wheel diameter, 18.0 ft = gearbox ratio
+      RobotContainer.m_driveSubsystem.tankDrive(-0.2, 0.2);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.m_autoSubsystem.stopMotors();
+    RobotContainer.m_driveSubsystem.tankDrive(0,0);
   }
 
   // Returns true when the command should end.
