@@ -37,13 +37,19 @@ public class ShooterSubsystem extends SubsystemBase {
         flyWheelPIDController.setOutputRange(Constants.shooterConstants.kMinOutput, Constants.shooterConstants.kMaxOutput);
     }
     /* Shoots The Ball */
-    public void shootBalls() {
-        // Sets The Speeds From PID Constants
-        double speed = Constants.shooterConstants.multiplier * Constants.shooterConstants.maxRPM;
+    public void shootBalls(boolean shoot) {
+        if(shoot) {
+            // Sets The Speeds From PID Constants
+            double speed = Constants.shooterConstants.multiplier * Constants.shooterConstants.maxRPM;
 
-        // Spins The Feeder And Fly Wheel Motor
-        topPidController.setReference(speed, ControlType.kVelocity);
-        bottomPidController.setReference(speed, ControlType.kVelocity);
+            // Spins The Feeder And Fly Wheel Motor
+            feederPIDController.setReference(speed, ControlType.kVelocity);
+            flyWheelPIDController.setReference(speed, ControlType.kVelocity);
+        }
+        else {
+            feederMotor.set(0);
+            flyWheelMotor.set(0);
+        }
     }
 
     @Override
