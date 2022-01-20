@@ -35,7 +35,7 @@ public class ShootBall extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     if(interrupted) {
-      RobotContainer.m_shooter_subsystem.shootBalls(false));
+      RobotContainer.m_shooter_subsystem.shootBalls(false);
     }
   }
 
