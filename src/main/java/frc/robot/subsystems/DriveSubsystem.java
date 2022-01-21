@@ -61,7 +61,6 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Valet Mode", false);
     turnPID.setSetpoint(0);
     turnPID.setTolerance(5);
-
   }
 
   public void setBrake() {
@@ -71,6 +70,24 @@ public class DriveSubsystem extends SubsystemBase {
     leftMaster.setIdleMode(IdleMode.kBrake);
     leftSlave1.setIdleMode(IdleMode.kBrake);
     // leftSlave2.setIdleMode(IdleMode.kBrake);
+  }
+
+  public void setCoast() {
+    rightMaster.setIdleMode(IdleMode.kCoast);
+    rightSlave1.setIdleMode(IdleMode.kCoast);
+    // rightSlave2.setIdleMode(IdleMode.kCoast);
+    leftMaster.setIdleMode(IdleMode.kCoast);
+    leftSlave1.setIdleMode(IdleMode.kCoast);
+    // leftSlave2.setIdleMode(IdleMode.kCoast);
+  }
+
+  public double getDirection() {
+    double rightV = -rightMaster.getEncoder().getVelocity();
+    double leftV = leftMaster.getEncoder().getVelocity();
+
+    double avg = (rightV + leftV) / 2.0;
+
+    return avg;
   }
 
   public void tankDrive(double left, double right) {

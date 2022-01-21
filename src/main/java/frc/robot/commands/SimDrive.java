@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class SimDrive extends CommandBase {
@@ -31,7 +30,6 @@ public class SimDrive extends CommandBase {
 
     valetSpeed = valet ? .3 : 1;
 
-    double driveSpeed = Constants.DriveConstants.DRIVE_SPEED;
     double leftAxis = RobotContainer.operatorGamepad.getLeftX();
     double rightAxis = RobotContainer.operatorGamepad.getRightX();
     double r2 = RobotContainer.operatorGamepad.getR2Axis();
@@ -39,9 +37,28 @@ public class SimDrive extends CommandBase {
 
     double speed = (r2 - l2) * valetSpeed;
 
-    if (r2 > 0 || l2 > 0) {
+    if (r2 > 0
+        && RobotContainer.m_driveSubsystem.getDirection()
+            < 0) { // Sets motors to brake when pressing r2 and going backwards
+      RobotContainer.m_driveSubsystem.setBrake();
       RobotContainer.m_driveSubsystem.curveDrive(speed, leftAxis, false);
-    } else {
+    } else if (r2 > 0
+        && RobotContainer.m_driveSubsystem.getDirection()
+            >= 0) { // Sets motors to coast when pressing r2 and going forwards
+      RobotContainer.m_driveSubsystem.setCoast();
+      RobotContainer.m_driveSubsystem.curveDrive(speed, leftAxis, false);
+    } else if (l2 > 0
+        && RobotContainer.m_driveSubsystem.getDirection()
+            > 0) { // Sets motors to brake when pressing L2 and going forwards
+      RobotContainer.m_driveSubsystem.setBrake();
+      RobotContainer.m_driveSubsystem.curveDrive(speed, leftAxis, false);
+    } else if (l2 > 0
+        && RobotContainer.m_driveSubsystem.getDirection()
+            <= 0) { // Sets motors to coast when pressing L2 and going backwards
+      RobotContainer.m_driveSubsystem.setCoast();
+      RobotContainer.m_driveSubsystem.curveDrive(speed, leftAxis, false);
+    } else { // Sets motors to brake and allows turnInPlace
+      RobotContainer.m_driveSubsystem.setBrake();
       RobotContainer.m_driveSubsystem.curveDrive(0, rightAxis, true);
     }
   }
