@@ -7,13 +7,16 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class SimDrive extends CommandBase {
+
+  private DriveSubsystem driveSub = RobotContainer.m_driveSubsystem;
 
   /** Creates a new SimDrive. */
   public SimDrive() {
     // Use addRequirRobments() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_driveSubsystem);
+    addRequirements(driveSub);
   }
 
   // Called when the command is initially scheduled.
@@ -24,7 +27,7 @@ public class SimDrive extends CommandBase {
   @Override
   public void execute() {
 
-    Boolean valet = SmartDashboard.getBoolean("Valet Mode", false);
+    boolean valet = SmartDashboard.getBoolean("Valet Mode", false);
 
     double valetSpeed;
 
@@ -36,30 +39,18 @@ public class SimDrive extends CommandBase {
     double l2 = RobotContainer.operatorGamepad.getL2Axis();
 
     double speed = (r2 - l2) * valetSpeed;
+    boolean movingForwards = speed >= 0 ? driveSub.getVelocity() > 0 : driveSub.getVelocity() < 0;
 
-    if (r2 > 0
-        && RobotContainer.m_driveSubsystem.getDirection()
-            < 0) { // Sets motors to brake when pressing r2 and going backwards
-      RobotContainer.m_driveSubsystem.setBrake();
-      RobotContainer.m_driveSubsystem.curveDrive(speed, leftAxis, false);
-    } else if (r2 > 0
-        && RobotContainer.m_driveSubsystem.getDirection()
-            >= 0) { // Sets motors to coast when pressing r2 and going forwards
-      RobotContainer.m_driveSubsystem.setCoast();
-      RobotContainer.m_driveSubsystem.curveDrive(speed, leftAxis, false);
-    } else if (l2 > 0
-        && RobotContainer.m_driveSubsystem.getDirection()
-            > 0) { // Sets motors to brake when pressing L2 and going forwards
-      RobotContainer.m_driveSubsystem.setBrake();
-      RobotContainer.m_driveSubsystem.curveDrive(speed, leftAxis, false);
-    } else if (l2 > 0
-        && RobotContainer.m_driveSubsystem.getDirection()
-            <= 0) { // Sets motors to coast when pressing L2 and going backwards
-      RobotContainer.m_driveSubsystem.setCoast();
-      RobotContainer.m_driveSubsystem.curveDrive(speed, leftAxis, false);
-    } else { // Sets motors to brake and allows turnInPlace
-      RobotContainer.m_driveSubsystem.setBrake();
-      RobotContainer.m_driveSubsystem.curveDrive(0, rightAxis, true);
+    if (speed != 0) {
+      if (movingForwards) driveSub.setCoast();
+      else driveSub.setBrake();
+    }
+
+    driveSub.curveDrive(speed, leftAxis, false);
+    // TODO: Does setting speed to 0 stop the robot? If it does, the above block of code should only
+    // execute if speed is not 0, but the robot will slow anyway when as you ease off the trigger
+    if (Math.abs(r2) > 0) {
+      driveSub.curveDrive(0, rightAxis, true); // Will override previous curve drive
     }
   }
 

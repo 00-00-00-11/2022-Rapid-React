@@ -17,7 +17,6 @@ public class QuickTurn extends CommandBase {
 
   private DriveSubsystem driveSub = RobotContainer.m_driveSubsystem;
   private double target;
-  private double degrees;
   private PIDController turnPID;
 
   public QuickTurn(double angle) {
@@ -36,14 +35,13 @@ public class QuickTurn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    degrees = driveSub.getAngleBetween(driveSub.getRoboAngle(), target);
+    double degrees = DriveSubsystem.getAngleBetween(driveSub.getRoboAngle(), target);
     double speed = turnPID.calculate(degrees);
     MathUtil.clamp(speed, -1, 1);
 
     driveSub.curveDrive(0, -speed, true);
 
-    System.out.println(speed);
-    SmartDashboard.putNumber("Quick Turn Speed", speed);
+    SmartDashboard.putNumber("Quick Turn Speed", speed); // TODO remove when done debugging
   }
 
   // Called once the command ends or is interrupted.

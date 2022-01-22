@@ -13,8 +13,12 @@ public final class Constants {
     public static final double DRIVE_SPEED = 0.2;
     public static final double TURN_SPEED = 0.75;
 
-    public static final double turnKP = 0.01;
-    public static final double turnKI = 0;
-    public static final double turnKD = 0;
+    public static final double WHEEL_DIAMETER =
+        0.0762; // in meters // TODO get actual wheel diameter
+    public static final double GEAR_RATIO = 10.71; // TODO get actual gear ratio
+
+    public static final double TURN_KP = 0.01;
+    public static final double TURN_KI = 0;
+    public static final double TURN_KD = 0;
   }
 }
