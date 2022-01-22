@@ -16,6 +16,9 @@ public final class Constants {
     public static final double WHEEL_DIAMETER =
         0.0762; // in meters // TODO get actual wheel diameter
     public static final double GEAR_RATIO = 10.71; // TODO get actual gear ratio
+    public static final double jKg_METERS_SQUARED = 7.5; // TODO get actual value
+    public static final double ROBOT_MASS = 60; // in kg // TODO get actual value
+    public static final double TRACK_WIDTH = 0.7112; // in kg // TODO get actual value
 
     public static final double TURN_KP = 0.01;
     public static final double TURN_KI = 0;

@@ -1,4 +1,18 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "SPARK MAX [1]": {
+        "header": {
+          "open": true
+        }
+      },
+      "navX-Sensor[0]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
@@ -9,6 +23,18 @@
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
       "/Shuffleboard/Drive/Differential Drive": "DifferentialDrive",
       "/Shuffleboard/Drive/Field View": "Field2d"
+    },
+    "windows": {
+      "/Shuffleboard/Drive/Differential Drive": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Drive/Field View": {
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "NetworkTables": {

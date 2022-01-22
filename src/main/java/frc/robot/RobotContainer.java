@@ -8,11 +8,6 @@ import frc.robot.subsystems.*;
 
 public class RobotContainer {
 
-  // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
-  // private final ExampleCommand m_autoCommand = new
-  // ExampleCommand(m_exampleSubsystem);
-
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
   public static final PS4Controller operatorGamepad = new PS4Controller(0);

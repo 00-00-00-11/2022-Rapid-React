@@ -9,40 +9,50 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
+import edu.wpi.first.hal.SimDouble;
+import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase {
   AHRS gyro = new AHRS(SPI.Port.kMXP);
 
   CANSparkMax leftMaster =
-      new CANSparkMax(
-          Constants.DriveConstants.LEFT_MASTER_CAN, CANSparkMaxLowLevel.MotorType.kBrushless);
-  CANSparkMax rightMaster =
-      new CANSparkMax(
-          Constants.DriveConstants.RIGHT_MASTER_CAN, CANSparkMaxLowLevel.MotorType.kBrushless);
+      new CANSparkMax(DriveConstants.LEFT_MASTER_CAN, CANSparkMaxLowLevel.MotorType.kBrushless);
   CANSparkMax leftSlave1 =
-      new CANSparkMax(
-          Constants.DriveConstants.LEFT_SLAVE_CAN1, CANSparkMaxLowLevel.MotorType.kBrushless);
+      new CANSparkMax(DriveConstants.LEFT_SLAVE_CAN1, CANSparkMaxLowLevel.MotorType.kBrushless);
   // CANSparkMax leftSlave2 = new
   // CANSparkMax(Constants.DriveConstants.LEFT_SLAVE_CAN2,
   // CANSparkMaxLowLevel.MotorType.kBrushless);
+  CANSparkMax rightMaster =
+      new CANSparkMax(DriveConstants.RIGHT_MASTER_CAN, CANSparkMaxLowLevel.MotorType.kBrushless);
   CANSparkMax rightSlave1 =
-      new CANSparkMax(
-          Constants.DriveConstants.RIGHT_SLAVE_CAN1, CANSparkMaxLowLevel.MotorType.kBrushless);
+      new CANSparkMax(DriveConstants.RIGHT_SLAVE_CAN1, CANSparkMaxLowLevel.MotorType.kBrushless);
   // CANSparkMax rightSlave2 = new
   // CANSparkMax(Constants.DriveConstants.RIGHT_SLAVE_CAN2,
   // CANSparkMaxLowLevel.MotorType.kBrushless);
+
+  public CANSparkMax[] getMotors() {
+    CANSparkMax[] motors = {leftMaster, leftSlave1, rightMaster, rightSlave1};
+    // CANSparkMax[] motors = {leftMaster, leftSlave1, leftSlave2, rightMaster,
+    // rightSlave1, rightSlave2};
+
+    return motors;
+  }
 
   RelativeEncoder leftEncoder = leftMaster.getEncoder();
   RelativeEncoder rightEncoder = rightMaster.getEncoder();
@@ -53,14 +63,23 @@ public class DriveSubsystem extends SubsystemBase {
   DifferentialDrive m_drive = new DifferentialDrive(leftMotors, rightMotors);
   DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
 
+  DifferentialDrivetrainSim driveSim =
+      new DifferentialDrivetrainSim(
+          DCMotor.getNEO(3),
+          DriveConstants.GEAR_RATIO,
+          DriveConstants.jKg_METERS_SQUARED,
+          DriveConstants.ROBOT_MASS,
+          DriveConstants.WHEEL_DIAMETER / 2,
+          DriveConstants.TRACK_WIDTH,
+          VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005));
+  // This last parameter is standard deviation. Replace it with null to eliminate error in the
+  // simulation
+
   ShuffleboardTab driveTab = Shuffleboard.getTab("Drive");
   Field2d field = new Field2d();
 
   PIDController turnPID =
-      new PIDController(
-          Constants.DriveConstants.TURN_KP,
-          Constants.DriveConstants.TURN_KI,
-          Constants.DriveConstants.TURN_KD);
+      new PIDController(DriveConstants.TURN_KP, DriveConstants.TURN_KI, DriveConstants.TURN_KD);
 
   /** Creates a new Drivebase. */
   public DriveSubsystem() {
@@ -77,11 +96,9 @@ public class DriveSubsystem extends SubsystemBase {
     // many times the motor would need to turn for one rotation, times 60 so the
     // unit is meters per second rather than meters per minute
     leftEncoder.setPositionConversionFactor(
-        (60 * Math.PI * Constants.DriveConstants.WHEEL_DIAMETER)
-            / Constants.DriveConstants.GEAR_RATIO);
+        (60 * Math.PI * DriveConstants.WHEEL_DIAMETER) / DriveConstants.GEAR_RATIO);
     rightEncoder.setPositionConversionFactor(
-        (60 * Math.PI * Constants.DriveConstants.WHEEL_DIAMETER)
-            / Constants.DriveConstants.GEAR_RATIO);
+        (60 * Math.PI * DriveConstants.WHEEL_DIAMETER) / DriveConstants.GEAR_RATIO);
   }
 
   /** Set motors to brake mode */
@@ -120,8 +137,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param right Right side speed (-1..1)
    */
   public void tankDrive(double left, double right) {
-    m_drive.tankDrive(
-        left * Constants.DriveConstants.DRIVE_SPEED, right * Constants.DriveConstants.DRIVE_SPEED);
+    m_drive.tankDrive(left * DriveConstants.DRIVE_SPEED, right * DriveConstants.DRIVE_SPEED);
   }
 
   /**
@@ -134,9 +150,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void curveDrive(double xSpeed, double rotation, boolean turn) {
     m_drive.curvatureDrive(
-        xSpeed * Constants.DriveConstants.DRIVE_SPEED,
-        rotation * Constants.DriveConstants.TURN_SPEED,
-        turn);
+        xSpeed * DriveConstants.DRIVE_SPEED, rotation * DriveConstants.TURN_SPEED, turn);
   }
 
   @Override
@@ -144,6 +158,21 @@ public class DriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     updateOdometry();
     field.setRobotPose(odometry.getPoseMeters());
+  }
+
+  @Override
+  public void simulationPeriodic() {
+    driveSim.setInputs(
+        leftMotors.get() * RobotController.getInputVoltage(),
+        rightMotors.get() * RobotController.getInputVoltage());
+    driveSim.update(0.02);
+
+    leftEncoder.setPosition(driveSim.getLeftPositionMeters());
+    rightEncoder.setPosition(driveSim.getRightPositionMeters());
+
+    int dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
+    SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(dev, "Yaw"));
+    angle.set(driveSim.getHeading().getDegrees());
   }
 
   /** Updates the robot's odometry. */
