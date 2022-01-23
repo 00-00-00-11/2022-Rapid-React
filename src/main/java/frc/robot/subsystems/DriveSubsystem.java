@@ -170,8 +170,19 @@ public class DriveSubsystem extends SubsystemBase {
     leftEncoder.setPosition(driveSim.getLeftPositionMeters());
     rightEncoder.setPosition(driveSim.getRightPositionMeters());
 
-    int dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
-    SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(dev, "Yaw"));
+    int leftHandle =
+        SimDeviceDataJNI.getSimDeviceHandle("SPARK MAX [" + leftMaster.getDeviceId() + "]");
+    int rightHandle =
+        SimDeviceDataJNI.getSimDeviceHandle("SPARK MAX [" + rightMaster.getDeviceId() + "]");
+    SimDouble leftVelocity =
+        new SimDouble(SimDeviceDataJNI.getSimValueHandle(leftHandle, "Velocity"));
+    SimDouble rightVelocity =
+        new SimDouble(SimDeviceDataJNI.getSimValueHandle(rightHandle, "Velocity"));
+    leftVelocity.set(driveSim.getLeftVelocityMetersPerSecond());
+    rightVelocity.set(driveSim.getRightVelocityMetersPerSecond());
+
+    int gyroHandle = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
+    SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(gyroHandle, "Yaw"));
     angle.set(driveSim.getHeading().getDegrees());
   }
 

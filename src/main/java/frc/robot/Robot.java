@@ -79,6 +79,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void simulationPeriodic() {
-    REVPhysicsSim.getInstance().run();
+    // REVPhysicsSim.getInstance().run();
+
+    // The above is not needed because we set velocity values manually in Drive Subsystem
   }
 }
