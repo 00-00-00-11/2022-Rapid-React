@@ -31,13 +31,18 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
+import edu.wpi.first.hal.SimDouble;
+import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -106,9 +111,12 @@ public class DriveSubsystem extends SubsystemBase {
 
     m_drive = new DifferentialDrive(leftMotors, rightMotors);
 
+    field = new Field2d();
+
     driveTab = Shuffleboard.getTab("Drive");
     driveTab.add("Differential Drive", m_drive).withWidget(BuiltInWidgets.kDifferentialDrive);
     driveTab.add("Gyro", gyro).withWidget(BuiltInWidgets.kGyro);
+    driveTab.add("Field View", field).withWidget("Field");
 
     turnPID =
         new PIDController(
@@ -124,17 +132,16 @@ public class DriveSubsystem extends SubsystemBase {
 
     SmartDashboard.putBoolean("Valet Mode", false);
 
-    // m_driveSim = new DifferentialDrivetrainSim(
-    //     DCMotor.getNEO(3),
-    //     Constants.DriveConstants.GEAR_RATIO,
-    //     Constants.DriveConstants.jKg_METERS_SQUARED,
-    //     DriveConstants.ROBOT_MASS,
-    //     DriveConstants.WHEEL_DIAMETER / 2,
-    //     DriveConstants.TRACK_WIDTH,
-    //     VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005));
+    m_driveSim =
+        new DifferentialDrivetrainSim(
+            DCMotor.getNEO(3),
+            Constants.DriveConstants.GEAR_RATIO,
+            Constants.DriveConstants.jKg_METERS_SQUARED,
+            DriveConstants.ROBOT_MASS,
+            DriveConstants.WHEEL_DIAMETER / 2,
+            DriveConstants.TRACK_WIDTH,
+            VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005));
     // This last parameter is standard deviation. Replace it with null to eliminate
-    // error in the
-    // simulation
 
     kinematics = new DifferentialDriveKinematics(Constants.DriveConstants.TRACK_WIDTH);
     odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
@@ -153,15 +160,26 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
+   * Gets the motors in the subsystem
+   *
+   * @return the motors
+   */
+  public CANSparkMax[] getMotors() {
+    CANSparkMax[] motors = {
+      leftMaster, leftSlave1, leftSlave2, rightMaster, rightSlave1, rightSlave2
+    };
+
+    return motors;
+  }
+
+  /**
    * Sets the default brake mode for the drivetrain.
    *
    * @param brake Whether or not to use brake mode.
    */
   public void setBrake(boolean on) {
     IdleMode mode = on ? IdleMode.kBrake : IdleMode.kCoast;
-    CANSparkMax[] motors = {
-      leftMaster, leftSlave1, leftSlave2, rightMaster, rightSlave1, rightSlave2
-    };
+    CANSparkMax[] motors = getMotors();
     for (CANSparkMax motor : motors) {
       motor.setIdleMode(mode);
     }
@@ -277,16 +295,27 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void simulationPeriodic() {
+    m_driveSim.setInputs(
+        leftMotors.get() * RobotController.getInputVoltage(),
+        rightMotors.get() * RobotController.getInputVoltage());
+    m_driveSim.update(0.02);
 
-    /*
-     * 1. Set the input of the drivetrain model. These are the motor voltages from
-     * the two sides of the drivetrain.
-     * 2. Advance the model forward in time by the nominal periodic timestep
-     * (Usually 20 ms). This updates all of the drivetrain’s states (i.e. pose,
-     * encoder positions and velocities) as if 20 ms had passed.
-     * 3. Update simulated sensors with new positions, velocities, and angles to use
-     * in other places.
-     */
+    leftEncoder.setPosition(m_driveSim.getLeftPositionMeters());
+    rightEncoder.setPosition(m_driveSim.getRightPositionMeters());
 
+    int leftHandle =
+        SimDeviceDataJNI.getSimDeviceHandle("SPARK MAX [" + leftMaster.getDeviceId() + "]");
+    int rightHandle =
+        SimDeviceDataJNI.getSimDeviceHandle("SPARK MAX [" + rightMaster.getDeviceId() + "]");
+    SimDouble leftVelocity =
+        new SimDouble(SimDeviceDataJNI.getSimValueHandle(leftHandle, "Velocity"));
+    SimDouble rightVelocity =
+        new SimDouble(SimDeviceDataJNI.getSimValueHandle(rightHandle, "Velocity"));
+    leftVelocity.set(m_driveSim.getLeftVelocityMetersPerSecond());
+    rightVelocity.set(m_driveSim.getRightVelocityMetersPerSecond());
+
+    int gyroHandle = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
+    SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(gyroHandle, "Yaw"));
+    angle.set(m_driveSim.getHeading().getDegrees());
   }
 }

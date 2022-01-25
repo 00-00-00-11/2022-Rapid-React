@@ -21,11 +21,13 @@ public final class Constants {
     public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
     public static final double GEAR_RATIO = 10.71;
 
-    public static final double TRACK_WIDTH = 21.0;
-
     public static final double ksVolts = 0.0;
     public static final double kvVoltSecondsPerMeter = 0.0;
     public static final double kaVoltSecondsSquaredPerMeter = 0.0;
+
+    public static final double jKg_METERS_SQUARED = 7.5; // TODO get actual value
+    public static final double ROBOT_MASS = 60; // in kg // TODO get actual value
+    public static final double TRACK_WIDTH = 0.7112; // in kg // TODO get actual value
 
     public static final double kP = 0.0;
     public static final double kI = 0.0;

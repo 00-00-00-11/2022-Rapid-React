@@ -39,17 +39,10 @@ public class SimDrive extends CommandBase {
     double l2 = RobotContainer.operatorGamepad.getL2Axis();
 
     double speed = (r2 - l2) * valetSpeed;
-    boolean movingForwards = speed >= 0 ? driveSub.getVelocity() > 0 : driveSub.getVelocity() < 0;
-
-    if (speed != 0) {
-      if (movingForwards) driveSub.setCoast();
-      else driveSub.setBrake();
-    }
 
     driveSub.curveDrive(speed, leftAxis, false);
-    // TODO: Does setting speed to 0 stop the robot? If it does, the above block of code should only
-    // execute if speed is not 0, but the robot will slow anyway when as you ease off the trigger
-    if (Math.abs(r2) > 0) {
+
+    if (Math.abs(r2) > .25) { // TODO make .25 a cosntant
       driveSub.curveDrive(0, rightAxis, true); // Will override previous curve drive
     }
   }
