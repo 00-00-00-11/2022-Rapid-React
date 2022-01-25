@@ -25,7 +25,9 @@ Automated (Run Once Per Button):
 package frc.robot.Subsystems;
 
 import com.revrobotics.*;
+import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -40,6 +42,9 @@ public class ClimberSubsystem extends SubsystemBase {
 
   DigitalInput anglerMaxSwitch;
   DigitalInput anglerMinSwitch;
+
+  private ShuffleboardTab tab = Shuffleboard.getTab(Constants.ElevatorConstants.SHUFFLEBOARD_TAB);
+  private NetworkTableEntry elevatorStepsEntry = tab.add("Elevator Step", "").getEntry();
 
   boolean step001 = false;
   boolean step002 = false;
@@ -141,6 +146,7 @@ public class ClimberSubsystem extends SubsystemBase {
       climber007();
     } else {
       System.out.println("Climber Done");
+      elevatorStepsEntry.setString("complete - ready for new loop");
     }
   }
 
@@ -165,6 +171,8 @@ public class ClimberSubsystem extends SubsystemBase {
     */
     boolean elevatorDone = false;
     boolean anglerDone = false;
+
+    elevatorStepsEntry.setString("step 1");
 
     if (primaryElevatorMotor.getEncoder().getPosition()
         > Constants.ElevatorConstants.ELEVATOR_SMALL_DISTANCE) {
@@ -194,6 +202,8 @@ public class ClimberSubsystem extends SubsystemBase {
     boolean elevatorDone = false;
     boolean anglerDone = false;
 
+    elevatorStepsEntry.setString("step 2");
+
     if (!elevatorMinSwitch.get()) {
       primaryElevatorMotor.set(-Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
@@ -218,6 +228,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
     boolean elevatorDone = false;
 
+    elevatorStepsEntry.setString("step 3");
+
     if (primaryElevatorMotor.getEncoder().getPosition()
         > Constants.ElevatorConstants.ELEVATOR_SMALL_DISTANCE) {
       primaryElevatorMotor.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
@@ -235,6 +247,8 @@ public class ClimberSubsystem extends SubsystemBase {
     */
 
     boolean secondaryDone = false;
+
+    elevatorStepsEntry.setString("step 4");
 
     if (secondaryAnglerMotor.getEncoder().getPosition()
         < Constants.ElevatorConstants.ANGLER_LARGE_ANGLE) {
@@ -254,6 +268,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
     boolean primaryDone = false;
 
+    elevatorStepsEntry.setString("step 5");
+
     if (!elevatorMaxSwitch.get()) {
       primaryElevatorMotor.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
@@ -270,6 +286,8 @@ public class ClimberSubsystem extends SubsystemBase {
     */
 
     boolean anglerDone = false;
+
+    elevatorStepsEntry.setString("step 6");
 
     if (secondaryAnglerMotor.getEncoder().getPosition()
         > Constants.ElevatorConstants.ANGLER_IMPACT_ANGLE) {
@@ -290,6 +308,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
     boolean anglerDone = false;
     boolean elevatorDone = false;
+
+    elevatorStepsEntry.setString("step 7");
 
     if (!elevatorMinSwitch.get()) {
       primaryElevatorMotor.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
