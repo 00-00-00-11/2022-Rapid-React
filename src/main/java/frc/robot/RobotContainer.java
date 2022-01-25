@@ -23,7 +23,7 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    extendIntakeButton.whenPressed(new IntakeExtend());
+    extendIntakeButton.whenPressed(new IntakeToggle());
     spinIntakeButton.whenHeld(new IntakeSpin());
   }
 

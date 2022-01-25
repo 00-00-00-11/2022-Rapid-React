@@ -11,7 +11,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  public static Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+  public static Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
 
   @Override
   public void robotInit() {
