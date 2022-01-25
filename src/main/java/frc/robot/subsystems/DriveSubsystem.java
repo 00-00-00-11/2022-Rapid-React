@@ -1,6 +1,28 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+/***
+ *
+ *                                                                                                                                      bbbbbbbb
+ *    DDDDDDDDDDDDD                             iiii                                                   SSSSSSSSSSSSSSS                  b::::::b                                                                           tttt
+ *    D::::::::::::DDD                         i::::i                                                SS:::::::::::::::S                 b::::::b                                                                        ttt:::t
+ *    D:::::::::::::::DD                        iiii                                                S:::::SSSSSS::::::S                 b::::::b                                                                        t:::::t
+ *    DDD:::::DDDDD:::::D                                                                           S:::::S     SSSSSSS                  b:::::b                                                                        t:::::t
+ *      D:::::D    D:::::D rrrrr   rrrrrrrrr  iiiiiiivvvvvvv           vvvvvvv eeeeeeeeeeee         S:::::S            uuuuuu    uuuuuu  b:::::bbbbbbbbb        ssssssssssyyyyyyy           yyyyyyy  ssssssssss   ttttttt:::::ttttttt        eeeeeeeeeeee       mmmmmmm    mmmmmmm
+ *      D:::::D     D:::::Dr::::rrr:::::::::r i:::::i v:::::v         v:::::vee::::::::::::ee       S:::::S            u::::u    u::::u  b::::::::::::::bb    ss::::::::::sy:::::y         y:::::y ss::::::::::s  t:::::::::::::::::t      ee::::::::::::ee   mm:::::::m  m:::::::mm
+ *      D:::::D     D:::::Dr:::::::::::::::::r i::::i  v:::::v       v:::::ve::::::eeeee:::::ee      S::::SSSS         u::::u    u::::u  b::::::::::::::::b ss:::::::::::::sy:::::y       y:::::yss:::::::::::::s t:::::::::::::::::t     e::::::eeeee:::::eem::::::::::mm::::::::::m
+ *      D:::::D     D:::::Drr::::::rrrrr::::::ri::::i   v:::::v     v:::::ve::::::e     e:::::e       SS::::::SSSSS    u::::u    u::::u  b:::::bbbbb:::::::bs::::::ssss:::::sy:::::y     y:::::y s::::::ssss:::::stttttt:::::::tttttt    e::::::e     e:::::em::::::::::::::::::::::m
+ *      D:::::D     D:::::D r:::::r     r:::::ri::::i    v:::::v   v:::::v e:::::::eeeee::::::e         SSS::::::::SS  u::::u    u::::u  b:::::b    b::::::b s:::::s  ssssss  y:::::y   y:::::y   s:::::s  ssssss       t:::::t          e:::::::eeeee::::::em:::::mmm::::::mmm:::::m
+ *      D:::::D     D:::::D r:::::r     rrrrrrri::::i     v:::::v v:::::v  e:::::::::::::::::e             SSSSSS::::S u::::u    u::::u  b:::::b     b:::::b   s::::::s        y:::::y y:::::y      s::::::s            t:::::t          e:::::::::::::::::e m::::m   m::::m   m::::m
+ *      D:::::D     D:::::D r:::::r            i::::i      v:::::v:::::v   e::::::eeeeeeeeeee                   S:::::Su::::u    u::::u  b:::::b     b:::::b      s::::::s      y:::::y:::::y          s::::::s         t:::::t          e::::::eeeeeeeeeee  m::::m   m::::m   m::::m
+ *      D:::::D    D:::::D  r:::::r            i::::i       v:::::::::v    e:::::::e                            S:::::Su:::::uuuu:::::u  b:::::b     b:::::bssssss   s:::::s     y:::::::::y     ssssss   s:::::s       t:::::t    tttttte:::::::e           m::::m   m::::m   m::::m
+ *    DDD:::::DDDDD:::::D   r:::::r           i::::::i       v:::::::v     e::::::::e               SSSSSSS     S:::::Su:::::::::::::::uub:::::bbbbbb::::::bs:::::ssss::::::s     y:::::::y      s:::::ssss::::::s      t::::::tttt:::::te::::::::e          m::::m   m::::m   m::::m
+ *    D:::::::::::::::DD    r:::::r           i::::::i        v:::::v       e::::::::eeeeeeee       S::::::SSSSSS:::::S u:::::::::::::::ub::::::::::::::::b s::::::::::::::s       y:::::y       s::::::::::::::s       tt::::::::::::::t e::::::::eeeeeeee  m::::m   m::::m   m::::m
+ *    D::::::::::::DDD      r:::::r           i::::::i         v:::v         ee:::::::::::::e       S:::::::::::::::SS   uu::::::::uu:::ub:::::::::::::::b   s:::::::::::ss       y:::::y         s:::::::::::ss          tt:::::::::::tt  ee:::::::::::::e  m::::m   m::::m   m::::m
+ *    DDDDDDDDDDDDD         rrrrrrr           iiiiiiii          vvv            eeeeeeeeeeeeee        SSSSSSSSSSSSSSS       uuuuuuuu  uuuubbbbbbbbbbbbbbbb     sssssssssss        y:::::y           sssssssssss              ttttttttttt      eeeeeeeeeeeeee  mmmmmm   mmmmmm   mmmmmm
+ *                                                                                                                                                                              y:::::y
+ *                                                                                                                                                                             y:::::y
+ *                                                                                                                                                                            y:::::y
+ *                                                                                                                                                                           y:::::y
+ *                                                                                                                                                                          yyyyyyy
+ */
 
 package frc.robot.subsystems;
 
@@ -8,75 +30,174 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class DriveSubsystem extends SubsystemBase {
-  AHRS gyro = new AHRS(SPI.Port.kMXP);
 
-  CANSparkMax leftMaster =
-      new CANSparkMax(
-          Constants.DriveConstants.LEFT_MASTER_CAN, CANSparkMaxLowLevel.MotorType.kBrushless);
-  CANSparkMax rightMaster =
-      new CANSparkMax(
-          Constants.DriveConstants.RIGHT_MASTER_CAN, CANSparkMaxLowLevel.MotorType.kBrushless);
-  CANSparkMax leftSlave1 =
-      new CANSparkMax(
-          Constants.DriveConstants.LEFT_SLAVE_CAN1, CANSparkMaxLowLevel.MotorType.kBrushless);
-  // CANSparkMax leftSlave2 = new
-  // CANSparkMax(Constants.DriveConstants.LEFT_SLAVE_CAN2,
-  // CANSparkMaxLowLevel.MotorType.kBrushless);
-  CANSparkMax rightSlave1 =
-      new CANSparkMax(
-          Constants.DriveConstants.RIGHT_SLAVE_CAN1, CANSparkMaxLowLevel.MotorType.kBrushless);
-  // CANSparkMax rightSlave2 = new
-  // CANSparkMax(Constants.DriveConstants.RIGHT_SLAVE_CAN2,
-  // CANSparkMaxLowLevel.MotorType.kBrushless);
+  AHRS gyro;
 
-  MotorControllerGroup leftMotors = new MotorControllerGroup(leftMaster, leftSlave1);
-  MotorControllerGroup rightMotors = new MotorControllerGroup(rightMaster, rightSlave1);
+  CANSparkMax leftMaster;
+  CANSparkMax leftSlave1;
+  CANSparkMax leftSlave2;
 
-  DifferentialDrive m_drive = new DifferentialDrive(leftMotors, rightMotors);
+  CANSparkMax rightMaster;
+  CANSparkMax rightSlave1;
+  CANSparkMax rightSlave2;
 
-  ShuffleboardTab driveTab = Shuffleboard.getTab("Drive");
+  MotorControllerGroup leftMotors;
+  MotorControllerGroup rightMotors;
 
-  PIDController turnPID =
-      new PIDController(
-          Constants.DriveConstants.turnKP,
-          Constants.DriveConstants.turnKI,
-          Constants.DriveConstants.turnKD);
+  RelativeEncoder leftEncoder;
+  RelativeEncoder rightEncoder;
 
-  /** Creates a new Drivebase. */
+  DifferentialDrive m_drive;
+  DifferentialDrivetrainSim m_driveSim;
+
+  PIDController turnPID;
+
+  ShuffleboardTab driveTab;
+
+  DifferentialDriveKinematics kinematics;
+  DifferentialDriveOdometry odometry;
+
+  SimpleMotorFeedforward feedforward;
+  PIDController leftPID;
+  PIDController rightPID;
+
+  Field2d field;
+  Pose2d pose;
+
   public DriveSubsystem() {
-    rightMotors.setInverted(true);
-    setBrake();
-    SmartDashboard.putBoolean("Valet Mode", false);
+
+    gyro = new AHRS(SPI.Port.kMXP);
+
+    rightMaster = contructSpeedController(Constants.DriveConstants.RIGHT_MASTER_CAN, true);
+    rightSlave1 = contructSpeedController(Constants.DriveConstants.RIGHT_SLAVE_CAN1, true);
+    rightSlave2 = contructSpeedController(Constants.DriveConstants.RIGHT_SLAVE_CAN2, true);
+
+    leftMaster = contructSpeedController(Constants.DriveConstants.LEFT_MASTER_CAN, true);
+    leftSlave1 = contructSpeedController(Constants.DriveConstants.LEFT_SLAVE_CAN1, true);
+    leftSlave2 = contructSpeedController(Constants.DriveConstants.LEFT_SLAVE_CAN2, true);
+
+    leftEncoder = leftMaster.getEncoder();
+    rightEncoder = rightMaster.getEncoder();
+
+    leftMotors = new MotorControllerGroup(leftMaster, leftSlave1, leftSlave2);
+    rightMotors = new MotorControllerGroup(rightMaster, rightSlave1, rightSlave2);
+
+    m_drive = new DifferentialDrive(leftMotors, rightMotors);
+
+    driveTab = Shuffleboard.getTab("Drive");
+    driveTab.add("Differential Drive", m_drive).withWidget(BuiltInWidgets.kDifferentialDrive);
+    driveTab.add("Gyro", gyro).withWidget(BuiltInWidgets.kGyro);
+
+    turnPID =
+        new PIDController(
+            Constants.DriveConstants.turnKP,
+            Constants.DriveConstants.turnKI,
+            Constants.DriveConstants.turnKD);
+
     turnPID.setSetpoint(0);
     turnPID.setTolerance(5);
 
+    rightMotors.setInverted(true);
+    setBrake(true);
+
+    SmartDashboard.putBoolean("Valet Mode", false);
+
+    // m_driveSim = new DifferentialDrivetrainSim(
+    //     DCMotor.getNEO(3),
+    //     Constants.DriveConstants.GEAR_RATIO,
+    //     Constants.DriveConstants.jKg_METERS_SQUARED,
+    //     DriveConstants.ROBOT_MASS,
+    //     DriveConstants.WHEEL_DIAMETER / 2,
+    //     DriveConstants.TRACK_WIDTH,
+    //     VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005));
+    // This last parameter is standard deviation. Replace it with null to eliminate
+    // error in the
+    // simulation
+
+    kinematics = new DifferentialDriveKinematics(Constants.DriveConstants.TRACK_WIDTH);
+    odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
+
+    feedforward =
+        new SimpleMotorFeedforward(
+            Constants.DriveConstants.ksVolts,
+            Constants.DriveConstants.kvVoltSecondsPerMeter,
+            Constants.DriveConstants.kaVoltSecondsSquaredPerMeter);
+    leftPID =
+        new PIDController(
+            Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
+    rightPID =
+        new PIDController(
+            Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
   }
 
-  public void setBrake() {
-    rightMaster.setIdleMode(IdleMode.kBrake);
-    rightSlave1.setIdleMode(IdleMode.kBrake);
-    // rightSlave2.setIdleMode(IdleMode.kBrake);
-    leftMaster.setIdleMode(IdleMode.kBrake);
-    leftSlave1.setIdleMode(IdleMode.kBrake);
-    // leftSlave2.setIdleMode(IdleMode.kBrake);
+  /**
+   * Sets the default brake mode for the drivetrain.
+   *
+   * @param brake Whether or not to use brake mode.
+   */
+  public void setBrake(boolean on) {
+    IdleMode mode = on ? IdleMode.kBrake : IdleMode.kCoast;
+    CANSparkMax[] motors = {
+      leftMaster, leftSlave1, leftSlave2, rightMaster, rightSlave1, rightSlave2
+    };
+    for (CANSparkMax motor : motors) {
+      motor.setIdleMode(mode);
+    }
   }
 
+  /**
+   * Constructs a CANSparkMax with the given CAN ID and type.
+   *
+   * @param port CAN ID of the motor controller.
+   * @param brushless Whether the motor is brushless.
+   * @return CANSparkMax object.
+   */
+  public CANSparkMax contructSpeedController(int port, boolean brushless) {
+    CANSparkMaxLowLevel.MotorType type =
+        brushless
+            ? CANSparkMaxLowLevel.MotorType.kBrushless
+            : CANSparkMaxLowLevel.MotorType.kBrushed;
+    return new CANSparkMax(port, type);
+  }
+
+  /**
+   * Controls each side of the robot individually.
+   *
+   * @param left The speed of the left side of the robot.
+   * @param right The speed of the right side of the robot.
+   */
   public void tankDrive(double left, double right) {
     m_drive.tankDrive(left, right);
   }
 
+  /**
+   * Controls the robot with curveDrive.
+   *
+   * @param xSpeed The robot's speed along the X axis [-1.0..1.0]. Forward is positive.
+   * @param rotation The robot's rotation rate around the Z axis [-1.0..1.0]. Clockwise is positive.
+   * @param turn Whether or not to turn in place.
+   */
   public void curveDrive(double xSpeed, double rotation, boolean turn) {
     m_drive.curvatureDrive(
         xSpeed * Constants.DriveConstants.DRIVE_SPEED,
@@ -84,14 +205,44 @@ public class DriveSubsystem extends SubsystemBase {
         turn);
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-    driveTab.add("Differential Drive", m_drive).withWidget(BuiltInWidgets.kDifferentialDrive);
+  /**
+   * Controls the left and right sides of the drive directly with voltages.
+   *
+   * @param leftVolts the commanded left output
+   * @param rightVolts the commanded right output
+   */
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    leftMotors.setVoltage(leftVolts);
+    rightMotors.setVoltage(rightVolts);
+    m_drive.feed();
   }
 
-  public double getRoboAngle() {
+  /** Resets the NavX to 0 degrees. */
+  public void resetGyro() {
+    gyro.zeroYaw();
+  }
+
+  /**
+   * Returns the current heading of the robot in degrees.
+   *
+   * @return The current heading of the robot in degrees.
+   */
+  public double getHeading() {
     return gyro.getAngle();
+  }
+
+  public double getDirection() {
+    double leftV = leftEncoder.getVelocity();
+    double rightV = -rightEncoder.getVelocity();
+
+    SmartDashboard.putNumber("Left V", leftV);
+    SmartDashboard.putNumber("Right V", rightV);
+
+    double average = (leftV + rightV) / 2.0;
+    SmartDashboard.putNumber("Average V", average);
+    SmartDashboard.putBoolean("Direction", average > .1);
+
+    return average;
   }
 
   public double getAngleBetween(double current, double target) {
@@ -104,5 +255,39 @@ public class DriveSubsystem extends SubsystemBase {
 
   public PIDController getTurnPID() {
     return turnPID;
+  }
+
+  @Override
+  public void periodic() {
+    pose =
+        odometry.update(
+            Rotation2d.fromDegrees(getHeading()),
+            leftEncoder.getPosition()
+                / Constants.DriveConstants.GEAR_RATIO
+                * 2
+                * Math.PI
+                * Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER / 2),
+            rightEncoder.getPosition()
+                / Constants.DriveConstants.GEAR_RATIO
+                * 2
+                * Math.PI
+                * Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER / 2));
+
+    field.setRobotPose(pose);
+  }
+
+  @Override
+  public void simulationPeriodic() {
+
+    /*
+     * 1. Set the input of the drivetrain model. These are the motor voltages from
+     * the two sides of the drivetrain.
+     * 2. Advance the model forward in time by the nominal periodic timestep
+     * (Usually 20 ms). This updates all of the drivetrain’s states (i.e. pose,
+     * encoder positions and velocities) as if 20 ms had passed.
+     * 3. Update simulated sensors with new positions, velocities, and angles to use
+     * in other places.
+     */
+
   }
 }

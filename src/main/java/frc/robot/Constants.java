@@ -16,5 +16,19 @@ public final class Constants {
     public static final double turnKP = 0.01;
     public static final double turnKI = 0;
     public static final double turnKD = 0;
+
+    public static final double WHEEL_DIAMETER = 6.0;
+    public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
+    public static final double GEAR_RATIO = 10.71;
+
+    public static final double TRACK_WIDTH = 21.0;
+
+    public static final double ksVolts = 0.0;
+    public static final double kvVoltSecondsPerMeter = 0.0;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.0;
+
+    public static final double kP = 0.0;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
   }
 }

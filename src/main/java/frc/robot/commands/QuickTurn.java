@@ -30,13 +30,13 @@ public class QuickTurn extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    target = driveSub.getRoboAngle() + angle;
+    target = driveSub.getHeading() + angle;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    degrees = driveSub.getAngleBetween(driveSub.getRoboAngle(), target);
+    degrees = driveSub.getAngleBetween(driveSub.getHeading(), target);
     double speed = turnPID.calculate(degrees);
     MathUtil.clamp(speed, -1, 1);
 
