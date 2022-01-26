@@ -106,6 +106,13 @@ public class DriveSubsystem extends SubsystemBase {
     leftEncoder = leftMaster.getEncoder();
     rightEncoder = rightMaster.getEncoder();
 
+    leftEncoder.setPositionConversionFactor(
+        (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI)
+            / Constants.DriveConstants.GEAR_RATIO);
+    rightEncoder.setPositionConversionFactor(
+        (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI)
+            / Constants.DriveConstants.GEAR_RATIO);
+
     leftMotors = new MotorControllerGroup(leftMaster, leftSlave1, leftSlave2);
     rightMotors = new MotorControllerGroup(rightMaster, rightSlave1, rightSlave2);
 
@@ -138,10 +145,9 @@ public class DriveSubsystem extends SubsystemBase {
             Constants.DriveConstants.GEAR_RATIO,
             Constants.DriveConstants.jKg_METERS_SQUARED,
             DriveConstants.ROBOT_MASS,
-            DriveConstants.WHEEL_DIAMETER / 2,
+            Units.inchesToMeters(DriveConstants.WHEEL_DIAMETER / 2),
             DriveConstants.TRACK_WIDTH,
             VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005));
-    // This last parameter is standard deviation. Replace it with null to eliminate
 
     kinematics = new DifferentialDriveKinematics(Constants.DriveConstants.TRACK_WIDTH);
     odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
@@ -165,11 +171,9 @@ public class DriveSubsystem extends SubsystemBase {
    * @return the motors
    */
   public CANSparkMax[] getMotors() {
-    CANSparkMax[] motors = {
+    return new CANSparkMax[] {
       leftMaster, leftSlave1, leftSlave2, rightMaster, rightSlave1, rightSlave2
     };
-
-    return motors;
   }
 
   /**
@@ -278,17 +282,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     pose =
         odometry.update(
-            Rotation2d.fromDegrees(getHeading()),
-            leftEncoder.getPosition()
-                / Constants.DriveConstants.GEAR_RATIO
-                * 2
-                * Math.PI
-                * Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER / 2),
-            rightEncoder.getPosition()
-                / Constants.DriveConstants.GEAR_RATIO
-                * 2
-                * Math.PI
-                * Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER / 2));
+            gyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition());
 
     field.setRobotPose(pose);
   }
