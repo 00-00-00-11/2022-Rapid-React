@@ -40,7 +40,7 @@ public class QuickTurn extends CommandBase {
     double speed = turnPID.calculate(degrees);
     MathUtil.clamp(speed, -1, 1);
 
-    driveSub.curveDrive(0, -speed, true);
+    driveSub.curveDrive(0, speed, true);
 
     System.out.println(speed);
     SmartDashboard.putNumber("Quick Turn Speed", speed);

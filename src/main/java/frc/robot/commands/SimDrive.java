@@ -42,8 +42,8 @@ public class SimDrive extends CommandBase {
 
     driveSub.curveDrive(speed, leftAxis, false);
 
-    if (Math.abs(r2) > .25) { // TODO make .25 a cosntant
-      driveSub.curveDrive(0, rightAxis, true); // Will override previous curve drive
+    if (Math.abs(rightAxis) > .25) { // TODO make .25 a cosntant
+      driveSub.curveDrive(0, -rightAxis, true); // Will override previous curve drive
     }
   }
 

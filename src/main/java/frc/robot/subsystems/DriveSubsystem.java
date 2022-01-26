@@ -55,6 +55,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
+import edu.wpi.first.wpilibj.PowerDistribution;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -76,6 +77,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   DifferentialDrive m_drive;
   DifferentialDrivetrainSim m_driveSim;
+
+  PowerDistribution pdp;
 
   PIDController turnPID;
 
@@ -118,6 +121,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     m_drive = new DifferentialDrive(leftMotors, rightMotors);
 
+    pdp = new PowerDistribution();
+
     field = new Field2d();
 
     driveTab = Shuffleboard.getTab("Drive");
@@ -134,6 +139,8 @@ public class DriveSubsystem extends SubsystemBase {
     turnPID.setSetpoint(0);
     turnPID.setTolerance(5);
 
+    driveTab.add("Turn PID", turnPID).withWidget(BuiltInWidgets.kPIDController);
+
     rightMotors.setInverted(true);
     setBrake(true);
 
@@ -147,7 +154,8 @@ public class DriveSubsystem extends SubsystemBase {
             DriveConstants.ROBOT_MASS,
             Units.inchesToMeters(DriveConstants.WHEEL_DIAMETER / 2),
             DriveConstants.TRACK_WIDTH,
-            VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005));
+            null);
+            // VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005));
 
     kinematics = new DifferentialDriveKinematics(Constants.DriveConstants.TRACK_WIDTH);
     odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
@@ -285,6 +293,8 @@ public class DriveSubsystem extends SubsystemBase {
             gyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition());
 
     field.setRobotPose(pose);
+
+    SmartDashboard.putData("Power Distribution", pdp);
   }
 
   @Override
