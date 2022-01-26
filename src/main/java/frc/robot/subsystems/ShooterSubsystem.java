@@ -4,10 +4,10 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANPIDController;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.ControlType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -22,8 +22,8 @@ public class ShooterSubsystem extends SubsystemBase {
           CANSparkMaxLowLevel.MotorType.kBrushless);
 
   /* Shooter CANPIDController Definition */
-  private CANPIDController feederPIDController = feederMotor.getPIDController();
-  private CANPIDController flyWheelPIDController = flyWheelMotor.getPIDController();
+  private SparkMaxPIDController feederPIDController = feederMotor.getPIDController();
+  private SparkMaxPIDController flyWheelPIDController = flyWheelMotor.getPIDController();
 
   public ShooterSubsystem() {
     /* Feeder PID Controller */
