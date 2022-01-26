@@ -17,6 +17,15 @@ import frc.robot.Constants;
 
 import com.revrobotics.RelativeEncoder;
 
+//PID code from 2021 repo that are needed for auto code
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.util.Units;
+
 public class DriveSubsystem extends SubsystemBase {
   AHRS gyro = new AHRS();
   CANSparkMax leftMaster =
@@ -51,6 +60,21 @@ public class DriveSubsystem extends SubsystemBase {
           Constants.DriveConstants.turnKI,
           Constants.DriveConstants.turnKD);
 
+  //PID code from 2021 repo that are needed for auto code
+  final double gearRatio = 10.81;
+
+  DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(21.5));
+	DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
+
+	SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(0.145, 2.8, 0.425);
+
+	PIDController leftPIDController = new PIDController(2.32, 0, 0);
+	PIDController rightPIDController = new PIDController(2.32, 0, 0);
+
+	Pose2d pose;
+
+  edu.wpi.first.wpilibj.smartdashboard.Field2d m_field = new edu.wpi.first.wpilibj.smartdashboard.Field2d();
+
   /** Creates a new Drivebase. */
   public DriveSubsystem() {
     rightMotors.setInverted(true);
@@ -60,6 +84,9 @@ public class DriveSubsystem extends SubsystemBase {
     turnPID.setTolerance(1);
 
     leftMasterEncoder.setPosition(0.0);
+
+    //PID code from 2021 repo that are needed for auto code
+    SmartDashboard.putData("Field", m_field);
   }
 
   public void setBrake() {
@@ -81,7 +108,16 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    //PID code from 2021 repo that are needed for auto code
+    pose = odometry.update(getHeading(),
+				leftMaster.getEncoder().getPosition() / gearRatio * 2 * Math.PI * Units.inchesToMeters(3.0),
+				rightMaster.getEncoder().getPosition() / gearRatio * 2 * Math.PI * Units.inchesToMeters(3.0));
+		m_field.setRobotPose(odometry.getPoseMeters());
+
+		SmartDashboard.putNumber("odometry x", odometry.getPoseMeters().getX());
+		SmartDashboard.putNumber("odometry y", odometry.getPoseMeters().getY());
+		SmartDashboard.putNumber("heading", -gyro.getAngle());
+		SmartDashboard.putString("wheel speeds", getSpeeds().toString());
   }
 
   public double getRoboAngle() {
@@ -103,4 +139,50 @@ public class DriveSubsystem extends SubsystemBase {
   public double getEncoderPosition () {
     return leftMasterEncoder.getPosition();
   }
+
+  //PID code from 2021 repo that are needed for auto code
+  public Pose2d getPose() {
+		return pose;
+	}
+
+  public void resetEncoders() {
+		leftMaster.getEncoder().setPosition(0.0);
+		rightMaster.getEncoder().setPosition(0.0);
+	}
+  
+  public void resetOdometry(Pose2d pose) {
+		resetEncoders();
+		odometry.resetPosition(pose, gyro.getRotation2d());
+	}
+
+  public DifferentialDriveWheelSpeeds getSpeeds() {
+		return new DifferentialDriveWheelSpeeds(
+				leftMaster.getEncoder().getVelocity() / gearRatio * 2 * Math.PI * Units.inchesToMeters(3.0) / 60,
+				rightMaster.getEncoder().getVelocity() / gearRatio * 2 * Math.PI * Units.inchesToMeters(3.0) / 60);
+	}
+
+	public DifferentialDriveKinematics getKinematics() {
+		return kinematics;
+	}
+
+	public Rotation2d getHeading() {
+		return Rotation2d.fromDegrees(-gyro.getYaw());
+	}
+
+	public SimpleMotorFeedforward getFeedforward() {
+		return feedForward;
+	}
+
+	public PIDController getLeftPIDController() {
+		return leftPIDController;
+	}
+
+	public PIDController getRightPIDController() {
+		return rightPIDController;  
+  }
+
+  public void setOutput(double leftVolts, double rightVolts) {
+		leftMaster.set(leftVolts / 12);
+		rightMaster.set(rightVolts / 12);
+	}
 }

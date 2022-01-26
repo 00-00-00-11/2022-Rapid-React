@@ -6,17 +6,17 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
-/** 2021 auto imports
-import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.math.trajectory.Trajectory;
+
+import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+
 import java.io.IOException;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.Filesystem;
 import java.nio.file.Path;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
-**/
-
-import frc.robot.subsystems.*;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
 
 public class RobotContainer {
 
@@ -40,10 +40,9 @@ public class RobotContainer {
     }
   }
 
-  /** 2021 Auto Code
+  //2021 Auto Code
   public Command getAutonomousCommand() {
   
-    
     TrajectoryConfig config = new TrajectoryConfig(
       Units.feetToMeters(2), 
       Units.feetToMeters(2)
@@ -52,7 +51,7 @@ public class RobotContainer {
     config.setKinematics(m_driveSubsystem.getKinematics());
 
  Trajectory pathWeaverTrajectory = new Trajectory();
-    Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve("output/slalom.wpilib.json");
+    Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve("paths/test.wpilib.json");
     try {
       pathWeaverTrajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
     } catch (IOException e) {
@@ -77,7 +76,5 @@ public class RobotContainer {
 
     // Run path following command, then stop at the end.
     return command.andThen(() -> m_driveSubsystem.setOutput(0, 0));
-
-    
-  }**/
+  }
 }
