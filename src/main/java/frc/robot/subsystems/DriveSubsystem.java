@@ -31,9 +31,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.CvSink;
-import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
 import edu.wpi.first.math.controller.PIDController;
@@ -133,6 +130,7 @@ public class DriveSubsystem extends SubsystemBase {
     driveTab.add("Differential Drive", m_drive).withWidget(BuiltInWidgets.kDifferentialDrive);
     driveTab.add("Gyro", gyro).withWidget(BuiltInWidgets.kGyro);
     driveTab.add("Field View", field).withWidget("Field");
+    driveTab.add("Power Distribution Panel", pdp).withWidget(BuiltInWidgets.kPowerDistribution);
 
     turnPID =
         new PIDController(
@@ -177,9 +175,9 @@ public class DriveSubsystem extends SubsystemBase {
             Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
 
     // Camera
-    CameraServer.startAutomaticCapture();
-    CvSink cvSink = CameraServer.getVideo();
-    CvSource outputStream = CameraServer.putVideo("DriverCam", 640, 480);
+    // CameraServer.startAutomaticCapture();
+    // CvSink cvSink = CameraServer.getVideo();
+    // CvSource outputStream = CameraServer.putVideo("DriverCam", 640, 480);
   }
 
   /**
