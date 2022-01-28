@@ -15,12 +15,7 @@ public class RobotContainer {
     configureButtonBindings();
   }
 
-  private void configureButtonBindings() {
-    // for (int i = 0; i < 360; i += 45) {
-    //   new POVButton(operatorGamepad, i).whileHeld(new QuickTurn(i));
-    // }
-
-  }
+  private void configureButtonBindings() {}
 
   public Command getAutonomousCommand() {
     return null;
