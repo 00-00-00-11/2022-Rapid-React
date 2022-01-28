@@ -36,13 +36,12 @@ public class QuickTurn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    degrees = driveSub.getAngleBetween(driveSub.getHeading(), target);
-    double speed = turnPID.calculate(degrees);
+    // degrees = driveSub.getAngleBetween(driveSub.getHeading(), target);
+    double speed = turnPID.calculate(degrees, target);
     MathUtil.clamp(speed, -1, 1);
 
     driveSub.curveDrive(0, speed, true);
 
-    System.out.println(speed);
     SmartDashboard.putNumber("Quick Turn Speed", speed);
   }
 
