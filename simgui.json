@@ -2,10 +2,17 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/IndexerSubsystem": "Subsystem",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
     }
   },
   "NetworkTables": {
+    "Shuffleboard": {
+      "Drive": {
+        "open": true
+      },
+      "open": true
+    },
     "SmartDashboard": {
       "open": true
     }
