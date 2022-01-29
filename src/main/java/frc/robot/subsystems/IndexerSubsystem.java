@@ -31,6 +31,7 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.commands.RunIndexer;
@@ -52,7 +53,7 @@ public class IndexerSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    
+    SmartDashboard.putData("run indexer", new RunIndexer());
   }
 
   public void runIndexer(double speed) {

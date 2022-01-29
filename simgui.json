@@ -3,7 +3,8 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/IndexerSubsystem": "Subsystem",
-      "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/SmartDashboard/run indexer": "Command"
     }
   },
   "NetworkTables": {
@@ -14,7 +15,10 @@
       "open": true
     },
     "SmartDashboard": {
-      "open": true
+      "open": true,
+      "run indexer": {
+        "open": true
+      }
     }
   }
 }
