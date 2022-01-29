@@ -36,16 +36,12 @@ import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.utility.SparkMaxUtility;
 
 public class ShooterSubsystem extends SubsystemBase {
   /* Shooter CANSpark Definition */
-  CANSparkMax feederMotor =
-      new CANSparkMax(
-          Constants.ShooterConstants.FEEDER_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless);
-  CANSparkMax flyWheelMotor =
-      new CANSparkMax(
-          Constants.ShooterConstants.FLY_WHEEL_MOTOR_PORT,
-          CANSparkMaxLowLevel.MotorType.kBrushless);
+  CANSparkMax feederMotor = SparkMaxUtility.constructSparkMax(Constants.ShooterConstants.FEEDER_MOTOR_PORT, true);
+  CANSparkMax flyWheelMotor = SparkMaxUtility.constructSparkMax(Constants.ShooterConstants.FLY_WHEEL_MOTOR_PORT, true);
 
   /* Shooter CANPIDController Definition */
   private SparkMaxPIDController feederPIDController = feederMotor.getPIDController();

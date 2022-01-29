@@ -4,19 +4,20 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 public class RobotContainer {
 
-  // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  public static final PS4Controller operatorGamepad = new PS4Controller(0);
 
-  // private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
+  public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final ShooterSubsystem m_shooter_subsystem = new ShooterSubsystem();
 
   public RobotContainer() {
-
+    m_driveSubsystem.setDefaultCommand(new SimDrive());
     configureButtonBindings();
   }
   // * Defines the ps4Controller and defines the shootButton as R2 on the ps4Controller *//
