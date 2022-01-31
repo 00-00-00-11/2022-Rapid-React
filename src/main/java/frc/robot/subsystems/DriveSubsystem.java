@@ -140,10 +140,11 @@ public class DriveSubsystem extends SubsystemBase {
             Constants.DriveConstants.turnKD);
 
     turnPID.setSetpoint(0);
-    turnPID.setTolerance(5);
+    turnPID.setTolerance(Constants.DriveConstants.QUICK_TURN_TOLERANCE);
 
     driveTab.add("Turn PID", turnPID).withWidget(BuiltInWidgets.kPIDController);
 
+    invertMotors(false);
     rightMotors.setInverted(true);
     setBrake(true);
 
@@ -302,6 +303,7 @@ public class DriveSubsystem extends SubsystemBase {
     field.setRobotPose(pose);
 
     SmartDashboard.putData("Power Distribution", pdp);
+    SmartDashboard.putNumber("Current Angle", getAngleBetween(getHeading(), 0));
   }
 
   @Override
@@ -328,5 +330,14 @@ public class DriveSubsystem extends SubsystemBase {
     int gyroHandle = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
     SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(gyroHandle, "Yaw"));
     angle.set(m_driveSim.getHeading().getDegrees());
+  }
+
+  public void invertMotors(boolean inverted) {
+    leftMaster.setInverted(inverted);
+    rightMaster.setInverted(inverted);
+    leftSlave1.setInverted(inverted);
+    leftSlave2.setInverted(inverted);
+    rightSlave1.setInverted(inverted);
+    rightSlave2.setInverted(inverted);
   }
 }

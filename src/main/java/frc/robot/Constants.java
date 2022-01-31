@@ -11,11 +11,12 @@ public final class Constants {
     public static final int RIGHT_SLAVE_CAN2 = 18;
 
     public static final double DRIVE_SPEED = 0.2;
-    public static final double TURN_SPEED = 0.5;
+    public static final double TURN_SPEED = 0.2;
 
-    public static final double turnKP = 0.0075;
+    public static final double turnKP = -0.0225;
     public static final double turnKI = 0;
     public static final double turnKD = 0;
+    public static final double QUICK_TURN_TOLERANCE = 1;
 
     public static final double WHEEL_DIAMETER = 6.0;
     public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
