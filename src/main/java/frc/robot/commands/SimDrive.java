@@ -39,11 +39,13 @@ public class SimDrive extends CommandBase {
     double l2 = RobotContainer.operatorGamepad.getL2Axis();
 
     double speed = (r2 - l2) * valetSpeed;
-
+    if (driveSub.getDirection() < 0) {
+      leftAxis = -leftAxis;
+    }
     driveSub.curveDrive(speed, leftAxis, false);
 
     if (Math.abs(rightAxis) > .25) { // TODO make .25 a cosntant
-      driveSub.curveDrive(0, -rightAxis, true); // Will override previous curve drive
+      driveSub.curveDrive(0, rightAxis, true); // Will override previous curve drive
     }
   }
 

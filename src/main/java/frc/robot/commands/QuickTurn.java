@@ -23,6 +23,9 @@ public class QuickTurn extends CommandBase {
   public QuickTurn(double angle) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.angle = angle;
+    if (angle > 180) {
+      this.angle -= 360;
+    }
     addRequirements(driveSub);
     turnPID = driveSub.getTurnPID();
   }
@@ -36,11 +39,10 @@ public class QuickTurn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // degrees = driveSub.getAngleBetween(driveSub.getHeading(), target);
-    double speed = turnPID.calculate(degrees, target);
+    double speed = turnPID.calculate(driveSub.getHeading(), target);
     MathUtil.clamp(speed, -1, 1);
 
-    driveSub.curveDrive(0, speed, true);
+    driveSub.curveDrive(0, -speed, true);
 
     SmartDashboard.putNumber("Quick Turn Speed", speed);
   }

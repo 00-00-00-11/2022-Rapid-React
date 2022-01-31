@@ -139,7 +139,7 @@ public class DriveSubsystem extends SubsystemBase {
             Constants.DriveConstants.turnKD);
 
     turnPID.setSetpoint(0);
-    turnPID.setTolerance(5);
+    turnPID.setTolerance(Constants.DriveConstants.QUICK_TURN_TOLERANCE);
 
     driveTab.add("Turn PID", turnPID).withWidget(BuiltInWidgets.kPIDController);
 
