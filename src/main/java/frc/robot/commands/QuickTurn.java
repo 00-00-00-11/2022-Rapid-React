@@ -17,7 +17,6 @@ public class QuickTurn extends CommandBase {
 
   private DriveSubsystem driveSub = RobotContainer.m_driveSubsystem;
   private double target;
-  private double degrees;
   private PIDController turnPID;
 
   public QuickTurn(double angle) {
