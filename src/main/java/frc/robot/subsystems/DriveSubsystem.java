@@ -31,6 +31,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
 import edu.wpi.first.math.controller.PIDController;
@@ -92,8 +94,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   Field2d field;
   Pose2d pose;
-
-  // Camera
+  UsbCamera driverCam;
 
   public DriveSubsystem() {
 
@@ -176,9 +177,8 @@ public class DriveSubsystem extends SubsystemBase {
             Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
 
     // Camera
-    // CameraServer.startAutomaticCapture();
-    // CvSink cvSink = CameraServer.getVideo();
-    // CvSource outputStream = CameraServer.putVideo("DriverCam", 640, 480);
+    driverCam = CameraServer.startAutomaticCapture();
+    driveTab.add("Driver Cam", driverCam).withWidget(BuiltInWidgets.kCameraStream);
   }
 
   /**
