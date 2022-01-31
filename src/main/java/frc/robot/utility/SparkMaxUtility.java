@@ -7,7 +7,11 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 public class SparkMaxUtility {
 
   public static CANSparkMax constructSparkMax(int port, boolean brushless) {
-    return new CANSparkMax(port, CANSparkMaxLowLevel.MotorType.kBrushed);
+    if(brushless) {
+      return new CANSparkMax(port, MotorType.kBrushless);
+    } else {
+      return new CANSparkMax(port, MotorType.kBrushed);
+    }
   }
 
   public static void runSparkMax(CANSparkMax sparkMax, double speed) {
