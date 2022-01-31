@@ -1,5 +1,3 @@
 package frc.robot.utility;
 
-public class TalonSRXUtility {
-    
-}
+public class TalonSRXUtility {}

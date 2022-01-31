@@ -3,8 +3,8 @@ package frc.robot;
 public final class Constants {
   /* Defines all the  */
   public final class ShooterConstants {
-    public static final int FEEDER_MOTOR_PORT = 0;
-    public static final int FLY_WHEEL_MOTOR_PORT = 1;
+    public static final int FEEDER_MOTOR_PORT = 5;
+    public static final int FLY_WHEEL_MOTOR_PORT = 6;
     public static final double kP = 6e-5;
     public static final double kI = 0;
     public static final double kD = 0.00001;
@@ -14,6 +14,7 @@ public final class Constants {
     public static final double kMinOutput = -1;
     public static final double maxRPM = 11000;
     public static final double multiplier = .85;
+    public static final double kCIMSpeed = 1;
   }
 
   public final class DriveConstants {

@@ -1,11 +1,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj.PS4Controller;
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -22,7 +21,7 @@ public class RobotContainer {
   }
   // * Defines the ps4Controller and defines the shootButton as R2 on the ps4Controller *//
   public static Joystick ps4Controller = new Joystick(1);
-  JoystickButton shootButton = new JoystickButton(ps4Controller, 8);
+  JoystickButton shootButton = new JoystickButton(ps4Controller, 1);
 
   private void configureButtonBindings() {
     shootButton.whileHeld(new ShootBall());
