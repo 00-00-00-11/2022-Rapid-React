@@ -7,9 +7,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
-public class IntakeToggle extends CommandBase {
+public class IntakeForward extends CommandBase {
   /** Creates a new IntakeExtend. */
-  public IntakeToggle() {
+  public IntakeForward() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.m_intake);
   }
@@ -21,7 +21,8 @@ public class IntakeToggle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_intake.toggleIntake();
+    RobotContainer.m_intake.forwardIntake();
+    System.out.println("FORWARDDDDDDDDD");
   }
 
   // Called once the command ends or is interrupted.

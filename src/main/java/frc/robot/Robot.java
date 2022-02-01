@@ -11,17 +11,21 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  public static Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
+  public static Compressor compressor;
 
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
+    compressor= new Compressor(Constants.IntakeConstants.pchPort,PneumaticsModuleType.REVPH);
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    if (compressor.getPressureSwitchValue()) compressor.enableDigital();
+    if (compressor.getPressureSwitchValue()){
+      compressor.enableDigital();
+      System.out.println("Filling wiht air");
+    }
     else compressor.disable();
   }
 

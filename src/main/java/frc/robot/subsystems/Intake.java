@@ -19,41 +19,53 @@ public class Intake extends SubsystemBase {
   private DoubleSolenoid leftSolenoid;
   private DoubleSolenoid rightSolenoid;
   private CANSparkMax intakeMotor;
-  ShuffleboardTab tab;
+  ShuffleboardTab intakeTab;
   NetworkTableEntry leftSolenoidState;
   NetworkTableEntry rightSolenoidState;
 
   /** Creates a new Intake. */
   public Intake() {
     leftSolenoid =
-        new DoubleSolenoid(
+        new DoubleSolenoid(Constants.IntakeConstants.pchPort,
             PneumaticsModuleType.REVPH,
             Constants.IntakeConstants.leftSolenoidPortForward,
             Constants.IntakeConstants.leftSolenoidPortReverse);
     rightSolenoid =
-        new DoubleSolenoid(
+        new DoubleSolenoid(Constants.IntakeConstants.pchPort,
             PneumaticsModuleType.REVPH,
             Constants.IntakeConstants.rightSolenoidPortForward,
             Constants.IntakeConstants.rightSolenoidPortReverse);
     intakeMotor =
         new CANSparkMax(
             Constants.IntakeConstants.motorID, CANSparkMaxLowLevel.MotorType.kBrushless);
-    leftSolenoid.set(Value.kReverse);
-    rightSolenoid.set(Value.kReverse);
-    ShuffleboardTab tab = Shuffleboard.getTab("Intake");
-    leftSolenoidState = tab.add("Left Solenoid", leftSolenoid.get()).getEntry();
-    rightSolenoidState = tab.add("Right Solenoid", rightSolenoid.get()).getEntry();
+
+    leftSolenoid.set(Value.kOff);
+    rightSolenoid.set(Value.kOff);
+
+    //intakeTab = Shuffleboard.getTab("Intake");
+    //leftSolenoidState = intakeTab.add("Left Solenoid", Value.kOff).getEntry();
+    //rightSolenoidState = intakeTab.add("Right Solenoid", Value.kOff).getEntry();
   }
 
-  public void toggleIntake() {
-    leftSolenoid.toggle();
-    rightSolenoid.toggle();
-    leftSolenoidState.setValue(leftSolenoid.get());
-    rightSolenoidState.setValue(rightSolenoid.get());
+  public void forwardIntake() {
+    leftSolenoid.set(Value.kForward);
+    rightSolenoid.set(Value.kForward);
+    System.out.println("Forward");
+    //leftSolenoidState.setValue(Value.kForward);
+    //rightSolenoidState.setValue(Value.kForward);
+  }
+
+  public void reverseIntake() {
+    leftSolenoid.set(Value.kReverse);
+    rightSolenoid.set(Value.kReverse);
+    System.out.println("Reverse");
+    //leftSolenoidState.setValue(Value.kReverse);
+    //rightSolenoidState.setValue(Value.kReverse);
   }
 
   public void spinIntake() {
     intakeMotor.set(Constants.IntakeConstants.intakeSpeed);
+    System.out.println("SPIIIIIIIIIN");
   }
 
   public void stop() {
