@@ -16,17 +16,16 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    compressor= new Compressor(Constants.IntakeConstants.pchPort,PneumaticsModuleType.REVPH);
+    compressor = new Compressor(Constants.IntakeConstants.pchPort, PneumaticsModuleType.REVPH);
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    if (compressor.getPressureSwitchValue()){
+    if (compressor.getPressureSwitchValue()) {
       compressor.enableDigital();
       System.out.println("Filling wiht air");
-    }
-    else compressor.disable();
+    } else compressor.disable();
   }
 
   @Override

@@ -13,7 +13,7 @@ public class RobotContainer {
   public static final JoystickButton spinIntakeButton =
       new JoystickButton(psController, PS4Controller.Button.kCircle.value);
   public static final JoystickButton reverseIntakeButton =
-    new JoystickButton(psController, PS4Controller.Button.kTriangle.value);
+      new JoystickButton(psController, PS4Controller.Button.kTriangle.value);
 
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public static final Intake m_intake = new Intake();

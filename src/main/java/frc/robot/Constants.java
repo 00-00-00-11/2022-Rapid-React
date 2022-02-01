@@ -5,7 +5,7 @@ public final class Constants {
   public final class DriveConstants {}
 
   public static final class IntakeConstants {
-    public static int pchPort=9;
+    public static int pchPort = 9;
     public static int leftSolenoidPortForward = 1;
     public static int leftSolenoidPortReverse = 2;
     public static int rightSolenoidPortForward = 3;
