@@ -29,7 +29,6 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
@@ -57,6 +56,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.utility.SparkMaxUtility;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -96,17 +96,21 @@ public class DriveSubsystem extends SubsystemBase {
   Pose2d pose;
   UsbCamera driverCam;
 
-  public DriveSubsystem() {
+  public DriveSubsystem() throws Exception {
 
-    gyro = new AHRS(SPI.Port.kMXP);
+    try {
+      gyro = new AHRS(SPI.Port.kMXP);
+    } catch (Exception err) {
+      throw new Exception("Trouble initializing NavX");
+    }
 
-    rightMaster = contructSpeedController(Constants.DriveConstants.RIGHT_MASTER_CAN, true);
-    rightSlave1 = contructSpeedController(Constants.DriveConstants.RIGHT_SLAVE_CAN1, true);
-    rightSlave2 = contructSpeedController(Constants.DriveConstants.RIGHT_SLAVE_CAN2, true);
+    rightMaster = SparkMaxUtility.constructSparkMax(Constants.RobotMap.RIGHT_MASTER_CAN, true);
+    rightSlave1 = SparkMaxUtility.constructSparkMax(Constants.RobotMap.RIGHT_SLAVE_CAN1, true);
+    rightSlave2 = SparkMaxUtility.constructSparkMax(Constants.RobotMap.RIGHT_SLAVE_CAN2, true);
 
-    leftMaster = contructSpeedController(Constants.DriveConstants.LEFT_MASTER_CAN, true);
-    leftSlave1 = contructSpeedController(Constants.DriveConstants.LEFT_SLAVE_CAN1, true);
-    leftSlave2 = contructSpeedController(Constants.DriveConstants.LEFT_SLAVE_CAN2, true);
+    leftMaster = SparkMaxUtility.constructSparkMax(Constants.RobotMap.LEFT_MASTER_CAN, true);
+    leftSlave1 = SparkMaxUtility.constructSparkMax(Constants.RobotMap.LEFT_SLAVE_CAN1, true);
+    leftSlave2 = SparkMaxUtility.constructSparkMax(Constants.RobotMap.LEFT_SLAVE_CAN2, true);
 
     leftEncoder = leftMaster.getEncoder();
     rightEncoder = rightMaster.getEncoder();
@@ -203,21 +207,6 @@ public class DriveSubsystem extends SubsystemBase {
     for (CANSparkMax motor : motors) {
       motor.setIdleMode(mode);
     }
-  }
-
-  /**
-   * Constructs a CANSparkMax with the given CAN ID and type.
-   *
-   * @param port CAN ID of the motor controller.
-   * @param brushless Whether the motor is brushless.
-   * @return CANSparkMax object.
-   */
-  public CANSparkMax contructSpeedController(int port, boolean brushless) {
-    CANSparkMaxLowLevel.MotorType type =
-        brushless
-            ? CANSparkMaxLowLevel.MotorType.kBrushless
-            : CANSparkMaxLowLevel.MotorType.kBrushed;
-    return new CANSparkMax(port, type);
   }
 
   /**
