@@ -1,13 +1,12 @@
 package frc.robot.utility;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class SparkMaxUtility {
 
   public static CANSparkMax constructSparkMax(int port, boolean brushless) {
-    if(brushless) {
+    if (brushless) {
       return new CANSparkMax(port, MotorType.kBrushless);
     } else {
       return new CANSparkMax(port, MotorType.kBrushed);

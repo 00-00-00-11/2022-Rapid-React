@@ -22,5 +22,5 @@
 > Task :check
 > Task :build
 
-BUILD SUCCESSFUL in 3s
+BUILD SUCCESSFUL in 2s
 13 actionable tasks: 5 executed, 8 up-to-date
