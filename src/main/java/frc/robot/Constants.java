@@ -14,7 +14,7 @@ public final class Constants {
     public static final double kMinOutput = -1;
     public static final double maxRPM = 11000;
     public static final double multiplier = .85;
-    public static final double kCIMSpeed = .5;
+    public static final double kCIMSpeed = 1;
   }
 
   public final class DriveConstants {

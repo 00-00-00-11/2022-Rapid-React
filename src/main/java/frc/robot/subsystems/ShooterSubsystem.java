@@ -91,7 +91,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void shootCIM(double speed) {
-    feederMotor.set(-speed);
-    flyWheelMotor.set(-speed);
+    feederMotor.set(speed);
+    flyWheelMotor.set(speed);
   }
 }
