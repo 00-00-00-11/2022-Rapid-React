@@ -10,6 +10,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -43,25 +44,25 @@ public class Intake extends SubsystemBase {
     leftSolenoid.set(Value.kOff);
     rightSolenoid.set(Value.kOff);
 
-    // intakeTab = Shuffleboard.getTab("Intake");
-    // leftSolenoidState = intakeTab.add("Left Solenoid", Value.kOff).getEntry();
-    // rightSolenoidState = intakeTab.add("Right Solenoid", Value.kOff).getEntry();
+    intakeTab = Shuffleboard.getTab("Intake");
+    leftSolenoidState = intakeTab.add("Left Solenoid", "off").getEntry();
+    rightSolenoidState = intakeTab.add("Right Solenoid", "off").getEntry();
   }
 
   public void forwardIntake() {
     leftSolenoid.set(Value.kForward);
     rightSolenoid.set(Value.kForward);
     System.out.println("Forward");
-    // leftSolenoidState.setValue(Value.kForward);
-    // rightSolenoidState.setValue(Value.kForward);
+    leftSolenoidState.setValue("Extended");
+    rightSolenoidState.setValue("Extended");
   }
 
   public void reverseIntake() {
     leftSolenoid.set(Value.kReverse);
     rightSolenoid.set(Value.kReverse);
     System.out.println("Reverse");
-    // leftSolenoidState.setValue(Value.kReverse);
-    // rightSolenoidState.setValue(Value.kReverse);
+    leftSolenoidState.setValue("Retracted");
+    rightSolenoidState.setValue("Retracted");
   }
 
   public void spinIntake() {

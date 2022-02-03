@@ -6,10 +6,10 @@ public final class Constants {
 
   public static final class IntakeConstants {
     public static int pchPort = 9;
-    public static int leftSolenoidPortForward = 1;
-    public static int leftSolenoidPortReverse = 2;
-    public static int rightSolenoidPortForward = 3;
-    public static int rightSolenoidPortReverse = 4;
+    public static int leftSolenoidPortForward = 2;
+    public static int leftSolenoidPortReverse = 1;
+    public static int rightSolenoidPortForward = 4;
+    public static int rightSolenoidPortReverse = 3;
     public static int motorID = 1;
 
     public static int ps4Port = 0;

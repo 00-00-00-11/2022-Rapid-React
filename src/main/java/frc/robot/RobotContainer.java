@@ -14,6 +14,8 @@ public class RobotContainer {
       new JoystickButton(psController, PS4Controller.Button.kCircle.value);
   public static final JoystickButton reverseIntakeButton =
       new JoystickButton(psController, PS4Controller.Button.kTriangle.value);
+  public static final JoystickButton toggleIntakeButton =
+      new JoystickButton(psController, PS4Controller.Button.kCross.value);
 
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public static final Intake m_intake = new Intake();
@@ -28,6 +30,7 @@ public class RobotContainer {
     forwardIntakeButton.whenPressed(new IntakeForward());
     spinIntakeButton.whenHeld(new IntakeSpin());
     reverseIntakeButton.whenPressed(new IntakeReverse());
+    toggleIntakeButton.whenPressed(new IntakeToggle());
   }
 
   public Command getAutonomousCommand() {
