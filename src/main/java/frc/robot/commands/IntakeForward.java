@@ -22,7 +22,6 @@ public class IntakeForward extends CommandBase {
   @Override
   public void execute() {
     RobotContainer.m_intake.forwardIntake();
-    System.out.println("FORWARDDDDDDDDD");
   }
 
   // Called once the command ends or is interrupted.

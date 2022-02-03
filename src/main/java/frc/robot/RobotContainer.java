@@ -16,7 +16,6 @@ public class RobotContainer {
       new JoystickButton(psController, PS4Controller.Button.kTriangle.value);
   public static final JoystickButton toggleIntakeButton =
       new JoystickButton(psController, PS4Controller.Button.kCross.value);
-
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public static final Intake m_intake = new Intake();
   // private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);

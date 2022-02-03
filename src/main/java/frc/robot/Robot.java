@@ -24,7 +24,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     if (compressor.getPressureSwitchValue()) {
       compressor.enableDigital();
-      System.out.println("Filling wiht air");
+      // System.out.println("Filling wiht air");
     } else compressor.disable();
   }
 
