@@ -38,12 +38,21 @@ public class SimDrive extends CommandBase {
     double r2 = RobotContainer.operatorGamepad.getR2Axis();
     double l2 = RobotContainer.operatorGamepad.getL2Axis();
 
+    //map each value to a signed square to make inputs less sensitive
+    leftAxis = Math.signum(leftAxis) * Math.pow(Math.abs(leftAxis), 2);
+    rightAxis = Math.signum(rightAxis) * Math.pow(Math.abs(rightAxis), 2);
+    r2 = Math.signum(r2) * Math.pow(Math.abs(r2), 2);
+    l2 = Math.signum(l2) * Math.pow(Math.abs(l2), 2);
+
+
     double speed = (r2 - l2) * valetSpeed;
 
-    driveSub.curveDrive(speed, leftAxis, false);
-
+   
+    //if we're using the right joystick, arcade turn. otherwise curvature turn
     if (Math.abs(rightAxis) > .25) { // TODO make .25 a cosntant
       driveSub.curveDrive(0, -rightAxis, true); // Will override previous curve drive
+    }else {
+      driveSub.curveDrive(speed, leftAxis, false);
     }
   }
 
