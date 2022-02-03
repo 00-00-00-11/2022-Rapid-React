@@ -29,7 +29,9 @@ public class RobotContainer {
     configureButtonBindings();
   }
 
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    autoElevatorButton.toggleWhenPressed(new AutoClimberCommand(m_climberSubsystem));
+  }
 
   public Command getAutonomousCommand() {
     return null;

@@ -22,10 +22,8 @@ public class AutoClimberCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_climberSubsystem.nextRung();
-
     if (!RobotContainer.m_climberSubsystem.checkNextRungComplete()) {
-      execute();
+      RobotContainer.m_climberSubsystem.nextRung();
     } else {
       RobotContainer.m_climberSubsystem.resetSteps();
     }
