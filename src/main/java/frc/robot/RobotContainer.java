@@ -2,7 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -20,11 +19,6 @@ import edu.wpi.first.math.trajectory.TrajectoryUtil;
 
 public class RobotContainer {
 
-  // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
-  // private final ExampleCommand m_autoCommand = new
-  // ExampleCommand(m_exampleSubsystem);
-
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final PS4Controller operatorGamepad = new PS4Controller(0);
 
@@ -35,9 +29,10 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    for (int i = 0; i < 360; i += 45) {
-      new POVButton(operatorGamepad, i).whileHeld(new QuickTurn(i));
-    }
+    // for (int i = 0; i < 360; i += 45) {
+    //   new POVButton(operatorGamepad, i).whileHeld(new QuickTurn(i));
+    // }
+
   }
 
   //2021 Auto Code
