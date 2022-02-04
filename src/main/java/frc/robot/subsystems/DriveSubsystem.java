@@ -39,6 +39,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -93,10 +94,12 @@ public class DriveSubsystem extends SubsystemBase {
   Field2d field;
   Pose2d pose;
 
+  //change this with new driebase
+  final double gearRatio = 10.81;
+  
   // Camera
 
   public DriveSubsystem() {
-
     gyro = new AHRS(SPI.Port.kMXP);
 
     rightMaster = contructSpeedController(Constants.DriveConstants.RIGHT_MASTER_CAN, true);
@@ -329,4 +332,50 @@ public class DriveSubsystem extends SubsystemBase {
     SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(gyroHandle, "Yaw"));
     angle.set(m_driveSim.getHeading().getDegrees());
   }
+
+  public SimpleMotorFeedforward getFeedforward() {
+		return feedforward;
+	}
+
+  public PIDController getLeftPIDController() {
+		return leftPID;
+	}
+
+	public PIDController getRightPIDController() {
+		return rightPID;
+	}
+
+  public DifferentialDriveKinematics getKinematics() {
+		return kinematics;
+	}
+
+  public void resetEncoders() {
+		leftMaster.getEncoder().setPosition(0.0);
+		rightMaster.getEncoder().setPosition(0.0);
+	}
+
+  public void resetOdometry(Pose2d pose) {
+		resetEncoders();
+		odometry.resetPosition(pose, gyro.getRotation2d());
+	}
+
+  public void setOutput(double leftVolts, double rightVolts) {
+		leftMaster.set(leftVolts / 12);
+		rightMaster.set(rightVolts / 12);
+	}
+
+  public double getEncoderPosition() {
+    return leftEncoder.getPosition();
+  }
+
+  public Pose2d getPose() {
+		return pose;
+	}
+
+  //have to change with new drivebase
+  public DifferentialDriveWheelSpeeds getSpeeds() {
+		return new DifferentialDriveWheelSpeeds(
+				leftMaster.getEncoder().getVelocity() / gearRatio * 2 * Math.PI * Units.inchesToMeters(3.0) / 60,
+				rightMaster.getEncoder().getVelocity() / gearRatio * 2 * Math.PI * Units.inchesToMeters(3.0) / 60);
+	}
 }
