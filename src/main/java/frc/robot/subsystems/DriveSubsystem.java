@@ -56,68 +56,45 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 
-import com.revrobotics.RelativeEncoder;
-
-//PID code from 2021 repo that are needed for auto code
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.util.Units;
-
 public class DriveSubsystem extends SubsystemBase {
 
-  AHRS gyro = new AHRS();
-  CANSparkMax leftMaster =
-      new CANSparkMax(
-          Constants.DriveConstants.LEFT_MASTER_CAN, CANSparkMaxLowLevel.MotorType.kBrushless);
-  CANSparkMax rightMaster =
-      new CANSparkMax(
-          Constants.DriveConstants.RIGHT_MASTER_CAN, CANSparkMaxLowLevel.MotorType.kBrushless);
-  CANSparkMax leftSlave1 =
-      new CANSparkMax(
-          Constants.DriveConstants.LEFT_SLAVE_CAN1, CANSparkMaxLowLevel.MotorType.kBrushless);
-  // CANSparkMax leftSlave2 = new
-  // CANSparkMax(Constants.DriveConstants.LEFT_SLAVE_CAN2,
-  // CANSparkMaxLowLevel.MotorType.kBrushless);
-  CANSparkMax rightSlave1 =
-      new CANSparkMax(
-          Constants.DriveConstants.RIGHT_SLAVE_CAN1, CANSparkMaxLowLevel.MotorType.kBrushless);
-  // CANSparkMax rightSlave2 = new
-  // CANSparkMax(Constants.DriveConstants.RIGHT_SLAVE_CAN2,
-  // CANSparkMaxLowLevel.MotorType.kBrushless);
+  AHRS gyro;
 
-  RelativeEncoder leftMasterEncoder = leftMaster.getEncoder();
+  CANSparkMax leftMaster;
+  CANSparkMax leftSlave1;
+  CANSparkMax leftSlave2;
 
-  MotorControllerGroup leftMotors = new MotorControllerGroup(leftMaster, leftSlave1);
-  MotorControllerGroup rightMotors = new MotorControllerGroup(rightMaster, rightSlave1);
+  CANSparkMax rightMaster;
+  CANSparkMax rightSlave1;
+  CANSparkMax rightSlave2;
 
-  DifferentialDrive m_drive = new DifferentialDrive(leftMotors, rightMotors);
+  MotorControllerGroup leftMotors;
+  MotorControllerGroup rightMotors;
 
-  PIDController turnPID =
-      new PIDController(
-          Constants.DriveConstants.turnKP,
-          Constants.DriveConstants.turnKI,
-          Constants.DriveConstants.turnKD);
+  RelativeEncoder leftEncoder;
+  RelativeEncoder rightEncoder;
 
-  //PID code from 2021 repo that are needed for auto code
-  final double gearRatio = 10.81;
+  DifferentialDrive m_drive;
+  DifferentialDrivetrainSim m_driveSim;
 
-  DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(21.5));
-	DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
+  PowerDistribution pdp;
 
-	SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(0.145, 2.8, 0.425);
+  PIDController turnPID;
 
-	PIDController leftPIDController = new PIDController(2.32, 0, 0);
-	PIDController rightPIDController = new PIDController(2.32, 0, 0);
+  ShuffleboardTab driveTab;
 
-	Pose2d pose;
+  DifferentialDriveKinematics kinematics;
+  DifferentialDriveOdometry odometry;
 
-  edu.wpi.first.wpilibj.smartdashboard.Field2d m_field = new edu.wpi.first.wpilibj.smartdashboard.Field2d();
+  SimpleMotorFeedforward feedforward;
+  PIDController leftPID;
+  PIDController rightPID;
 
-  /** Creates a new Drivebase. */
+  Field2d field;
+  Pose2d pose;
+
+  // Camera
+
   public DriveSubsystem() {
 
     gyro = new AHRS(SPI.Port.kMXP);
@@ -170,13 +147,6 @@ public class DriveSubsystem extends SubsystemBase {
     setBrake(true);
 
     SmartDashboard.putBoolean("Valet Mode", false);
-    turnPID.setSetpoint(0);
-    turnPID.setTolerance(1);
-
-    leftMasterEncoder.setPosition(0.0);
-
-    //PID code from 2021 repo that are needed for auto code
-    SmartDashboard.putData("Field", m_field);
 
     m_driveSim =
         new DifferentialDrivetrainSim(
@@ -271,18 +241,6 @@ public class DriveSubsystem extends SubsystemBase {
         xSpeed * DriveConstants.DRIVE_SPEED, rotation * DriveConstants.TURN_SPEED, turn);
   }
 
-  @Override
-  public void periodic() {
-    //PID code from 2021 repo that are needed for auto code
-    pose = odometry.update(getHeading(),
-				leftMaster.getEncoder().getPosition() / gearRatio * 2 * Math.PI * Units.inchesToMeters(3.0),
-				rightMaster.getEncoder().getPosition() / gearRatio * 2 * Math.PI * Units.inchesToMeters(3.0));
-		m_field.setRobotPose(odometry.getPoseMeters());
-
-		SmartDashboard.putNumber("odometry x", odometry.getPoseMeters().getX());
-		SmartDashboard.putNumber("odometry y", odometry.getPoseMeters().getY());
-		SmartDashboard.putNumber("heading", -gyro.getAngle());
-		SmartDashboard.putString("wheel speeds", getSpeeds().toString());
   /**
    * Controls the left and right sides of the drive directly with voltages.
    *
@@ -300,8 +258,14 @@ public class DriveSubsystem extends SubsystemBase {
     gyro.zeroYaw();
   }
 
-
-
+  /**
+   * Returns the current heading of the robot in degrees.
+   *
+   * @return The current heading of the robot in degrees.
+   */
+  public double getHeading() {
+    return gyro.getAngle();
+  }
 
   public double getDirection() {
     double leftV = leftEncoder.getVelocity();
@@ -329,55 +293,8 @@ public class DriveSubsystem extends SubsystemBase {
     return turnPID;
   }
 
-  public double getEncoderPosition () {
-    return leftMasterEncoder.getPosition();
-  }
-
-  //PID code from 2021 repo that are needed for auto code
-  public Pose2d getPose() {
-		return pose;
-	}
-
-  public void resetEncoders() {
-		leftMaster.getEncoder().setPosition(0.0);
-		rightMaster.getEncoder().setPosition(0.0);
-	}
-  
-  public void resetOdometry(Pose2d pose) {
-		resetEncoders();
-		odometry.resetPosition(pose, gyro.getRotation2d());
-	}
-
-  public DifferentialDriveWheelSpeeds getSpeeds() {
-		return new DifferentialDriveWheelSpeeds(
-				leftMaster.getEncoder().getVelocity() / gearRatio * 2 * Math.PI * Units.inchesToMeters(3.0) / 60,
-				rightMaster.getEncoder().getVelocity() / gearRatio * 2 * Math.PI * Units.inchesToMeters(3.0) / 60);
-	}
-
-	public DifferentialDriveKinematics getKinematics() {
-		return kinematics;
-	}
-
-	public Rotation2d getHeading() {
-		return Rotation2d.fromDegrees(-gyro.getYaw());
-	}
-
-	public SimpleMotorFeedforward getFeedforward() {
-		return feedForward;
-	}
-
-	public PIDController getLeftPIDController() {
-		return leftPIDController;
-	}
-
-	public PIDController getRightPIDController() {
-		return rightPIDController;  
-  }
-
-  public void setOutput(double leftVolts, double rightVolts) {
-		leftMaster.set(leftVolts / 12);
-		rightMaster.set(rightVolts / 12);
-	}
+  @Override
+  public void periodic() {
     pose =
         odometry.update(
             gyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition());
