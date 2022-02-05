@@ -38,8 +38,8 @@ public class RobotContainer {
   public static ClimberSubsystem m_climberSubsystem;
 
   /* COMMANDS */
-  public static ClimberCommand m_climberCommand;
-  public static AutoClimberCommand m_autoClimberCommand;
+  public static Climber m_climberCommand;
+  public static AutoClimber m_autoClimberCommand;
 
   /* CONTROLLERS AND OTHER INPUTS */
   public static PS4Controller driverController;
@@ -72,13 +72,13 @@ public class RobotContainer {
     }
 
     try {
-      m_climberCommand = new ClimberCommand(m_climberSubsystem);
+      m_climberCommand = new Climber(m_climberSubsystem);
     } catch (Exception err) {
       throw new ExceptionInInitializerError("[ERROR] COULDN'T INITIALIZE CLIMBER SUBSYSTEM");
     }
 
     try {
-      m_autoClimberCommand = new AutoClimberCommand(m_climberSubsystem);
+      m_autoClimberCommand = new AutoClimber(m_climberSubsystem);
     } catch (Exception err) {
       throw new ExceptionInInitializerError("[ERROR] COULDN'T INITIALIZE AUTOCLIMBER COMMAND");
     }
@@ -89,7 +89,7 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    autoElevatorButton.toggleWhenPressed(new AutoClimberCommand(m_climberSubsystem));
+    autoElevatorButton.toggleWhenPressed(new AutoClimber(m_climberSubsystem));
 
     for (int i = 0; i < 360; i += 45) {
       new POVButton(driverController, i).whileHeld(new QuickTurn(i));

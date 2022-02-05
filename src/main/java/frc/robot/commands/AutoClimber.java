@@ -8,11 +8,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ClimberSubsystem;
 
-public class ClimberCommand extends CommandBase {
-  /** Creates a new ClimberCommand. */
-  public ClimberCommand(ClimberSubsystem subsystem) {
+public class AutoClimber extends CommandBase {
+  /** Creates a new AutoClimberCommand. */
+  public AutoClimber(ClimberSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-
     addRequirements(subsystem);
   }
 
@@ -23,7 +22,11 @@ public class ClimberCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_climberSubsystem.elevatorUpDriver();
+    if (!RobotContainer.m_climberSubsystem.checkNextRungComplete()) {
+      RobotContainer.m_climberSubsystem.nextRung();
+    } else {
+      RobotContainer.m_climberSubsystem.resetSteps();
+    }
   }
 
   // Called once the command ends or is interrupted.
