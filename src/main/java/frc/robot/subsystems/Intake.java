@@ -63,20 +63,6 @@ public class Intake extends SubsystemBase {
     rightSolenoidState.setValue("Retracted");
   }
 
-  public void toggleIntake() {
-    if (leftSolenoid.get() == Value.kOff || leftSolenoid.get() == Value.kReverse) {
-      leftSolenoid.set(Value.kForward);
-      leftSolenoidState.setValue("Extended");
-      rightSolenoidState.setValue("Extended");
-      System.out.println("extends");
-    } else if (leftSolenoid.get() == Value.kForward) {
-      leftSolenoid.set(Value.kReverse);
-      leftSolenoidState.setValue("Retracted");
-      rightSolenoidState.setValue("Retracted");
-      System.out.println("RETRACTTTT");
-    }
-  }
-
   public void spinIntake() {
     intakeMotor.set(Constants.IntakeConstants.intakeSpeed);
     System.out.println("SPIIIIIIIIIN");

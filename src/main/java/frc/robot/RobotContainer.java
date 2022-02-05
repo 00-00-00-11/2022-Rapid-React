@@ -8,12 +8,12 @@ import frc.robot.subsystems.*;
 
 public class RobotContainer {
   public static PS4Controller psController = new PS4Controller(Constants.IntakeConstants.ps4Port);
-  public static final JoystickButton forwardIntakeButton =
-      new JoystickButton(psController, PS4Controller.Button.kSquare.value);
+  // public static final JoystickButton forwardIntakeButton =
+  //    new JoystickButton(psController, PS4Controller.Button.kSquare.value);
   public static final JoystickButton spinIntakeButton =
       new JoystickButton(psController, PS4Controller.Button.kCircle.value);
-  public static final JoystickButton reverseIntakeButton =
-      new JoystickButton(psController, PS4Controller.Button.kTriangle.value);
+  // public static final JoystickButton reverseIntakeButton =
+  //    new JoystickButton(psController, PS4Controller.Button.kTriangle.value);
   public static final JoystickButton toggleIntakeButton =
       new JoystickButton(psController, PS4Controller.Button.kCross.value);
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
@@ -26,10 +26,10 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    forwardIntakeButton.whenPressed(new IntakeForward());
+    // forwardIntakeButton.whenPressed(new IntakeForward());
     spinIntakeButton.whenHeld(new IntakeSpin());
-    reverseIntakeButton.whenPressed(new IntakeReverse());
-    toggleIntakeButton.whenPressed(new IntakeToggle());
+    // reverseIntakeButton.whenPressed(new IntakeReverse());
+    toggleIntakeButton.toggleWhenPressed(new IntakeToggle());
   }
 
   public Command getAutonomousCommand() {
