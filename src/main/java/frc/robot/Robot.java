@@ -32,12 +32,12 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    Command m_exitTarmac = new ExitTarmac();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //Command m_exitTarmac = new ExitTarmac();
 
-    // schedule the autonomous command (example)
-    if (m_exitTarmac != null) {
-      m_exitTarmac.schedule();
+    //schedule the autonomous command (example)
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.schedule();
     }
   }
 
@@ -53,12 +53,14 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
-    }
+    } 
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    System.out.println("pls work");
+  }
 
   @Override
   public void testInit() {

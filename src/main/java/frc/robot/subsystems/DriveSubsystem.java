@@ -113,6 +113,9 @@ public class DriveSubsystem extends SubsystemBase {
     leftEncoder = leftMaster.getEncoder();
     rightEncoder = rightMaster.getEncoder();
 
+    //leftEncoder.setPosition(0d);
+    //rightEncoder.setPosition(0d);
+ 
     leftEncoder.setPositionConversionFactor(
         (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI)
             / Constants.DriveConstants.GEAR_RATIO);

@@ -22,6 +22,7 @@ public class RobotContainer {
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final PS4Controller operatorGamepad = new PS4Controller(0);
 
+  public static final ExitTarmac m_exitTarmac = new ExitTarmac();
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(new SimDrive());
     configureButtonBindings();
@@ -32,15 +33,16 @@ public class RobotContainer {
     // for (int i = 0; i < 360; i += 45) {
     //   new POVButton(operatorGamepad, i).whileHeld(new QuickTurn(i));
     // }
-
   }
 
   //2021 Auto Code
   public Command getAutonomousCommand() {
-  
+    System.out.println("auto running");
+    return m_exitTarmac;
+    /*
     TrajectoryConfig config = new TrajectoryConfig(
       Units.feetToMeters(2), 
-      Units.feetToMeters(2)
+      Units.fe etToMeters(2)
     );
 
     config.setKinematics(m_driveSubsystem.getKinematics());
@@ -71,5 +73,6 @@ public class RobotContainer {
 
     // Run path following command, then stop at the end.
     return command.andThen(() -> m_driveSubsystem.setOutput(0, 0));
+    */
   }
 }

@@ -21,14 +21,15 @@ public class ExitTarmac extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotContainer.m_driveSubsystem.getEncoderPosition()*(0.5*Math.PI/18.0) < 6) //.5 ft = wheel diameter, 18.0 ft = gearbox ratio
-      RobotContainer.m_driveSubsystem.tankDrive(0.2, 0.2);
+    //if (RobotContainer.m_driveSubsystem.getEncoderPosition()*(0.5*Math.PI/18.0) < 6) //.5 ft = wheel diameter, 18.0 ft = gearbox ratio
+    System.out.println("pppppp");
+    RobotContainer.m_driveSubsystem.tankDrive(0.5, 0.5);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.m_driveSubsystem.tankDrive(0,0);
+    //RobotContainer.m_driveSubsystem.tankDrive(0,0);
   }
 
   // Returns true when the command should end.
