@@ -3,16 +3,15 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
-import edu.wpi.first.math.util.Units;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ExitTarmac extends CommandBase {
-  /** Creates a new ExitTarmac. */
-  public ExitTarmac() {
+import frc.robot.RobotContainer;
+
+public class PathWeaver extends CommandBase {
+  /** Creates a new PathWeaver. */
+  public PathWeaver() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_driveSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -23,15 +22,14 @@ public class ExitTarmac extends CommandBase {
   @Override
   public void execute() {
 
-    if (RobotContainer.m_driveSubsystem.getEncoderPosition() < Units.feetToMeters(Constants.AutoConstants.AUTO_DIST))
-      RobotContainer.m_driveSubsystem.tankDriveAuto(0.5, 0.5);
-    
+  
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //RobotContainer.m_driveSubsystem.tankDrive(0,0);
+    RobotContainer.m_driveSubsystem.setOutput(0, 0);
   }
 
   // Returns true when the command should end.

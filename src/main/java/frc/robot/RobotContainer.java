@@ -9,12 +9,18 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.math.trajectory.Trajectory;
 
 import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
 import java.io.IOException;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Filesystem;
 import java.nio.file.Path;
+import java.util.List;
+
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 
 public class RobotContainer {
@@ -37,42 +43,50 @@ public class RobotContainer {
 
   //2021 Auto Code
   public Command getAutonomousCommand() {
-    System.out.println("auto running");
-    return m_exitTarmac;
-    /*
+    //return m_exitTarmac;
     TrajectoryConfig config = new TrajectoryConfig(
-      Units.feetToMeters(2), 
-      Units.fe etToMeters(2)
-    );
+    Units.feetToMeters(2), 
+    Units.feetToMeters(2)
+  );
 
-    config.setKinematics(m_driveSubsystem.getKinematics());
-
- Trajectory pathWeaverTrajectory = new Trajectory();
-    Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve("paths/test.wpilib.json");
-    try {
-      pathWeaverTrajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    RamseteCommand command = new RamseteCommand(
-        pathWeaverTrajectory,
-        m_driveSubsystem::getPose,
-        new RamseteController(2.0, 0.7),
-        m_driveSubsystem.getFeedforward(),
-        m_driveSubsystem.getKinematics(),
-        m_driveSubsystem::getSpeeds,
-        m_driveSubsystem.getLeftPIDController(),
-        m_driveSubsystem.getRightPIDController(),
-        m_driveSubsystem::setOutput,
-        m_driveSubsystem 
-    );
-
-    // Reset odometry to the starting pose of the trajectory.
-    m_driveSubsystem.resetOdometry(pathWeaverTrajectory.getInitialPose());
-
-    // Run path following command, then stop at the end.
-    return command.andThen(() -> m_driveSubsystem.setOutput(0, 0));
-    */
+  config.setKinematics(RobotContainer.m_driveSubsystem.getKinematics());
+/*
+Trajectory pathWeaverTrajectory = new Trajectory();
+  Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve("paths/test.wpilib.json");
+  try {
+    pathWeaverTrajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+  } catch (IOException e) {
+    e.printStackTrace();
   }
+  */
+  Trajectory exampleTrajectory =
+  TrajectoryGenerator.generateTrajectory(
+      // Start at the origin facing the +X direction
+      new Pose2d(0, 0, new Rotation2d(0)),
+      // Pass through these two interior waypoints, making an 's' curve path
+      List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+      // End 3 meters straight ahead of where we started, facing forward
+      new Pose2d(3, 0, new Rotation2d(0)),
+      // Pass config
+      config);
+
+  RamseteCommand command = new RamseteCommand(
+      exampleTrajectory,
+      RobotContainer.m_driveSubsystem::getPose,
+      new RamseteController(2.0, 0.7),
+      RobotContainer.m_driveSubsystem.getFeedforward(),
+      RobotContainer.m_driveSubsystem.getKinematics(),
+      RobotContainer.m_driveSubsystem::getSpeeds,
+      RobotContainer.m_driveSubsystem.getLeftPIDController(),
+      RobotContainer.m_driveSubsystem.getRightPIDController(),
+      RobotContainer.m_driveSubsystem::setOutput,
+      RobotContainer.m_driveSubsystem 
+  );
+
+// Reset odometry to the starting pose of the trajectory.
+RobotContainer.m_driveSubsystem.resetOdometry(exampleTrajectory.getInitialPose());
+
+// Run path following command, then stop at the end.
+return command.andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0));  
+}
 }

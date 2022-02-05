@@ -53,9 +53,23 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
+
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.math.trajectory.Trajectory;
+
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
+
+import java.io.IOException;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.Filesystem;
+import java.nio.file.Path;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
+
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -113,8 +127,8 @@ public class DriveSubsystem extends SubsystemBase {
     leftEncoder = leftMaster.getEncoder();
     rightEncoder = rightMaster.getEncoder();
 
-    //leftEncoder.setPosition(0d);
-    //rightEncoder.setPosition(0d);
+    leftEncoder.setPosition(0d);
+    rightEncoder.setPosition(0d);
  
     leftEncoder.setPositionConversionFactor(
         (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI)
@@ -235,6 +249,11 @@ public class DriveSubsystem extends SubsystemBase {
     m_drive.tankDrive(left * DriveConstants.DRIVE_SPEED, right * DriveConstants.DRIVE_SPEED);
   }
 
+  public void tankDriveAuto(double left, double right) {
+    m_drive.tankDrive(left, right);
+    System.out.println("why bad");
+  }
+
   /**
    * Controls the robot with curveDrive.
    *
@@ -308,6 +327,12 @@ public class DriveSubsystem extends SubsystemBase {
     field.setRobotPose(pose);
 
     SmartDashboard.putData("Power Distribution", pdp);
+
+    SmartDashboard.putNumber("Encoder", leftEncoder.getPosition());
+
+    double distance = (leftEncoder.getPosition() / Constants.DriveConstants.GEAR_RATIO) * (0.5 * Math.PI);
+
+    SmartDashboard.putNumber("Distance", distance);
   }
 
   @Override
@@ -363,8 +388,8 @@ public class DriveSubsystem extends SubsystemBase {
 	}
 
   public void setOutput(double leftVolts, double rightVolts) {
-		leftMaster.set(leftVolts / 12);
-		rightMaster.set(rightVolts / 12);
+		leftMotors.set(leftVolts / 12);
+		rightMotors.set(rightVolts / 12);
 	}
 
   public double getEncoderPosition() {
@@ -381,4 +406,36 @@ public class DriveSubsystem extends SubsystemBase {
 				leftMaster.getEncoder().getVelocity() / gearRatio * 2 * Math.PI * Units.inchesToMeters(3.0) / 60,
 				rightMaster.getEncoder().getVelocity() / gearRatio * 2 * Math.PI * Units.inchesToMeters(3.0) / 60);
 	}
+
+  
 }
+
+/*
+TrajectoryConfig config = new TrajectoryConfig(
+    Units.feetToMeters(2), 
+    Units.feetToMeters(2)
+  );
+
+  config.setKinematics(RobotContainer.m_driveSubsystem.getKinematics());
+
+Trajectory pathWeaverTrajectory = new Trajectory();
+  Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve("paths/test.wpilib.json");
+  try {
+    pathWeaverTrajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+  } catch (IOException e) {
+    e.printStackTrace();
+  }
+
+  RamseteCommand command = new RamseteCommand(
+      pathWeaverTrajectory,
+      RobotContainer.m_driveSubsystem::getPose,
+      new RamseteController(2.0, 0.7),
+      RobotContainer.m_driveSubsystem.getFeedforward(),
+      RobotContainer.m_driveSubsystem.getKinematics(),
+      RobotContainer.m_driveSubsystem::getSpeeds,
+      RobotContainer.m_driveSubsystem.getLeftPIDController(),
+      RobotContainer.m_driveSubsystem.getRightPIDController(),
+      RobotContainer.m_driveSubsystem::setOutput,
+      RobotContainer.m_driveSubsystem 
+  );
+*/
