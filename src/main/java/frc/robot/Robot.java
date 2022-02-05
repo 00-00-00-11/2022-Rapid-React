@@ -1,5 +1,8 @@
 package frc.robot;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.REVPhysicsSim;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -11,7 +14,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    m_robotContainer = new RobotContainer();
+    try {
+      m_robotContainer = new RobotContainer();
+    } catch (Exception err) {
+      throw new ExceptionInInitializerError("[ERROR] COULDN'T INITIALIZE ROBOT CONTAINER");
+    }
   }
 
   @Override
@@ -64,4 +71,20 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
+
+  @Override
+  public void simulationInit() {
+    CANSparkMax[] motors = RobotContainer.m_driveSubsystem.getMotors();
+    for (CANSparkMax motor : motors) {
+      REVPhysicsSim.getInstance()
+          .addSparkMax(motor, DCMotor.getNEO(1)); // TODO what motors do we use?
+    }
+  }
+
+  @Override
+  public void simulationPeriodic() {
+    // REVPhysicsSim.getInstance().run();
+
+    // The above is not needed because we set velocity values manually in Drive Subsystem
+  }
 }
