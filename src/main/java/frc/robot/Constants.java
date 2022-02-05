@@ -37,7 +37,7 @@ public final class Constants {
     public static final double ELEVATOR_SPEED = 0.1;
     public static final double ANGLER_SPEED = 0.1;
   }
-    
+
   public final class DriveConstants {
 
     public static final double DRIVE_SPEED = 0.2;

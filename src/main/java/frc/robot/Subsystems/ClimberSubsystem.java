@@ -22,7 +22,7 @@ Automated (Run Once Per Button):
 10. secondary returns to 0 angle
 */
 
-package frc.robot.Subsystems;
+package frc.robot.subsystems;
 
 import com.revrobotics.*;
 import edu.wpi.first.networktables.*;

@@ -23,23 +23,32 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-import edu.wpi.first.wpilibj.PS4Controller;
-
 
 public class RobotContainer {
 
   /* SUBSYSTEMS */
   public static DriveSubsystem m_driveSubsystem;
+  public static ClimberSubsystem m_climberSubsystem;
+
+  /* COMMANDS */
+  public static ClimberCommand m_climberCommand;
+  public static AutoClimberCommand m_autoClimberCommand;
 
   /* CONTROLLERS AND OTHER INPUTS */
   public static PS4Controller driverController;
   public static PS4Controller operatorController;
+
+  Button driverElevatorButton =
+      new JoystickButton(operatorController, PS4Controller.Button.kCircle.value);
+  Button autoElevatorButton =
+      new JoystickButton(operatorController, PS4Controller.Button.kCross.value);
 
   public RobotContainer() throws Exception {
 
@@ -55,39 +64,33 @@ public class RobotContainer {
     } catch (Exception err) {
       throw new ExceptionInInitializerError("[ERROR] COULDN'T INITIALIZE JOYSTICKS");
     }
-    
+
     try {
-      ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
+      m_climberSubsystem = new ClimberSubsystem();
     } catch (Exception err) {
       throw new ExceptionInInitializerError("[ERROR] COULDN'T INITIALIZE CLIMBER COMMAND");
     }
-    
+
     try {
-      ClimberCommand m_climberCommand = new ClimberCommand(m_climberSubsystem);
+      m_climberCommand = new ClimberCommand(m_climberSubsystem);
     } catch (Exception err) {
       throw new ExceptionInInitializerError("[ERROR] COULDN'T INITIALIZE CLIMBER SUBSYSTEM");
     }
-    
+
     try {
-      AutoClimberCommand m_autoClimberCommand = new AutoClimberCommand(m_climberSubsystem);
+      m_autoClimberCommand = new AutoClimberCommand(m_climberSubsystem);
     } catch (Exception err) {
       throw new ExceptionInInitializerError("[ERROR] COULDN'T INITIALIZE AUTOCLIMBER COMMAND");
-    
-    try {
-      Button driverElevatorButton = new JoystickButton(operatorJoystick, PS4Controller.Button.kCircle.value);
-      Button autoElevatorButton = new JoystickButton(operatorJoystick, PS4Controller.Button.kCross.value);
-    } catch (Exeption err) {
-      throw new ExceptionInInitializerError("[ERROR] COULDN'T INITIALIZE ELEVATOR BUTTONS");
     }
-      
+
     m_driveSubsystem.setDefaultCommand(new SimDrive());
-    
+
     configureButtonBindings();
   }
 
   private void configureButtonBindings() {
     autoElevatorButton.toggleWhenPressed(new AutoClimberCommand(m_climberSubsystem));
-    
+
     for (int i = 0; i < 360; i += 45) {
       new POVButton(driverController, i).whileHeld(new QuickTurn(i));
     }
