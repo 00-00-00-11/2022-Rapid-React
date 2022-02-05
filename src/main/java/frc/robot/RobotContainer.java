@@ -1,6 +1,6 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -15,13 +15,13 @@ public class RobotContainer {
   public static final AutoClimberCommand m_autoClimberCommand =
       new AutoClimberCommand(m_climberSubsystem);
 
-  public static Joystick operatorJoystick =
-      new Joystick(Constants.JoystickConstants.OPERATOR_JOYSTICK_PORT);
+  public static PS4Controller operatorJoystick =
+      new PS4Controller(Constants.JoystickConstants.OPERATOR_JOYSTICK_PORT);
 
   Button driverElevatorButton =
-      new JoystickButton(operatorJoystick, Constants.JoystickConstants.DRIVER_ELEVATOR_BUTTON);
+      new JoystickButton(operatorJoystick, PS4Controller.Button.kCircle.value);
   Button autoElevatorButton =
-      new JoystickButton(operatorJoystick, Constants.JoystickConstants.AUTO_ELEVATOR_BUTTON);
+      new JoystickButton(operatorJoystick, PS4Controller.Button.kCross.value);
 
   // started climber
 
