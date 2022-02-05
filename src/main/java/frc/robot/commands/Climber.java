@@ -2,16 +2,17 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.Subsystems.ClimberSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 
-public class AutoClimberCommand extends CommandBase {
-  /** Creates a new AutoClimberCommand. */
-  public AutoClimberCommand(ClimberSubsystem subsystem) {
+public class Climber extends CommandBase {
+  /** Creates a new ClimberCommand. */
+  public Climber(ClimberSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
+
     addRequirements(subsystem);
   }
 
@@ -22,11 +23,7 @@ public class AutoClimberCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!RobotContainer.m_climberSubsystem.checkNextRungComplete()) {
-      RobotContainer.m_climberSubsystem.nextRung();
-    } else {
-      RobotContainer.m_climberSubsystem.resetSteps();
-    }
+    RobotContainer.m_climberSubsystem.elevatorUpDriver();
   }
 
   // Called once the command ends or is interrupted.
