@@ -294,7 +294,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public double getDirection() {
     double leftV = leftEncoder.getVelocity();
-    double rightV = -rightEncoder.getVelocity();
+    double rightV = rightEncoder.getVelocity();
 
     SmartDashboard.putNumber("Left V", leftV);
     SmartDashboard.putNumber("Right V", rightV);
@@ -338,8 +338,10 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     m_driveSim.setInputs(
-        leftMotors.get() * RobotController.getInputVoltage(),
-        rightMotors.get() * RobotController.getInputVoltage());
+        // Left and right CAN IDs are flipped on the robot so right and left sides are flipped for
+        // simulation
+        rightMotors.get() * RobotController.getInputVoltage(),
+        leftMotors.get() * RobotController.getInputVoltage());
     m_driveSim.update(0.02);
 
     leftEncoder.setPosition(m_driveSim.getLeftPositionMeters());
