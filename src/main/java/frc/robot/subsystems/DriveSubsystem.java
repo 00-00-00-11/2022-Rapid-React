@@ -392,6 +392,9 @@ public class DriveSubsystem extends SubsystemBase {
   public void setOutput(double leftVolts, double rightVolts) {
 		leftMotors.set(leftVolts / 12);
 		rightMotors.set(rightVolts / 12);
+
+    SmartDashboard.putNumber("left Motor", leftVolts);
+    SmartDashboard.putNumber("rigt Motor", rightVolts);
 	}
 
   public double getEncoderPosition() {

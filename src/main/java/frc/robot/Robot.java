@@ -47,7 +47,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    System.out.println("Pain2");
 
   }
 
@@ -86,7 +85,7 @@ public class Robot extends TimedRobot {
     CANSparkMax[] motors = RobotContainer.m_driveSubsystem.getMotors();
     for (CANSparkMax motor : motors) {
       REVPhysicsSim.getInstance()
-          .addSparkMax(motor, DCMotor.getNEO(1)); // TODO what motors do we use?
+          .addSparkMax(motor, DCMotor.getNEO(1));
     }
   }
 
