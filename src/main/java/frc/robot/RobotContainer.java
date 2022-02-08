@@ -9,6 +9,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.math.trajectory.Trajectory;
 
 import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -22,6 +23,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 
 public class RobotContainer {
 
@@ -44,13 +46,15 @@ public class RobotContainer {
   //2021 Auto Code
   public Command getAutonomousCommand() {
     //return m_exitTarmac;
+
     TrajectoryConfig config = new TrajectoryConfig(
     Units.feetToMeters(2), 
     Units.feetToMeters(2)
   );
 
   config.setKinematics(RobotContainer.m_driveSubsystem.getKinematics());
-/*
+
+  /*
 Trajectory pathWeaverTrajectory = new Trajectory();
   Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve("paths/test.wpilib.json");
   try {
@@ -59,6 +63,7 @@ Trajectory pathWeaverTrajectory = new Trajectory();
     e.printStackTrace();
   }
   */
+
   Trajectory exampleTrajectory =
   TrajectoryGenerator.generateTrajectory(
       // Start at the origin facing the +X direction
