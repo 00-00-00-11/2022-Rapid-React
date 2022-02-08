@@ -76,6 +76,13 @@ public class ClimberSubsystem extends SubsystemBase {
 
     primaryElevatorMotor00.getEncoder().setPosition(0);
     secondaryAnglerMotor00.getEncoder().setPosition(0);
+    primaryElevatorMotor01.getEncoder().setPosition(0);
+    secondaryAnglerMotor01.getEncoder().setPosition(0);
+    primaryElevatorMotor02.getEncoder().setPosition(0);
+    secondaryAnglerMotor02.getEncoder().setPosition(0);
+
+    primaryElevatorMotor00.setInverted(false);
+    secondaryAnglerMotor00.setInverted(false);
 
     primaryElevatorMotor01.follow(primaryElevatorMotor00);
     primaryElevatorMotor02.follow(primaryElevatorMotor00);
@@ -196,9 +203,10 @@ public class ClimberSubsystem extends SubsystemBase {
     boolean anglerDone = false;
 
     elevatorStepsEntry.setString("step 1");
+    System.out.println("step 1");
 
     if (primaryElevatorMotor00.getEncoder().getPosition()
-        > Constants.ElevatorConstants.ELEVATOR_SMALL_DISTANCE) {
+        < Constants.ElevatorConstants.ELEVATOR_SMALL_DISTANCE) {
       primaryElevatorMotor00.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
       primaryElevatorMotor00.set(0);
@@ -226,6 +234,7 @@ public class ClimberSubsystem extends SubsystemBase {
     boolean anglerDone = false;
 
     elevatorStepsEntry.setString("step 2");
+    System.out.println("step 2");
 
     if (primaryElevatorMotor00.getEncoder().getPosition() < 0) {
       primaryElevatorMotor00.set(-Constants.ElevatorConstants.ELEVATOR_SPEED);
@@ -252,6 +261,7 @@ public class ClimberSubsystem extends SubsystemBase {
     boolean elevatorDone = false;
 
     elevatorStepsEntry.setString("step 3");
+    System.out.println("step 3");
 
     if (primaryElevatorMotor00.getEncoder().getPosition()
         > Constants.ElevatorConstants.ELEVATOR_SMALL_DISTANCE) {
@@ -272,6 +282,7 @@ public class ClimberSubsystem extends SubsystemBase {
     boolean anglerDone = false;
 
     elevatorStepsEntry.setString("step 4");
+    System.out.println("step 4");
 
     if (secondaryAnglerMotor00.getEncoder().getPosition()
         < Constants.ElevatorConstants.ANGLER_LARGE_ANGLE) {
@@ -292,6 +303,7 @@ public class ClimberSubsystem extends SubsystemBase {
     boolean elevatorDone = false;
 
     elevatorStepsEntry.setString("step 5");
+    System.out.println("step 5");
 
     if (primaryElevatorMotor00.getEncoder().getPosition() > 100) {
       primaryElevatorMotor00.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
@@ -311,6 +323,7 @@ public class ClimberSubsystem extends SubsystemBase {
     boolean anglerDone = false;
 
     elevatorStepsEntry.setString("step 6");
+    System.out.println("step 6");
 
     if (secondaryAnglerMotor00.getEncoder().getPosition()
         > Constants.ElevatorConstants.ANGLER_IMPACT_ANGLE) {
@@ -333,6 +346,7 @@ public class ClimberSubsystem extends SubsystemBase {
     boolean elevatorDone = false;
 
     elevatorStepsEntry.setString("step 7");
+    System.out.println("step 7");
 
     if (primaryElevatorMotor00.getEncoder().getPosition() < 0) {
       primaryElevatorMotor00.set(Constants.ElevatorConstants.ELEVATOR_SPEED);

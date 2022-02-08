@@ -17,10 +17,10 @@ public final class Constants {
     public static final int ANGLER_MAX_SWITCH = 5;
     public static final int ANGLER_MIN_SWITCH = 6;
 
-    public static final double ELEVATOR_SMALL_DISTANCE = 0.1;
-    public static final double ANGLER_SMALL_ANGLE = 0.1;
-    public static final double ANGLER_LARGE_ANGLE = 0.3;
-    public static final double ANGLER_IMPACT_ANGLE = 0.2;
+    public static final double ELEVATOR_SMALL_DISTANCE = 40000;
+    public static final double ANGLER_SMALL_ANGLE = 40000;
+    public static final double ANGLER_LARGE_ANGLE = 160000;
+    public static final double ANGLER_IMPACT_ANGLE = 80000;
 
     public static final double ELEVATOR_SPEED = 0.1;
     public static final double ANGLER_SPEED = 0.1;
