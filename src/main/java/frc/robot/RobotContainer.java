@@ -2,10 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
-<<<<<<< HEAD
-=======
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
->>>>>>> 1e3e782eba30b24d960eb2536c11824586966425
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.*;
@@ -38,13 +35,10 @@ public class RobotContainer {
   public static final PS4Controller operatorGamepad = new PS4Controller(0);
 
   public static final ExitTarmac m_exitTarmac = new ExitTarmac();
-<<<<<<< HEAD
-=======
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final ShooterSubsystem m_shooter_subsystem = new ShooterSubsystem();
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
->>>>>>> 1e3e782eba30b24d960eb2536c11824586966425
 
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(new SimDrive());
