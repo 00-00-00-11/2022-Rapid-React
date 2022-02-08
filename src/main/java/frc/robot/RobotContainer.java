@@ -1,8 +1,15 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
+<<<<<<< HEAD
+=======
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+>>>>>>> 1e3e782eba30b24d960eb2536c11824586966425
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.*;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -10,6 +17,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.math.trajectory.Trajectory;
 
 import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -23,24 +31,38 @@ import java.nio.file.Path;
 import java.util.List;
 
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 
 public class RobotContainer {
 
-  public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final PS4Controller operatorGamepad = new PS4Controller(0);
 
   public static final ExitTarmac m_exitTarmac = new ExitTarmac();
+<<<<<<< HEAD
+=======
+  public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  public static final ShooterSubsystem m_shooter_subsystem = new ShooterSubsystem();
+
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
+>>>>>>> 1e3e782eba30b24d960eb2536c11824586966425
 
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(new SimDrive());
     configureButtonBindings();
 
+    m_chooser.setDefaultOption("Basic Auto", m_exitTarmac);
+    //m_chooser.addOption();
+    //SmartDashboard.putData(m_chooser);
   }
+  // * Defines the ps4Controller and defines the shootButton as R2 on the ps4Controller *//
+  public static Joystick ps4Controller = new Joystick(1);
+  JoystickButton shootButton = new JoystickButton(ps4Controller, 1);
 
   private void configureButtonBindings() {
     // for (int i = 0; i < 360; i += 45) {
     // new POVButton(operatorGamepad, i).whileHeld(new QuickTurn(i));
     // }
+    shootButton.whileHeld(new ShootBall());
   }
 
   // 2021 Auto Code
