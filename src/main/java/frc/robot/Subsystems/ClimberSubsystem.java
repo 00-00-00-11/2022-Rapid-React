@@ -22,7 +22,7 @@ Automated (Run Once Per Button):
 10. secondary returns to 0 angle
 */
 
-package frc.robot.Subsystems;
+package frc.robot.subsystems;
 
 import com.revrobotics.*;
 import edu.wpi.first.networktables.*;
@@ -54,6 +54,8 @@ public class ClimberSubsystem extends SubsystemBase {
   boolean step006 = false;
   boolean step007 = false;
 
+  int currentStep = 0;
+
   public ClimberSubsystem() {
     primaryElevatorMotor =
         new CANSparkMax(
@@ -76,7 +78,7 @@ public class ClimberSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
-  
+
   /*
     // button hit by driver, elevator height to max
     public void elevatorUpDriver() {
@@ -135,19 +137,19 @@ public class ClimberSubsystem extends SubsystemBase {
       10. secondary returns to 0 angle
     */
 
-    if (!step001) {
+    if (currentStep < 1) {
       climber001();
-    } else if (!step002) {
+    } else if (currentStep < 2) {
       climber002();
-    } else if (!step003) {
+    } else if (currentStep < 3) {
       climber003();
-    } else if (!step004) {
+    } else if (currentStep < 4) {
       climber004();
-    } else if (!step005) {
+    } else if (currentStep < 5) {
       climber005();
-    } else if (!step006) {
+    } else if (currentStep < 6) {
       climber006();
-    } else if (!step007) {
+    } else if (currentStep < 7) {
       climber007();
     } else {
       System.out.println("Climber Done");
@@ -195,7 +197,7 @@ public class ClimberSubsystem extends SubsystemBase {
       anglerDone = true;
     }
 
-    step001 = anglerDone && elevatorDone;
+    currentStep = (anglerDone && elevatorDone) ? (currentStep = 1) : (currentStep = 0);
   }
 
   public void climber002() {
@@ -223,7 +225,7 @@ public class ClimberSubsystem extends SubsystemBase {
       anglerDone = true;
     }
 
-    step002 = anglerDone && elevatorDone;
+    currentStep = (anglerDone && elevatorDone) ? (currentStep = 2) : (currentStep = 1);
   }
 
   public void climber003() {
@@ -243,7 +245,7 @@ public class ClimberSubsystem extends SubsystemBase {
       elevatorDone = true;
     }
 
-    step003 = elevatorDone;
+    currentStep = (elevatorDone) ? (currentStep = 3) : (currentStep = 2);
   }
 
   public void climber004() {
@@ -251,7 +253,7 @@ public class ClimberSubsystem extends SubsystemBase {
       6. secondary rotates large angle
     */
 
-    boolean secondaryDone = false;
+    boolean anglerDone = false;
 
     elevatorStepsEntry.setString("step 4");
 
@@ -260,10 +262,10 @@ public class ClimberSubsystem extends SubsystemBase {
       secondaryAnglerMotor.set(Constants.ElevatorConstants.ANGLER_SPEED);
     } else {
       secondaryAnglerMotor.set(0);
-      secondaryDone = true;
+      anglerDone = true;
     }
 
-    step004 = secondaryDone;
+    currentStep = (anglerDone) ? (currentStep = 4) : (currentStep = 3);
   }
 
   public void climber005() {
@@ -271,7 +273,7 @@ public class ClimberSubsystem extends SubsystemBase {
       7. primary extends max
     */
 
-    boolean primaryDone = false;
+    boolean elevatorDone = false;
 
     elevatorStepsEntry.setString("step 5");
 
@@ -279,10 +281,10 @@ public class ClimberSubsystem extends SubsystemBase {
       primaryElevatorMotor.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
       primaryElevatorMotor.set(0);
-      primaryDone = true;
+      elevatorDone = true;
     }
 
-    step005 = primaryDone;
+    currentStep = (elevatorDone) ? (currentStep = 5) : (currentStep = 4);
   }
 
   public void climber006() {
@@ -302,7 +304,7 @@ public class ClimberSubsystem extends SubsystemBase {
       anglerDone = true;
     }
 
-    step006 = anglerDone;
+    currentStep = (anglerDone) ? (currentStep = 6) : (currentStep = 5);
   }
 
   public void climber007() {
@@ -330,6 +332,6 @@ public class ClimberSubsystem extends SubsystemBase {
       anglerDone = true;
     }
 
-    step007 = elevatorDone && anglerDone;
+    currentStep = (anglerDone && elevatorDone) ? (currentStep = 7) : (currentStep = 6);
   }
 }
