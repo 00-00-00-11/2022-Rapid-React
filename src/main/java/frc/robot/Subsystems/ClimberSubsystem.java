@@ -167,7 +167,7 @@ public class ClimberSubsystem extends SubsystemBase {
     elevatorStepsEntry.setString("step 1");
 
     if (primaryElevatorMotor.getEncoder().getPosition()
-        > Constants.ElevatorConstants.ELEVATOR_SMALL_DISTANCE) {
+        < Constants.ElevatorConstants.ELEVATOR_SMALL_DISTANCE) {
       primaryElevatorMotor.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
       primaryElevatorMotor.set(0);
@@ -224,7 +224,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
     if (primaryElevatorMotor.getEncoder().getPosition()
         > Constants.ElevatorConstants.ELEVATOR_SMALL_DISTANCE) {
-      primaryElevatorMotor.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
+      primaryElevatorMotor.set(-Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
       primaryElevatorMotor.set(0);
       elevatorDone = true;
@@ -282,7 +282,7 @@ public class ClimberSubsystem extends SubsystemBase {
     elevatorStepsEntry.setString("step 6");
 
     if (secondaryAnglerMotor.getEncoder().getPosition()
-        > Constants.ElevatorConstants.ANGLER_IMPACT_ANGLE) {
+        < Constants.ElevatorConstants.ANGLER_IMPACT_ANGLE) {
       secondaryAnglerMotor.set(Constants.ElevatorConstants.ANGLER_SPEED);
     } else {
       secondaryAnglerMotor.set(0);
@@ -304,14 +304,14 @@ public class ClimberSubsystem extends SubsystemBase {
     elevatorStepsEntry.setString("step 7");
 
     if (!elevatorMinSwitch.get()) {
-      primaryElevatorMotor.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
+      primaryElevatorMotor.set(-Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
       primaryElevatorMotor.set(0);
       elevatorDone = true;
     }
 
     if (!anglerMinSwitch.get()) {
-      secondaryAnglerMotor.set(Constants.ElevatorConstants.ANGLER_SPEED);
+      secondaryAnglerMotor.set(-Constants.ElevatorConstants.ANGLER_SPEED);
     } else {
       secondaryAnglerMotor.set(0);
       anglerDone = true;
