@@ -145,7 +145,7 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public boolean checkNextRungComplete() {
-    return currentStep > 7;
+    return currentStep >= 7;
   }
 
   public void resetSteps() {
@@ -182,7 +182,7 @@ public class ClimberSubsystem extends SubsystemBase {
       anglerDone = true;
     }
 
-    currentStep = (anglerDone && elevatorDone) ? (currentStep = 2) : (currentStep = 1);
+    currentStep = (anglerDone && elevatorDone) ? (currentStep = 1) : (currentStep = 0);
   }
 
   public void climber002() {
@@ -210,7 +210,7 @@ public class ClimberSubsystem extends SubsystemBase {
       anglerDone = true;
     }
 
-    currentStep = (anglerDone && elevatorDone) ? (currentStep = 3) : (currentStep = 2);
+    currentStep = (anglerDone && elevatorDone) ? (currentStep = 2) : (currentStep = 1);
   }
 
   public void climber003() {
@@ -230,7 +230,7 @@ public class ClimberSubsystem extends SubsystemBase {
       elevatorDone = true;
     }
 
-    currentStep = (elevatorDone) ? (currentStep = 4) : (currentStep = 3);
+    currentStep = (elevatorDone) ? (currentStep = 3) : (currentStep = 2);
   }
 
   public void climber004() {
@@ -250,7 +250,7 @@ public class ClimberSubsystem extends SubsystemBase {
       anglerDone = true;
     }
 
-    currentStep = (anglerDone) ? (currentStep = 5) : (currentStep = 4);
+    currentStep = (anglerDone) ? (currentStep = 4) : (currentStep = 3);
   }
 
   public void climber005() {
@@ -269,7 +269,7 @@ public class ClimberSubsystem extends SubsystemBase {
       elevatorDone = true;
     }
 
-    currentStep = (elevatorDone) ? (currentStep = 6) : (currentStep = 5);
+    currentStep = (elevatorDone) ? (currentStep = 5) : (currentStep = 4);
   }
 
   public void climber006() {
@@ -289,7 +289,7 @@ public class ClimberSubsystem extends SubsystemBase {
       anglerDone = true;
     }
 
-    currentStep = (anglerDone) ? (currentStep = 7) : (currentStep = 6);
+    currentStep = (anglerDone) ? (currentStep = 6) : (currentStep = 5);
   }
 
   public void climber007() {
@@ -317,6 +317,6 @@ public class ClimberSubsystem extends SubsystemBase {
       anglerDone = true;
     }
 
-    currentStep = (anglerDone && elevatorDone) ? (currentStep = 8) : (currentStep = 7);
+    currentStep = (anglerDone && elevatorDone) ? (currentStep = 7) : (currentStep = 6);
   }
 }
