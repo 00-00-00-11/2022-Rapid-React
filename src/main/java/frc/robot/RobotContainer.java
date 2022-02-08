@@ -46,9 +46,11 @@ public class RobotContainer {
   public static PS4Controller operatorController;
 
   Button driverElevatorButton =
-      new JoystickButton(operatorController, PS4Controller.Button.kCircle.value);
+      new JoystickButton(operatorController, PS4Controller.Button.kTriangle.value);
   Button autoElevatorButton =
       new JoystickButton(operatorController, PS4Controller.Button.kCross.value);
+  Button autoElevatorBackButton =
+      new JoystickButton(operatorController, PS4Controller.Button.kCircle.value);
 
   public RobotContainer() throws Exception {
 
