@@ -22,7 +22,7 @@ Automated (Run Once Per Button):
 10. secondary returns to 0 angle
 */
 
-package frc.robot.Subsystems;
+package frc.robot.subsystems;
 
 import com.revrobotics.*;
 import edu.wpi.first.networktables.*;
@@ -34,10 +34,8 @@ import frc.robot.Constants;
 public class ClimberSubsystem extends SubsystemBase {
   /** Creates a new ClimberSubsystem. */
   CANSparkMax primaryElevatorMotor;
-  
 
   CANSparkMax secondaryAnglerMotor;
-
 
   DigitalInput elevatorMaxSwitch;
   DigitalInput elevatorMinSwitch;
@@ -147,11 +145,15 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public boolean checkNextRungComplete() {
-    return currentStep == 7;
+    return currentStep > 7;
   }
 
   public void resetSteps() {
     currentStep = 0;
+  }
+
+  public void backOneStep() {
+    currentStep -= 1;
   }
 
   public void climber001() {
@@ -316,9 +318,5 @@ public class ClimberSubsystem extends SubsystemBase {
     }
 
     currentStep = (anglerDone && elevatorDone) ? (currentStep = 8) : (currentStep = 7);
-  }
-
-  public void backOneStep() {
-    currentStep -= 1;
   }
 }
