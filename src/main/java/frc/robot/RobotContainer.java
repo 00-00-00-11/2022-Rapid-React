@@ -1,7 +1,10 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.*;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -27,20 +30,26 @@ import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstrai
 
 public class RobotContainer {
 
-  public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final PS4Controller operatorGamepad = new PS4Controller(0);
 
   public static final ExitTarmac m_exitTarmac = new ExitTarmac();
+  public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  public static final ShooterSubsystem m_shooter_subsystem = new ShooterSubsystem();
+
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(new SimDrive());
     configureButtonBindings();
 
   }
+  // * Defines the ps4Controller and defines the shootButton as R2 on the ps4Controller *//
+  public static Joystick ps4Controller = new Joystick(1);
+  JoystickButton shootButton = new JoystickButton(ps4Controller, 1);
 
   private void configureButtonBindings() {
     // for (int i = 0; i < 360; i += 45) {
     //   new POVButton(operatorGamepad, i).whileHeld(new QuickTurn(i));
     // }
+    shootButton.whileHeld(new ShootBall());
   }
 
   //2021 Auto Code
