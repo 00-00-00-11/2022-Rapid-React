@@ -2,6 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -36,10 +38,15 @@ public class RobotContainer {
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final ShooterSubsystem m_shooter_subsystem = new ShooterSubsystem();
 
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
+
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(new SimDrive());
     configureButtonBindings();
 
+    m_chooser.setDefaultOption("Basic Auto", m_exitTarmac);
+    //m_chooser.addOption();
+    //SmartDashboard.putData(m_chooser);
   }
   // * Defines the ps4Controller and defines the shootButton as R2 on the ps4Controller *//
   public static Joystick ps4Controller = new Joystick(1);
@@ -55,6 +62,7 @@ public class RobotContainer {
   //2021 Auto Code
   public Command getAutonomousCommand() {
     //return m_exitTarmac;
+    //return m_chooser.getSelected();
 
     TrajectoryConfig config = new TrajectoryConfig(
     Units.feetToMeters(2), 
