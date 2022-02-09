@@ -23,7 +23,6 @@ public class RobotContainer {
   Button autoElevatorButton =
       new JoystickButton(operatorJoystick, Constants.JoystickConstants.AUTO_ELEVATOR_BUTTON);
 
-  // started climber
 
   public RobotContainer() {
     configureButtonBindings();
