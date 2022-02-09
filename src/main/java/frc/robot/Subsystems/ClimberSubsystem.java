@@ -184,9 +184,7 @@ public class ClimberSubsystem extends SubsystemBase {
     return step007;
   }
 
-  public void resetSteps() {
-
-  }
+  public void resetSteps() {}
 
   public void climber001() {
     /*
@@ -217,7 +215,7 @@ public class ClimberSubsystem extends SubsystemBase {
       secondaryAnglerMotor00.set(0);
       anglerDone = true;
     }
-    
+
     System.out.println("step 1 secondary " + anglerDone);
 
     currentStep = (anglerDone && elevatorDone) ? (currentStep = 1) : (currentStep = 0);
@@ -307,8 +305,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
     elevatorStepsEntry.setString("step 5");
 
-
-    if (primaryElevatorMotor00.getEncoder().getPosition() > Constants.ElevatorConstants.ANGLER_IMPACT_ANGLE) {
+    if (primaryElevatorMotor00.getEncoder().getPosition()
+        > Constants.ElevatorConstants.ANGLER_IMPACT_ANGLE) {
       primaryElevatorMotor00.set(-Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
       primaryElevatorMotor00.set(0);
