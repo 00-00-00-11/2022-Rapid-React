@@ -62,6 +62,8 @@ public class ClimberSubsystem extends SubsystemBase {
   int currentStep = 0;
 
   public ClimberSubsystem() {
+
+    
     primaryElevatorMotor00 = new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     primaryElevatorMotor01 = new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless);
