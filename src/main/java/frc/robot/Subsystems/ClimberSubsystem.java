@@ -60,7 +60,6 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public ClimberSubsystem() {
 
-
     primaryElevatorMotor00 = new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     primaryElevatorMotor01 = new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -131,10 +130,8 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void resetAll() {
-    // resetAngler();
-    // resetElevator();
-    primaryElevatorMotor00.getEncoder().setPosition(0);
-    secondaryAnglerMotor00.getEncoder().setPosition(0);
+    resetAngler();
+    resetElevator();
   }
 
   public void nextRung() {
@@ -178,9 +175,7 @@ public class ClimberSubsystem extends SubsystemBase {
     return step007;
   }
 
-  public void resetSteps() {
-    currentStep = 0;
-  }
+  public void resetSteps() {}
 
   public void climber001() {
     /*
@@ -302,7 +297,7 @@ public class ClimberSubsystem extends SubsystemBase {
     elevatorStepsEntry.setString("step 5");
 
     if (primaryElevatorMotor00.getEncoder().getPosition()
-        > Constants.ElevatorConstants.ANGLER_SMALL_ANGLE) {
+        > Constants.ElevatorConstants.ANGLER_IMPACT_ANGLE) {
       primaryElevatorMotor00.set(-Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
       primaryElevatorMotor00.set(0);
