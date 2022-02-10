@@ -53,23 +53,9 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
-
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.math.trajectory.Trajectory;
-
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
-
-import java.io.IOException;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj.Filesystem;
-import java.nio.file.Path;
-import edu.wpi.first.math.trajectory.TrajectoryUtil;
-
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -108,9 +94,9 @@ public class DriveSubsystem extends SubsystemBase {
   Field2d field;
   Pose2d pose;
 
-  //change this with new driebase
+  // change this with new driebase
   final double gearRatio = 10.81;
-  
+
   // Camera
 
   public DriveSubsystem() {
@@ -129,7 +115,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     leftEncoder.setPosition(0d);
     rightEncoder.setPosition(0d);
- 
+
     leftEncoder.setPositionConversionFactor(
         (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI)
             / Constants.DriveConstants.GEAR_RATIO);
@@ -330,7 +316,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     SmartDashboard.putNumber("Encoder", leftEncoder.getPosition());
 
-    double distance = (leftEncoder.getPosition() / Constants.DriveConstants.GEAR_RATIO) * (0.5 * Math.PI);
+    double distance =
+        (leftEncoder.getPosition() / Constants.DriveConstants.GEAR_RATIO) * (0.5 * Math.PI);
 
     SmartDashboard.putNumber("Distance", distance);
   }
@@ -364,60 +351,68 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public SimpleMotorFeedforward getFeedforward() {
-		return feedforward;
-	}
+    return feedforward;
+  }
 
   public PIDController getLeftPIDController() {
-		return leftPID;
-	}
+    return leftPID;
+  }
 
-	public PIDController getRightPIDController() {
-		return rightPID;
-	}
+  public PIDController getRightPIDController() {
+    return rightPID;
+  }
 
   public DifferentialDriveKinematics getKinematics() {
-		return kinematics;
-	}
+    return kinematics;
+  }
 
   public void resetEncoders() {
-		leftMaster.getEncoder().setPosition(0.0);
-		rightMaster.getEncoder().setPosition(0.0);
-	}
+    leftMaster.getEncoder().setPosition(0.0);
+    rightMaster.getEncoder().setPosition(0.0);
+  }
 
   public void resetOdometry(Pose2d pose) {
-		resetEncoders();
-		odometry.resetPosition(pose, gyro.getRotation2d());
-	}
+    resetEncoders();
+    odometry.resetPosition(pose, gyro.getRotation2d());
+  }
 
   public void setOutput(double leftVolts, double rightVolts) {
-		leftMotors.set(leftVolts / 12);
-		rightMotors.set(rightVolts / 12);
+    leftMotors.set(leftVolts / 12);
+    rightMotors.set(rightVolts / 12);
 
     SmartDashboard.putNumber("left Motor", leftVolts);
     SmartDashboard.putNumber("rigt Motor", rightVolts);
-	}
+  }
 
   public double getEncoderPosition() {
     return leftEncoder.getPosition();
   }
 
   public Pose2d getPose() {
-		return pose;
-	}
+    return pose;
+  }
 
-  //have to change with new drivebase
+  // have to change with new drivebase
   public DifferentialDriveWheelSpeeds getSpeeds() {
-		return new DifferentialDriveWheelSpeeds(
-				leftMaster.getEncoder().getVelocity() / gearRatio * 2 * Math.PI * Units.inchesToMeters(3.0) / 60,
-				rightMaster.getEncoder().getVelocity() / gearRatio * 2 * Math.PI * Units.inchesToMeters(3.0) / 60);
-	}
-
-  
+    return new DifferentialDriveWheelSpeeds(
+        leftMaster.getEncoder().getVelocity()
+            / gearRatio
+            * 2
+            * Math.PI
+            * Units.inchesToMeters(3.0)
+            / 60,
+        rightMaster.getEncoder().getVelocity()
+            / gearRatio
+            * 2
+            * Math.PI
+            * Units.inchesToMeters(3.0)
+            / 60);
+  }
 }
 
 /*
 TrajectoryConfig config = new TrajectoryConfig(
-    Units.feetToMeters(2), 
+    Units.feetToMeters(2),
     Units.feetToMeters(2)
   );
 
@@ -441,6 +436,6 @@ Trajectory pathWeaverTrajectory = new Trajectory();
       RobotContainer.m_driveSubsystem.getLeftPIDController(),
       RobotContainer.m_driveSubsystem.getRightPIDController(),
       RobotContainer.m_driveSubsystem::setOutput,
-      RobotContainer.m_driveSubsystem 
+      RobotContainer.m_driveSubsystem
   );
 */

@@ -6,7 +6,6 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.ExitTarmac;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -36,9 +35,9 @@ public class Robot extends TimedRobot {
     RobotContainer.m_driveSubsystem.resetEncoders();
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    //Command m_exitTarmac = new ExitTarmac();
+    // Command m_exitTarmac = new ExitTarmac();
 
-    //schedule the autonomous command (example)
+    // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
@@ -46,9 +45,7 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {
-
-  }
+  public void autonomousPeriodic() {}
 
   @Override
   public void teleopInit() {
@@ -61,14 +58,12 @@ public class Robot extends TimedRobot {
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
-    } 
-
+    }
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {
-  }
+  public void teleopPeriodic() {}
 
   @Override
   public void testInit() {
@@ -84,8 +79,7 @@ public class Robot extends TimedRobot {
   public void simulationInit() {
     CANSparkMax[] motors = RobotContainer.m_driveSubsystem.getMotors();
     for (CANSparkMax motor : motors) {
-      REVPhysicsSim.getInstance()
-          .addSparkMax(motor, DCMotor.getNEO(1));
+      REVPhysicsSim.getInstance().addSparkMax(motor, DCMotor.getNEO(1));
     }
   }
 

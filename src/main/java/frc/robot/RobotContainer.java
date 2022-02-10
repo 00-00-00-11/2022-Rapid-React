@@ -1,34 +1,22 @@
 package frc.robot;
 
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.*;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.math.trajectory.Trajectory;
-
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
-
+import java.io.File;
 import java.io.IOException;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.Filesystem;
 import java.nio.file.Path;
-import java.util.List;
-
-import edu.wpi.first.math.trajectory.TrajectoryUtil;
-import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 
 public class RobotContainer {
 
@@ -39,16 +27,37 @@ public class RobotContainer {
   public static final ShooterSubsystem m_shooter_subsystem = new ShooterSubsystem();
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
+  SendableChooser<Trajectory> m_chooser = new SendableChooser<>();
+  Pose2d initialPose;
 
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(new SimDrive());
     configureButtonBindings();
 
-    m_chooser.setDefaultOption("Basic Auto", m_exitTarmac);
-    //m_chooser.addOption();
-    //SmartDashboard.putData(m_chooser);
+    for (File jsonFile :
+        Filesystem.getDeployDirectory().toPath().resolve("output").toFile().listFiles()) {
+      String name = jsonFile.getName().substring(0, jsonFile.getName().length() - 12);
+
+      Trajectory pathWeaverTrajectory = new Trajectory();
+      Path trajectoryPath = jsonFile.toPath();
+      try {
+        pathWeaverTrajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+
+      m_chooser.addOption(name, pathWeaverTrajectory);
+    }
+    m_chooser.setDefaultOption(
+        "nothing",
+        TrajectoryUtil.deserializeTrajectory(
+            "[{\"acceleration\": 0.0,\"curvature\": 0.0,\"pose\": {\"rotation\": {\"radians\": 0.0},\"translation\": {\"x\": 0.0,\"y\": 0.0}},\"time\": 0.0,\"velocity\": 0.0}]"));
+
+    SmartDashboard.putData(m_chooser);
   }
-  // * Defines the ps4Controller and defines the shootButton as R2 on the ps4Controller *//
+
+  // * Defines the ps4Controller and defines the shootButton as R2 on the
+  // ps4Controller *//
   public static Joystick ps4Controller = new Joystick(1);
   JoystickButton shootButton = new JoystickButton(ps4Controller, 1);
 
@@ -61,45 +70,24 @@ public class RobotContainer {
 
   // 2021 Auto Code
   public Command getAutonomousCommand() {
-    // return m_exitTarmac;
-    TrajectoryConfig config = new TrajectoryConfig(
-        Units.feetToMeters(2),
-        Units.feetToMeters(2));
 
-    config.setKinematics(RobotContainer.m_driveSubsystem.getKinematics());
+    Trajectory trajectory = m_chooser.getSelected();
 
-    Trajectory pathWeaverTrajectory = new Trajectory();
-    Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve("paths/curve.wpilib.json");
-    try {
-      pathWeaverTrajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    // Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-    //     // Start at the origin facing the +X direction
-    //     new Pose2d(0, 0, new Rotation2d(0)),
-    //     // Pass through these two interior waypoints, making an 's' curve path
-    //     List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-    //     // End 3 meters straight ahead of where we started, facing forward
-    //     new Pose2d(3, 0, new Rotation2d(0)),
-    //     // Pass config
-    //     config);
-
-    RamseteCommand command = new RamseteCommand(
-        pathWeaverTrajectory,
-        RobotContainer.m_driveSubsystem::getPose,
-        new RamseteController(2.0, 0.7),
-        RobotContainer.m_driveSubsystem.getFeedforward(),
-        RobotContainer.m_driveSubsystem.getKinematics(),
-        RobotContainer.m_driveSubsystem::getSpeeds,
-        RobotContainer.m_driveSubsystem.getLeftPIDController(),
-        RobotContainer.m_driveSubsystem.getRightPIDController(),
-        RobotContainer.m_driveSubsystem::setOutput,
-        RobotContainer.m_driveSubsystem);
+    RamseteCommand command =
+        new RamseteCommand(
+            trajectory,
+            RobotContainer.m_driveSubsystem::getPose,
+            new RamseteController(2.0, 0.7),
+            RobotContainer.m_driveSubsystem.getFeedforward(),
+            RobotContainer.m_driveSubsystem.getKinematics(),
+            RobotContainer.m_driveSubsystem::getSpeeds,
+            RobotContainer.m_driveSubsystem.getLeftPIDController(),
+            RobotContainer.m_driveSubsystem.getRightPIDController(),
+            RobotContainer.m_driveSubsystem::setOutput,
+            RobotContainer.m_driveSubsystem);
 
     // Reset odometry to the starting pose of the trajectory.
-    RobotContainer.m_driveSubsystem.resetOdometry(pathWeaverTrajectory.getInitialPose());
+    RobotContainer.m_driveSubsystem.resetOdometry(trajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
     return command.andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0));
