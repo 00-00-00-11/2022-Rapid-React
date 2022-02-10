@@ -34,13 +34,10 @@ import frc.robot.Constants;
 public class ClimberSubsystem extends SubsystemBase {
   /** Creates a new ClimberSubsystem. */
   CANSparkMax primaryElevatorMotor00;
-
   CANSparkMax primaryElevatorMotor01;
-  CANSparkMax primaryElevatorMotor02;
 
   CANSparkMax secondaryAnglerMotor00;
   CANSparkMax secondaryAnglerMotor01;
-  CANSparkMax secondaryAnglerMotor02;
 
   DigitalInput elevatorMaxSwitch;
   DigitalInput elevatorMinSwitch;
