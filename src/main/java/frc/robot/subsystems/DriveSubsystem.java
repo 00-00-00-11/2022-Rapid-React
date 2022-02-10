@@ -42,6 +42,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
@@ -87,6 +89,12 @@ public class DriveSubsystem extends SubsystemBase {
   DifferentialDriveKinematics kinematics;
   DifferentialDriveOdometry odometry;
 
+  AnalogInput ultrasonic;
+  double raw_value;
+  double voltage_scale_factor;
+  double currentDistanceCentimeters;
+  NetworkTableEntry ultrasonicDist;
+
   SimpleMotorFeedforward feedforward;
   PIDController leftPID;
   PIDController rightPID;
@@ -126,6 +134,8 @@ public class DriveSubsystem extends SubsystemBase {
     leftMotors = new MotorControllerGroup(leftMaster, leftSlave1, leftSlave2);
     rightMotors = new MotorControllerGroup(rightMaster, rightSlave1, rightSlave2);
 
+    ultrasonic = new AnalogInput(1);
+
     m_drive = new DifferentialDrive(leftMotors, rightMotors);
 
     pdp = new PowerDistribution();
@@ -146,6 +156,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     turnPID.setSetpoint(0);
     turnPID.setTolerance(5);
+
+    ultrasonicDist = driveTab.add("Distance to target", 500).getEntry();
 
     driveTab.add("Turn PID", turnPID).withWidget(BuiltInWidgets.kPIDController);
 
@@ -319,7 +331,17 @@ public class DriveSubsystem extends SubsystemBase {
     double distance =
         (leftEncoder.getPosition() / Constants.DriveConstants.GEAR_RATIO) * (0.5 * Math.PI);
 
+    voltage_scale_factor = 5 / RobotController.getVoltage5V();
+    currentDistanceCentimeters = ultrasonic.getValue() * voltage_scale_factor * .125;
+    ultrasonicDist.setNumber(currentDistanceCentimeters);
+
+    if (currentDistanceCentimeters <= 100) {
+      tankDriveAuto(0, 0);
+    }
+
     SmartDashboard.putNumber("Distance", distance);
+
+
   }
 
   @Override
