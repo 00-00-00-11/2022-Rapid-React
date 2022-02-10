@@ -34,13 +34,10 @@ import frc.robot.Constants;
 public class ClimberSubsystem extends SubsystemBase {
   /** Creates a new ClimberSubsystem. */
   CANSparkMax primaryElevatorMotor00;
-
   CANSparkMax primaryElevatorMotor01;
-  CANSparkMax primaryElevatorMotor02;
 
   CANSparkMax secondaryAnglerMotor00;
   CANSparkMax secondaryAnglerMotor01;
-  CANSparkMax secondaryAnglerMotor02;
 
   DigitalInput elevatorMaxSwitch;
   DigitalInput elevatorMinSwitch;
@@ -68,29 +65,21 @@ public class ClimberSubsystem extends SubsystemBase {
 
     primaryElevatorMotor01 = new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-    primaryElevatorMotor02 = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless);
+    secondaryAnglerMotor00 = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-    secondaryAnglerMotor00 = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless);
-
-    secondaryAnglerMotor01 = new CANSparkMax(5, CANSparkMaxLowLevel.MotorType.kBrushless);
-
-    secondaryAnglerMotor02 = new CANSparkMax(6, CANSparkMaxLowLevel.MotorType.kBrushless);
+    secondaryAnglerMotor01 = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     primaryElevatorMotor00.getEncoder().setPosition(0);
     secondaryAnglerMotor00.getEncoder().setPosition(0);
     primaryElevatorMotor01.getEncoder().setPosition(0);
     secondaryAnglerMotor01.getEncoder().setPosition(0);
-    primaryElevatorMotor02.getEncoder().setPosition(0);
-    secondaryAnglerMotor02.getEncoder().setPosition(0);
 
     primaryElevatorMotor00.setInverted(false);
     secondaryAnglerMotor00.setInverted(false);
 
     primaryElevatorMotor01.follow(primaryElevatorMotor00);
-    primaryElevatorMotor02.follow(primaryElevatorMotor00);
 
     secondaryAnglerMotor01.follow(secondaryAnglerMotor00);
-    secondaryAnglerMotor02.follow(secondaryAnglerMotor00);
 
     elevatorMaxSwitch = new DigitalInput(Constants.ElevatorConstants.ELEVATOR_MAX_SWITCH);
     elevatorMinSwitch = new DigitalInput(Constants.ElevatorConstants.ELEVATOR_MIN_SWITCH);
