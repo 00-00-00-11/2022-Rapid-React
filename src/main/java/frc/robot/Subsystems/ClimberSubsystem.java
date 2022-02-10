@@ -141,6 +141,7 @@ public class ClimberSubsystem extends SubsystemBase {
     // Run autonomous commands here
 
     /*
+    wagwan
       1. primary extends small distance
       2. secondary extends small angle
       3. primary retracts
