@@ -18,7 +18,8 @@ public final class Constants {
     public static final int ANGLER_MIN_SWITCH = 6;
 
     public static final double ELEVATOR_SMALL_DISTANCE = 2;
-    public static final double ANGLER_SMALL_ANGLE = 1;
+    public static final double ELEVATOR_LARGE_DISTANCE = 6;
+    public static final double ANGLER_SMALL_ANGLE = 2;
     public static final double ANGLER_LARGE_ANGLE = 6;
     public static final double ANGLER_IMPACT_ANGLE = 4;
 

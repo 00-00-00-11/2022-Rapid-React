@@ -34,6 +34,7 @@ import frc.robot.Constants;
 public class ClimberSubsystem extends SubsystemBase {
   /** Creates a new ClimberSubsystem. */
   CANSparkMax primaryElevatorMotor00;
+
   CANSparkMax primaryElevatorMotor01;
 
   CANSparkMax secondaryAnglerMotor00;
@@ -132,6 +133,7 @@ public class ClimberSubsystem extends SubsystemBase {
   public void resetAll() {
     resetAngler();
     resetElevator();
+    currentStep = 0;
   }
 
   public void nextRung() {
@@ -297,8 +299,8 @@ public class ClimberSubsystem extends SubsystemBase {
     elevatorStepsEntry.setString("step 5");
 
     if (primaryElevatorMotor00.getEncoder().getPosition()
-        > Constants.ElevatorConstants.ANGLER_IMPACT_ANGLE) {
-      primaryElevatorMotor00.set(-Constants.ElevatorConstants.ELEVATOR_SPEED);
+        < Constants.ElevatorConstants.ELEVATOR_LARGE_DISTANCE) {
+      primaryElevatorMotor00.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
       primaryElevatorMotor00.set(0);
       elevatorDone = true;
@@ -349,7 +351,7 @@ public class ClimberSubsystem extends SubsystemBase {
       elevatorDone = true;
     }
 
-    if (primaryElevatorMotor00.getEncoder().getPosition() > 0) {
+    if (secondaryAnglerMotor00.getEncoder().getPosition() > 0) {
       secondaryAnglerMotor00.set(-Constants.ElevatorConstants.ANGLER_SPEED);
     } else {
       secondaryAnglerMotor00.set(0);
