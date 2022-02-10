@@ -3,7 +3,12 @@ package frc.robot;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.TrajectoryParameterizer;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.math.trajectory.Trajectory.State;
+import edu.wpi.first.math.trajectory.constraint.TrajectoryConstraint;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
@@ -17,6 +22,7 @@ import frc.robot.subsystems.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 
 public class RobotContainer {
 
@@ -33,9 +39,8 @@ public class RobotContainer {
     m_driveSubsystem.setDefaultCommand(new SimDrive());
     configureButtonBindings();
 
-    for (File jsonFile :
-        Filesystem.getDeployDirectory().toPath().resolve("output").toFile().listFiles()) {
-      String name = jsonFile.getName().substring(0, jsonFile.getName().length() - 12);
+    for (File jsonFile : Filesystem.getDeployDirectory().toPath().resolve("output").toFile().listFiles()) {
+      String name = jsonFile.getName().replaceAll(".wpilib.json", "");
 
       Trajectory pathWeaverTrajectory = new Trajectory();
       Path trajectoryPath = jsonFile.toPath();
@@ -71,19 +76,24 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
     Trajectory trajectory = m_chooser.getSelected();
+    TrajectoryConfig config = new TrajectoryConfig(.1, .1);
+    ArrayList<Pose2d> states = new ArrayList<>();
+    for (State state : trajectory.getStates()) {
+      states.add(state.poseMeters);
+    }
+    trajectory = TrajectoryGenerator.generateTrajectory(states, config);
 
-    RamseteCommand command =
-        new RamseteCommand(
-            trajectory,
-            RobotContainer.m_driveSubsystem::getPose,
-            new RamseteController(2.0, 0.7),
-            RobotContainer.m_driveSubsystem.getFeedforward(),
-            RobotContainer.m_driveSubsystem.getKinematics(),
-            RobotContainer.m_driveSubsystem::getSpeeds,
-            RobotContainer.m_driveSubsystem.getLeftPIDController(),
-            RobotContainer.m_driveSubsystem.getRightPIDController(),
-            RobotContainer.m_driveSubsystem::setOutput,
-            RobotContainer.m_driveSubsystem);
+    RamseteCommand command = new RamseteCommand(
+        trajectory,
+        RobotContainer.m_driveSubsystem::getPose,
+        new RamseteController(0.5, 0.7),
+        RobotContainer.m_driveSubsystem.getFeedforward(),
+        RobotContainer.m_driveSubsystem.getKinematics(),
+        RobotContainer.m_driveSubsystem::getSpeeds,
+        RobotContainer.m_driveSubsystem.getLeftPIDController(),
+        RobotContainer.m_driveSubsystem.getRightPIDController(),
+        RobotContainer.m_driveSubsystem::setOutput,
+        RobotContainer.m_driveSubsystem);
 
     // Reset odometry to the starting pose of the trajectory.
     RobotContainer.m_driveSubsystem.resetOdometry(trajectory.getInitialPose());
