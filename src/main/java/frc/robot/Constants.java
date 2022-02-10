@@ -19,8 +19,8 @@ public final class Constants {
 
     public static final double ELEVATOR_SMALL_DISTANCE = 2;
     public static final double ANGLER_SMALL_ANGLE = 1;
-    public static final double ANGLER_LARGE_ANGLE = 3;
-    public static final double ANGLER_IMPACT_ANGLE = 1.5;
+    public static final double ANGLER_LARGE_ANGLE = 6;
+    public static final double ANGLER_IMPACT_ANGLE = 4;
 
     public static final double ELEVATOR_SPEED = 0.1;
     public static final double ANGLER_SPEED = 0.1;
