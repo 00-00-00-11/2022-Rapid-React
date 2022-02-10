@@ -28,8 +28,8 @@ public class RobotContainer {
 
   public static final PS4Controller operatorGamepad = new PS4Controller(0);
 
-  public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final ExitTarmac m_exitTarmac = new ExitTarmac();
+  public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final ShooterSubsystem m_shooter_subsystem = new ShooterSubsystem();
 
   SendableChooser<Trajectory> m_chooser = new SendableChooser<>();
