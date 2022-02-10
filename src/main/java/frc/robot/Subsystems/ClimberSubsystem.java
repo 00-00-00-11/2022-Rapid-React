@@ -49,24 +49,15 @@ public class ClimberSubsystem extends SubsystemBase {
   private ShuffleboardTab tab = Shuffleboard.getTab(Constants.ElevatorConstants.SHUFFLEBOARD_TAB);
   private NetworkTableEntry elevatorStepsEntry = tab.add("Elevator Step", "").getEntry();
 
-  boolean step001 = false;
-  boolean step002 = false;
-  boolean step003 = false;
-  boolean step004 = false;
-  boolean step005 = false;
-  boolean step006 = false;
-  boolean step007 = false;
-
   int currentStep = 0;
+  int lastFinishedStep = 0;
 
   public ClimberSubsystem() {
 
     primaryElevatorMotor00 = new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless);
-
     primaryElevatorMotor01 = new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     secondaryAnglerMotor00 = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless);
-
     secondaryAnglerMotor01 = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     primaryElevatorMotor00.getEncoder().setPosition(0);
@@ -93,26 +84,6 @@ public class ClimberSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  /*
-    // button hit by driver, elevator height to max
-    public void elevatorUpDriver() {
-      // Max height implementation
-      if (elevatorMaxSwitch.get() || elevatorMinSwitch.get()) {
-        // stop elevator
-      } else {
-        // run elevator up
-      }
-    }
-
-    public void elevatorUpDriver(double distance) {
-      if (elevatorMaxSwitch.get() || elevatorMinSwitch.get()) {
-        // stop elevator
-      } else {
-        // run elevator to set height (PID?)
-      }
-    }
-  */
-
   public void resetElevator() {
     if (primaryElevatorMotor00.getEncoder().getPosition() < 0) {
       primaryElevatorMotor00.getEncoder().setPosition(0);
@@ -133,10 +104,18 @@ public class ClimberSubsystem extends SubsystemBase {
   public void resetAll() {
     resetAngler();
     resetElevator();
-    currentStep = 0;
+    resetSteps();
   }
 
-  public void nextRung() {
+  public void nextStep() {
+    currentStep += 1;
+  }
+
+  public void prevStep() {
+    currentStep -= 1;
+  }
+
+  public void runSteps() {
     // Run autonomous commands here
 
     /*
@@ -174,10 +153,12 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public boolean checkNextRungComplete() {
-    return step007;
+    return currentStep >= 7;
   }
 
-  public void resetSteps() {}
+  public void resetSteps() {
+    currentStep = 0;
+  }
 
   public void climber001() {
     /*
@@ -211,7 +192,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
     System.out.println("step 1 secondary " + anglerDone);
 
-    currentStep = (anglerDone && elevatorDone) ? (currentStep = 1) : (currentStep = 0);
+    lastFinishedStep =
+        (anglerDone && elevatorDone) ? (lastFinishedStep = 1) : (lastFinishedStep = 0);
   }
 
   public void climber002() {
@@ -242,7 +224,8 @@ public class ClimberSubsystem extends SubsystemBase {
     System.out.println("step 2 primary" + elevatorDone);
     System.out.println("step 2 secondary" + anglerDone);
 
-    currentStep = (anglerDone && elevatorDone) ? (currentStep = 2) : (currentStep = 1);
+    lastFinishedStep =
+        (anglerDone && elevatorDone) ? (lastFinishedStep = 2) : (lastFinishedStep = 1);
   }
 
   public void climber003() {
@@ -264,7 +247,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
     System.out.println("step 3 primary" + elevatorDone);
 
-    currentStep = (elevatorDone) ? (currentStep = 3) : (currentStep = 2);
+    lastFinishedStep = (elevatorDone) ? (lastFinishedStep = 3) : (lastFinishedStep = 2);
   }
 
   public void climber004() {
@@ -286,7 +269,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
     System.out.println("step 4 secondary" + anglerDone);
 
-    currentStep = (anglerDone) ? (currentStep = 4) : (currentStep = 3);
+    lastFinishedStep = (anglerDone) ? (lastFinishedStep = 4) : (lastFinishedStep = 3);
   }
 
   public void climber005() {
@@ -308,7 +291,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
     System.out.println("step 5 primary" + elevatorDone);
 
-    currentStep = (elevatorDone) ? (currentStep = 5) : (currentStep = 4);
+    lastFinishedStep = (elevatorDone) ? (lastFinishedStep = 5) : (lastFinishedStep = 4);
   }
 
   public void climber006() {
@@ -330,7 +313,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
     System.out.println("step 6 secondary" + anglerDone);
 
-    currentStep = (anglerDone) ? (currentStep = 6) : (currentStep = 5);
+    lastFinishedStep = (anglerDone) ? (lastFinishedStep = 6) : (lastFinishedStep = 5);
   }
 
   public void climber007() {
@@ -361,6 +344,7 @@ public class ClimberSubsystem extends SubsystemBase {
     System.out.println("step 7 primary" + elevatorDone);
     System.out.println("step 7 secondary" + anglerDone);
 
-    currentStep = (anglerDone && elevatorDone) ? (currentStep = 7) : (currentStep = 6);
+    lastFinishedStep =
+        (anglerDone && elevatorDone) ? (lastFinishedStep = 7) : (lastFinishedStep = 6);
   }
 }

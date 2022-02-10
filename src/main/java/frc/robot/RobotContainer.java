@@ -14,6 +14,8 @@ public class RobotContainer {
   public static final ClimberCommand m_climberCommand = new ClimberCommand(m_climberSubsystem);
   public static final AutoClimberCommand m_autoClimberCommand =
       new AutoClimberCommand(m_climberSubsystem);
+  public static final ElevatorNextStep m_elevatorNextStep =
+      new ElevatorNextStep(m_climberSubsystem);
 
   public static Joystick operatorJoystick =
       new Joystick(Constants.JoystickConstants.OPERATOR_JOYSTICK_PORT);
@@ -29,7 +31,7 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     autoElevatorButton.whenPressed(new AutoClimberCommand(m_climberSubsystem));
-    
+    driverElevatorButton.whenPressed(new ElevatorNextStep(m_climberSubsystem));
   }
 
   public Command getAutonomousCommand() {
