@@ -16,6 +16,7 @@ public class RobotContainer {
       new AutoClimberCommand(m_climberSubsystem);
   public static final ElevatorNextStep m_elevatorNextStep =
       new ElevatorNextStep(m_climberSubsystem);
+  public static final ElevatorPrevStep m_elevatorPrevStep = new ElevatorPrevStep(m_climberSubsystem);
 
   public static Joystick operatorJoystick =
       new Joystick(Constants.JoystickConstants.OPERATOR_JOYSTICK_PORT);
