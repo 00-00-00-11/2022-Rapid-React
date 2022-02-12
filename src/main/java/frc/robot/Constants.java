@@ -23,7 +23,7 @@ public final class Constants {
     public static final double ANGLER_LARGE_ANGLE = 6;
     public static final double ANGLER_IMPACT_ANGLE = 4;
 
-    public static final double ELEVATOR_SPEED = 0.1;
+    public static final double ELEVATOR_SPEED = 0.1; //change on direction
     public static final double ANGLER_SPEED = 0.1;
   }
 

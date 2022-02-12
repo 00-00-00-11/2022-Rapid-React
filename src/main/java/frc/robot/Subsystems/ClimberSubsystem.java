@@ -60,9 +60,10 @@ public class ClimberSubsystem extends SubsystemBase {
     secondaryAnglerMotor00 = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless);
     secondaryAnglerMotor01 = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless);
 
+    //to reset encoders
     primaryElevatorMotor00.getEncoder().setPosition(0);
-    secondaryAnglerMotor00.getEncoder().setPosition(0);
-    primaryElevatorMotor01.getEncoder().setPosition(0);
+    secondaryAnglerMotor00.getEncoder().setPosition(0);  
+    primaryElevatorMotor01.getEncoder().setPosition(0);  
     secondaryAnglerMotor01.getEncoder().setPosition(0);
 
     primaryElevatorMotor00.setInverted(false);
@@ -106,12 +107,13 @@ public class ClimberSubsystem extends SubsystemBase {
     resetElevator();
     resetSteps();
   }
+ //new changes
 
-  public void nextStep() {
+  public void nextStep() {  //ElevatorNextStep
     currentStep += 1;
   }
-
-  public void prevStep() {
+ 
+  public void prevStep() { //ElevatorPrevStep
     currentStep -= 1;
   }
 
