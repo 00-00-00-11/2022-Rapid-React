@@ -26,6 +26,7 @@ public class ElevatorNextStep extends CommandBase {
   public void execute() {
     RobotContainer.m_climberSubsystem.nextStep();
     System.out.println("nextSteplogged");
+    
   }
 
   // Called once the command ends or is interrupted.

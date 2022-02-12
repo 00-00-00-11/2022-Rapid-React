@@ -111,6 +111,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void nextStep() {  //ElevatorNextStep
     currentStep += 1;
+    
   }
  
   public void prevStep() { //ElevatorPrevStep
