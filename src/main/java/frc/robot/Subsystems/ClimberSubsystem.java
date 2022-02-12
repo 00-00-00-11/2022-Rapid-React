@@ -134,7 +134,8 @@ public class ClimberSubsystem extends SubsystemBase {
       10. secondary returns to 0 angle
     */
 
-    if (currentStep < 1) {
+    /*
+    if (currentStep < 1) { 
       climber001();
     } else if (currentStep < 2) {
       climber002();
@@ -148,10 +149,34 @@ public class ClimberSubsystem extends SubsystemBase {
       climber006();
     } else if (currentStep < 7) {
       climber007();
-    } else {
+    } else {  //all steps complete
+      System.out.println("Climber Done");
+      elevatorStepsEntry.setString("complete - ready for new loop");
+      
+    }
+
+    */
+   //int enteredStep = currentStep;
+
+    if (currentStep < 1) { 
+      climber001();
+    } else if (currentStep < 2) {
+      climber002();
+    } else if (currentStep < 3) {
+      climber003();
+    } else if (currentStep < 4) {
+      climber004();
+    } else if (currentStep < 5) {
+      climber005();
+    } else if (currentStep < 6) {
+      climber006();
+    } else if (currentStep < 7) {
+      climber007();
+    } else {  //all steps complete
       System.out.println("Climber Done");
       elevatorStepsEntry.setString("complete - ready for new loop");
     }
+    
   }
 
   public boolean checkNextRungComplete() {

@@ -34,7 +34,7 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     autoElevatorButton.whenPressed(new AutoClimberCommand(m_climberSubsystem)); 
-    driverElevatorNextButton.whenPressed(new ElevatorNextStep(m_climberSubsystem)); //nex tStep button
+    driverElevatorNextButton.whenPressed(new ElevatorNextStep(m_climberSubsystem)); //nextStep button
     driverElevatorPrevButton.whenPressed(new ElevatorPrevStep(m_climberSubsystem)); //prevStep button
   }
 
