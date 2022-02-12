@@ -18,12 +18,14 @@ public class ElevatorNextStep extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.m_climberSubsystem.nextStep();
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    RobotContainer.m_climberSubsystem.nextStep();
+  }
 
   // Called once the command ends or is interrupted.
   @Override

@@ -5,6 +5,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
+import frc.robot.commands.AutoClimberCommand;
+import frc.robot.commands.ClimberCommand;
+import frc.robot.commands.ElevatorNextStep;
+import frc.robot.commands.ElevatorPrevStep;
 import frc.robot.subsystems.*;
 
 public class RobotContainer {
