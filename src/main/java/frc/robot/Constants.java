@@ -31,10 +31,11 @@ public final class Constants {
     public static final int DRIVER_JOYSTICK_PORT = 1;
     public static final int OPERATOR_JOYSTICK_PORT = 2;
 
-    // Driver Joystick Buttons
+    // Driver Joystick Buttons => none
 
     // Operator Joystick Buttons
-    public static final int DRIVER_ELEVATOR_BUTTON = 1;
-    public static final int AUTO_ELEVATOR_BUTTON = 2;
+    public static final int DRIVER_ELEVATOR_NEXT_BUTTON = 1;
+    public static final int DRIVER_ELEVATOR_PREV_BUTTON = 2;
+    public static final int AUTO_ELEVATOR_BUTTON = 3;
   }
 }

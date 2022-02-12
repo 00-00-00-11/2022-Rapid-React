@@ -18,11 +18,13 @@ public class RobotContainer {
       new ElevatorNextStep(m_climberSubsystem);
   public static final ElevatorPrevStep m_elevatorPrevStep = new ElevatorPrevStep(m_climberSubsystem);
 
-  public static Joystick operatorJoystick =
+  public static Joystick operatorJoystick = 
       new Joystick(Constants.JoystickConstants.OPERATOR_JOYSTICK_PORT);
 
-  Button driverElevatorButton =
-      new JoystickButton(operatorJoystick, Constants.JoystickConstants.DRIVER_ELEVATOR_BUTTON);
+  Button driverElevatorNextButton =
+      new JoystickButton(operatorJoystick, Constants.JoystickConstants.DRIVER_ELEVATOR_NEXT_BUTTON);
+  Button driverElevatorPrevButton =
+      new JoystickButton(operatorJoystick, Constants.JoystickConstants.DRIVER_ELEVATOR_PREV_BUTTON);
   Button autoElevatorButton =
       new JoystickButton(operatorJoystick, Constants.JoystickConstants.AUTO_ELEVATOR_BUTTON);
 
@@ -31,8 +33,9 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    autoElevatorButton.whenPressed(new AutoClimberCommand(m_climberSubsystem));
-    driverElevatorButton.whenPressed(new ElevatorNextStep(m_climberSubsystem));
+    autoElevatorButton.whenPressed(new AutoClimberCommand(m_climberSubsystem)); 
+    driverElevatorNextButton.whenPressed(new ElevatorNextStep(m_climberSubsystem)); //nextStep button
+    driverElevatorPrevButton.whenPressed(new ElevatorPrevStep(m_climberSubsystem)); //prevStep button
   }
 
   public Command getAutonomousCommand() {
