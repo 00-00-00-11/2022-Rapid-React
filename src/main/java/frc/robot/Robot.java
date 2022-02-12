@@ -23,7 +23,11 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    if (RobotContainer.m_driveSubsystem != null) {
+      RobotContainer.m_driveSubsystem.setBrake(false);
+    }
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -33,6 +37,9 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     System.out.println("Pain1");
     RobotContainer.m_driveSubsystem.resetEncoders();
+    if (RobotContainer.m_driveSubsystem != null) {
+      RobotContainer.m_driveSubsystem.setBrake(true);
+    }
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     // Command m_exitTarmac = new ExitTarmac();
@@ -58,6 +65,10 @@ public class Robot extends TimedRobot {
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
+    }
+
+    if (RobotContainer.m_driveSubsystem != null) {
+      RobotContainer.m_driveSubsystem.setBrake(true);
     }
   }
 

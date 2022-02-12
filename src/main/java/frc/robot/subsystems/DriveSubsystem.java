@@ -99,7 +99,7 @@ public class DriveSubsystem extends SubsystemBase {
   PIDController leftPID;
   PIDController rightPID;
 
-  Field2d field;
+  public Field2d field;
   Pose2d pose;
 
   // change this with new driebase
@@ -249,7 +249,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void tankDriveAuto(double left, double right) {
     m_drive.tankDrive(left, right);
-    System.out.println("why bad");
   }
 
   /**
@@ -320,16 +319,10 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     pose =
         odometry.update(
-            gyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition());
+            gyro.getRotation2d(), leftEncoder.getPosition(), -rightEncoder.getPosition());
+    
 
     field.setRobotPose(pose);
-
-    SmartDashboard.putData("Power Distribution", pdp);
-
-    SmartDashboard.putNumber("Encoder", leftEncoder.getPosition());
-
-    double distance =
-        (leftEncoder.getPosition() / Constants.DriveConstants.GEAR_RATIO) * (0.5 * Math.PI);
 
     voltage_scale_factor = 5 / RobotController.getVoltage5V();
     currentDistanceCentimeters = ultrasonic.getValue() * voltage_scale_factor * .125;
@@ -338,9 +331,6 @@ public class DriveSubsystem extends SubsystemBase {
     if (currentDistanceCentimeters <= 100) {
       tankDriveAuto(0, 0);
     }
-
-    SmartDashboard.putNumber("Distance", distance);
-
 
   }
 
@@ -402,8 +392,10 @@ public class DriveSubsystem extends SubsystemBase {
     leftMotors.set(leftVolts / 12);
     rightMotors.set(rightVolts / 12);
 
-    SmartDashboard.putNumber("left Motor", leftVolts);
-    SmartDashboard.putNumber("rigt Motor", rightVolts);
+    SmartDashboard.putNumber("left Motor", leftVolts / 12);
+    System.out.println("left Motor : " + leftVolts / 12);
+    SmartDashboard.putNumber("rigt Motor", rightVolts / 12);
+    System.out.println("right Motor: " + rightVolts / 12);
   }
 
   public double getEncoderPosition() {

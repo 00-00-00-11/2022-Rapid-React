@@ -28,8 +28,8 @@ public class RobotContainer {
 
   public static final PS4Controller operatorGamepad = new PS4Controller(0);
 
-  public static final ExitTarmac m_exitTarmac = new ExitTarmac();
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  public static final ExitTarmac m_exitTarmac = new ExitTarmac();
   public static final ShooterSubsystem m_shooter_subsystem = new ShooterSubsystem();
 
   SendableChooser<Trajectory> m_chooser = new SendableChooser<>();
@@ -76,7 +76,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
     Trajectory trajectory = m_chooser.getSelected();
-    TrajectoryConfig config = new TrajectoryConfig(.1, .1);
+    TrajectoryConfig config = new TrajectoryConfig(.5, .5);
     ArrayList<Pose2d> states = new ArrayList<>();
     for (State state : trajectory.getStates()) {
       states.add(state.poseMeters);
@@ -96,7 +96,8 @@ public class RobotContainer {
         RobotContainer.m_driveSubsystem);
 
     // Reset odometry to the starting pose of the trajectory.
-    RobotContainer.m_driveSubsystem.resetOdometry(trajectory.getInitialPose());
+    m_driveSubsystem.resetOdometry(trajectory.getInitialPose());
+    m_driveSubsystem.field.getObject("traj").setTrajectory(trajectory);
 
     // Run path following command, then stop at the end.
     return command.andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0));
