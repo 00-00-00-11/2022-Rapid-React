@@ -24,6 +24,7 @@ public class ElevatorPrevStep extends CommandBase {
   @Override
   public void execute() {
     RobotContainer.m_climberSubsystem.prevStep();
+    System.out.println("prevSteplogged");
   }
 
   // Called once the command ends or is interrupted.
@@ -34,6 +35,6 @@ public class ElevatorPrevStep extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
