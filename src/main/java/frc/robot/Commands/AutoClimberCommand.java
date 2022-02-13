@@ -36,10 +36,7 @@ public class AutoClimberCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() { //can optimize
-    if (RobotContainer.m_climberSubsystem.checkNextRungComplete()) {
-      return true;
-    } else {
-      return false;
-    }
+    return RobotContainer.m_climberSubsystem.checkNextRungComplete();
+    
   }
 }

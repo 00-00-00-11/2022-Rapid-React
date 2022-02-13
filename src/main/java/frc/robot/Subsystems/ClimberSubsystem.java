@@ -181,7 +181,7 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public boolean checkNextRungComplete() {
-    return currentStep >= 7;
+    if(lastFinishedStep-currentStep==1);
   }
 
   public void resetSteps() {
