@@ -60,7 +60,7 @@ public class ClimberSubsystem extends SubsystemBase {
     secondaryAnglerMotor00 = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless);
     secondaryAnglerMotor01 = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-    // to reset encoders
+    // to reset encoders upon enabling 
     primaryElevatorMotor00.getEncoder().setPosition(0);
     secondaryAnglerMotor00.getEncoder().setPosition(0);
     primaryElevatorMotor01.getEncoder().setPosition(0);
@@ -114,7 +114,7 @@ public class ClimberSubsystem extends SubsystemBase {
     lastFinishedStep += 1;
   }
 
-  public void prevStep() { // ElevatorPPrevStep
+  public void prevStep() { // ElevatorPrevStep
     currentStep -= 1;
     lastFinishedStep -= 1;
   }
@@ -187,7 +187,7 @@ public class ClimberSubsystem extends SubsystemBase {
   public void resetSteps() {
     currentStep = 0;
   }
-
+  //return methods
   public int getCurrentStep() {
     return currentStep;
   }
@@ -196,6 +196,23 @@ public class ClimberSubsystem extends SubsystemBase {
     return lastFinishedStep;
   }
 
+  //overloaded method: for finish process insert
+  /*
+  public void finishProcess(CANSparkMax primaryMotor, boolean anglerVariable){
+    primaryElevatorMotor00.set(0);
+    anglerVariable=true;
+  }
+  public void finishProcess(CANSparkMax primaryMotor, CANSparkMax secondaryMotor, boolean anglerVariable) {
+    primaryElevat
+  }
+
+  */
+
+  //possibly do single method with conditional processing
+  /*
+  public void finishProcess(CANSparkMax primaryMotor,....)
+    if(pimarymotor = true)
+  */
   public void climber001() {
     /*
       1. primary extends small distance
