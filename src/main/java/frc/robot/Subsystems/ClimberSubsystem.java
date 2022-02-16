@@ -60,10 +60,10 @@ public class ClimberSubsystem extends SubsystemBase {
     secondaryAnglerMotor00 = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless);
     secondaryAnglerMotor01 = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-    //to reset encoders
+    // to reset encoders
     primaryElevatorMotor00.getEncoder().setPosition(0);
-    secondaryAnglerMotor00.getEncoder().setPosition(0);  
-    primaryElevatorMotor01.getEncoder().setPosition(0);  
+    secondaryAnglerMotor00.getEncoder().setPosition(0);
+    primaryElevatorMotor01.getEncoder().setPosition(0);
     secondaryAnglerMotor01.getEncoder().setPosition(0);
 
     primaryElevatorMotor00.setInverted(false);
@@ -107,14 +107,13 @@ public class ClimberSubsystem extends SubsystemBase {
     resetElevator();
     resetSteps();
   }
- //new changes
+  // new changes
 
-  public void nextStep() {  //ElevatorNextStep
+  public void nextStep() { // ElevatorNextStep
     currentStep += 1;
-    
   }
- 
-  public void prevStep() { //ElevatorPrevStep
+
+  public void prevStep() { // ElevatorPrevStep
     currentStep -= 1;
   }
 
@@ -136,7 +135,7 @@ public class ClimberSubsystem extends SubsystemBase {
     */
 
     /*
-    if (currentStep < 1) { 
+    if (currentStep < 1) {
       climber001();
     } else if (currentStep < 2) {
       climber002();
@@ -153,13 +152,13 @@ public class ClimberSubsystem extends SubsystemBase {
     } else {  //all steps complete
       System.out.println("Climber Done");
       elevatorStepsEntry.setString("complete - ready for new loop");
-      
+
     }
 
     */
-   //int enteredStep = currentStep;
+    // int enteredStep = currentStep;
 
-    if (currentStep < 1) { 
+    if (currentStep < 1) {
       climber001();
     } else if (currentStep < 2) {
       climber002();
@@ -173,15 +172,14 @@ public class ClimberSubsystem extends SubsystemBase {
       climber006();
     } else if (currentStep < 7) {
       climber007();
-    } else {  //all steps complete
+    } else { // all steps complete
       System.out.println("Climber Done");
       elevatorStepsEntry.setString("complete - ready for new loop");
     }
-    
   }
 
   public boolean checkNextRungComplete() {
-    if(lastFinishedStep-currentStep==1);
+    return lastFinishedStep - currentStep == 1;
   }
 
   public void resetSteps() {
