@@ -111,10 +111,12 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void nextStep() { // ElevatorNextStep
     currentStep += 1;
+    lastFinishedStep += 1;
   }
 
-  public void prevStep() { // ElevatorPrevStep
+  public void prevStep() { // ElevatorPPrevStep
     currentStep -= 1;
+    lastFinishedStep -= 1;
   }
 
   public void runSteps() {
@@ -184,6 +186,14 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void resetSteps() {
     currentStep = 0;
+  }
+
+  public int getCurrentStep() {
+    return currentStep;
+  }
+
+  public int getLastFinishedStep() {
+    return lastFinishedStep;
   }
 
   public void climber001() {
@@ -356,7 +366,7 @@ public class ClimberSubsystem extends SubsystemBase {
     if (primaryElevatorMotor00.getEncoder().getPosition() > 0) {
       primaryElevatorMotor00.set(-Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
-      primaryElevatorMotor00.set(0); // 
+      primaryElevatorMotor00.set(0); //
       elevatorDone = true;
     }
 
