@@ -26,6 +26,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.*;
 import edu.wpi.first.networktables.*;
+import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -51,6 +52,9 @@ public class ClimberSubsystem extends SubsystemBase {
 
   int currentStep = 0;
   int lastFinishedStep = 0;
+
+  boolean anglerDone = false;
+  boolean elevatorDone = false;
 
   public ClimberSubsystem() {
 
@@ -211,15 +215,28 @@ public class ClimberSubsystem extends SubsystemBase {
   //possibly do single method with conditional processing
   /*
   public void finishProcess(CANSparkMax primaryMotor,....)
-    if(pimarymotor = true)
+    if(primarymotor = true)
+
   */
+
+
+  public boolean finishProcess(boolean setCANSparkMax motorToStop, ) {  
+    primaryElevatorMotor00.set(0.0); 
+    
+  }
+  public boolean finishPrimaryProcess(boolean elevatorDone) { //for use later
+    secondaryAnglerMotor00.set(0.0);
+    return true;
+  }
+
   public void climber001() {
     /*
       1. primary extends small distance
       2. secondary extends small angle
     */
-    boolean elevatorDone = false;
-    boolean anglerDone = false;
+
+    elevatorDone = false; 
+    anglerDone = false; 
 
     elevatorStepsEntry.setString("step 1");
 
@@ -228,8 +245,8 @@ public class ClimberSubsystem extends SubsystemBase {
       primaryElevatorMotor00.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
       System.out.println(primaryElevatorMotor00.getEncoder().getPosition());
     } else {
-      primaryElevatorMotor00.set(0);
-      elevatorDone = true;
+      elevatorDone = finishProcess(elevatorDone);
+
     }
 
     System.out.println("step 1 primary " + elevatorDone);
@@ -258,7 +275,7 @@ public class ClimberSubsystem extends SubsystemBase {
     boolean elevatorDone = false;
     boolean anglerDone = false;
 
-    elevatorStepsEntry.setString("step 2");
+    elevatorStepsEntry.setString("step 2");  //step made consiscely 
 
     if (primaryElevatorMotor00.getEncoder().getPosition() > 0) {
       primaryElevatorMotor00.set(-Constants.ElevatorConstants.ELEVATOR_SPEED);
@@ -268,13 +285,13 @@ public class ClimberSubsystem extends SubsystemBase {
     }
 
     if (secondaryAnglerMotor00.getEncoder().getPosition() > 0) {
-      secondaryAnglerMotor00.set(-Constants.ElevatorConstants.ANGLER_SPEED);
+      secondaryAnglerMotor00.set(-Constants.ElevatorConstants.ANGLER_SPEED); //omega 
     } else {
       secondaryAnglerMotor00.set(0);
       anglerDone = true;
     }
 
-    System.out.println("step 2 primary" + elevatorDone);
+    System.out.println("step 2 primary" + elevatorDone);     
     System.out.println("step 2 secondary" + anglerDone);
 
     lastFinishedStep =
@@ -394,8 +411,8 @@ public class ClimberSubsystem extends SubsystemBase {
       anglerDone = true;
     }
 
-    System.out.println("step 7 primary" + elevatorDone);
-    System.out.println("step 7 secondary" + anglerDone);
+    System.out.println("step 7 primary" + elevatorDone);  //combine into single "return done"
+    System.out.println("step 7 secondary" + anglerDone);  
 
     lastFinishedStep =
         (anglerDone && elevatorDone) ? (lastFinishedStep = 7) : (lastFinishedStep = 6);
