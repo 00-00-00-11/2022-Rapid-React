@@ -226,27 +226,23 @@ public class ClimberSubsystem extends SubsystemBase {
     if (primaryElevatorMotor00.getEncoder().getPosition()
         < Constants.ElevatorConstants.ELEVATOR_SMALL_DISTANCE) {
       primaryElevatorMotor00.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
-      System.out.println(primaryElevatorMotor00.getEncoder().getPosition());
     } else {
       primaryElevatorMotor00.set(0);
       elevatorDone = true;
     }
 
-    System.out.println("step 1 primary " + elevatorDone);
-
     if (secondaryAnglerMotor00.getEncoder().getPosition()
         < Constants.ElevatorConstants.ANGLER_SMALL_ANGLE) {
       secondaryAnglerMotor00.set(Constants.ElevatorConstants.ANGLER_SPEED);
-      System.out.println(secondaryAnglerMotor00.getEncoder().getPosition());
     } else {
       secondaryAnglerMotor00.set(0);
       anglerDone = true;
     }
 
-    System.out.println("step 1 secondary " + anglerDone);
-
     lastFinishedStep =
         (anglerDone && elevatorDone) ? (lastFinishedStep = 1) : (lastFinishedStep = 0);
+    
+    System.out.println("Step 1: " + (elevatorDone && anglerDone));
   }
 
   public void climber002() {
@@ -274,11 +270,11 @@ public class ClimberSubsystem extends SubsystemBase {
       anglerDone = true;
     }
 
-    System.out.println("step 2 primary" + elevatorDone);
-    System.out.println("step 2 secondary" + anglerDone);
-
     lastFinishedStep =
         (anglerDone && elevatorDone) ? (lastFinishedStep = 2) : (lastFinishedStep = 1);
+
+    System.out.println("Step 2: " + (elevatorDone && anglerDone));
+
   }
 
   public void climber003() {
@@ -298,7 +294,7 @@ public class ClimberSubsystem extends SubsystemBase {
       elevatorDone = true;
     }
 
-    System.out.println("step 3 primary" + elevatorDone);
+    System.out.println("Step 3: " + (elevatorDone));
 
     lastFinishedStep = (elevatorDone) ? (lastFinishedStep = 3) : (lastFinishedStep = 2);
   }
@@ -320,7 +316,7 @@ public class ClimberSubsystem extends SubsystemBase {
       anglerDone = true;
     }
 
-    System.out.println("step 4 secondary" + anglerDone);
+    System.out.println("Step 4: " + (anglerDone));
 
     lastFinishedStep = (anglerDone) ? (lastFinishedStep = 4) : (lastFinishedStep = 3);
   }
@@ -342,7 +338,7 @@ public class ClimberSubsystem extends SubsystemBase {
       elevatorDone = true;
     }
 
-    System.out.println("step 5 primary" + elevatorDone);
+    System.out.println("Step 5: " + (elevatorDone));
 
     lastFinishedStep = (elevatorDone) ? (lastFinishedStep = 5) : (lastFinishedStep = 4);
   }
@@ -364,7 +360,7 @@ public class ClimberSubsystem extends SubsystemBase {
       anglerDone = true;
     }
 
-    System.out.println("step 6 secondary" + anglerDone);
+    System.out.println("Step 6: " + (anglerDone));
 
     lastFinishedStep = (anglerDone) ? (lastFinishedStep = 6) : (lastFinishedStep = 5);
   }
@@ -394,8 +390,7 @@ public class ClimberSubsystem extends SubsystemBase {
       anglerDone = true;
     }
 
-    System.out.println("step 7 primary" + elevatorDone);
-    System.out.println("step 7 secondary" + anglerDone);
+    System.out.println("Step 7: " + (elevatorDone && anglerDone));
 
     lastFinishedStep =
         (anglerDone && elevatorDone) ? (lastFinishedStep = 7) : (lastFinishedStep = 6);
