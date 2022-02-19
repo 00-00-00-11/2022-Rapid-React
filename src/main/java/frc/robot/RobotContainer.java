@@ -41,7 +41,8 @@ public class RobotContainer {
 
   /* CONTROLLERS AND OTHER INPUTS */
   public static PS4Controller driverController;
-  public static PS4Controller operatorController;
+  public static PS4Controller operatorController= new PS4Controller(Constants.RobotMap.OPERATOR_CONTROLLER_PORT);
+
   // public static final JoystickButton forwardIntakeButton =
   //   new JoystickButton(operatorController, PS4Controller.Button.kSquare.value);
   public static final JoystickButton spinIntakeButton =
@@ -52,21 +53,20 @@ public class RobotContainer {
       new JoystickButton(operatorController, PS4Controller.Button.kCross.value);
 
   public RobotContainer() throws Exception {
-
-    try {
+    /*try {
       m_driveSubsystem = new DriveSubsystem();
     } catch (Exception err) {
       throw new ExceptionInInitializerError("[ERROR] COULDN'T INITIALIZE DRIVE SUBSYSTEM");
     }
 
     try {
-      driverController = new PS4Controller(Constants.RobotMap.DRIVER_CONTROLLER_PORT);
+      //driverController = new PS4Controller(Constants.RobotMap.DRIVER_CONTROLLER_PORT);
       operatorController = new PS4Controller(Constants.RobotMap.OPERATOR_CONTROLLER_PORT);
     } catch (Exception err) {
       throw new ExceptionInInitializerError("[ERROR] COULDN'T INITIALIZE JOYSTICKS");
     }
 
-    m_driveSubsystem.setDefaultCommand(new SimDrive());
+    m_driveSubsystem.setDefaultCommand(new SimDrive());*/
     configureButtonBindings();
   }
 
@@ -75,9 +75,9 @@ public class RobotContainer {
     spinIntakeButton.whenHeld(new IntakeSpin());
     // reverseIntakeButton.whenPressed(new IntakeReverse());
     toggleIntakeButton.toggleWhenPressed(new IntakeToggle());
-    for (int i = 0; i < 360; i += 45) {
+    /*for (int i = 0; i < 360; i += 45) {
       new POVButton(driverController, i).whileHeld(new QuickTurn(i));
-    }
+    }*/
   }
 
   public Command getAutonomousCommand() {
