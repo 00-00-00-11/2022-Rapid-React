@@ -26,7 +26,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -41,7 +40,8 @@ public class RobotContainer {
 
   /* CONTROLLERS AND OTHER INPUTS */
   public static PS4Controller driverController;
-  public static PS4Controller operatorController= new PS4Controller(Constants.RobotMap.OPERATOR_CONTROLLER_PORT);
+  public static PS4Controller operatorController =
+      new PS4Controller(Constants.RobotMap.OPERATOR_CONTROLLER_PORT);
 
   // public static final JoystickButton forwardIntakeButton =
   //   new JoystickButton(operatorController, PS4Controller.Button.kSquare.value);
