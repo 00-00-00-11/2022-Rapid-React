@@ -20,10 +20,10 @@ public final class Constants {
   public final class DriveConstants {
     public static final int LEFT_MASTER_CAN = 1;
     public static final int LEFT_SLAVE_CAN1 = 2;
-    public static final int LEFT_SLAVE_CAN2 = 3;
-    public static final int RIGHT_MASTER_CAN = 4;
-    public static final int RIGHT_SLAVE_CAN1 = 5;
-    public static final int RIGHT_SLAVE_CAN2 = 6;
+    public static final int LEFT_SLAVE_CAN2 = 63;
+    public static final int RIGHT_MASTER_CAN = 3;
+    public static final int RIGHT_SLAVE_CAN1 = 4;
+    public static final int RIGHT_SLAVE_CAN2 = 34;
 
     public static final double DRIVE_SPEED = 0.2;
     public static final double TURN_SPEED = 0.5;

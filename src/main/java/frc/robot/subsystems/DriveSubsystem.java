@@ -323,6 +323,8 @@ public class DriveSubsystem extends SubsystemBase {
     
 
     field.setRobotPose(pose);
+    SmartDashboard.putNumber("left encoder",leftEncoder.getPosition());
+    SmartDashboard.putNumber("right encoder",rightEncoder.getPosition());
 
     voltage_scale_factor = 5 / RobotController.getVoltage5V();
     currentDistanceCentimeters = ultrasonic.getValue() * voltage_scale_factor * .125;

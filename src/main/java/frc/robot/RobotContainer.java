@@ -76,17 +76,17 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
     Trajectory trajectory = m_chooser.getSelected();
-    TrajectoryConfig config = new TrajectoryConfig(.5, .5);
-    ArrayList<Pose2d> states = new ArrayList<>();
-    for (State state : trajectory.getStates()) {
-      states.add(state.poseMeters);
-    }
-    trajectory = TrajectoryGenerator.generateTrajectory(states, config);
+    // TrajectoryConfig config = new TrajectoryConfig(.5, .5);
+    // ArrayList<Pose2d> states = new ArrayList<>();
+    // for (State state : trajectory.getStates()) {
+    //   states.add(state.poseMeters);
+    // }
+    // trajectory = TrajectoryGenerator.generateTrajectory(states, config);
 
     RamseteCommand command = new RamseteCommand(
         trajectory,
         RobotContainer.m_driveSubsystem::getPose,
-        new RamseteController(0.5, 0.7),
+        new RamseteController(2, 0.7),
         RobotContainer.m_driveSubsystem.getFeedforward(),
         RobotContainer.m_driveSubsystem.getKinematics(),
         RobotContainer.m_driveSubsystem::getSpeeds,
