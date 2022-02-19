@@ -25,7 +25,7 @@ public final class Constants {
     public static final int RIGHT_SLAVE_CAN1 = 4;
     public static final int RIGHT_SLAVE_CAN2 = 34;
 
-    public static final double DRIVE_SPEED = 0.2;
+    public static final double DRIVE_SPEED = 0.5;
     public static final double TURN_SPEED = 0.5;
 
     public static final double turnKP = 0.0075;
