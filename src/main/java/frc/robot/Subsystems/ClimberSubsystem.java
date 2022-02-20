@@ -164,7 +164,7 @@ public class ClimberSubsystem extends SubsystemBase {
     */
     // int enteredStep = currentStep;
 
-    if (currentStep < 1) {
+    if (currentStep < 1) {     //runs one after currentStep
       climber001();
     } else if (currentStep < 2) {
       climber002();
@@ -220,11 +220,44 @@ public class ClimberSubsystem extends SubsystemBase {
   */
 
 
-  public boolean finishProcess(boolean setCANSparkMax motorToStop, ) {  
-    primaryElevatorMotor00.set(0.0); 
-    
+public void iterateLastFinishedStep(boolean anglerDone_elevatorDone) {
+  if(anglerDone_elevatorDone){ 
+    lastFinishedStep+=1;
   }
+}
+
+  public void iterateLastFinishedStep(boolean anglerDone_elevatorDone, boolean elevatorDone_anglerDone) {
+    if(anglerDone_elevatorDone && elevatorDone_anglerDone) {
+      lastFinishedStep+=1;
+    }
+}
+
+  public void resetElevatorAnglerBoolean(String elevatorOrAngler) { //maybe use another setProcess that recives one or two variables indicating booleans to change, and a boolean to indicate desired result.
+    if (elevatorOrAngler.equals("elevator")) {
+      elevatorDone = false; 
+    } else if(elevatorOrAngler.equals("angler")) {
+      anglerDone=false;
+    } 
+    /*    String possibility if not overloaded
+    else if(elevatorOrAngler.equals("both")) {
+      anglerDone=false;
+      elevatorDone=false;
+    }
+    */
+  }                                                              //do not ignore => }
+
+/*   overloaded for both booleans??
+  public void resetElevatorAnglerBoolean(String elevatorOrAngler) { 
+
+  }
+
+  */
   public boolean finishPrimaryProcess(boolean elevatorDone) { //for use later
+    primaryElevatorMotor00.set(0.0);
+    return true;
+  }
+
+  public boolean finishSecondaryProcess(boolean anglerDone) { //for use later
     secondaryAnglerMotor00.set(0.0);
     return true;
   }
@@ -235,8 +268,8 @@ public class ClimberSubsystem extends SubsystemBase {
       2. secondary extends small angle
     */
 
-    elevatorDone = false; 
-    anglerDone = false; 
+    elevatorDone=false;
+    anglerDone=false;
 
     elevatorStepsEntry.setString("step 1");
 
@@ -245,7 +278,7 @@ public class ClimberSubsystem extends SubsystemBase {
       primaryElevatorMotor00.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
       System.out.println(primaryElevatorMotor00.getEncoder().getPosition());
     } else {
-      elevatorDone = finishProcess(elevatorDone);
+      elevatorDone = finishPrimaryProcess(elevatorDone);
 
     }
 
@@ -256,14 +289,12 @@ public class ClimberSubsystem extends SubsystemBase {
       secondaryAnglerMotor00.set(Constants.ElevatorConstants.ANGLER_SPEED);
       System.out.println(secondaryAnglerMotor00.getEncoder().getPosition());
     } else {
-      secondaryAnglerMotor00.set(0);
-      anglerDone = true;
+      finishSecondaryProcess(anglerDone);
     }
 
     System.out.println("step 1 secondary " + anglerDone);
 
-    lastFinishedStep =
-        (anglerDone && elevatorDone) ? (lastFinishedStep = 1) : (lastFinishedStep = 0);
+    iterateLastFinishedStep(elevatorDone,anglerDone);
   }
 
   public void climber002() {
@@ -272,30 +303,27 @@ public class ClimberSubsystem extends SubsystemBase {
       4. secondary returns to 0 angle
     */
 
-    boolean elevatorDone = false;
-    boolean anglerDone = false;
+    elevatorDone=false;
+    anglerDone=false;
 
     elevatorStepsEntry.setString("step 2");  //step made consiscely 
 
     if (primaryElevatorMotor00.getEncoder().getPosition() > 0) {
       primaryElevatorMotor00.set(-Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
-      primaryElevatorMotor00.set(0);
-      elevatorDone = true;
+      finishPrimaryProcess(elevatorDone);
     }
 
     if (secondaryAnglerMotor00.getEncoder().getPosition() > 0) {
       secondaryAnglerMotor00.set(-Constants.ElevatorConstants.ANGLER_SPEED); //omega 
     } else {
-      secondaryAnglerMotor00.set(0);
-      anglerDone = true;
+      finishSecondaryProcess(anglerDone);
     }
 
     System.out.println("step 2 primary" + elevatorDone);     
     System.out.println("step 2 secondary" + anglerDone);
 
-    lastFinishedStep =
-        (anglerDone && elevatorDone) ? (lastFinishedStep = 2) : (lastFinishedStep = 1);
+    iterateLastFinishedStep(elevatorDone,anglerDone);
   }
 
   public void climber003() {
