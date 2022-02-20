@@ -252,14 +252,14 @@ public void iterateLastFinishedStep(boolean anglerDone_elevatorDone) {
   }
 
   */
-  public boolean finishPrimaryProcess(boolean elevatorDone) { //for use later
+  public void finishPrimaryProcess() { //for use later
     primaryElevatorMotor00.set(0.0);
-    return true;
+    elevatorDone=true;
   }
 
-  public boolean finishSecondaryProcess(boolean anglerDone) { //for use later
+  public void finishSecondaryProcess() { //for use later
     secondaryAnglerMotor00.set(0.0);
-    return true;
+    anglerDone = true;
   }
 
   public void climber001() {
@@ -278,7 +278,7 @@ public void iterateLastFinishedStep(boolean anglerDone_elevatorDone) {
       primaryElevatorMotor00.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
       System.out.println(primaryElevatorMotor00.getEncoder().getPosition());
     } else {
-      elevatorDone = finishPrimaryProcess(elevatorDone);
+      finishPrimaryProcess();
 
     }
 
@@ -289,7 +289,7 @@ public void iterateLastFinishedStep(boolean anglerDone_elevatorDone) {
       secondaryAnglerMotor00.set(Constants.ElevatorConstants.ANGLER_SPEED);
       System.out.println(secondaryAnglerMotor00.getEncoder().getPosition());
     } else {
-      finishSecondaryProcess(anglerDone);
+      finishSecondaryProcess();
     }
 
     System.out.println("step 1 secondary " + anglerDone);
@@ -311,13 +311,13 @@ public void iterateLastFinishedStep(boolean anglerDone_elevatorDone) {
     if (primaryElevatorMotor00.getEncoder().getPosition() > 0) {
       primaryElevatorMotor00.set(-Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
-      finishPrimaryProcess(elevatorDone);
+      finishPrimaryProcess();
     }
 
     if (secondaryAnglerMotor00.getEncoder().getPosition() > 0) {
       secondaryAnglerMotor00.set(-Constants.ElevatorConstants.ANGLER_SPEED); //omega 
     } else {
-      finishSecondaryProcess(anglerDone);
+      finishSecondaryProcess();
     }
 
     System.out.println("step 2 primary" + elevatorDone);     
@@ -331,7 +331,7 @@ public void iterateLastFinishedStep(boolean anglerDone_elevatorDone) {
       5. primary extends partially
     */
 
-    boolean elevatorDone = false;
+     elevatorDone = false;
 
     elevatorStepsEntry.setString("step 3");
 
@@ -339,13 +339,12 @@ public void iterateLastFinishedStep(boolean anglerDone_elevatorDone) {
         < Constants.ElevatorConstants.ELEVATOR_SMALL_DISTANCE) {
       primaryElevatorMotor00.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
-      primaryElevatorMotor00.set(0);
-      elevatorDone = true;
+      finishPrimaryProcess();
     }
 
     System.out.println("step 3 primary" + elevatorDone);
 
-    lastFinishedStep = (elevatorDone) ? (lastFinishedStep = 3) : (lastFinishedStep = 2);
+    iterateLastFinishedStep(elevatorDone);
   }
 
   public void climber004() {
@@ -353,7 +352,7 @@ public void iterateLastFinishedStep(boolean anglerDone_elevatorDone) {
       6. secondary rotates large angle
     */
 
-    boolean anglerDone = false;
+     anglerDone = false;
 
     elevatorStepsEntry.setString("step 4");
 
@@ -361,13 +360,12 @@ public void iterateLastFinishedStep(boolean anglerDone_elevatorDone) {
         < Constants.ElevatorConstants.ANGLER_LARGE_ANGLE) {
       secondaryAnglerMotor00.set(Constants.ElevatorConstants.ANGLER_SPEED);
     } else {
-      secondaryAnglerMotor00.set(0);
-      anglerDone = true;
+      finishSecondaryProcess();
     }
 
     System.out.println("step 4 secondary" + anglerDone);
 
-    lastFinishedStep = (anglerDone) ? (lastFinishedStep = 4) : (lastFinishedStep = 3);
+    iterateLastFinishedStep(anglerDone);
   }
 
   public void climber005() {
@@ -375,7 +373,7 @@ public void iterateLastFinishedStep(boolean anglerDone_elevatorDone) {
       7. primary extends max
     */
 
-    boolean elevatorDone = false;
+     elevatorDone = false;
 
     elevatorStepsEntry.setString("step 5");
 
@@ -383,13 +381,12 @@ public void iterateLastFinishedStep(boolean anglerDone_elevatorDone) {
         < Constants.ElevatorConstants.ELEVATOR_LARGE_DISTANCE) {
       primaryElevatorMotor00.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
-      primaryElevatorMotor00.set(0);
-      elevatorDone = true;
+      finishPrimaryProcess();
     }
 
     System.out.println("step 5 primary" + elevatorDone);
 
-    lastFinishedStep = (elevatorDone) ? (lastFinishedStep = 5) : (lastFinishedStep = 4);
+    iterateLastFinishedStep(elevatorDone);
   }
 
   public void climber006() {
@@ -397,7 +394,7 @@ public void iterateLastFinishedStep(boolean anglerDone_elevatorDone) {
       8. secondary rotates till primary impacts
     */
 
-    boolean anglerDone = false;
+     anglerDone = false;
 
     elevatorStepsEntry.setString("step 6");
 
@@ -405,13 +402,12 @@ public void iterateLastFinishedStep(boolean anglerDone_elevatorDone) {
         > Constants.ElevatorConstants.ANGLER_IMPACT_ANGLE) {
       secondaryAnglerMotor00.set(-Constants.ElevatorConstants.ANGLER_SPEED);
     } else {
-      secondaryAnglerMotor00.set(0);
-      anglerDone = true;
+      finishSecondaryProcess();
     }
 
     System.out.println("step 6 secondary" + anglerDone);
 
-    lastFinishedStep = (anglerDone) ? (lastFinishedStep = 6) : (lastFinishedStep = 5);
+    iterateLastFinishedStep(anglerDone);
   }
 
   public void climber007() {
@@ -420,29 +416,26 @@ public void iterateLastFinishedStep(boolean anglerDone_elevatorDone) {
       10. secondary returns to 0 angle
     */
 
-    boolean anglerDone = false;
-    boolean elevatorDone = false;
+     anglerDone = false;
+     elevatorDone = false;
 
     elevatorStepsEntry.setString("step 7");
 
     if (primaryElevatorMotor00.getEncoder().getPosition() > 0) {
       primaryElevatorMotor00.set(-Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
-      primaryElevatorMotor00.set(0); //
-      elevatorDone = true;
+      finishPrimaryProcess();
     }
 
     if (secondaryAnglerMotor00.getEncoder().getPosition() > 0) {
       secondaryAnglerMotor00.set(-Constants.ElevatorConstants.ANGLER_SPEED);
     } else {
-      secondaryAnglerMotor00.set(0);
-      anglerDone = true;
+      finishSecondaryProcess();
     }
 
     System.out.println("step 7 primary" + elevatorDone);  //combine into single "return done"
     System.out.println("step 7 secondary" + anglerDone);  
 
-    lastFinishedStep =
-        (anglerDone && elevatorDone) ? (lastFinishedStep = 7) : (lastFinishedStep = 6);
+    iterateLastFinishedStep(anglerDone,elevatorDone);
   }
 }
