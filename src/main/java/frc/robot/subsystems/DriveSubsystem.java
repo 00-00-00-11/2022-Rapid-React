@@ -42,8 +42,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
@@ -320,11 +320,10 @@ public class DriveSubsystem extends SubsystemBase {
     pose =
         odometry.update(
             gyro.getRotation2d(), leftEncoder.getPosition(), -rightEncoder.getPosition());
-    
 
     field.setRobotPose(pose);
-    SmartDashboard.putNumber("left encoder",leftEncoder.getPosition());
-    SmartDashboard.putNumber("right encoder",rightEncoder.getPosition());
+    SmartDashboard.putNumber("left encoder", leftEncoder.getPosition());
+    SmartDashboard.putNumber("right encoder", rightEncoder.getPosition());
 
     voltage_scale_factor = 5 / RobotController.getVoltage5V();
     currentDistanceCentimeters = ultrasonic.getValue() * voltage_scale_factor * .125;
@@ -333,7 +332,6 @@ public class DriveSubsystem extends SubsystemBase {
     if (currentDistanceCentimeters <= 100) {
       tankDriveAuto(0, 0);
     }
-
   }
 
   @Override
