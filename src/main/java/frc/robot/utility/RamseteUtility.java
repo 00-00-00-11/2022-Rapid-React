@@ -9,10 +9,10 @@ import frc.robot.subsystems.DriveSubsystem;
 public class RamseteUtility {
 
     public static RamseteCommand createRamseteCommand(Trajectory trajectory, DriveSubsystem driveSubsystem, boolean setPose) {
-        if(setPose) {
-            RobotContainer.m_driveSubsystem.resetOdometry(trajectory.getInitialPose());
-        } 
-        
+        // if(setPose) {
+        //     RobotContainer.m_driveSubsystem.resetOdometry(trajectory.getInitialPose());
+        // } 
+
         return new RamseteCommand (
             trajectory,
             driveSubsystem::getPose,

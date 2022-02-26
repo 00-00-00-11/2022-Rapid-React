@@ -41,6 +41,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -109,7 +110,7 @@ public class DriveSubsystem extends SubsystemBase {
   public Field2d field;
   Pose2d pose;
 
-  SendableChooser<Command> m_chooser;
+  SendableChooser<Integer> m_chooser;
 
   // Camera
 
@@ -199,10 +200,10 @@ public class DriveSubsystem extends SubsystemBase {
             Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
 
     m_chooser = new SendableChooser<>();
-    m_chooser.addOption("4 Ball Routine", FourBallAuto(RobotContainer.m_driveSubsystem));
-    m_chooser.addOption("3 Ball Routine", ThreeBallAuto(RobotContainer.m_driveSubsystem));
-    m_chooser.addOption("2 Ball Routine", TwoBallAuto(RobotContainer.m_driveSubsystem));
-    m_chooser.setDefaultOption("Exit Tarmac", new ExitTarmac());
+    m_chooser.addOption("4 Ball Routine", 4);
+    m_chooser.addOption("3 Ball Routine", 3);
+    m_chooser.addOption("2 Ball Routine", 2);
+    m_chooser.setDefaultOption("Exit Tarmac", 0);
     SmartDashboard.putData("Auto Routine Chooser", m_chooser);
   }
 
@@ -416,33 +417,50 @@ public class DriveSubsystem extends SubsystemBase {
     );
   }
 
-  public Command getSelectedFromChooser() {
+  public Integer getSelectedFromChooser() {
     return m_chooser.getSelected();
   }
 
   public SequentialCommandGroup FourBallAuto(DriveSubsystem drive) {
+    Trajectory traj1 = TrajectoryUtility.createNewTrajectoryFromJSON("4Ball-1");
+    Trajectory traj2 = TrajectoryUtility.createNewTrajectoryFromJSON("4Ball-2");
+    Trajectory traj3 = TrajectoryUtility.createNewTrajectoryFromJSON("4Ball-3");
+    Trajectory traj4 = TrajectoryUtility.createNewTrajectoryFromJSON("4Ball-4");
+    resetOdometry(traj1.getInitialPose());
+
     return new SequentialCommandGroup(
-      RamseteUtility.createRamseteCommand(TrajectoryUtility.createNewTrajectoryFromJSON("4Ball-1"), drive, true),
-      RamseteUtility.createRamseteCommand(TrajectoryUtility.createNewTrajectoryFromJSON("4Ball-2"), drive, false),
-      RamseteUtility.createRamseteCommand(TrajectoryUtility.createNewTrajectoryFromJSON("4Ball-3"), drive, false),
-      RamseteUtility.createRamseteCommand(TrajectoryUtility.createNewTrajectoryFromJSON("4Ball-4"), drive, false)      
+      RamseteUtility.createRamseteCommand(traj1, RobotContainer.m_driveSubsystem, false).andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+      RamseteUtility.createRamseteCommand(traj2, RobotContainer.m_driveSubsystem, false).andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+      RamseteUtility.createRamseteCommand(traj3, RobotContainer.m_driveSubsystem, false).andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+      RamseteUtility.createRamseteCommand(traj4, RobotContainer.m_driveSubsystem, false).andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)) 
     );
   }
 
   public SequentialCommandGroup ThreeBallAuto(DriveSubsystem drive) {
+    Trajectory traj1 = TrajectoryUtility.createNewTrajectoryFromJSON("3Ball-1");
+    Trajectory traj2 = TrajectoryUtility.createNewTrajectoryFromJSON("3Ball-2");
+    Trajectory traj3 = TrajectoryUtility.createNewTrajectoryFromJSON("3Ball-3");
+    Trajectory traj4 = TrajectoryUtility.createNewTrajectoryFromJSON("3Ball-4");
+    resetOdometry(traj1.getInitialPose());
+
     return new SequentialCommandGroup(
-      RamseteUtility.createRamseteCommand(TrajectoryUtility.createNewTrajectoryFromJSON("3Ball-1"), drive, true),
-      RamseteUtility.createRamseteCommand(TrajectoryUtility.createNewTrajectoryFromJSON("3Ball-2"), drive, false),
-      RamseteUtility.createRamseteCommand(TrajectoryUtility.createNewTrajectoryFromJSON("3Ball-3"), drive, false),
-      RamseteUtility.createRamseteCommand(TrajectoryUtility.createNewTrajectoryFromJSON("3Ball-4"), drive, false)      
+      RamseteUtility.createRamseteCommand(traj1, RobotContainer.m_driveSubsystem, false).andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+      RamseteUtility.createRamseteCommand(traj2, RobotContainer.m_driveSubsystem, false).andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+      RamseteUtility.createRamseteCommand(traj3, RobotContainer.m_driveSubsystem, false).andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+      RamseteUtility.createRamseteCommand(traj4, RobotContainer.m_driveSubsystem, false).andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)) 
     );
   }
 
   public SequentialCommandGroup TwoBallAuto(DriveSubsystem drive) {
+    Trajectory traj1 = TrajectoryUtility.createNewTrajectoryFromJSON("2Ball-1");
+    Trajectory traj2 = TrajectoryUtility.createNewTrajectoryFromJSON("2Ball-2");
+    Trajectory traj3 = TrajectoryUtility.createNewTrajectoryFromJSON("2Ball-3");
+    resetOdometry(traj1.getInitialPose());
+
     return new SequentialCommandGroup(
-      RamseteUtility.createRamseteCommand(TrajectoryUtility.createNewTrajectoryFromJSON("2Ball-1"), drive, true),
-      RamseteUtility.createRamseteCommand(TrajectoryUtility.createNewTrajectoryFromJSON("2Ball-2"), drive, false),
-      RamseteUtility.createRamseteCommand(TrajectoryUtility.createNewTrajectoryFromJSON("2Ball-3"), drive, false)
+      RamseteUtility.createRamseteCommand(traj1, RobotContainer.m_driveSubsystem, false).andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+      RamseteUtility.createRamseteCommand(traj2, RobotContainer.m_driveSubsystem, false).andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+      RamseteUtility.createRamseteCommand(traj3, RobotContainer.m_driveSubsystem, false).andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0))
     );
   }
   

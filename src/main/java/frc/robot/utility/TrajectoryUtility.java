@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 
 public class TrajectoryUtility {
     public static Trajectory createNewTrajectoryFromJSON(String filename) {
-        Path path = Filesystem.getDeployDirectory().toPath().resolve("output/" + filename);
+        Path path = Filesystem.getDeployDirectory().toPath().resolve("output/" + filename + ".wpilib.json");
         try {
             return TrajectoryUtil.fromPathweaverJson(path);
         } catch (IOException e) {
