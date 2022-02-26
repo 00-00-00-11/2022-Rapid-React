@@ -328,7 +328,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     pose =
         odometry.update(
-            gyro.getRotation2d(), leftEncoder.getPosition(), -rightEncoder.getPosition());
+            gyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition());
 
     field.setRobotPose(pose);
     SmartDashboard.putNumber("left encoder", leftEncoder.getPosition());
@@ -346,7 +346,7 @@ public class DriveSubsystem extends SubsystemBase {
         rightMotors.get() * RobotController.getInputVoltage(),
         leftMotors.get() * RobotController.getInputVoltage());
     m_driveSim.update(0.02);
-
+    
     leftEncoder.setPosition(m_driveSim.getLeftPositionMeters());
     rightEncoder.setPosition(m_driveSim.getRightPositionMeters());
 
@@ -395,11 +395,6 @@ public class DriveSubsystem extends SubsystemBase {
   public void setOutput(double leftVolts, double rightVolts) {
     leftMotors.set(leftVolts / 12);
     rightMotors.set(rightVolts / 12);
-
-    SmartDashboard.putNumber("left Motor", leftVolts / 12);
-    System.out.println("left Motor : " + leftVolts / 12);
-    SmartDashboard.putNumber("rigt Motor", rightVolts / 12);
-    System.out.println("right Motor: " + rightVolts / 12);
   }
 
   public double getEncoderPosition() {
