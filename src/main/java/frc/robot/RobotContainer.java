@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -28,31 +29,36 @@ public class RobotContainer {
 
   SendableChooser<Trajectory> m_chooser = new SendableChooser<>();
   Pose2d initialPose;
-
+  
+  Path straightPath;
+  Path sinePath;
+  Trajectory straight;
+  Trajectory sine;
+  
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(new SimDrive());
+    
     configureButtonBindings();
-
-    for (File jsonFile :
-        Filesystem.getDeployDirectory().toPath().resolve("output").toFile().listFiles()) {
-      String name = jsonFile.getName().replaceAll(".wpilib.json", "");
-
-      Trajectory pathWeaverTrajectory = new Trajectory();
-      Path trajectoryPath = jsonFile.toPath();
-      try {
-        pathWeaverTrajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-
-      m_chooser.addOption(name, pathWeaverTrajectory);
+    
+    straightPath = Filesystem.getDeployDirectory().toPath().resolve("output/straight7.wpilib.json");
+    sinePath = Filesystem.getDeployDirectory().toPath().resolve("output/sine.wpilib.json");
+  
+    try {
+      straight = TrajectoryUtil.fromPathweaverJson(straightPath);
+      sine = TrajectoryUtil.fromPathweaverJson(sinePath);
+    } catch (Exception e) {
+      System.out.println("can't create trajectories");
     }
-    m_chooser.setDefaultOption(
-        "nothing",
-        TrajectoryUtil.deserializeTrajectory(
-            "[{\"acceleration\": 0.0,\"curvature\": 0.0,\"pose\": {\"rotation\": {\"radians\": 0.0},\"translation\": {\"x\": 0.0,\"y\": 0.0}},\"time\": 0.0,\"velocity\": 0.0}]"));
 
-    SmartDashboard.putData(m_chooser);
+    SendableChooser mChooser = new SendableChooser<>();
+
+    mChooser.addOption("4 Ball", null);
+    mChooser.addOption("3 Ball", null);
+    mChooser.addOption("2 Ball", null);
+    mChooser.setDefaultOption("Exit Tarmac", new ExitTarmac());
+
+    SmartDashboard.putData(mChooser);
+
   }
 
   // * Defines the ps4Controller and defines the shootButton as R2 on the
@@ -71,16 +77,10 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
     Trajectory trajectory = m_chooser.getSelected();
-    // TrajectoryConfig config = new TrajectoryConfig(.5, .5);
-    // ArrayList<Pose2d> states = new ArrayList<>();
-    // for (State state : trajectory.getStates()) {
-    //   states.add(state.poseMeters);
-    // }
-    // trajectory = TrajectoryGenerator.generateTrajectory(states, config);
 
     RamseteCommand command =
         new RamseteCommand(
-            trajectory,
+            straight,
             RobotContainer.m_driveSubsystem::getPose,
             new RamseteController(2, 0.7),
             RobotContainer.m_driveSubsystem.getFeedforward(),
@@ -92,10 +92,29 @@ public class RobotContainer {
             RobotContainer.m_driveSubsystem);
 
     // Reset odometry to the starting pose of the trajectory.
-    m_driveSubsystem.resetOdometry(trajectory.getInitialPose());
-    m_driveSubsystem.field.getObject("traj").setTrajectory(trajectory);
+    m_driveSubsystem.resetOdometry(straight.getInitialPose());
+    // m_driveSubsystem.field.getObject("traj").setTrajectory(trajectory);
+
+    RamseteCommand command2 =
+        new RamseteCommand(
+            sine,
+            RobotContainer.m_driveSubsystem::getPose,
+            new RamseteController(2, 0.7),
+            RobotContainer.m_driveSubsystem.getFeedforward(),
+            RobotContainer.m_driveSubsystem.getKinematics(),
+            RobotContainer.m_driveSubsystem::getSpeeds,
+            RobotContainer.m_driveSubsystem.getLeftPIDController(),
+            RobotContainer.m_driveSubsystem.getRightPIDController(),
+            RobotContainer.m_driveSubsystem::setOutput,
+            RobotContainer.m_driveSubsystem);
+
 
     // Run path following command, then stop at the end.
-    return command.andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0));
+    return (
+      new SequentialCommandGroup(
+        command.andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+        command2.andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0))
+      )
+    );
   }
 }
