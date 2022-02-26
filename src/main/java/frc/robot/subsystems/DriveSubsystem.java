@@ -54,10 +54,17 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.commands.ExitTarmac;
+import frc.robot.utility.RamseteUtility;
+import frc.robot.utility.TrajectoryUtility;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -102,8 +109,7 @@ public class DriveSubsystem extends SubsystemBase {
   public Field2d field;
   Pose2d pose;
 
-  // change this with new driebase
-  final double gearRatio = 10.81;
+  SendableChooser<Command> m_chooser;
 
   // Camera
 
@@ -192,10 +198,12 @@ public class DriveSubsystem extends SubsystemBase {
         new PIDController(
             Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
 
-    // Camera
-    // CameraServer.startAutomaticCapture();
-    // CvSink cvSink = CameraServer.getVideo();
-    // CvSource outputStream = CameraServer.putVideo("DriverCam", 640, 480);
+    m_chooser = new SendableChooser<>();
+    m_chooser.addOption("4 Ball Routine", FourBallAuto(RobotContainer.m_driveSubsystem));
+    m_chooser.addOption("3 Ball Routine", ThreeBallAuto(RobotContainer.m_driveSubsystem));
+    m_chooser.addOption("2 Ball Routine", TwoBallAuto(RobotContainer.m_driveSubsystem));
+    m_chooser.setDefaultOption("Exit Tarmac", new ExitTarmac());
+    SmartDashboard.putData("Auto Routine Chooser", m_chooser);
   }
 
   /**
@@ -327,11 +335,6 @@ public class DriveSubsystem extends SubsystemBase {
 
     voltage_scale_factor = 5 / RobotController.getVoltage5V();
     currentDistanceCentimeters = ultrasonic.getValue() * voltage_scale_factor * .125;
-    ultrasonicDist.setNumber(currentDistanceCentimeters);
-
-    if (currentDistanceCentimeters <= 100) {
-      tankDriveAuto(0, 0);
-    }
   }
 
   @Override
@@ -406,50 +409,41 @@ public class DriveSubsystem extends SubsystemBase {
     return pose;
   }
 
-  // have to change with new drivebase
   public DifferentialDriveWheelSpeeds getSpeeds() {
     return new DifferentialDriveWheelSpeeds(
-        leftMaster.getEncoder().getVelocity()
-            / gearRatio
-            * 2
-            * Math.PI
-            * Units.inchesToMeters(3.0)
-            / 60,
-        rightMaster.getEncoder().getVelocity()
-            / gearRatio
-            * 2
-            * Math.PI
-            * Units.inchesToMeters(3.0)
-            / 60);
+      leftMaster.getEncoder().getVelocity() / Constants.DriveConstants.GEAR_RATIO * 2 * Math.PI * Units.inchesToMeters(3.0) / 60,
+      rightMaster.getEncoder().getVelocity() / Constants.DriveConstants.GEAR_RATIO * 2 * Math.PI * Units.inchesToMeters(3.0) / 60
+    );
   }
+
+  public Command getSelectedFromChooser() {
+    return m_chooser.getSelected();
+  }
+
+  public SequentialCommandGroup FourBallAuto(DriveSubsystem drive) {
+    return new SequentialCommandGroup(
+      RamseteUtility.createRamseteCommand(TrajectoryUtility.createNewTrajectoryFromJSON("4Ball-1"), drive, true),
+      RamseteUtility.createRamseteCommand(TrajectoryUtility.createNewTrajectoryFromJSON("4Ball-2"), drive, false),
+      RamseteUtility.createRamseteCommand(TrajectoryUtility.createNewTrajectoryFromJSON("4Ball-3"), drive, false),
+      RamseteUtility.createRamseteCommand(TrajectoryUtility.createNewTrajectoryFromJSON("4Ball-4"), drive, false)      
+    );
+  }
+
+  public SequentialCommandGroup ThreeBallAuto(DriveSubsystem drive) {
+    return new SequentialCommandGroup(
+      RamseteUtility.createRamseteCommand(TrajectoryUtility.createNewTrajectoryFromJSON("3Ball-1"), drive, true),
+      RamseteUtility.createRamseteCommand(TrajectoryUtility.createNewTrajectoryFromJSON("3Ball-2"), drive, false),
+      RamseteUtility.createRamseteCommand(TrajectoryUtility.createNewTrajectoryFromJSON("3Ball-3"), drive, false),
+      RamseteUtility.createRamseteCommand(TrajectoryUtility.createNewTrajectoryFromJSON("3Ball-4"), drive, false)      
+    );
+  }
+
+  public SequentialCommandGroup TwoBallAuto(DriveSubsystem drive) {
+    return new SequentialCommandGroup(
+      RamseteUtility.createRamseteCommand(TrajectoryUtility.createNewTrajectoryFromJSON("2Ball-1"), drive, true),
+      RamseteUtility.createRamseteCommand(TrajectoryUtility.createNewTrajectoryFromJSON("2Ball-2"), drive, false),
+      RamseteUtility.createRamseteCommand(TrajectoryUtility.createNewTrajectoryFromJSON("2Ball-3"), drive, false)
+    );
+  }
+  
 }
-
-/*
-TrajectoryConfig config = new TrajectoryConfig(
-    Units.feetToMeters(2),
-    Units.feetToMeters(2)
-  );
-
-  config.setKinematics(RobotContainer.m_driveSubsystem.getKinematics());
-
-Trajectory pathWeaverTrajectory = new Trajectory();
-  Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve("paths/test.wpilib.json");
-  try {
-    pathWeaverTrajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-  } catch (IOException e) {
-    e.printStackTrace();
-  }
-
-  RamseteCommand command = new RamseteCommand(
-      pathWeaverTrajectory,
-      RobotContainer.m_driveSubsystem::getPose,
-      new RamseteController(2.0, 0.7),
-      RobotContainer.m_driveSubsystem.getFeedforward(),
-      RobotContainer.m_driveSubsystem.getKinematics(),
-      RobotContainer.m_driveSubsystem::getSpeeds,
-      RobotContainer.m_driveSubsystem.getLeftPIDController(),
-      RobotContainer.m_driveSubsystem.getRightPIDController(),
-      RobotContainer.m_driveSubsystem::setOutput,
-      RobotContainer.m_driveSubsystem
-  );
-*/
