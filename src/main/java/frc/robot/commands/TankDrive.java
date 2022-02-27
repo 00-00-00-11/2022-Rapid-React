@@ -10,7 +10,6 @@ import frc.robot.RobotContainer;
 public class TankDrive extends CommandBase {
   /** Creates a new TankDrive. */
   public TankDrive() {
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.m_driveSubsystem);
   }
 
@@ -21,8 +20,8 @@ public class TankDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double left = RobotContainer.driverController.getLeftY();
-    double right = RobotContainer.driverController.getRightY();
+    double left = RobotContainer.driverGamepad.getLeftY();
+    double right = RobotContainer.driverGamepad.getRightY();
 
     RobotContainer.m_driveSubsystem.tankDrive(left, right);
   }
