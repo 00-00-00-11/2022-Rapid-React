@@ -44,9 +44,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
   CANSparkMax intakeMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INTAKE_CAN, true);
 
-  CANSparkMax feederMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.SHOOTER_FEEDER_CAN, true);
-  CANSparkMax flyWheelMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.SHOOTER_FLYWHEEL_CAN, true);
-
   private SparkMaxPIDController feederPIDController = feederMotor.getPIDController();
   private SparkMaxPIDController flyWheelPIDController = flyWheelMotor.getPIDController();
 
