@@ -2,19 +2,59 @@ package frc.robot;
 
 public final class Constants {
 
-  public final class RobotMap {
+  /*
+  1-6: Drivetrain
+    1-3 right
+    4-6 left
+  7 : Intake (DONE)
+  8-9 : Indexer
+    8 : First (DONE)
+    9: Rails (DONE)
+  10-11 : Shooter
+    10 : Feeder (DONE)
+    11 : Shooter (DONE)
+  12-14: Climber
+    12: Linear (DONE)
+    13: Left Arm (DONE)
+    14: Right Arm (DONE)
+  15 : Pneumatics (DONE)
+  */
 
+  public final class RobotMap {
     /* CONTROLLERS AND INPUTS */
     public static final int DRIVER_CONTROLLER_PORT = 0;
     public static final int OPERATOR_CONTROLLER_PORT = 1;
-
+    
     /* DRIVE SUBSYSTEM */
-    public static final int LEFT_MASTER_CAN = 1;
-    public static final int LEFT_SLAVE_CAN1 = 2;
-    public static final int LEFT_SLAVE_CAN2 = 3;
-    public static final int RIGHT_MASTER_CAN = 4;
-    public static final int RIGHT_SLAVE_CAN1 = 5;
-    public static final int RIGHT_SLAVE_CAN2 = 6;
+    public static final int RIGHT_MASTER_CAN = 1;
+    public static final int RIGHT_SLAVE_CAN1 = 2;
+    public static final int RIGHT_SLAVE_CAN2 = 3;
+    public static final int LEFT_MASTER_CAN = 4;
+    public static final int LEFT_SLAVE_CAN1 = 5;
+    public static final int LEFT_SLAVE_CAN2 = 6;
+
+    /* INTAKE SUBSYSTEM */
+    public static final int INTAKE_CAN = 7;
+
+    /* INDEXER SUBSYSTEM */
+    public static final int INDEXER_TRANSITION_CAN = 8;
+    public static final int INDEXER_BELT_CAN = 9;
+
+    /* SHOOTER SUBSYSTEM */
+    public static final int SHOOTER_FEEDER_CAN = 10;
+    public static final int SHOOTER_FLYWHEEL_CAN = 11;
+
+    /* CLIMBER SUBSYSTEM */
+    public static final int CLIMBER_LINEAR_CAN = 12;
+    public static final int CLIMBER_LEFT_ARM_CAN = 13;
+    public static final int CLIMBER_RIGHT_ARM_CAN = 14;
+
+    /* PNEUMATICS SUBSYSTEM */
+    public static final int HUB_CAN = 15;
+    public static final int HUB_SOLENOID1_1 = 0;
+    public static final int HUB_SOLENOID1_2 = 1;
+    public static final int HUB_SOLENOID2_1 = 2;
+    public static final int HUB_SOLENOID2_2 = 3;
   }
 
   public final class DriveConstants {
