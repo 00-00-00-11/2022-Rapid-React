@@ -24,7 +24,7 @@ public class RunIndexer extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_IndexerSubsystem.runIndexer(Constants.IndexerConstants.INDEXER_SPEED);
+    RobotContainer.m_IndexerSubsystem.runIndexer(Constants.IndexerConstants.indexerSpeed);
     RobotContainer.m_IndexerSubsystem.setIsRunning(true);
   }
 

@@ -57,20 +57,6 @@ public final class Constants {
     public static final int HUB_SOLENOID2_1 = 2;
     public static final int HUB_SOLENOID2_2 = 3;
   }
-  public final class ShooterConstants {
-    public static final int FEEDER_MOTOR_PORT = 10;
-    public static final int FLY_WHEEL_MOTOR_PORT = 11;
-    public static final double kP = 6e-5;
-    public static final double kI = 0;
-    public static final double kD = 0.00001;
-    public static final double kIz = 0.0;
-    public static final double kFF = 0.000092;
-    public static final double kMaxOutput = 1;
-    public static final double kMinOutput = -1;
-    public static final double maxRPM = 11000;
-    public static final double multiplier = .85;
-    public static final double kCIMSpeed = 1;
-  }
   public final class DriveConstants {
 
     public static final double DRIVE_SPEED = 0.2;
@@ -96,5 +82,9 @@ public final class Constants {
     public static final double kP = 0.0;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
+  }
+
+  public final class IndexerConstants {
+    public static final double indexerSpeed = 0.5;
   }
 }

@@ -68,8 +68,10 @@ public class IndexerSubsystem extends SubsystemBase {
   }
 
   public void runIndexer(double speed) {
-    SparkMaxUtility.runSparkMax(transitionMotor, -speed);
-    SparkMaxUtility.runSparkMax(beltMotor, speed);
+    SparkMaxUtility.runSparkMax(transitionMotor, speed);
+    SparkMaxUtility.runSparkMax(beltMotor, -speed);
+
+    
   }
 
   public boolean getIsRunning() {
