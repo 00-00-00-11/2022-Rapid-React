@@ -11,12 +11,10 @@ import frc.robot.subsystems.DriveSubsystem;
 
 public class SimDrive extends CommandBase {
 
-  private DriveSubsystem driveSub = RobotContainer.m_driveSubsystem;
-
   /** Creates a new SimDrive. */
   public SimDrive() {
     // Use addRequirRobments() here to declare subsystem dependencies.
-    addRequirements(driveSub);
+    addRequirements(RobotContainer.m_driveSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -39,13 +37,13 @@ public class SimDrive extends CommandBase {
     double l2 = RobotContainer.driverGamepad.getL2Axis();
 
     double speed = (r2 - l2) * valetSpeed;
-    if (driveSub.getDirection() < 0) {
+    if (RobotContainer.m_driveSubsystem.getDirection() < 0) {
       leftAxis = -leftAxis;
     }
-    driveSub.curveDrive(speed, leftAxis, false);
+    RobotContainer.m_driveSubsystem.curveDrive(speed, leftAxis, false);
 
     if (Math.abs(rightAxis) > .25) { // TODO make .25 a cosntant
-      driveSub.curveDrive(0, rightAxis, true); // Will override previous curve drive
+      RobotContainer.m_driveSubsystem.curveDrive(0, rightAxis, true); // Will override previous curve drive
     }
   }
 

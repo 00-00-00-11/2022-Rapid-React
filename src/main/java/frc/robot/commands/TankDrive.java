@@ -10,7 +10,6 @@ import frc.robot.RobotContainer;
 public class TankDrive extends CommandBase {
   /** Creates a new TankDrive. */
   public TankDrive() {
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.m_driveSubsystem);
   }
 
