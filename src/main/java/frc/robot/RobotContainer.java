@@ -33,9 +33,6 @@ import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 public class RobotContainer {
-  // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
-  // private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   public static final PS4Controller driverGamepad = new PS4Controller(0);
   public static final PS4Controller operatorGamepad = new PS4Controller(1);
