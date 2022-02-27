@@ -42,11 +42,7 @@ public class RobotContainer {
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final ShooterSubsystem m_shooter_subsystem = new ShooterSubsystem();
 
-  /* CONTROLLERS AND OTHER INPUTS */
-  public static PS4Controller driverController;
-  public static PS4Controller operatorController;
-
-  public RobotContainer() throws Exception {
+  public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(new SimDrive());
     configureButtonBindings();
   }
@@ -54,7 +50,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     shootButton.whileHeld(new ShootBall());
     for (int i = 0; i < 360; i += 45) {
-      new POVButton(driverController, i).whileHeld(new QuickTurn(i));
+      new POVButton(driverGamepad, i).whileHeld(new QuickTurn(i));
     }
   }
 
