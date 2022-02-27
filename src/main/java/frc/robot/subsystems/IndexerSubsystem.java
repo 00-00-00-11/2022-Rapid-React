@@ -39,12 +39,14 @@ import frc.robot.utility.SparkMaxUtility;
 
 public class IndexerSubsystem extends SubsystemBase {
 
-  private CANSparkMax indexerMotor;
+  private CANSparkMax transitionMotor;
+  private CANSparkMax beltMotor;
   private boolean isRunning = false;
 
   public IndexerSubsystem() {
-    indexerMotor =
-        SparkMaxUtility.constructSparkMax(Constants.IndexerConstants.INDEXER_MOTOR_CAN, true);
+    transitionMotor =
+        SparkMaxUtility.constructSparkMax(8, true);
+    beltMotor = SparkMaxUtility.constructSparkMax(9, true);
 
     ShuffleboardTab tab = Shuffleboard.getTab("Drive");
     tab.add("Indexer Running", isRunning).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
@@ -57,7 +59,8 @@ public class IndexerSubsystem extends SubsystemBase {
   }
 
   public void runIndexer(double speed) {
-    SparkMaxUtility.runSparkMax(indexerMotor, speed);
+    SparkMaxUtility.runSparkMax(transitionMotor, -speed);
+    SparkMaxUtility.runSparkMax(beltMotor, speed);
   }
 
   public boolean getIsRunning() {

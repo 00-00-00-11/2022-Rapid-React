@@ -9,7 +9,7 @@ import frc.robot.subsystems.IndexerSubsystem;
 public class RobotContainer {
   public static IndexerSubsystem m_IndexerSubsystem = new IndexerSubsystem();
   public static PS4Controller operatorGamepad = new PS4Controller(0);
-  public static JoystickButton indexerButton = new JoystickButton(operatorGamepad, 4);
+  public static JoystickButton indexerButton = new JoystickButton(operatorGamepad, 1);
 
   public RobotContainer() {
     configureButtonBindings();
