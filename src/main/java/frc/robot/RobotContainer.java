@@ -23,41 +23,36 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.*;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 public class RobotContainer {
 
-  /* SUBSYSTEMS */
-  public static DriveSubsystem m_driveSubsystem;
+  public static final PS4Controller driverGamepad = new PS4Controller(0);
+  public static final PS4Controller operatorGamepad = new PS4Controller(1);
+
+  JoystickButton shootButton = new JoystickButton(operatorGamepad, 1);
+
+  public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  public static final ShooterSubsystem m_shooter_subsystem = new ShooterSubsystem();
 
   /* CONTROLLERS AND OTHER INPUTS */
   public static PS4Controller driverController;
   public static PS4Controller operatorController;
 
   public RobotContainer() throws Exception {
-
-    try {
-      m_driveSubsystem = new DriveSubsystem();
-    } catch (Exception err) {
-      throw new ExceptionInInitializerError("[ERROR] COULDN'T INITIALIZE DRIVE SUBSYSTEM");
-    }
-
-    try {
-      driverController = new PS4Controller(Constants.RobotMap.DRIVER_CONTROLLER_PORT);
-      operatorController = new PS4Controller(Constants.RobotMap.OPERATOR_CONTROLLER_PORT);
-    } catch (Exception err) {
-      throw new ExceptionInInitializerError("[ERROR] COULDN'T INITIALIZE JOYSTICKS");
-    }
-
     m_driveSubsystem.setDefaultCommand(new SimDrive());
     configureButtonBindings();
   }
 
   private void configureButtonBindings() {
+    shootButton.whileHeld(new ShootBall());
     for (int i = 0; i < 360; i += 45) {
       new POVButton(driverController, i).whileHeld(new QuickTurn(i));
     }
