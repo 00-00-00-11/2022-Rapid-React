@@ -3,8 +3,8 @@ package frc.robot;
 public final class Constants {
   /* Defines all the  */
   public final class ShooterConstants {
-    public static final int FEEDER_MOTOR_PORT = 5;
-    public static final int FLY_WHEEL_MOTOR_PORT = 6;
+    public static final int FEEDER_MOTOR_PORT = 10;
+    public static final int FLY_WHEEL_MOTOR_PORT = 11;
     public static final double kP = 6e-5;
     public static final double kI = 0;
     public static final double kD = 0.00001;
