@@ -36,9 +36,12 @@ public class RobotContainer {
   public static final PS4Controller operatorGamepad = new PS4Controller(1);
 
   JoystickButton shootButton = new JoystickButton(operatorGamepad, 1);
+  JoystickButton spinIntakeButton = new JoystickButton(operatorGamepad, 2);
+  JoystickButton toggleIntakeButton = new JoystickButton(operatorGamepad, 3);
 
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final ShooterSubsystem m_shooter_subsystem = new ShooterSubsystem();
+  public static final IntakeSubsystem m_intake = new IntakeSubsystem();
 
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(new SimDrive());
@@ -46,7 +49,14 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
+    // INTAKE
+    spinIntakeButton.whenHeld(new IntakeSpin());
+    toggleIntakeButton.toggleWhenPressed(new IntakeToggle());
+
+    // SHOOTER
     shootButton.whileHeld(new ShootBall());
+
+    // DRIVE
     for (int i = 0; i < 360; i += 45) {
       new POVButton(driverGamepad, i).whileHeld(new QuickTurn(i));
     }

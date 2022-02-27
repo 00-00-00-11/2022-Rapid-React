@@ -1,6 +1,26 @@
 package frc.robot;
 
 public final class Constants {
+
+  public final class ShooterConstants {
+    public static final int FEEDER_MOTOR_PORT = 10;
+    public static final int FLY_WHEEL_MOTOR_PORT = 11;
+    public static final double kP = 6e-5;
+    public static final double kI = 0;
+    public static final double kD = 0.00001;
+    public static final double kIz = 0.0;
+    public static final double kFF = 0.000092;
+    public static final double kMaxOutput = 1;
+    public static final double kMinOutput = -1;
+    public static final double maxRPM = 11000;
+    public static final double multiplier = .85;
+    public static final double kCIMSpeed = 1;
+  }
+
+  public static final class IntakeConstants {
+    public static double intakeSpeed = .6;
+  }
+
   public final class RobotMap {
     /* CONTROLLERS AND INPUTS */
     public static final int DRIVER_CONTROLLER_PORT = 0;
@@ -32,8 +52,8 @@ public final class Constants {
 
     /* PNEUMATICS SUBSYSTEM */
     public static final int HUB_CAN = 15;
-    public static final int HUB_SOLENOID1_1 = 0;
-    public static final int HUB_SOLENOID1_2 = 1;
+    public static final int HUB_SOLENOID1_1 = 1;
+    public static final int HUB_SOLENOID1_2 = 0;
     public static final int HUB_SOLENOID2_1 = 2;
     public static final int HUB_SOLENOID2_2 = 3;
   }
