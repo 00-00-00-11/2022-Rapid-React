@@ -21,8 +21,8 @@ public class TankDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double left = RobotContainer.driverController.getLeftY();
-    double right = RobotContainer.driverController.getRightY();
+    double left = RobotContainer.driverGamepad.getLeftY();
+    double right = RobotContainer.driverGamepad.getRightY();
 
     RobotContainer.m_driveSubsystem.tankDrive(left, right);
   }

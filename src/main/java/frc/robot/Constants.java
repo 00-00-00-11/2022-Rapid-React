@@ -17,7 +17,6 @@ public final class Constants {
     public static final double kCIMSpeed = 1;
   }
 
-<<<<<<< HEAD
   public static final class IntakeConstants {
     public static int pchPort = 9;
     public static int leftSolenoidPortForward = 2;
@@ -30,9 +29,6 @@ public final class Constants {
 
     public static double intakeSpeed = .6;
   }
-
-  public final class RobotMap {
-=======
   /*
   1-6: Drivetrain
     1-3 right
@@ -50,7 +46,6 @@ public final class Constants {
     14: Right Arm (DONE)
   15 : Pneumatics (DONE)
   */
->>>>>>> main
 
   public final class RobotMap {
     /* CONTROLLERS AND INPUTS */

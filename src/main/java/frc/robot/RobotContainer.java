@@ -46,6 +46,7 @@ public class RobotContainer {
 
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final ShooterSubsystem m_shooter_subsystem = new ShooterSubsystem();
+  public static final Intake m_intake = new Intake();
 
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(new SimDrive());

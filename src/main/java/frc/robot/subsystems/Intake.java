@@ -39,7 +39,7 @@ public class Intake extends SubsystemBase {
             Constants.IntakeConstants.rightSolenoidPortReverse);
     intakeMotor =
         new CANSparkMax(
-            Constants.IntakeConstants.motorID, CANSparkMaxLowLevel.MotorType.kBrushless);
+            Constants.RobotMap.INTAKE_CAN, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     leftSolenoid.set(Value.kOff);
     rightSolenoid.set(Value.kOff);

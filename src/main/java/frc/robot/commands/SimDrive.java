@@ -33,10 +33,10 @@ public class SimDrive extends CommandBase {
 
     valetSpeed = valet ? .3 : 1;
 
-    double leftAxis = RobotContainer.driverController.getLeftX();
-    double rightAxis = RobotContainer.driverController.getRightX();
-    double r2 = RobotContainer.driverController.getR2Axis();
-    double l2 = RobotContainer.driverController.getL2Axis();
+    double leftAxis = RobotContainer.driverGamepad.getLeftX();
+    double rightAxis = RobotContainer.driverGamepad.getRightX();
+    double r2 = RobotContainer.driverGamepad.getR2Axis();
+    double l2 = RobotContainer.driverGamepad.getL2Axis();
 
     double speed = (r2 - l2) * valetSpeed;
     if (driveSub.getDirection() < 0) {
