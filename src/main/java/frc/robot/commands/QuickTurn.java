@@ -4,49 +4,46 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class SimDrive extends CommandBase {
+public class QuickTurn extends CommandBase {
+  /** Creates a new QuickTurn. */
+  private double angle;
 
   private DriveSubsystem driveSub = RobotContainer.m_driveSubsystem;
+  private double target;
+  private PIDController turnPID;
 
-  /** Creates a new SimDrive. */
-  public SimDrive() {
-    // Use addRequirRobments() here to declare subsystem dependencies.
+  public QuickTurn(double angle) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    this.angle = angle;
+    if (angle > 180) {
+      this.angle -= 360;
+    }
     addRequirements(driveSub);
+    turnPID = driveSub.getTurnPID();
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    target = driveSub.getHeading() + angle;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double speed = turnPID.calculate(driveSub.getHeading(), target);
+    MathUtil.clamp(speed, -1, 1);
 
-    boolean valet = SmartDashboard.getBoolean("Valet Mode", false);
+    driveSub.curveDrive(0, -speed, true);
 
-    double valetSpeed;
-
-    valetSpeed = valet ? .3 : 1;
-
-    double leftAxis = RobotContainer.driverController.getLeftX();
-    double rightAxis = RobotContainer.driverController.getRightX();
-    double r2 = RobotContainer.driverController.getR2Axis();
-    double l2 = RobotContainer.driverController.getL2Axis();
-
-    double speed = (r2 - l2) * valetSpeed;
-    if (driveSub.getDirection() < 0) {
-      leftAxis = -leftAxis;
-    }
-    driveSub.curveDrive(speed, leftAxis, false);
-
-    if (Math.abs(rightAxis) > .25) { // TODO make .25 a cosntant
-      driveSub.curveDrive(0, rightAxis, true); // Will override previous curve drive
-    }
+    SmartDashboard.putNumber("Quick Turn Speed", speed);
   }
 
   // Called once the command ends or is interrupted.

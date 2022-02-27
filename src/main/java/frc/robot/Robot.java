@@ -14,7 +14,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    m_robotContainer = new RobotContainer();
+    try {
+      m_robotContainer = new RobotContainer();
+    } catch (Exception err) {
+      throw new ExceptionInInitializerError("[ERROR] COULDN'T INITIALIZE ROBOT CONTAINER");
+    }
   }
 
   @Override
