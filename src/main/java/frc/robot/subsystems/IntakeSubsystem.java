@@ -15,34 +15,34 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class Intake extends SubsystemBase {
+public class IntakeSubsystem extends SubsystemBase {
   private DoubleSolenoid leftSolenoid;
   private DoubleSolenoid rightSolenoid;
-  private CANSparkMax intakeMotor;
+  // private CANSparkMax intakeMotor;
   ShuffleboardTab intakeTab;
   NetworkTableEntry leftSolenoidState;
   NetworkTableEntry rightSolenoidState;
 
   /** Creates a new Intake. */
-  public Intake() {
+  public IntakeSubsystem() {
     leftSolenoid =
         new DoubleSolenoid(
-            Constants.IntakeConstants.pchPort,
+            Constants.RobotMap.HUB_CAN,
             PneumaticsModuleType.REVPH,
-            Constants.IntakeConstants.leftSolenoidPortForward,
-            Constants.IntakeConstants.leftSolenoidPortReverse);
+            Constants.RobotMap.HUB_SOLENOID1_2,
+            Constants.RobotMap.HUB_SOLENOID1_1);
+
     rightSolenoid =
         new DoubleSolenoid(
-            Constants.IntakeConstants.pchPort,
+            Constants.RobotMap.HUB_CAN,
             PneumaticsModuleType.REVPH,
-            Constants.IntakeConstants.rightSolenoidPortForward,
-            Constants.IntakeConstants.rightSolenoidPortReverse);
-    intakeMotor =
-        new CANSparkMax(
-            Constants.RobotMap.INTAKE_CAN, CANSparkMaxLowLevel.MotorType.kBrushless);
+            Constants.RobotMap.HUB_SOLENOID2_2,
+            Constants.RobotMap.HUB_SOLENOID2_1);
 
-    leftSolenoid.set(Value.kOff);
-    rightSolenoid.set(Value.kOff);
+    // intakeMotor = new CANSparkMax(Constants.RobotMap.INTAKE_CAN, CANSparkMaxLowLevel.MotorType.kBrushless);
+
+    leftSolenoid.set(Value.kReverse);
+    rightSolenoid.set(Value.kReverse);
 
     intakeTab = Shuffleboard.getTab("Intake");
     leftSolenoidState = intakeTab.add("Left Solenoid", "off").getEntry();
@@ -64,16 +64,11 @@ public class Intake extends SubsystemBase {
   }
 
   public void spinIntake() {
-    intakeMotor.set(Constants.IntakeConstants.intakeSpeed);
-    System.out.println("SPIIIIIIIIIN");
+    // intakeMotor.set(Constants.IntakeConstants.intakeSpeed);
   }
 
   public void stop() {
-    intakeMotor.set(0);
+    // intakeMotor.set(0);
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
 }

@@ -37,10 +37,10 @@ import frc.robot.utility.SparkMaxUtility;
 
 public class ShooterSubsystem extends SubsystemBase {
   /* Shooter CANSpark Definition */
-  CANSparkMax feederMotor =
-      SparkMaxUtility.constructSparkMax(Constants.RobotMap.SHOOTER_FEEDER_CAN, true);
-  CANSparkMax flyWheelMotor =
-      SparkMaxUtility.constructSparkMax(Constants.RobotMap.SHOOTER_FLYWHEEL_CAN, true);
+  CANSparkMax feederMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.SHOOTER_FEEDER_CAN, true);
+  CANSparkMax flyWheelMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.SHOOTER_FLYWHEEL_CAN, true);
+
+  CANSparkMax intakeMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INTAKE_CAN, true);
 
   /* Shooter CANPIDController Definition */
   private SparkMaxPIDController feederPIDController = feederMotor.getPIDController();
@@ -93,5 +93,9 @@ public class ShooterSubsystem extends SubsystemBase {
   public void shootCIM(double speed) {
     feederMotor.set(speed);
     flyWheelMotor.set(speed);
+  }
+
+  public void spinIntake(double speed) {
+    SparkMaxUtility.runSparkMax(intakeMotor, speed);
   }
 }

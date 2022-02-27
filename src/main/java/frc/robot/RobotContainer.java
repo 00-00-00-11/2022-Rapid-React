@@ -23,10 +23,8 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.*;
@@ -43,7 +41,7 @@ public class RobotContainer {
 
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final ShooterSubsystem m_shooter_subsystem = new ShooterSubsystem();
-  public static final Intake m_intake = new Intake();
+  public static final IntakeSubsystem m_intake = new IntakeSubsystem();
 
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(new SimDrive());

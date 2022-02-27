@@ -18,15 +18,6 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    public static int pchPort = 15;
-    public static int leftSolenoidPortForward = 2;
-    public static int leftSolenoidPortReverse = 1;
-    public static int rightSolenoidPortForward = 4;
-    public static int rightSolenoidPortReverse = 3;
-    public static int motorID = 1;
-
-    public static int ps4Port = 0;
-
     public static double intakeSpeed = .6;
   }
   /*
@@ -78,8 +69,8 @@ public final class Constants {
 
     /* PNEUMATICS SUBSYSTEM */
     public static final int HUB_CAN = 15;
-    public static final int HUB_SOLENOID1_1 = 0;
-    public static final int HUB_SOLENOID1_2 = 1;
+    public static final int HUB_SOLENOID1_1 = 1;
+    public static final int HUB_SOLENOID1_2 = 0;
     public static final int HUB_SOLENOID2_1 = 2;
     public static final int HUB_SOLENOID2_2 = 3;
   }

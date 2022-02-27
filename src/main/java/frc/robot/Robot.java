@@ -18,7 +18,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    compressor = new Compressor(Constants.IntakeConstants.pchPort, PneumaticsModuleType.REVPH);
+    compressor = new Compressor(Constants.RobotMap.HUB_CAN, PneumaticsModuleType.REVPH);
     try {
       m_robotContainer = new RobotContainer();
     } catch (Exception err) {
@@ -31,7 +31,6 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     if (compressor.getPressureSwitchValue()) {
       compressor.enableDigital();
-      // System.out.println("Filling wiht air");
     } else compressor.disable();
   }
 
