@@ -96,13 +96,8 @@ public class DriveSubsystem extends SubsystemBase {
   Pose2d pose;
   UsbCamera driverCam;
 
-  public DriveSubsystem() throws Exception {
-
-    try {
-      gyro = new AHRS(SPI.Port.kMXP);
-    } catch (Exception err) {
-      throw new Exception("Trouble initializing NavX");
-    }
+  public DriveSubsystem() {
+    gyro = new AHRS(SPI.Port.kMXP);
 
     rightMaster = SparkMaxUtility.constructSparkMax(Constants.RobotMap.RIGHT_MASTER_CAN, true);
     rightSlave1 = SparkMaxUtility.constructSparkMax(Constants.RobotMap.RIGHT_SLAVE_CAN1, true);
