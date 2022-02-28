@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -39,16 +40,14 @@ public class SimDrive extends CommandBase {
     double speed = (r2 - l2) * valetSpeed;
     RobotContainer.m_driveSubsystem.curveDrive(speed, leftAxis, false);
 
-    if (Math.abs(rightAxis) > .25) { // TODO make .25 a cosntant
-      RobotContainer.m_driveSubsystem.curveDrive(0, rightAxis, true); // Will override previous curve drive
+    if (Math.abs(rightAxis) > Constants.DriveConstants.DEADZONE) { 
+      RobotContainer.m_driveSubsystem.curveDrive(0, rightAxis, true); 
     }
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
