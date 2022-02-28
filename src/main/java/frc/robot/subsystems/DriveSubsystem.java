@@ -60,6 +60,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.utility.RamseteUtility;
@@ -109,6 +110,7 @@ public class DriveSubsystem extends SubsystemBase {
   Pose2d pose;
 
   SendableChooser<Integer> m_chooser;
+  int simInvert;
 
   // Camera
 
@@ -203,6 +205,8 @@ public class DriveSubsystem extends SubsystemBase {
     m_chooser.addOption("2 Ball Routine", 2);
     m_chooser.setDefaultOption("Exit Tarmac", 0);
     SmartDashboard.putData("Auto Routine Chooser", m_chooser);
+
+    simInvert = Robot.isReal() ? -1 : 1;
   }
 
   /**
@@ -324,9 +328,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    
     pose =
         odometry.update(
-            gyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition());
+            gyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition() * simInvert);
 
     field.setRobotPose(pose);
     SmartDashboard.putNumber("left encoder", leftEncoder.getPosition());
