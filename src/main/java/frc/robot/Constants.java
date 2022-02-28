@@ -59,7 +59,7 @@ public final class Constants {
   }
   public final class DriveConstants {
 
-    public static final double DRIVE_SPEED = 0.2;
+    public static final double DRIVE_SPEED = .5;
     public static final double TURN_SPEED = 0.2;
 
     public static final double turnKP = -0.0225;

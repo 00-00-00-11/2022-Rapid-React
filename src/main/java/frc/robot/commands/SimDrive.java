@@ -37,9 +37,6 @@ public class SimDrive extends CommandBase {
     double l2 = RobotContainer.driverGamepad.getL2Axis();
 
     double speed = (r2 - l2) * valetSpeed;
-    if (RobotContainer.m_driveSubsystem.getDirection() < 0) {
-      leftAxis = -leftAxis;
-    }
     RobotContainer.m_driveSubsystem.curveDrive(speed, leftAxis, false);
 
     if (Math.abs(rightAxis) > .25) { // TODO make .25 a cosntant

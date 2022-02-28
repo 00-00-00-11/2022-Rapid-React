@@ -37,9 +37,10 @@ public class RobotContainer {
   public static final PS4Controller operatorGamepad = new PS4Controller(1);
 
   JoystickButton shootButton = new JoystickButton(driverGamepad, 1);
-  JoystickButton spinIntakeButton = new JoystickButton(driverGamepad, 2);
+  // JoystickButton spinIntakeButton = new JoystickButton(driverGamepad, 2);
   JoystickButton toggleIntakeButton = new JoystickButton(driverGamepad, 3);
-  JoystickButton indexerButton = new JoystickButton(driverGamepad, 4);
+  // JoystickButton indexerButton = new JoystickButton(driverGamepad, 4);
+  JoystickButton intakeAndIndexerButton = new JoystickButton(driverGamepad, 2);
 
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final ShooterSubsystem m_shooter_subsystem = new ShooterSubsystem();
@@ -52,10 +53,11 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    indexerButton.whileHeld(new RunIndexer());
+    // indexerButton.whileHeld(new RunIndexer());
     // INTAKE
-    spinIntakeButton.whenHeld(new IntakeSpin());
+    // spinIntakeButton.whenHeld(new IntakeSpin());
     toggleIntakeButton.toggleWhenPressed(new IntakeToggle());
+    intakeAndIndexerButton.whileHeld(new IntakeAndIndex());
 
     // SHOOTER
     shootButton.whileHeld(new ShootBall());
