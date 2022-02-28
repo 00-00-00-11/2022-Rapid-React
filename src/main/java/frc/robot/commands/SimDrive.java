@@ -8,8 +8,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-
+import edu.wpi.first.math.filter.SlewRateLimiter;
 public class SimDrive extends CommandBase {
+  SlewRateLimiter filter = new SlewRateLimiter(0.5);
 
   /** Creates a new SimDrive. */
   public SimDrive() {
@@ -19,7 +20,9 @@ public class SimDrive extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -37,7 +40,7 @@ public class SimDrive extends CommandBase {
     double l2 = RobotContainer.driverGamepad.getL2Axis();
 
     double speed = (r2 - l2) * valetSpeed;
-    RobotContainer.m_driveSubsystem.curveDrive(speed, leftAxis, false);
+    RobotContainer.m_driveSubsystem.curveDrive(filter.calculate(speed), leftAxis, false);
 
     if (Math.abs(rightAxis) > Constants.DriveConstants.DEADZONE) { 
       RobotContainer.m_driveSubsystem.curveDrive(0, rightAxis, true); 
