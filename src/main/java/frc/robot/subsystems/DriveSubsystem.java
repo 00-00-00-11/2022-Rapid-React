@@ -29,8 +29,9 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
 import edu.wpi.first.math.controller.PIDController;
@@ -65,6 +66,7 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.utility.RamseteUtility;
 import frc.robot.utility.TrajectoryUtility;
+import frc.robot.utility.SparkMaxUtility;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -117,13 +119,13 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     gyro = new AHRS(SPI.Port.kMXP);
 
-    rightMaster = contructSpeedController(Constants.DriveConstants.RIGHT_MASTER_CAN, true);
-    rightSlave1 = contructSpeedController(Constants.DriveConstants.RIGHT_SLAVE_CAN1, true);
-    rightSlave2 = contructSpeedController(Constants.DriveConstants.RIGHT_SLAVE_CAN2, true);
+    rightMaster = SparkMaxUtility.constructSparkMax(Constants.RobotMap.RIGHT_MASTER_CAN, true);
+    rightSlave1 = SparkMaxUtility.constructSparkMax(Constants.RobotMap.RIGHT_SLAVE_CAN1, true);
+    rightSlave2 = SparkMaxUtility.constructSparkMax(Constants.RobotMap.RIGHT_SLAVE_CAN2, true);
 
-    leftMaster = contructSpeedController(Constants.DriveConstants.LEFT_MASTER_CAN, true);
-    leftSlave1 = contructSpeedController(Constants.DriveConstants.LEFT_SLAVE_CAN1, true);
-    leftSlave2 = contructSpeedController(Constants.DriveConstants.LEFT_SLAVE_CAN2, true);
+    leftMaster = SparkMaxUtility.constructSparkMax(Constants.RobotMap.LEFT_MASTER_CAN, true);
+    leftSlave1 = SparkMaxUtility.constructSparkMax(Constants.RobotMap.LEFT_SLAVE_CAN1, true);
+    leftSlave2 = SparkMaxUtility.constructSparkMax(Constants.RobotMap.LEFT_SLAVE_CAN2, true);
 
     leftEncoder = leftMaster.getEncoder();
     rightEncoder = rightMaster.getEncoder();
@@ -162,12 +164,14 @@ public class DriveSubsystem extends SubsystemBase {
             Constants.DriveConstants.turnKD);
 
     turnPID.setSetpoint(0);
-    turnPID.setTolerance(5);
+    turnPID.setTolerance(Constants.DriveConstants.QUICK_TURN_TOLERANCE);
 
     ultrasonicDist = driveTab.add("Distance to target", 500).getEntry();
 
     driveTab.add("Turn PID", turnPID).withWidget(BuiltInWidgets.kPIDController);
 
+    // invertMotors(false);
+    
     rightMotors.setInverted(true);
     setBrake(true);
 
@@ -207,6 +211,9 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putData("Auto Routine Chooser", m_chooser);
 
     simInvert = Robot.isReal() ? -1 : 1;
+    // Camera
+    driverCam = CameraServer.startAutomaticCapture();
+    driveTab.add("Driver Cam", driverCam).withWidget(BuiltInWidgets.kCameraStream);
   }
 
   /**
@@ -231,21 +238,6 @@ public class DriveSubsystem extends SubsystemBase {
     for (CANSparkMax motor : motors) {
       motor.setIdleMode(mode);
     }
-  }
-
-  /**
-   * Constructs a CANSparkMax with the given CAN ID and type.
-   *
-   * @param port CAN ID of the motor controller.
-   * @param brushless Whether the motor is brushless.
-   * @return CANSparkMax object.
-   */
-  public CANSparkMax contructSpeedController(int port, boolean brushless) {
-    CANSparkMaxLowLevel.MotorType type =
-        brushless
-            ? CANSparkMaxLowLevel.MotorType.kBrushless
-            : CANSparkMaxLowLevel.MotorType.kBrushed;
-    return new CANSparkMax(port, type);
   }
 
   /**
@@ -300,19 +292,19 @@ public class DriveSubsystem extends SubsystemBase {
     return gyro.getAngle();
   }
 
-  public double getDirection() {
-    double leftV = leftEncoder.getVelocity();
-    double rightV = rightEncoder.getVelocity();
+  // public double getDirection() {
+  //   double leftV = leftEncoder.getVelocity();
+  //   double rightV = -rightEncoder.getVelocity();
 
-    SmartDashboard.putNumber("Left V", leftV);
-    SmartDashboard.putNumber("Right V", rightV);
+  //   SmartDashboard.putNumber("Left V", leftV);
+  //   SmartDashboard.putNumber("Right V", rightV);
 
-    double average = (leftV + rightV) / 2.0;
-    SmartDashboard.putNumber("Average V", average);
-    SmartDashboard.putBoolean("Direction", average > .1);
+  //   double average = (leftV + rightV) / 2.0;
+  //   SmartDashboard.putNumber("Average V", average);
+  //   SmartDashboard.putBoolean("Direction", average > .1);
 
-    return average;
-  }
+  //   return average;
+  // }
 
   public double getAngleBetween(double current, double target) {
     double degrees = target - current;
@@ -337,8 +329,8 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("left encoder", leftEncoder.getPosition());
     SmartDashboard.putNumber("right encoder", rightEncoder.getPosition());
 
-    voltage_scale_factor = 5 / RobotController.getVoltage5V();
-    currentDistanceCentimeters = ultrasonic.getValue() * voltage_scale_factor * .125;
+    SmartDashboard.putData("Power Distribution", pdp);
+    SmartDashboard.putNumber("Current Angle", getAngleBetween(getHeading(), 0));
   }
 
   @Override
@@ -462,4 +454,13 @@ public class DriveSubsystem extends SubsystemBase {
     );
   }
   
+}
+  public void invertMotors(boolean inverted) {
+    leftMaster.setInverted(inverted);
+    rightMaster.setInverted(inverted);
+    leftSlave1.setInverted(inverted);
+    leftSlave2.setInverted(inverted);
+    rightSlave1.setInverted(inverted);
+    rightSlave2.setInverted(inverted);
+  }
 }

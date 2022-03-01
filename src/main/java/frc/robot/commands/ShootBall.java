@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 /** An example command that uses an example subsystem. */
@@ -29,15 +28,14 @@ public class ShootBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_shooter_subsystem.shootCIM(Constants.ShooterConstants.kCIMSpeed);
-    System.out.println("RUNNING SHOOT");
+    RobotContainer.m_shooter_subsystem.shootBalls(true);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     if (interrupted) {
-      RobotContainer.m_shooter_subsystem.shootCIM(0);
+      RobotContainer.m_shooter_subsystem.shootBalls(false);
     }
   }
 

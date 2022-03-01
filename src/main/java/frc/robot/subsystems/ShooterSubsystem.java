@@ -36,42 +36,38 @@ import frc.robot.Constants;
 import frc.robot.utility.SparkMaxUtility;
 
 public class ShooterSubsystem extends SubsystemBase {
-  /* Shooter CANSpark Definition */
-  CANSparkMax feederMotor =
-      SparkMaxUtility.constructSparkMax(Constants.ShooterConstants.FEEDER_MOTOR_PORT, true);
-  CANSparkMax flyWheelMotor =
-      SparkMaxUtility.constructSparkMax(Constants.ShooterConstants.FLY_WHEEL_MOTOR_PORT, true);
 
-  /* Shooter CANPIDController Definition */
+  
+  /* Shooter CANSpark Definition */
+  CANSparkMax feederMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.SHOOTER_FEEDER_CAN, true);
+  CANSparkMax flyWheelMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.SHOOTER_FLYWHEEL_CAN, true);
+
+  CANSparkMax intakeMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INTAKE_CAN, true);
+
   private SparkMaxPIDController feederPIDController = feederMotor.getPIDController();
   private SparkMaxPIDController flyWheelPIDController = flyWheelMotor.getPIDController();
 
   public ShooterSubsystem() {
-    /* Feeder PID Controller */
     feederPIDController.setP(Constants.ShooterConstants.kP);
     feederPIDController.setI(Constants.ShooterConstants.kI);
     feederPIDController.setD(Constants.ShooterConstants.kD);
     feederPIDController.setIZone(Constants.ShooterConstants.kIz);
     feederPIDController.setFF(Constants.ShooterConstants.kFF);
-    feederPIDController.setOutputRange(
-        Constants.ShooterConstants.kMinOutput, Constants.ShooterConstants.kMaxOutput);
+    feederPIDController.setOutputRange(Constants.ShooterConstants.kMinOutput, Constants.ShooterConstants.kMaxOutput);
 
-    /* Fly Wheel PID Controller */
     flyWheelPIDController.setP(Constants.ShooterConstants.kP);
     flyWheelPIDController.setI(Constants.ShooterConstants.kI);
     flyWheelPIDController.setD(Constants.ShooterConstants.kD);
     flyWheelPIDController.setIZone(Constants.ShooterConstants.kIz);
     flyWheelPIDController.setFF(Constants.ShooterConstants.kFF);
-    flyWheelPIDController.setOutputRange(
-        Constants.ShooterConstants.kMinOutput, Constants.ShooterConstants.kMaxOutput);
+    flyWheelPIDController.setOutputRange(Constants.ShooterConstants.kMinOutput, Constants.ShooterConstants.kMaxOutput);
   }
-  /* Shoots The Ball */
+
+
   public void shootBalls(boolean shoot) {
     if (shoot) {
-      // Sets The Speeds From PID Constants
       double speed = Constants.ShooterConstants.multiplier * Constants.ShooterConstants.maxRPM;
 
-      // Spins The Feeder And Fly Wheel Motor
       feederPIDController.setReference(speed, ControlType.kVelocity);
       flyWheelPIDController.setReference(speed, ControlType.kVelocity);
     } else {
@@ -85,13 +81,12 @@ public class ShooterSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
-  }
-
   public void shootCIM(double speed) {
     feederMotor.set(speed);
     flyWheelMotor.set(speed);
+  }
+
+  public void spinIntake(double speed) {
+    SparkMaxUtility.runSparkMax(intakeMotor, speed);
   }
 }

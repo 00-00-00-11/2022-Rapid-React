@@ -1,0 +1,24 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/LiveWindow/IndexerSubsystem": "Subsystem",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/SmartDashboard/run indexer": "Command"
+    }
+  },
+  "NetworkTables": {
+    "Shuffleboard": {
+      "Drive": {
+        "open": true
+      },
+      "open": true
+    },
+    "SmartDashboard": {
+      "open": true,
+      "run indexer": {
+        "open": true
+      }
+    }
+  }
+}
