@@ -418,6 +418,8 @@ public class DriveSubsystem extends SubsystemBase {
     Trajectory traj4 = TrajectoryUtility.createNewTrajectoryFromJSON("4Ball-4");
     resetOdometry(traj1.getInitialPose());
 
+    long startTime = System.currentTimeMillis();
+
     return new SequentialCommandGroup(
 
         new InstantCommand(
@@ -484,7 +486,14 @@ public class DriveSubsystem extends SubsystemBase {
             () -> {
               RobotContainer.m_shooter_subsystem.shootCIM(0);
               SmartDashboard.putString("AUTO STATUS", "STOPPED SHOOTING");
-            })
+            }),
+
+        new InstantCommand(
+          () -> {
+            long elapsedTime = System.currentTimeMillis() - startTime;
+            SmartDashboard.putNumber("AUTO TIME", elapsedTime/1000);
+          }
+        )
 
     );
   }
