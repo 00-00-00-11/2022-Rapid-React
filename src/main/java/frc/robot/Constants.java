@@ -27,12 +27,12 @@ public final class Constants {
     public static final int OPERATOR_CONTROLLER_PORT = 1;
     
     /* DRIVE SUBSYSTEM */
-    public static final int RIGHT_MASTER_CAN = 1;
-    public static final int RIGHT_SLAVE_CAN1 = 2;
-    public static final int RIGHT_SLAVE_CAN2 = 3;
-    public static final int LEFT_MASTER_CAN = 4;
-    public static final int LEFT_SLAVE_CAN1 = 5;
-    public static final int LEFT_SLAVE_CAN2 = 6;
+    public static final int RIGHT_MASTER_CAN = 3;
+    public static final int RIGHT_SLAVE_CAN1 = 4;
+    public static final int RIGHT_SLAVE_CAN2 = 78;
+    public static final int LEFT_MASTER_CAN = 1;
+    public static final int LEFT_SLAVE_CAN1 = 2;
+    public static final int LEFT_SLAVE_CAN2 = 23;
 
     /* INTAKE SUBSYSTEM */
     public static final int INTAKE_CAN = 7;

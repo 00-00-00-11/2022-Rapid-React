@@ -211,9 +211,6 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putData("Auto Routine Chooser", m_chooser);
 
     simInvert = Robot.isReal() ? -1 : 1;
-    // Camera
-    driverCam = CameraServer.startAutomaticCapture();
-    driveTab.add("Driver Cam", driverCam).withWidget(BuiltInWidgets.kCameraStream);
   }
 
   /**
@@ -454,13 +451,4 @@ public class DriveSubsystem extends SubsystemBase {
     );
   }
   
-}
-  public void invertMotors(boolean inverted) {
-    leftMaster.setInverted(inverted);
-    rightMaster.setInverted(inverted);
-    leftSlave1.setInverted(inverted);
-    leftSlave2.setInverted(inverted);
-    rightSlave1.setInverted(inverted);
-    rightSlave2.setInverted(inverted);
-  }
 }
