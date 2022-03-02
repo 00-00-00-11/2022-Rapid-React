@@ -520,6 +520,7 @@ public class DriveSubsystem extends SubsystemBase {
     Trajectory traj1 = TrajectoryUtility.createNewTrajectoryFromJSON("2Ball-1");
     Trajectory traj2 = TrajectoryUtility.createNewTrajectoryFromJSON("2Ball-2");
     Trajectory traj3 = TrajectoryUtility.createNewTrajectoryFromJSON("2Ball-3");
+    Trajectory traj4 = TrajectoryUtility.createNewTrajectoryFromJSON("2Ball-4");
     resetOdometry(traj1.getInitialPose());
 
     return new SequentialCommandGroup(
@@ -528,7 +529,9 @@ public class DriveSubsystem extends SubsystemBase {
         RamseteUtility.createRamseteCommand(traj2, RobotContainer.m_driveSubsystem, false)
             .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
         RamseteUtility.createRamseteCommand(traj3, RobotContainer.m_driveSubsystem, false)
-            .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)));
+            .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+        RamseteUtility.createRamseteCommand(traj4, RobotContainer.m_driveSubsystem, false)
+            .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0,0)));
   }
 
 }
