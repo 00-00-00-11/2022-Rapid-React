@@ -27,21 +27,17 @@ package frc.robot.subsystems;
 import com.revrobotics.*;
 import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
   /** Creates a new ClimberSubsystem. */
-  CANSparkMax primaryElevatorMotor;
-
-  CANSparkMax secondaryAnglerMotor;
-
-  DigitalInput elevatorMaxSwitch;
-  DigitalInput elevatorMinSwitch;
-
-  DigitalInput anglerMaxSwitch;
-  DigitalInput anglerMinSwitch;
+  CANSparkMax elevatorMotor;
+  CANSparkMax anglerMotorLeft;
+  CANSparkMax anglerMotorRight;
 
   private ShuffleboardTab tab = Shuffleboard.getTab(Constants.ElevatorConstants.SHUFFLEBOARD_TAB);
   private NetworkTableEntry elevatorStepsEntry = tab.add("Elevator Step", "").getEntry();
@@ -49,18 +45,19 @@ public class ClimberSubsystem extends SubsystemBase {
   int currentStep = 0;
 
   public ClimberSubsystem() {
-    primaryElevatorMotor =
-        new CANSparkMax(
-            Constants.ElevatorConstants.ELEVATOR_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
-    secondaryAnglerMotor =
-        new CANSparkMax(
-            Constants.ElevatorConstants.ANGLER_MOTOR, CANSparkMaxLowLevel.MotorType.kBrushless);
+    elevatorMotor = new CANSparkMax(
+        Constants.RobotMap.CLIMBER_LINEAR_CAN, 
+        CANSparkMaxLowLevel.MotorType.kBrushless
+      );
+    anglerMotorLeft = new CANSparkMax(
+        Constants.RobotMap.CLIMBER_LEFT_ARM_CAN, 
+        CANSparkMaxLowLevel.MotorType.kBrushless
+      );
 
-    elevatorMaxSwitch = new DigitalInput(Constants.ElevatorConstants.ELEVATOR_MAX_SWITCH);
-    elevatorMinSwitch = new DigitalInput(Constants.ElevatorConstants.ELEVATOR_MIN_SWITCH);
-
-    anglerMaxSwitch = new DigitalInput(Constants.ElevatorConstants.ANGLER_MAX_SWITCH);
-    anglerMinSwitch = new DigitalInput(Constants.ElevatorConstants.ANGLER_MIN_SWITCH);
+    anglerMotorRight = new CANSparkMax(
+      Constants.RobotMap.CLIMBER_RIGHT_ARM_CAN, 
+      CANSparkMaxLowLevel.MotorType.kBrushless
+    );
   }
 
   @Override
@@ -69,43 +66,15 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   // button hit by driver, elevator height to max
-  public void elevatorUpDriver() {
-    // Max height implementation
-    if (elevatorMaxSwitch.get() || elevatorMinSwitch.get()) {
-      // stop elevator
-    } else {
-      // run elevator up
-    }
-  }
+  public void elevatorUpDriver(PS4Controller joystick) {
+    anglerMotorLeft.set(joystick.getRightY());
+    anglerMotorRight.set(joystick.getRightY());
 
-  public void elevatorUpDriver(double distance) {
-    if (elevatorMaxSwitch.get() || elevatorMinSwitch.get()) {
-      // stop elevator
-    } else {
-      // run elevator to set height (PID?)
-    }
-  }
-
-  public void resetElevator() {
-    if (elevatorMinSwitch.get()) {
-      primaryElevatorMotor.getEncoder().setPosition(0);
-    } else {
-      primaryElevatorMotor.set(
-          Constants.ElevatorConstants.ELEVATOR_SPEED); // change to whatever direction
-    }
-  }
-
-  public void resetAngler() {
-    if (anglerMinSwitch.get()) {
-      secondaryAnglerMotor.getEncoder().setPosition(0);
-    } else {
-      secondaryAnglerMotor.set(Constants.ElevatorConstants.ANGLER_SPEED);
-    }
+    elevatorMotor.set(joystick.getL2Axis() - joystick.getR2Axis());
   }
 
   public void resetAll() {
-    resetAngler();
-    resetElevator();
+
   }
 
   public void nextRung() {
@@ -162,23 +131,28 @@ public class ClimberSubsystem extends SubsystemBase {
       2. secondary extends small angle
     */
     boolean elevatorDone = false;
-    boolean anglerDone = false;
+    boolean anglerLeftDone = false;
+    boolean anglerRightDone = false;
 
     elevatorStepsEntry.setString("step 1");
 
-    if (primaryElevatorMotor.getEncoder().getPosition()
+    if (elevatorMotor.getEncoder().getPosition()
         < Constants.ElevatorConstants.ELEVATOR_SMALL_DISTANCE) {
-      primaryElevatorMotor.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
+      elevatorMotor.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
-      primaryElevatorMotor.set(0);
+      elevatorMotor.set(0);
       elevatorDone = true;
     }
 
-    if (secondaryAnglerMotor.getEncoder().getPosition()
+    if (anglerDone) {
+      
+    }
+
+    if (anglerMotorLeft.getEncoder().getPosition()
         < Constants.ElevatorConstants.ANGLER_SMALL_ANGLE) {
-      secondaryAnglerMotor.set(Constants.ElevatorConstants.ANGLER_SPEED);
+      anglerMotorLeft.set(Constants.ElevatorConstants.ANGLER_SPEED);
     } else {
-      secondaryAnglerMotor.set(0);
+      anglerMotorLeft.set(0);
       anglerDone = true;
     }
 
@@ -197,16 +171,16 @@ public class ClimberSubsystem extends SubsystemBase {
     elevatorStepsEntry.setString("step 2");
 
     if (!elevatorMinSwitch.get()) {
-      primaryElevatorMotor.set(-Constants.ElevatorConstants.ELEVATOR_SPEED);
+      elevatorMotor.set(-Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
-      primaryElevatorMotor.set(0);
+      elevatorMotor.set(0);
       elevatorDone = true;
     }
 
     if (!anglerMinSwitch.get()) {
-      secondaryAnglerMotor.set(-Constants.ElevatorConstants.ANGLER_SPEED);
+      anglerMotorLeft.set(-Constants.ElevatorConstants.ANGLER_SPEED);
     } else {
-      secondaryAnglerMotor.set(0);
+      anglerMotorLeft.set(0);
       anglerDone = true;
     }
 
@@ -222,11 +196,11 @@ public class ClimberSubsystem extends SubsystemBase {
 
     elevatorStepsEntry.setString("step 3");
 
-    if (primaryElevatorMotor.getEncoder().getPosition()
+    if (elevatorMotor.getEncoder().getPosition()
         > Constants.ElevatorConstants.ELEVATOR_SMALL_DISTANCE) {
-      primaryElevatorMotor.set(-Constants.ElevatorConstants.ELEVATOR_SPEED);
+      elevatorMotor.set(-Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
-      primaryElevatorMotor.set(0);
+      elevatorMotor.set(0);
       elevatorDone = true;
     }
 
@@ -242,11 +216,11 @@ public class ClimberSubsystem extends SubsystemBase {
 
     elevatorStepsEntry.setString("step 4");
 
-    if (secondaryAnglerMotor.getEncoder().getPosition()
+    if (anglerMotorLeft.getEncoder().getPosition()
         < Constants.ElevatorConstants.ANGLER_LARGE_ANGLE) {
-      secondaryAnglerMotor.set(Constants.ElevatorConstants.ANGLER_SPEED);
+      anglerMotorLeft.set(Constants.ElevatorConstants.ANGLER_SPEED);
     } else {
-      secondaryAnglerMotor.set(0);
+      anglerMotorLeft.set(0);
       anglerDone = true;
     }
 
@@ -263,9 +237,9 @@ public class ClimberSubsystem extends SubsystemBase {
     elevatorStepsEntry.setString("step 5");
 
     if (!elevatorMaxSwitch.get()) {
-      primaryElevatorMotor.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
+      elevatorMotor.set(Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
-      primaryElevatorMotor.set(0);
+      elevatorMotor.set(0);
       elevatorDone = true;
     }
 
@@ -281,11 +255,11 @@ public class ClimberSubsystem extends SubsystemBase {
 
     elevatorStepsEntry.setString("step 6");
 
-    if (secondaryAnglerMotor.getEncoder().getPosition()
+    if (anglerMotorLeft.getEncoder().getPosition()
         < Constants.ElevatorConstants.ANGLER_IMPACT_ANGLE) {
-      secondaryAnglerMotor.set(Constants.ElevatorConstants.ANGLER_SPEED);
+      anglerMotorLeft.set(Constants.ElevatorConstants.ANGLER_SPEED);
     } else {
-      secondaryAnglerMotor.set(0);
+      anglerMotorLeft.set(0);
       anglerDone = true;
     }
 
@@ -304,16 +278,16 @@ public class ClimberSubsystem extends SubsystemBase {
     elevatorStepsEntry.setString("step 7");
 
     if (!elevatorMinSwitch.get()) {
-      primaryElevatorMotor.set(-Constants.ElevatorConstants.ELEVATOR_SPEED);
+      elevatorMotor.set(-Constants.ElevatorConstants.ELEVATOR_SPEED);
     } else {
-      primaryElevatorMotor.set(0);
+      elevatorMotor.set(0);
       elevatorDone = true;
     }
 
     if (!anglerMinSwitch.get()) {
-      secondaryAnglerMotor.set(-Constants.ElevatorConstants.ANGLER_SPEED);
+      anglerMotorLeft.set(-Constants.ElevatorConstants.ANGLER_SPEED);
     } else {
-      secondaryAnglerMotor.set(0);
+      anglerMotorLeft.set(0);
       anglerDone = true;
     }
 

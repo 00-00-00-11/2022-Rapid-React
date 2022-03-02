@@ -41,18 +41,17 @@ public class RobotContainer {
   JoystickButton indxerAndShootButton = new JoystickButton(operatorGamepad, 1);
   JoystickButton toggleIntakeButton = new JoystickButton(operatorGamepad, 3);
   JoystickButton intakeAndIndexerButton = new JoystickButton(operatorGamepad, 2);
+
   JoystickButton driverElevatorButton = new JoystickButton(climberGamepad, PS4Controller.Button.kTriangle.value);
   JoystickButton autoElevatorButton = new JoystickButton(climberGamepad, PS4Controller.Button.kCross.value);
   JoystickButton autoElevatorBackButton = new JoystickButton(climberGamepad, PS4Controller.Button.kCircle.value);
+
 
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final ShooterSubsystem m_shooter_subsystem = new ShooterSubsystem();
   public static final IntakeSubsystem m_intake = new IntakeSubsystem();
   public static final IndexerSubsystem m_IndexerSubsystem = new IndexerSubsystem();
   public static final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
-  
-  m_climberCommand = new Climber(m_climberSubsystem);
-  m_autoClimberCommand = new AutoClimber(m_climberSubsystem);
 
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(new SimDrive());
@@ -62,8 +61,8 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     
-    autoElevatorButton.whileHeld(new AutoClimber(m_climberSubsystem));
-    autoElevatorBackButton.whenPressed(new AutoClimberBack(m_climberSubsystem));
+    autoElevatorButton.whileHeld(new AutoClimber());
+    autoElevatorBackButton.whenPressed(new AutoClimberBack());
 
     toggleIntakeButton.toggleWhenPressed(new IntakeToggle());
     intakeAndIndexerButton.whileHeld(new IntakeAndIndex());

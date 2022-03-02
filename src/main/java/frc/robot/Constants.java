@@ -93,21 +93,18 @@ public final class Constants {
   public final class ElevatorConstants {
     public static final String SHUFFLEBOARD_TAB = "drive";
 
-    public static final int ELEVATOR_MOTOR = 7;
-    public static final int ANGLER_MOTOR = 8;
+    public static final double ELEVATOR_MIN = 0; // TODO set to hard limit
+    public static final double ELEVATOR_RETRACTED = 0.1;
+    public static final double ELEVATOR_SMALL_DISTANCE = 0.2; // TODO get actual value
 
-    public static final int ELEVATOR_MAX_SWITCH = 9;
-    public static final int ELEVATOR_MIN_SWITCH = 10;
+    public static final double ELEVATOR_MAX = 1; // TODO set to hard limit
 
-    public static final int ANGLER_MAX_SWITCH = 11;
-    public static final int ANGLER_MIN_SWITCH = 12;
 
-    public static final double ELEVATOR_SMALL_DISTANCE = 0.1; // TODO get actual value
     public static final double ANGLER_SMALL_ANGLE = 0.1; // TODO get actual value
     public static final double ANGLER_LARGE_ANGLE = 0.3; // TODO get actual value
     public static final double ANGLER_IMPACT_ANGLE = 0.2; // TODO get actual value
 
-    public static final double ELEVATOR_SPEED = 0.1; // TODO tune to good value
-    public static final double ANGLER_SPEED = 0.1; // TODO tune to good value
+    public static final double ELEVATOR_SPEED = 0.05; // TODO tune to good value
+    public static final double ANGLER_SPEED = 0.05; // TODO tune to good value
   }
 }
