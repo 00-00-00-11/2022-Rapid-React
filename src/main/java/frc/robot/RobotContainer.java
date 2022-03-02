@@ -21,11 +21,12 @@
  *
  */
 
+
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.*;
@@ -33,69 +34,43 @@ import frc.robot.subsystems.*;
 
 public class RobotContainer {
 
-  /* SUBSYSTEMS */
-  public static DriveSubsystem m_driveSubsystem;
-  public static ClimberSubsystem m_climberSubsystem;
+  public static final PS4Controller driverGamepad = new PS4Controller(0);
+  public static final PS4Controller operatorGamepad = new PS4Controller(1);
+  public static final PS4Controller climberGamepad = new PS4Controller(2);
 
-  /* COMMANDS */
-  public static Climber m_climberCommand;
-  public static AutoClimber m_autoClimberCommand;
+  JoystickButton indxerAndShootButton = new JoystickButton(operatorGamepad, 1);
+  JoystickButton toggleIntakeButton = new JoystickButton(operatorGamepad, 3);
+  JoystickButton intakeAndIndexerButton = new JoystickButton(operatorGamepad, 2);
+  JoystickButton driverElevatorButton = new JoystickButton(climberGamepad, PS4Controller.Button.kTriangle.value);
+  JoystickButton autoElevatorButton = new JoystickButton(climberGamepad, PS4Controller.Button.kCross.value);
+  JoystickButton autoElevatorBackButton = new JoystickButton(climberGamepad, PS4Controller.Button.kCircle.value);
 
-  /* CONTROLLERS AND OTHER INPUTS */
-  public static PS4Controller driverController;
-  public static PS4Controller operatorController;
+  public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  public static final ShooterSubsystem m_shooter_subsystem = new ShooterSubsystem();
+  public static final IntakeSubsystem m_intake = new IntakeSubsystem();
+  public static final IndexerSubsystem m_IndexerSubsystem = new IndexerSubsystem();
+  public static final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
+  
+  m_climberCommand = new Climber(m_climberSubsystem);
+  m_autoClimberCommand = new AutoClimber(m_climberSubsystem);
 
-  Button driverElevatorButton =
-      new JoystickButton(operatorController, PS4Controller.Button.kTriangle.value);
-  Button autoElevatorButton =
-      new JoystickButton(operatorController, PS4Controller.Button.kCross.value);
-  Button autoElevatorBackButton =
-      new JoystickButton(operatorController, PS4Controller.Button.kCircle.value);
-
-  public RobotContainer() throws Exception {
-
-    try {
-      m_driveSubsystem = new DriveSubsystem();
-    } catch (Exception err) {
-      throw new ExceptionInInitializerError("[ERROR] COULDN'T INITIALIZE DRIVE SUBSYSTEM");
-    }
-
-    try {
-      driverController = new PS4Controller(Constants.RobotMap.DRIVER_CONTROLLER_PORT);
-      operatorController = new PS4Controller(Constants.RobotMap.OPERATOR_CONTROLLER_PORT);
-    } catch (Exception err) {
-      throw new ExceptionInInitializerError("[ERROR] COULDN'T INITIALIZE JOYSTICKS");
-    }
-
-    try {
-      m_climberSubsystem = new ClimberSubsystem();
-    } catch (Exception err) {
-      throw new ExceptionInInitializerError("[ERROR] COULDN'T INITIALIZE CLIMBER COMMAND");
-    }
-
-    try {
-      m_climberCommand = new Climber(m_climberSubsystem);
-    } catch (Exception err) {
-      throw new ExceptionInInitializerError("[ERROR] COULDN'T INITIALIZE CLIMBER SUBSYSTEM");
-    }
-
-    try {
-      m_autoClimberCommand = new AutoClimber(m_climberSubsystem);
-    } catch (Exception err) {
-      throw new ExceptionInInitializerError("[ERROR] COULDN'T INITIALIZE AUTOCLIMBER COMMAND");
-    }
-
+  public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(new SimDrive());
 
     configureButtonBindings();
   }
 
   private void configureButtonBindings() {
+    
     autoElevatorButton.whileHeld(new AutoClimber(m_climberSubsystem));
     autoElevatorBackButton.whenPressed(new AutoClimberBack(m_climberSubsystem));
 
+    toggleIntakeButton.toggleWhenPressed(new IntakeToggle());
+    intakeAndIndexerButton.whileHeld(new IntakeAndIndex());
+    indxerAndShootButton.whileHeld(new IndexerAndShoot());
+    
     for (int i = 0; i < 360; i += 45) {
-      new POVButton(driverController, i).whileHeld(new QuickTurn(i));
+      new POVButton(driverGamepad, i).whileHeld(new QuickTurn(i));
     }
   }
 

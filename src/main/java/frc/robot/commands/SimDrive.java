@@ -6,22 +6,23 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.DriveSubsystem;
-
+import edu.wpi.first.math.filter.SlewRateLimiter;
 public class SimDrive extends CommandBase {
-
-  private DriveSubsystem driveSub = RobotContainer.m_driveSubsystem;
+  SlewRateLimiter filter = new SlewRateLimiter(0.5);
 
   /** Creates a new SimDrive. */
   public SimDrive() {
     // Use addRequirRobments() here to declare subsystem dependencies.
-    addRequirements(driveSub);
+    addRequirements(RobotContainer.m_driveSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -33,27 +34,22 @@ public class SimDrive extends CommandBase {
 
     valetSpeed = valet ? .3 : 1;
 
-    double leftAxis = RobotContainer.driverController.getLeftX();
-    double rightAxis = RobotContainer.driverController.getRightX();
-    double r2 = RobotContainer.driverController.getR2Axis();
-    double l2 = RobotContainer.driverController.getL2Axis();
+    double leftAxis = RobotContainer.driverGamepad.getLeftX();
+    double rightAxis = RobotContainer.driverGamepad.getRightX();
+    double r2 = RobotContainer.driverGamepad.getR2Axis();
+    double l2 = RobotContainer.driverGamepad.getL2Axis();
 
     double speed = (r2 - l2) * valetSpeed;
-    if (driveSub.getDirection() < 0) {
-      leftAxis = -leftAxis;
-    }
-    driveSub.curveDrive(speed, leftAxis, false);
+    RobotContainer.m_driveSubsystem.curveDrive(filter.calculate(speed), leftAxis, false);
 
-    if (Math.abs(rightAxis) > .25) { // TODO make .25 a cosntant
-      driveSub.curveDrive(0, rightAxis, true); // Will override previous curve drive
+    if (Math.abs(rightAxis) > Constants.DriveConstants.DEADZONE) { 
+      RobotContainer.m_driveSubsystem.curveDrive(0, rightAxis, true); 
     }
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;

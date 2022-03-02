@@ -96,13 +96,8 @@ public class DriveSubsystem extends SubsystemBase {
   Pose2d pose;
   UsbCamera driverCam;
 
-  public DriveSubsystem() throws Exception {
-
-    try {
-      gyro = new AHRS(SPI.Port.kMXP);
-    } catch (Exception err) {
-      throw new Exception("Trouble initializing NavX");
-    }
+  public DriveSubsystem() {
+    gyro = new AHRS(SPI.Port.kMXP);
 
     rightMaster = SparkMaxUtility.constructSparkMax(Constants.RobotMap.RIGHT_MASTER_CAN, true);
     rightSlave1 = SparkMaxUtility.constructSparkMax(Constants.RobotMap.RIGHT_SLAVE_CAN1, true);
@@ -148,7 +143,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     driveTab.add("Turn PID", turnPID).withWidget(BuiltInWidgets.kPIDController);
 
-    invertMotors(false);
+    // invertMotors(false);
+    
     rightMotors.setInverted(true);
     setBrake(true);
 
@@ -257,19 +253,19 @@ public class DriveSubsystem extends SubsystemBase {
     return gyro.getAngle();
   }
 
-  public double getDirection() {
-    double leftV = leftEncoder.getVelocity();
-    double rightV = -rightEncoder.getVelocity();
+  // public double getDirection() {
+  //   double leftV = leftEncoder.getVelocity();
+  //   double rightV = -rightEncoder.getVelocity();
 
-    SmartDashboard.putNumber("Left V", leftV);
-    SmartDashboard.putNumber("Right V", rightV);
+  //   SmartDashboard.putNumber("Left V", leftV);
+  //   SmartDashboard.putNumber("Right V", rightV);
 
-    double average = (leftV + rightV) / 2.0;
-    SmartDashboard.putNumber("Average V", average);
-    SmartDashboard.putBoolean("Direction", average > .1);
+  //   double average = (leftV + rightV) / 2.0;
+  //   SmartDashboard.putNumber("Average V", average);
+  //   SmartDashboard.putBoolean("Direction", average > .1);
 
-    return average;
-  }
+  //   return average;
+  // }
 
   public double getAngleBetween(double current, double target) {
     double degrees = target - current;

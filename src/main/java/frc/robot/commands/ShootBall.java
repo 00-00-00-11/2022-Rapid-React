@@ -7,10 +7,18 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
-public class TankDrive extends CommandBase {
-  /** Creates a new TankDrive. */
-  public TankDrive() {
-    addRequirements(RobotContainer.m_driveSubsystem);
+/** An example command that uses an example subsystem. */
+public class ShootBall extends CommandBase {
+  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+
+  /**
+   * Creates a new ShootCommand.
+   *
+   * @param subsystem The subsystem used by this command.
+   */
+  public ShootBall() {
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(RobotContainer.m_shooter_subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -20,15 +28,16 @@ public class TankDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double left = RobotContainer.driverGamepad.getLeftY();
-    double right = RobotContainer.driverGamepad.getRightY();
-
-    RobotContainer.m_driveSubsystem.tankDrive(left, right);
+    RobotContainer.m_shooter_subsystem.shootBalls(true);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    if (interrupted) {
+      RobotContainer.m_shooter_subsystem.shootBalls(false);
+    }
+  }
 
   // Returns true when the command should end.
   @Override

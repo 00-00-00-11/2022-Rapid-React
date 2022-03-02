@@ -5,30 +5,35 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
-public class TankDrive extends CommandBase {
-  /** Creates a new TankDrive. */
-  public TankDrive() {
-    addRequirements(RobotContainer.m_driveSubsystem);
+public class RunIndexer extends CommandBase {
+  /** Creates a new IndexerCommand. */
+  public RunIndexer() {
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(RobotContainer.m_IndexerSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    RobotContainer.m_IndexerSubsystem.runIndexer(0d);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double left = RobotContainer.driverGamepad.getLeftY();
-    double right = RobotContainer.driverGamepad.getRightY();
-
-    RobotContainer.m_driveSubsystem.tankDrive(left, right);
+    RobotContainer.m_IndexerSubsystem.runIndexer(Constants.IndexerConstants.indexerSpeed);
+    RobotContainer.m_IndexerSubsystem.setIsRunning(true);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    RobotContainer.m_IndexerSubsystem.runIndexer(0d);
+    RobotContainer.m_IndexerSubsystem.setIsRunning(false);
+  }
 
   // Returns true when the command should end.
   @Override
