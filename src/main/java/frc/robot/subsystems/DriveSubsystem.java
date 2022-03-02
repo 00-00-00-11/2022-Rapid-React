@@ -489,11 +489,10 @@ public class DriveSubsystem extends SubsystemBase {
             }),
 
         new InstantCommand(
-          () -> {
-            long elapsedTime = System.currentTimeMillis() - startTime;
-            SmartDashboard.putNumber("AUTO TIME", elapsedTime/1000);
-          }
-        )
+            () -> {
+              long elapsedTime = System.currentTimeMillis() - startTime;
+              SmartDashboard.putNumber("AUTO TIME", elapsedTime / 1000);
+            })
 
     );
   }
@@ -506,14 +505,69 @@ public class DriveSubsystem extends SubsystemBase {
     resetOdometry(traj1.getInitialPose());
 
     return new SequentialCommandGroup(
-        RamseteUtility.createRamseteCommand(traj1, RobotContainer.m_driveSubsystem, false)
-            .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
-        RamseteUtility.createRamseteCommand(traj2, RobotContainer.m_driveSubsystem, false)
-            .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+
+        new InstantCommand(
+            () -> {
+              RobotContainer.m_intake.forwardIntake();
+              SmartDashboard.putString("AUTO STATUS", "EXTENDED INTAKE");
+            }),
+
+        new ParallelRaceGroup(
+            RamseteUtility.createRamseteCommand(traj1, RobotContainer.m_driveSubsystem, false)
+                .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+            new IntakeAndIndex()),
+
+        new InstantCommand(
+            () -> {
+              RobotContainer.m_intake.reverseIntake();
+              SmartDashboard.putString("AUTO STATUS", "RETRACTED INTAKE");
+            }),
+
+        new InstantCommand(
+            () -> {
+              RobotContainer.m_intake.forwardIntake();
+              SmartDashboard.putString("AUTO STATUS", "EXTENDED INTAKE");
+            }),
+
+        new ParallelRaceGroup(
+            RamseteUtility.createRamseteCommand(traj2, RobotContainer.m_driveSubsystem, false)
+                .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+            new IntakeAndIndex()),
+
+        new InstantCommand(
+            () -> {
+              RobotContainer.m_intake.reverseIntake();
+              SmartDashboard.putString("AUTO STATUS", "RETRACTED INTAKE");
+            }),
+
         RamseteUtility.createRamseteCommand(traj3, RobotContainer.m_driveSubsystem, false)
             .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
-        RamseteUtility.createRamseteCommand(traj4, RobotContainer.m_driveSubsystem, false)
-            .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)));
+
+        new InstantCommand(
+            () -> {
+              RobotContainer.m_shooter_subsystem.shootCIM(Constants.ShooterConstants.kCIMSpeed);
+              SmartDashboard.putString("AUTO STATUS", "SHOOTING");
+            }),
+
+        new WaitCommand(2),
+
+        new InstantCommand(
+            () -> {
+              RobotContainer.m_shooter_subsystem.shootCIM(0);
+              SmartDashboard.putString("AUTO STATUS", "STOPPED SHOOTING");
+            }),
+
+        new InstantCommand(
+            () -> {
+              RobotContainer.m_intake.forwardIntake();
+              SmartDashboard.putString("AUTO STATUS", "EXTENDED INTAKE");
+            }),
+
+        new ParallelRaceGroup(
+            RamseteUtility.createRamseteCommand(traj4, RobotContainer.m_driveSubsystem, false)
+                .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0))),
+        new IntakeAndIndex());
+
   }
 
   public SequentialCommandGroup TwoBallAuto(DriveSubsystem drive) {
@@ -531,7 +585,7 @@ public class DriveSubsystem extends SubsystemBase {
         RamseteUtility.createRamseteCommand(traj3, RobotContainer.m_driveSubsystem, false)
             .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
         RamseteUtility.createRamseteCommand(traj4, RobotContainer.m_driveSubsystem, false)
-            .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0,0)));
+            .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)));
   }
 
 }
