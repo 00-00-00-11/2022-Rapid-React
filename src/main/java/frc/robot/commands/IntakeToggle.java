@@ -22,6 +22,7 @@ public class IntakeToggle extends CommandBase {
   @Override
   public void execute() {
     RobotContainer.m_intake.forwardIntake();
+    System.out.println("extending intake");
   }
 
   // Called once the command ends or is interrupted.

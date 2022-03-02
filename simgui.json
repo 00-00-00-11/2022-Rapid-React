@@ -2,22 +2,29 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
-      "/LiveWindow/IndexerSubsystem": "Subsystem",
+      "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
+      "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[3]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
+      "/Shuffleboard/Drive/Differential Drive": "DifferentialDrive",
+      "/Shuffleboard/Drive/Field View": "Field2d",
+      "/Shuffleboard/Drive/Gyro": "Gyro",
+      "/Shuffleboard/Drive/Turn PID": "PIDController",
+      "/SmartDashboard/Auto Routine Chooser": "String Chooser",
       "/SmartDashboard/run indexer": "Command"
-    }
-  },
-  "NetworkTables": {
-    "Shuffleboard": {
-      "Drive": {
-        "open": true
-      },
-      "open": true
     },
-    "SmartDashboard": {
-      "open": true,
-      "run indexer": {
-        "open": true
+    "windows": {
+      "/Shuffleboard/Drive/Field View": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Auto Routine Chooser": {
+        "window": {
+          "visible": true
+        }
       }
     }
   }
