@@ -46,9 +46,6 @@ public class ClimberSubsystem extends SubsystemBase {
   
   double AnglerSpeed = Constants.ElevatorConstants.ANGLER_SPEED;
 
-  int currentStep = 0;
-  int lastFinishedStep = 0;
-
   public ClimberSubsystem() {
     elevatorMotor = new CANSparkMax(
         Constants.RobotMap.CLIMBER_LINEAR_CAN, 
