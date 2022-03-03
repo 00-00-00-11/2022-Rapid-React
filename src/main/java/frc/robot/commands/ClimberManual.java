@@ -6,13 +6,12 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.ClimberSubsystem;
 
-public class ElevatorNextStep extends CommandBase {
-  /** Creates a new ElevatorNextStep. */
-  public ElevatorNextStep(ClimberSubsystem subsystem) {
+public class ClimberManual extends CommandBase {
+  /** Creates a new ManualClimber. */
+  public ClimberManual() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+    addRequirements(RobotContainer.m_climberSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -22,10 +21,7 @@ public class ElevatorNextStep extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_climberSubsystem.nextStep();
-    System.out.println("nextSteplogged");
-    System.out.println("current: " + RobotContainer.m_climberSubsystem.getCurrentStep());
-    System.out.println("lastfin: " + RobotContainer.m_climberSubsystem.getLastFinishedStep());
+    RobotContainer.m_climberSubsystem.elevatorDriver(RobotContainer.climberGamepad);
   }
 
   // Called once the command ends or is interrupted.
@@ -35,6 +31,6 @@ public class ElevatorNextStep extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

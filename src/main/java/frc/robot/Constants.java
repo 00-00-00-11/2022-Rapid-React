@@ -96,7 +96,8 @@ public final class Constants {
     public static final double ELEVATOR_MIN = 0; // TODO set to hard limit
     public static final double ELEVATOR_RETRACTED = 0.1;
     public static final double ELEVATOR_SMALL_DISTANCE = 0.2; // TODO get actual value
-
+    public static final double ELEVATOR_LARGE_DISTANCE = 0.5;
+    public static final double ELEVATOR_EXTENDED = 0.8;
     public static final double ELEVATOR_MAX = 1; // TODO set to hard limit
 
 
