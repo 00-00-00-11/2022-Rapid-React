@@ -25,6 +25,8 @@ Automated (Run Once Per Button):
 package frc.robot.subsystems;
 
 import com.revrobotics.*;
+import com.revrobotics.CANSparkMax.IdleMode;
+
 import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.shuffleboard.*;
@@ -63,6 +65,7 @@ public class ClimberSubsystem extends SubsystemBase {
         Constants.RobotMap.CLIMBER_LINEAR_CAN, 
         CANSparkMaxLowLevel.MotorType.kBrushless
       );
+
     anglerMotorLeft = new CANSparkMax(
         Constants.RobotMap.CLIMBER_LEFT_ARM_CAN, 
         CANSparkMaxLowLevel.MotorType.kBrushless
@@ -72,6 +75,14 @@ public class ClimberSubsystem extends SubsystemBase {
       Constants.RobotMap.CLIMBER_RIGHT_ARM_CAN, 
       CANSparkMaxLowLevel.MotorType.kBrushless
     );
+
+    elevatorMotor.setIdleMode(IdleMode.kBrake);
+    anglerMotorLeft.setIdleMode(IdleMode.kBrake);
+    anglerMotorRight.setIdleMode(IdleMode.kBrake);
+
+    elevatorMotor.setInverted(false);
+    anglerMotorLeft.setInverted(false);
+    anglerMotorRight.setInverted(false);
   }
 
   @Override
@@ -79,10 +90,17 @@ public class ClimberSubsystem extends SubsystemBase {
 
   // Manual Control
   public void elevatorDriver(PS4Controller joystick) {
-    anglerMotorLeft.set(joystick.getRightY());
-    anglerMotorRight.set(joystick.getRightY());
+    System.out.println("manual control enabled");
+    anglerMotorLeft.set(-0.1*(joystick.getR2Axis() - joystick.getL2Axis()));
+    anglerMotorRight.set(0.1*(joystick.getR2Axis() - joystick.getL2Axis()));
 
-    elevatorMotor.set(joystick.getL2Axis() - joystick.getR2Axis());
+    elevatorMotor.set(-0.1*joystick.getLeftY());
+
+    if (-joystick.getLeftY() < 0) {
+      elevatorMotor.set(-0.5*joystick.getLeftY());
+    } else {
+      elevatorMotor.set(-0.5*joystick.getLeftY());
+    }
   }
 
   public void nextStep() { currentStep += 1; }
