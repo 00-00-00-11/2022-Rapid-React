@@ -41,10 +41,6 @@ public class RobotContainer {
   JoystickButton toggleIntakeButton = new JoystickButton(operatorGamepad, 3);
   JoystickButton intakeAndIndexerButton = new JoystickButton(operatorGamepad, 2);
 
-  JoystickButton autoClimbNextStep = new JoystickButton(climberGamepad, PS4Controller.Button.kTriangle.value);
-  JoystickButton autoClimbExecute = new JoystickButton(climberGamepad, PS4Controller.Button.kCross.value);
-  JoystickButton autoClimbPrevStep = new JoystickButton(climberGamepad, PS4Controller.Button.kCircle.value);
-
   JoystickButton manualClimbToggle = new JoystickButton(climberGamepad, PS4Controller.Button.kSquare.value);
 
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
@@ -60,10 +56,6 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    
-    autoClimbExecute.whenPressed(new AutoClimberRunStep());
-    autoClimbNextStep.whenPressed(new AutoClimberNextStep()); 
-    autoClimbPrevStep.whenPressed(new AutoClimberPrevStep()); 
 
     manualClimbToggle.toggleWhenPressed(new ClimberManual());
 
