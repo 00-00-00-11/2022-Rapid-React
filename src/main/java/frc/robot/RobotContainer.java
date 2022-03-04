@@ -24,7 +24,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -37,9 +36,9 @@ public class RobotContainer {
   public static final PS4Controller driverGamepad = new PS4Controller(0);
   public static final PS4Controller operatorGamepad = new PS4Controller(1);
 
-  JoystickButton indxerAndShootButton = new JoystickButton(operatorGamepad, 1);
-  JoystickButton toggleIntakeButton = new JoystickButton(operatorGamepad, 3);
-  JoystickButton intakeAndIndexerButton = new JoystickButton(operatorGamepad, 2);
+  JoystickButton indxerAndShootButton = new JoystickButton(driverGamepad, 1);
+  JoystickButton toggleIntakeButton = new JoystickButton(driverGamepad, 3);
+  JoystickButton intakeAndIndexerButton = new JoystickButton(driverGamepad, 2);
 
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final ShooterSubsystem m_shooter_subsystem = new ShooterSubsystem();
