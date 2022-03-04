@@ -30,7 +30,6 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.RelativeEncoder;
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
@@ -176,9 +175,6 @@ public class DriveSubsystem extends SubsystemBase {
         new PIDController(
             Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
 
-    // Camera
-    driverCam = CameraServer.startAutomaticCapture();
-    driveTab.add("Driver Cam", driverCam).withWidget(BuiltInWidgets.kCameraStream);
   }
 
   /**
