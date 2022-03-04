@@ -1,46 +1,26 @@
-> Task :compileJava UP-TO-DATE
+> Task :compileJava
 > Task :processResources NO-SOURCE
-> Task :classes UP-TO-DATE
+> Task :classes
 > Task :downloadDepsPreemptively
-> Task :jar UP-TO-DATE
+> Task :jar
+> Task :assemble
+> Task :spotlessInternalRegisterDependencies UP-TO-DATE
+> Task :spotlessGroovyGradle UP-TO-DATE
+> Task :spotlessGroovyGradleCheck UP-TO-DATE
+> Task :spotlessJava
+> Task :spotlessJavaCheck
+> Task :spotlessMisc UP-TO-DATE
+> Task :spotlessMiscCheck UP-TO-DATE
+> Task :spotlessXml UP-TO-DATE
+> Task :spotlessXmlCheck UP-TO-DATE
+> Task :spotlessCheck
+> Task :extractReleaseNative UP-TO-DATE
+> Task :compileTestJava NO-SOURCE
+> Task :processTestResources NO-SOURCE
+> Task :testClasses UP-TO-DATE
+> Task :test NO-SOURCE
+> Task :check
+> Task :build
 
-> Task :discoverroborio
-Discovering Target roborio
-Using admin@10.68.97.2:22 for target roborio
-
-> Task :deployStageroborioBeforeProgramKill
-
-> Task :deployprogramKillroborioroborio
-    -C-> sed -i -e 's/"exec /"/' /usr/local/frc/bin/frcRunRobot.sh @ /home/lvuser
-      -[-1]
-    -C-> . /etc/profile.d/natinst-path.sh; /usr/local/frc/bin/frcKillRobot.sh -t 2> /dev/null @ /home/lvuser
-    -C-> sed -i -e 's/^StartupDLLs/;StartupDLLs/' /etc/natinst/share/ni-rt.ini @ /home/lvuser
-      -[-1]
-
-> Task :deployStageroborioProgramKill
-> Task :deployStageroborioAfterProgramKill
-> Task :deployStageroborioFileRetreival
-
-> Task :deployjrefrcJavaroborio
-    -C-> if [[ -f "/usr/local/frc/JRE/bin/java" ]]; then echo OK; else echo MISSING; fi @ /tmp
-      -[0]-> OK
-
-  Artifact skipped
-
-> Task :deployfrcStaticFileDeployroborio
-    -C-> mkdir -p output @ /home/lvuser/deploy
-    1 file(s) are up-to-date and were not deployed
-
-> Task :deployfrcJavaroborio
-    1 file(s) are up-to-date and were not deployed
-    -C-> chmod +x "/home/lvuser/2022-Rapid-React.jar"; chown lvuser "/home/lvuser/2022-Rapid-React.jar" @ /home/lvuser
-
-> Task :writeTargetDebugInforoborio
-> Task :writeDebugInfo
-
-> Task :deploynativeZipsfrcJavaroborio
-    26 file(s) are up-to-date and were not deployed
-    -C-> chmod -R 777 "/usr/local/frc/third-party/lib" || true; chown -R lvuser:ni "/usr/local/frc/third-party/lib" @ /usr/local/frc/third-party/lib
-    -C-> ldconfig @ /usr/local/frc/third-party/lib
-
-> Task :deployrobotCommandfrcJavaroborio
+BUILD SUCCESSFUL in 2s
+13 actionable tasks: 5 executed, 8 up-to-date
