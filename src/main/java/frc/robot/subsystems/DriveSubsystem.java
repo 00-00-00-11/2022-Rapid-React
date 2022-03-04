@@ -176,9 +176,6 @@ public class DriveSubsystem extends SubsystemBase {
         new PIDController(
             Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
 
-    // Camera
-    driverCam = CameraServer.startAutomaticCapture();
-    driveTab.add("Driver Cam", driverCam).withWidget(BuiltInWidgets.kCameraStream);
   }
 
   /**
