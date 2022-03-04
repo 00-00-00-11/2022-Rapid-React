@@ -33,8 +33,8 @@ import frc.robot.subsystems.*;
 
 public class RobotContainer {
 
-  public static final PS4Controller driverGamepad = new PS4Controller(0);
-  public static final PS4Controller operatorGamepad = new PS4Controller(1);
+  public static final PS4Controller driverGamepad = new PS4Controller(Constants.RobotMap.DRIVER_CONTROLLER_PORT);
+  public static final PS4Controller operatorGamepad = new PS4Controller(Constants.RobotMap.OPERATOR_CONTROLLER_PORT);
 
   JoystickButton indxerAndShootButton = new JoystickButton(driverGamepad, 1);
   JoystickButton toggleIntakeButton = new JoystickButton(driverGamepad, 3);
@@ -54,9 +54,9 @@ public class RobotContainer {
     toggleIntakeButton.toggleWhenPressed(new IntakeToggle());
     intakeAndIndexerButton.whileHeld(new IntakeAndIndex());
     indxerAndShootButton.whileHeld(new IndexerAndShoot());
-    for (int i = 0; i < 360; i += 45) {
-      new POVButton(driverGamepad, i).whileHeld(new QuickTurn(i));
-    }
+    // for (int i = 0; i < 360; i += 45) {
+    //   new POVButton(driverGamepad, i).whileHeld(new QuickTurn(i));
+    // }
   }
 
   public Command getAutonomousCommand() {
