@@ -33,17 +33,20 @@ import frc.robot.subsystems.*;
 
 public class RobotContainer {
 
+
   public static final PS4Controller driverGamepad = new PS4Controller(Constants.RobotMap.DRIVER_CONTROLLER_PORT);
   public static final PS4Controller operatorGamepad = new PS4Controller(Constants.RobotMap.OPERATOR_CONTROLLER_PORT);
 
   JoystickButton indxerAndShootButton = new JoystickButton(driverGamepad, 1);
   JoystickButton toggleIntakeButton = new JoystickButton(driverGamepad, 3);
   JoystickButton intakeAndIndexerButton = new JoystickButton(driverGamepad, 2);
+  JoystickButton manualClimbToggle = new JoystickButton(operatorGamepad, PS4Controller.Button.kSquare.value);
 
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final ShooterSubsystem m_shooter_subsystem = new ShooterSubsystem();
   public static final IntakeSubsystem m_intake = new IntakeSubsystem();
-  public static IndexerSubsystem m_IndexerSubsystem = new IndexerSubsystem();
+  public static final IndexerSubsystem m_IndexerSubsystem = new IndexerSubsystem();
+  public static final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
 
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(new SimDrive());
@@ -51,12 +54,12 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
+
+    manualClimbToggle.toggleWhenPressed(new ClimberManual());
+
     toggleIntakeButton.toggleWhenPressed(new IntakeToggle());
     intakeAndIndexerButton.whileHeld(new IntakeAndIndex());
     indxerAndShootButton.whileHeld(new IndexerAndShoot());
-    // for (int i = 0; i < 360; i += 45) {
-    //   new POVButton(driverGamepad, i).whileHeld(new QuickTurn(i));
-    // }
   }
 
   public Command getAutonomousCommand() {
