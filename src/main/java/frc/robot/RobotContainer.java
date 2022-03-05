@@ -67,7 +67,7 @@ public class RobotContainer {
     switch (m_driveSubsystem.getSelectedFromChooser()) {
       case 0:
         return new SequentialCommandGroup(
-          new ExitTarmac(),
+          new ExitTarmac()
           
         );
       case 2:
