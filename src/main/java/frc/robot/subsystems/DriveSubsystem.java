@@ -30,7 +30,6 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.RelativeEncoder;
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
@@ -213,6 +212,20 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putData("Auto Routine Chooser", m_chooser);
 
     simInvert = Robot.isReal() ? -1 : 1;
+
+    feedforward =
+        new SimpleMotorFeedforward(
+            Constants.DriveConstants.ksVolts,
+            Constants.DriveConstants.kvVoltSecondsPerMeter,
+            Constants.DriveConstants.kaVoltSecondsSquaredPerMeter);
+    leftPID =
+        new PIDController(
+            Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
+    rightPID =
+        new PIDController(
+            Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
+
+
   }
 
   /**
