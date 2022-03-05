@@ -6,6 +6,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -24,6 +25,8 @@ public class Robot extends TimedRobot {
     } catch (Exception err) {
       throw new ExceptionInInitializerError("[ERROR] COULDN'T INITIALIZE ROBOT CONTAINER");
     }
+
+    SmartDashboard.putString("AUTO STATUS", "NO CHOSEN AUTO");
   }
 
   @Override
@@ -35,7 +38,11 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    if (RobotContainer.m_driveSubsystem != null) {
+      RobotContainer.m_driveSubsystem.setBrake(false);
+    }
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -43,7 +50,14 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    System.out.println("Pain1");
+    RobotContainer.m_driveSubsystem.resetEncoders();
+    if (RobotContainer.m_driveSubsystem != null) {
+      RobotContainer.m_driveSubsystem.setBrake(true);
+    }
+
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    // Command m_exitTarmac = new ExitTarmac();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -61,8 +75,15 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+
+    RobotContainer.m_driveSubsystem.resetEncoders();
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
+    }
+
+    if (RobotContainer.m_driveSubsystem != null) {
+      RobotContainer.m_driveSubsystem.setBrake(true);
     }
   }
 
@@ -84,8 +105,7 @@ public class Robot extends TimedRobot {
   public void simulationInit() {
     CANSparkMax[] motors = RobotContainer.m_driveSubsystem.getMotors();
     for (CANSparkMax motor : motors) {
-      REVPhysicsSim.getInstance()
-          .addSparkMax(motor, DCMotor.getNEO(1)); // TODO what motors do we use?
+      REVPhysicsSim.getInstance().addSparkMax(motor, DCMotor.getNEO(1));
     }
   }
 

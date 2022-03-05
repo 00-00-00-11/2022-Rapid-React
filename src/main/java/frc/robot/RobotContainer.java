@@ -26,21 +26,16 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-
 public class RobotContainer {
 
-<<<<<<< HEAD
 
   public static final PS4Controller driverGamepad = new PS4Controller(Constants.RobotMap.DRIVER_CONTROLLER_PORT);
   public static final PS4Controller operatorGamepad = new PS4Controller(Constants.RobotMap.OPERATOR_CONTROLLER_PORT);
-=======
-  public static final PS4Controller driverGamepad = new PS4Controller(0);
-  public static final PS4Controller operatorGamepad = new PS4Controller(1);
->>>>>>> parent of 722bf87 (updated)
 
   JoystickButton indxerAndShootButton = new JoystickButton(driverGamepad, 1);
   JoystickButton toggleIntakeButton = new JoystickButton(driverGamepad, 3);
@@ -65,15 +60,25 @@ public class RobotContainer {
     toggleIntakeButton.toggleWhenPressed(new IntakeToggle());
     intakeAndIndexerButton.whileHeld(new IntakeAndIndex());
     indxerAndShootButton.whileHeld(new IndexerAndShoot());
-<<<<<<< HEAD
-=======
-    for (int i = 0; i < 360; i += 45) {
-      new POVButton(driverGamepad, i).whileHeld(new QuickTurn(i));
-    }
->>>>>>> parent of 722bf87 (updated)
   }
 
   public Command getAutonomousCommand() {
-    return null;
+    System.out.println(m_driveSubsystem.getSelectedFromChooser());
+    switch (m_driveSubsystem.getSelectedFromChooser()) {
+      case 0:
+        return new SequentialCommandGroup(
+          new ExitTarmac(),
+          
+        );
+      case 2:
+        return m_driveSubsystem.TwoBallAuto(m_driveSubsystem);
+      case 3:
+        return m_driveSubsystem.ThreeBallAuto(m_driveSubsystem);
+      case 4:
+        return m_driveSubsystem.FourBallAuto(m_driveSubsystem);
+      default:
+        return null;
+    }        
   }
+
 }

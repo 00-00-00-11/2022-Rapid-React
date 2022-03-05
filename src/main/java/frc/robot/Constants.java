@@ -27,12 +27,12 @@ public final class Constants {
     public static final int OPERATOR_CONTROLLER_PORT = 1;
     
     /* DRIVE SUBSYSTEM */
-    public static final int RIGHT_MASTER_CAN = 1;
-    public static final int RIGHT_SLAVE_CAN1 = 2;
-    public static final int RIGHT_SLAVE_CAN2 = 3;
-    public static final int LEFT_MASTER_CAN = 4;
-    public static final int LEFT_SLAVE_CAN1 = 5;
-    public static final int LEFT_SLAVE_CAN2 = 6;
+    public static final int RIGHT_MASTER_CAN = 3;
+    public static final int RIGHT_SLAVE_CAN1 = 4;
+    public static final int RIGHT_SLAVE_CAN2 = 78;
+    public static final int LEFT_MASTER_CAN = 1;
+    public static final int LEFT_SLAVE_CAN1 = 2;
+    public static final int LEFT_SLAVE_CAN2 = 23;
 
     /* INTAKE SUBSYSTEM */
     public static final int INTAKE_CAN = 7;
@@ -72,15 +72,15 @@ public final class Constants {
     public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
     public static final double GEAR_RATIO = 10.71;
 
-    public static final double ksVolts = 0.0;
-    public static final double kvVoltSecondsPerMeter = 0.0;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.0;
+    public static final double ksVolts = .145;
+    public static final double kvVoltSecondsPerMeter = 2.8;
+    public static final double kaVoltSecondsSquaredPerMeter = .425;
 
     public static final double jKg_METERS_SQUARED = 7.5; // TODO get actual value
     public static final double ROBOT_MASS = 60; // in kg // TODO get actual value
     public static final double TRACK_WIDTH = 0.7112; // in kg // TODO get actual value
 
-    public static final double kP = 0.0;
+    public static final double kP = 0.01;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
     public static final double DEADZONE = 0.25;
@@ -90,6 +90,10 @@ public final class Constants {
     public static final double indexerSpeed = 0.5;
   }
 
+  public final class AutoConstants {
+    public static final double AUTO_DIST = 10;
+  }
+    
   public final class ElevatorConstants {
     public static final String SHUFFLEBOARD_TAB = "drive";
 

@@ -16,15 +16,16 @@
       "/Shuffleboard/Drive/Field View": "Field2d",
       "/Shuffleboard/Drive/Gyro": "Gyro",
       "/Shuffleboard/Drive/Turn PID": "PIDController",
+      "/SmartDashboard/Auto Routine Chooser": "String Chooser",
       "/SmartDashboard/run indexer": "Command"
     },
     "windows": {
-      "/Shuffleboard/Drive/Differential Drive": {
+      "/Shuffleboard/Drive/Field View": {
         "window": {
           "visible": true
         }
       },
-      "/Shuffleboard/Drive/Field View": {
+      "/SmartDashboard/Auto Routine Chooser": {
         "window": {
           "visible": true
         }
@@ -32,17 +33,8 @@
     }
   },
   "NetworkTables": {
-    "Shuffleboard": {
-      "Drive": {
-        "open": true
-      },
-      "open": true
-    },
     "SmartDashboard": {
-      "open": true,
-      "run indexer": {
-        "open": true
-      }
+      "open": true
     }
   }
 }
