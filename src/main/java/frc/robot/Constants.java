@@ -52,15 +52,15 @@ public final class Constants {
 
     /* PNEUMATICS SUBSYSTEM */
     public static final int HUB_CAN = 15;
-    public static final int HUB_SOLENOID1_1 = 1;
-    public static final int HUB_SOLENOID1_2 = 0;
-    public static final int HUB_SOLENOID2_1 = 2;
-    public static final int HUB_SOLENOID2_2 = 3;
+    public static final int HUB_SOLENOID1_1 = 14;
+    public static final int HUB_SOLENOID1_2 = 15;
+    public static final int HUB_SOLENOID2_1 = 13;
+    public static final int HUB_SOLENOID2_2 = 12;
   }
   
   public final class DriveConstants {
 
-    public static final double DRIVE_SPEED = .5;
+    public static final double DRIVE_SPEED = 0.7d;
     public static final double TURN_SPEED = 0.2;
 
     public static final double turnKP = -0.0225;

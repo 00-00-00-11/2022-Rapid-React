@@ -158,7 +158,6 @@ public class DriveSubsystem extends SubsystemBase {
             Units.inchesToMeters(DriveConstants.WHEEL_DIAMETER / 2),
             DriveConstants.TRACK_WIDTH,
             null);
-    // VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005));
 
     kinematics = new DifferentialDriveKinematics(Constants.DriveConstants.TRACK_WIDTH);
     odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
@@ -174,6 +173,8 @@ public class DriveSubsystem extends SubsystemBase {
     rightPID =
         new PIDController(
             Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
+
+    pdp.clearStickyFaults();
 
   }
 

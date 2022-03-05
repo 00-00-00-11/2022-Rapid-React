@@ -76,14 +76,10 @@ public class ClimberSubsystem extends SubsystemBase {
 
   // Manual Control
   public void elevatorDriver(PS4Controller joystick) {
-    System.out.println("manual control enabled");
-    anglerMotorLeft.set(-0.1*(joystick.getR2Axis() - joystick.getL2Axis()));
-    anglerMotorRight.set(0.1*(joystick.getR2Axis() - joystick.getL2Axis()));
-
     if (-joystick.getLeftY() < 0) {
-      elevatorMotor.set(-0.5*joystick.getLeftY());
+      elevatorMotor.set(-0.8*joystick.getLeftY());
     } else {
-      elevatorMotor.set(-0.5*joystick.getLeftY());
+      elevatorMotor.set(-0.8*joystick.getLeftY());
     }
   }
 }
