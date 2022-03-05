@@ -4,14 +4,16 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
-public class IntakeToggle extends CommandBase {
-  /** Creates a new IntakeToggle. */
-  public IntakeToggle() {
+public class ExitTarmac extends CommandBase {
+  /** Creates a new ExitTarmac. */
+  public ExitTarmac() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_intake);
+    addRequirements(RobotContainer.m_driveSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -21,14 +23,16 @@ public class IntakeToggle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_intake.forwardIntake();
-    System.out.println("extending intake");
+
+    if (RobotContainer.m_driveSubsystem.getEncoderPosition()
+        < Units.feetToMeters(Constants.AutoConstants.AUTO_DIST))
+      RobotContainer.m_driveSubsystem.tankDriveAuto(0.5, 0.5);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.m_intake.reverseIntake();
+    // RobotContainer.m_driveSubsystem.tankDrive(0,0);
   }
 
   // Returns true when the command should end.

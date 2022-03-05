@@ -52,6 +52,7 @@ public class IntakeSubsystem extends SubsystemBase {
     rightSolenoid.set(Value.kForward);
     leftSolenoidState.setValue("Extended");
     rightSolenoidState.setValue("Extended");
+    System.out.println("EXTENDING INTAKE");
   }
 
   public void reverseIntake() {
@@ -59,6 +60,7 @@ public class IntakeSubsystem extends SubsystemBase {
     rightSolenoid.set(Value.kReverse);
     leftSolenoidState.setValue("Retracted");
     rightSolenoidState.setValue("Retracted");
+    System.out.println("RETRACTING INTAKE");
   }
 
   public void spinIntake() {
