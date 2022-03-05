@@ -92,6 +92,7 @@ public final class Constants {
 
   public final class AutoConstants {
     public static final double AUTO_DIST = 10;
+  }
     
   public final class ElevatorConstants {
     public static final String SHUFFLEBOARD_TAB = "drive";
