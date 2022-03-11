@@ -28,25 +28,19 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.utility.SparkMaxUtility;
 
 public class IndexerSubsystem extends SubsystemBase {
 
   private CANSparkMax transitionMotor;
   private CANSparkMax beltMotor;
-  NetworkTableEntry encoderBelt;
-  NetworkTableEntry encoderSpindle;
 
   public IndexerSubsystem() {
-    transitionMotor = SparkMaxUtility.constructSparkMax(8, true);
-    beltMotor = SparkMaxUtility.constructSparkMax(9, true);
+    transitionMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INDEXER_TRANSITION_CAN, true);
+    beltMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INDEXER_BELT_CAN, true);
     
-  }
-
-  @Override
-  public void periodic() {
   }
 
   public void runIndexer(double speed) {

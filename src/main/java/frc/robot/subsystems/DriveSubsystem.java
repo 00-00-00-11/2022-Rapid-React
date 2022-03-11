@@ -67,9 +67,6 @@ import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.IntakeAndIndex;
-import frc.robot.commands.IntakeSpin;
-import frc.robot.commands.IntakeToggle;
-import frc.robot.commands.ShootBall;
 import frc.robot.utility.RamseteUtility;
 import frc.robot.utility.TrajectoryUtility;
 import frc.robot.utility.SparkMaxUtility;
@@ -120,8 +117,6 @@ public class DriveSubsystem extends SubsystemBase {
   SendableChooser<Integer> m_chooser;
   int simInvert;
 
-  // Camera
-
   public DriveSubsystem() {
     gyro = new AHRS(SPI.Port.kMXP);
 
@@ -149,11 +144,7 @@ public class DriveSubsystem extends SubsystemBase {
     leftMotors = new MotorControllerGroup(leftMaster, leftSlave1, leftSlave2);
     rightMotors = new MotorControllerGroup(rightMaster, rightSlave1, rightSlave2);
 
-    // ultrasonic = new AnalogInput(1);
-
     m_drive = new DifferentialDrive(leftMotors, rightMotors);
-
-    // pdp = new PowerDistribution();
 
     field = new Field2d();
 
@@ -173,12 +164,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     driveTab.add("Turn PID", turnPID).withWidget(BuiltInWidgets.kPIDController);
 
-    // invertMotors(false);
-
     rightMotors.setInverted(true);
     setBrake(true);
-
-  //  SmartDashboard.putBoolean("Valet Mode", false);
 
     m_driveSim =
         new DifferentialDrivetrainSim(
@@ -338,10 +325,7 @@ public class DriveSubsystem extends SubsystemBase {
         gyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition() * simInvert);
 
     field.setRobotPose(pose);
-  //  SmartDashboard.putNumber("left encoder", leftEncoder.getPosition());
-   // SmartDashboard.putNumber("right encoder", rightEncoder.getPosition());
-
-   // SmartDashboard.putData("Power Distribution", pdp);
+    
     SmartDashboard.putNumber("Current Angle", getAngleBetween(getHeading(), 0));
   }
 

@@ -40,33 +40,13 @@ public class ShooterSubsystem extends SubsystemBase {
 
   CANSparkMax intakeMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INTAKE_CAN, true);
 
-  private SparkMaxPIDController feederPIDController = feederMotor.getPIDController();
-  private SparkMaxPIDController flyWheelPIDController = flyWheelMotor.getPIDController();
-
   public ShooterSubsystem() {
-    feederPIDController.setP(Constants.ShooterConstants.kP);
-    feederPIDController.setI(Constants.ShooterConstants.kI);
-    feederPIDController.setD(Constants.ShooterConstants.kD);
-    feederPIDController.setIZone(Constants.ShooterConstants.kIz);
-    feederPIDController.setFF(Constants.ShooterConstants.kFF);
-    feederPIDController.setOutputRange(Constants.ShooterConstants.kMinOutput, Constants.ShooterConstants.kMaxOutput);
-
-    flyWheelPIDController.setP(Constants.ShooterConstants.kP);
-    flyWheelPIDController.setI(Constants.ShooterConstants.kI);
-    flyWheelPIDController.setD(Constants.ShooterConstants.kD);
-    flyWheelPIDController.setIZone(Constants.ShooterConstants.kIz);
-    flyWheelPIDController.setFF(Constants.ShooterConstants.kFF);
-    flyWheelPIDController.setOutputRange(Constants.ShooterConstants.kMinOutput, Constants.ShooterConstants.kMaxOutput);
+    
   }
 
 
   public void shootBalls(boolean shoot) {
-    if (shoot) {
-      double speed = Constants.ShooterConstants.multiplier * Constants.ShooterConstants.maxRPM;
-
-      feederPIDController.setReference(speed, ControlType.kVelocity);
-      flyWheelPIDController.setReference(speed, ControlType.kVelocity);
-    } else {
+    if (!shoot) {
       feederMotor.set(0);
       flyWheelMotor.set(0);
     }

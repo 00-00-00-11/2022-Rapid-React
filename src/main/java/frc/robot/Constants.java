@@ -1,26 +1,6 @@
 package frc.robot;
 
 public final class Constants {
-
-  public final class ShooterConstants {
-    public static final int FEEDER_MOTOR_PORT = 10;
-    public static final int FLY_WHEEL_MOTOR_PORT = 11;
-    public static final double kP = 6e-5;
-    public static final double kI = 0;
-    public static final double kD = 0.00001;
-    public static final double kIz = 0.0;
-    public static final double kFF = 0.000092;
-    public static final double kMaxOutput = 1;
-    public static final double kMinOutput = -1;
-    public static final double maxRPM = 11000;
-    public static final double multiplier = .85;
-    public static final double kCIMSpeed = 1;
-  }
-
-  public static final class IntakeConstants {
-    public static double intakeSpeed = .6;
-  }
-
   public final class RobotMap {
     /* CONTROLLERS AND INPUTS */
     public static final int DRIVER_CONTROLLER_PORT = 0;
@@ -76,14 +56,23 @@ public final class Constants {
     public static final double kvVoltSecondsPerMeter = 2.8;
     public static final double kaVoltSecondsSquaredPerMeter = .425;
 
-    public static final double jKg_METERS_SQUARED = 7.5; // TODO get actual value
-    public static final double ROBOT_MASS = 60; // in kg // TODO get actual value
-    public static final double TRACK_WIDTH = 0.7112; // in kg // TODO get actual value
+    public static final double jKg_METERS_SQUARED = 7.5; 
+    public static final double ROBOT_MASS = 60; 
+    public static final double TRACK_WIDTH = 0.7112; 
 
     public static final double kP = 0.01;
     public static final double kI = 0.0;
     public static final double kD = 0.0;
     public static final double DEADZONE = 0.25;
+  }
+
+  public final class ShooterConstants {
+    public static final double multiplier = .85;
+    public static final double kCIMSpeed = 1;
+  }
+
+  public static final class IntakeConstants {
+    public static double intakeSpeed = .6;
   }
 
   public final class IndexerConstants {
@@ -97,19 +86,19 @@ public final class Constants {
   public final class ElevatorConstants {
     public static final String SHUFFLEBOARD_TAB = "drive";
 
-    public static final double ELEVATOR_MIN = 0; // TODO set to hard limit
+    public static final double ELEVATOR_MIN = 0; 
     public static final double ELEVATOR_RETRACTED = 0.1;
-    public static final double ELEVATOR_SMALL_DISTANCE = 0.2; // TODO get actual value
+    public static final double ELEVATOR_SMALL_DISTANCE = 0.2; 
     public static final double ELEVATOR_LARGE_DISTANCE = 0.5;
     public static final double ELEVATOR_EXTENDED = 0.8;
-    public static final double ELEVATOR_MAX = 1; // TODO set to hard limit
+    public static final double ELEVATOR_MAX = 1; 
 
 
-    public static final double ANGLER_SMALL_ANGLE = 0.1; // TODO get actual value
-    public static final double ANGLER_LARGE_ANGLE = 0.3; // TODO get actual value
-    public static final double ANGLER_IMPACT_ANGLE = 0.2; // TODO get actual value
+    public static final double ANGLER_SMALL_ANGLE = 0.1; 
+    public static final double ANGLER_LARGE_ANGLE = 0.3; 
+    public static final double ANGLER_IMPACT_ANGLE = 0.2; 
 
-    public static final double ELEVATOR_SPEED = 0.05; // TODO tune to good value
-    public static final double ANGLER_SPEED = 0.05; // TODO tune to good value
+    public static final double ELEVATOR_SPEED = 0.05; 
+    public static final double ANGLER_SPEED = 0.05; 
   }
 }

@@ -16,12 +16,10 @@ import frc.robot.Constants;
 public class IntakeSubsystem extends SubsystemBase {
   private DoubleSolenoid leftSolenoid;
   private DoubleSolenoid rightSolenoid;
-  // private CANSparkMax intakeMotor;
   ShuffleboardTab intakeTab;
   NetworkTableEntry leftSolenoidState;
   NetworkTableEntry rightSolenoidState;
 
-  /** Creates a new Intake. */
   public IntakeSubsystem() {
     leftSolenoid =
         new DoubleSolenoid(
@@ -37,12 +35,10 @@ public class IntakeSubsystem extends SubsystemBase {
             Constants.RobotMap.HUB_SOLENOID2_2,
             Constants.RobotMap.HUB_SOLENOID2_1);
 
-    // intakeMotor = new CANSparkMax(Constants.RobotMap.INTAKE_CAN, CANSparkMaxLowLevel.MotorType.kBrushless);
-
     leftSolenoid.set(Value.kReverse);
     rightSolenoid.set(Value.kReverse);
 
-    intakeTab = Shuffleboard.getTab("Intake");
+    intakeTab = Shuffleboard.getTab("Dashboard");
     leftSolenoidState = intakeTab.add("Left Solenoid", "off").getEntry();
     rightSolenoidState = intakeTab.add("Right Solenoid", "off").getEntry();
   }
@@ -52,7 +48,6 @@ public class IntakeSubsystem extends SubsystemBase {
     rightSolenoid.set(Value.kForward);
     leftSolenoidState.setValue("Extended");
     rightSolenoidState.setValue("Extended");
-    System.out.println("EXTENDING INTAKE");
   }
 
   public void reverseIntake() {
@@ -60,15 +55,6 @@ public class IntakeSubsystem extends SubsystemBase {
     rightSolenoid.set(Value.kReverse);
     leftSolenoidState.setValue("Retracted");
     rightSolenoidState.setValue("Retracted");
-    System.out.println("RETRACTING INTAKE");
-  }
-
-  public void spinIntake() {
-    // intakeMotor.set(Constants.IntakeConstants.intakeSpeed);
-  }
-
-  public void stop() {
-    // intakeMotor.set(0);
   }
 
 }
