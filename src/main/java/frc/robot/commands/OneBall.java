@@ -4,21 +4,22 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class IndexerAndShoot extends ParallelCommandGroup {
-  /** Creates a new IndexerAndShoot. */
-  public IndexerAndShoot() {
+public class OneBall extends SequentialCommandGroup {
+  /** Creates a new OneBall. */
+  public OneBall() {
     addCommands(
-      new ShootBall(),
+      new ExitTarmac(false),
+      new ExitTarmac(true),
       new SequentialCommandGroup(
-        new WaitCommand(0.6),
-        new RunIndexer()
+        new InstantCommand(() -> SmartDashboard.putString("AUTO STATUS", "SHOOTING")),
+        new IndexerAndShoot()
       )
     );
   }

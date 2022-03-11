@@ -25,14 +25,12 @@ public class RunIndexer extends CommandBase {
   @Override
   public void execute() {
     RobotContainer.m_IndexerSubsystem.runIndexer(Constants.IndexerConstants.indexerSpeed);
-    RobotContainer.m_IndexerSubsystem.setIsRunning(true);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     RobotContainer.m_IndexerSubsystem.runIndexer(0d);
-    RobotContainer.m_IndexerSubsystem.setIsRunning(false);
   }
 
   // Returns true when the command should end.

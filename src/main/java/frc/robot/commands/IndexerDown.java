@@ -4,31 +4,34 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
-public class TankDrive extends CommandBase {
-  /** Creates a new TankDrive. */
-  public TankDrive() {
-    addRequirements(RobotContainer.m_driveSubsystem);
+public class IndexerDown extends CommandBase {
+  /** Creates a new IndexerDown. */
+  public IndexerDown() {
+    addRequirements(RobotContainer.m_shooter_subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    SmartDashboard.putString("Intake Status", "Down");
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double left = RobotContainer.driverGamepad.getLeftY();
-    double right = RobotContainer.driverGamepad.getRightY();
-
-    RobotContainer.m_driveSubsystem.tankDrive(left, right);
+    RobotContainer.m_shooter_subsystem.spinIntake(-Constants.IntakeConstants.intakeSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    RobotContainer.m_shooter_subsystem.spinIntake(0);
+  }
 
   // Returns true when the command should end.
   @Override

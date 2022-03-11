@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    SmartDashboard.putBoolean("Compressor Sensor", compressor.getPressureSwitchValue());
+ //   SmartDashboard.putBoolean("Compressor Sensor", compressor.getPressureSwitchValue());
     if (compressor.getPressureSwitchValue()) {
       compressor.enableDigital();
     } else compressor.disable();
@@ -51,14 +51,12 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    System.out.println("Pain1");
     RobotContainer.m_driveSubsystem.resetEncoders();
     if (RobotContainer.m_driveSubsystem != null) {
       RobotContainer.m_driveSubsystem.setBrake(true);
     }
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    // Command m_exitTarmac = new ExitTarmac();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -76,7 +74,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-
+    CommandScheduler.getInstance().cancelAll();
     RobotContainer.m_driveSubsystem.resetEncoders();
 
     if (m_autonomousCommand != null) {

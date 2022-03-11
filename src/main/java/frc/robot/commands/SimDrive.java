@@ -28,11 +28,8 @@ public class SimDrive extends CommandBase {
   @Override
   public void execute() {
 
-    boolean valet = SmartDashboard.getBoolean("Valet Mode", false);
-
     double valetSpeed;
 
-    //valetSpeed = valet ? .3:.7;
     valetSpeed = 1;
     double leftAxis = RobotContainer.driverGamepad.getLeftX();
     double rightAxis = RobotContainer.driverGamepad.getRightX();

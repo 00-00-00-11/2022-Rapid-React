@@ -19,11 +19,7 @@
  *     SSSSSSSSSSSSSSS    hhhhhhh     hhhhhhh   ooooooooooo      ooooooooooo             ttttttttttt      eeeeeeeeeeeeee   rrrrrrr                  SSSSSSSSSSSSSSS       uuuuuuuu  uuuubbbbbbbbbbbbbbbb     sssssssssss        y:::::y           sssssssssss              ttttttttttt      eeeeeeeeeeeeee  mmmmmm   mmmmmm   mmmmmm
  *                                                                                                                                                                                                                             y:::::y
  *                                                                                                                                                                                                                            y:::::y
- *                                                                                                                                                                                                                           y:::::y
- *                                                                                                                                                                                                                          y:::::y
- *                                                                                                                                                                                                                         yyyyyyy
- *
- *
+
  */
 
 package frc.robot.subsystems;
@@ -82,8 +78,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void shootCIM(double speed) {
-    feederMotor.set(speed);
-    flyWheelMotor.set(speed);
+    feederMotor.set(.15); //.15
+    flyWheelMotor.set(.85 ); //.8
   }
 
   public void spinIntake(double speed) {

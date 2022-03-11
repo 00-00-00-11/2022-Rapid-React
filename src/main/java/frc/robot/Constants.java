@@ -27,12 +27,12 @@ public final class Constants {
     public static final int OPERATOR_CONTROLLER_PORT = 1;
     
     /* DRIVE SUBSYSTEM */
-    public static final int RIGHT_MASTER_CAN = 3;
-    public static final int RIGHT_SLAVE_CAN1 = 4;
-    public static final int RIGHT_SLAVE_CAN2 = 78;
-    public static final int LEFT_MASTER_CAN = 1;
-    public static final int LEFT_SLAVE_CAN1 = 2;
-    public static final int LEFT_SLAVE_CAN2 = 23;
+    public static final int RIGHT_MASTER_CAN = 1;
+    public static final int RIGHT_SLAVE_CAN1 = 2;
+    public static final int RIGHT_SLAVE_CAN2 = 3;
+    public static final int LEFT_MASTER_CAN = 4;
+    public static final int LEFT_SLAVE_CAN1 = 5;
+    public static final int LEFT_SLAVE_CAN2 = 6;
 
     /* INTAKE SUBSYSTEM */
     public static final int INTAKE_CAN = 7;
@@ -60,7 +60,7 @@ public final class Constants {
   
   public final class DriveConstants {
 
-    public static final double DRIVE_SPEED = 0.7d;
+    public static final double DRIVE_SPEED = 0.5d;
     public static final double TURN_SPEED = 0.2;
 
     public static final double turnKP = -0.0225;
@@ -91,7 +91,7 @@ public final class Constants {
   }
 
   public final class AutoConstants {
-    public static final double AUTO_DIST = 10;
+    public static final double AUTO_DIST = 6;
   }
     
   public final class ElevatorConstants {

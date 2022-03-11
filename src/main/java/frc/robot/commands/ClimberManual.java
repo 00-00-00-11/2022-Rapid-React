@@ -10,7 +10,6 @@ import frc.robot.RobotContainer;
 public class ClimberManual extends CommandBase {
   /** Creates a new ManualClimber. */
   public ClimberManual() {
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.m_climberSubsystem);
   }
 

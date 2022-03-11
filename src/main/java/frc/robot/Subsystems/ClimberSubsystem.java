@@ -40,7 +40,7 @@ public class ClimberSubsystem extends SubsystemBase {
   CANSparkMax anglerMotorRight;
 
   private ShuffleboardTab tab = Shuffleboard.getTab(Constants.ElevatorConstants.SHUFFLEBOARD_TAB);
-  private NetworkTableEntry elevatorStepsEntry = tab.add("Elevator Step", "").getEntry();
+  // private NetworkTableEntry elevatorStepsEntry = tab.add("Elevator Step", "").getEntry();
 
   double ElevSpeed = Constants.ElevatorConstants.ELEVATOR_SPEED;
   

@@ -2,6 +2,7 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/ClimberSubsystem": "Subsystem",
       "/LiveWindow/DriveSubsystem": "Subsystem",
       "/LiveWindow/IndexerSubsystem": "Subsystem",
       "/LiveWindow/IntakeSubsystem": "Subsystem",
@@ -10,6 +11,8 @@
       "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[3]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[4]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[5]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
       "/Shuffleboard/Drive/Differential Drive": "DifferentialDrive",
@@ -20,6 +23,11 @@
       "/SmartDashboard/run indexer": "Command"
     },
     "windows": {
+      "/Shuffleboard/Drive/Differential Drive": {
+        "window": {
+          "visible": true
+        }
+      },
       "/Shuffleboard/Drive/Field View": {
         "window": {
           "visible": true

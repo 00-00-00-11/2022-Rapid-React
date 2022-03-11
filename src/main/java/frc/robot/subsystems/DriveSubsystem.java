@@ -149,19 +149,17 @@ public class DriveSubsystem extends SubsystemBase {
     leftMotors = new MotorControllerGroup(leftMaster, leftSlave1, leftSlave2);
     rightMotors = new MotorControllerGroup(rightMaster, rightSlave1, rightSlave2);
 
-    ultrasonic = new AnalogInput(1);
+    // ultrasonic = new AnalogInput(1);
 
     m_drive = new DifferentialDrive(leftMotors, rightMotors);
 
-    pdp = new PowerDistribution();
+    // pdp = new PowerDistribution();
 
     field = new Field2d();
 
-    driveTab = Shuffleboard.getTab("Drive");
-    driveTab.add("Differential Drive", m_drive).withWidget(BuiltInWidgets.kDifferentialDrive);
+    driveTab = Shuffleboard.getTab("Drive");   
     driveTab.add("Gyro", gyro).withWidget(BuiltInWidgets.kGyro);
     driveTab.add("Field View", field).withWidget("Field");
-    driveTab.add("Power Distribution Panel", pdp).withWidget(BuiltInWidgets.kPowerDistribution);
 
     turnPID = new PIDController(
         Constants.DriveConstants.turnKP,
@@ -180,7 +178,7 @@ public class DriveSubsystem extends SubsystemBase {
     rightMotors.setInverted(true);
     setBrake(true);
 
-    SmartDashboard.putBoolean("Valet Mode", false);
+  //  SmartDashboard.putBoolean("Valet Mode", false);
 
     m_driveSim =
         new DifferentialDrivetrainSim(
@@ -224,8 +222,6 @@ public class DriveSubsystem extends SubsystemBase {
     rightPID =
         new PIDController(
             Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
-
-    pdp.clearStickyFaults();
 
   }
 
@@ -342,10 +338,10 @@ public class DriveSubsystem extends SubsystemBase {
         gyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition() * simInvert);
 
     field.setRobotPose(pose);
-    SmartDashboard.putNumber("left encoder", leftEncoder.getPosition());
-    SmartDashboard.putNumber("right encoder", rightEncoder.getPosition());
+  //  SmartDashboard.putNumber("left encoder", leftEncoder.getPosition());
+   // SmartDashboard.putNumber("right encoder", rightEncoder.getPosition());
 
-    SmartDashboard.putData("Power Distribution", pdp);
+   // SmartDashboard.putData("Power Distribution", pdp);
     SmartDashboard.putNumber("Current Angle", getAngleBetween(getHeading(), 0));
   }
 
@@ -593,13 +589,13 @@ public class DriveSubsystem extends SubsystemBase {
 
     return new SequentialCommandGroup(
         RamseteUtility.createRamseteCommand(traj1, RobotContainer.m_driveSubsystem, false)
-            .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+            .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)).withTimeout(15),
         RamseteUtility.createRamseteCommand(traj2, RobotContainer.m_driveSubsystem, false)
-            .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+            .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)).withTimeout(15),
         RamseteUtility.createRamseteCommand(traj3, RobotContainer.m_driveSubsystem, false)
-            .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+            .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)).withTimeout(15),
         RamseteUtility.createRamseteCommand(traj4, RobotContainer.m_driveSubsystem, false)
-            .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)));
+            .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)).withTimeout(15));
   }
 
 }

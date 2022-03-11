@@ -26,13 +26,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 public class RobotContainer {
-
 
   public static final PS4Controller driverGamepad = new PS4Controller(Constants.RobotMap.DRIVER_CONTROLLER_PORT);
   public static final PS4Controller operatorGamepad = new PS4Controller(Constants.RobotMap.OPERATOR_CONTROLLER_PORT);
@@ -40,6 +37,7 @@ public class RobotContainer {
   JoystickButton indxerAndShootButton = new JoystickButton(driverGamepad, 1);
   JoystickButton toggleIntakeButton = new JoystickButton(driverGamepad, 3);
   JoystickButton intakeAndIndexerButton = new JoystickButton(driverGamepad, 2);
+  JoystickButton intakeDown = new JoystickButton(driverGamepad, 4);
   JoystickButton manualClimbToggle = new JoystickButton(operatorGamepad, PS4Controller.Button.kSquare.value);
 
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
@@ -60,16 +58,14 @@ public class RobotContainer {
     toggleIntakeButton.toggleWhenPressed(new IntakeToggle());
     intakeAndIndexerButton.whileHeld(new IntakeAndIndex());
     indxerAndShootButton.whileHeld(new IndexerAndShoot());
+    intakeDown.whileHeld(new IndexerDown());
   }
 
   public Command getAutonomousCommand() {
     System.out.println(m_driveSubsystem.getSelectedFromChooser());
     switch (m_driveSubsystem.getSelectedFromChooser()) {
       case 0:
-        return new SequentialCommandGroup(
-          new ExitTarmac()
-          
-        );
+        return new OneBall();
       case 2:
         return m_driveSubsystem.TwoBallAuto(m_driveSubsystem);
       case 3:

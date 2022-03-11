@@ -29,56 +29,29 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.RunIndexer;
 import frc.robot.utility.SparkMaxUtility;
 
 public class IndexerSubsystem extends SubsystemBase {
 
   private CANSparkMax transitionMotor;
   private CANSparkMax beltMotor;
-  private boolean isRunning = false;
   NetworkTableEntry encoderBelt;
   NetworkTableEntry encoderSpindle;
 
   public IndexerSubsystem() {
-    transitionMotor =
-        SparkMaxUtility.constructSparkMax(8, true);
+    transitionMotor = SparkMaxUtility.constructSparkMax(8, true);
     beltMotor = SparkMaxUtility.constructSparkMax(9, true);
-
-    ShuffleboardTab tab = Shuffleboard.getTab("Drive");
-    tab.add("Indexer Running", isRunning).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
-    encoderBelt= tab.add("Encoder Belt", 0).getEntry();
-    encoderSpindle=tab.add("Encoder Spindle", 0).getEntry();
     
-
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putData("run indexer", new RunIndexer());
-    encoderBelt.setNumber(beltMotor.getEncoder().getPosition());
-    encoderSpindle.setNumber(transitionMotor.getEncoder().getPosition());
-
   }
 
   public void runIndexer(double speed) {
     SparkMaxUtility.runSparkMax(transitionMotor, speed);
     SparkMaxUtility.runSparkMax(beltMotor, -speed);
-
-    
-  }
-
-  public boolean getIsRunning() {
-    return isRunning;
-  }
-
-  public void setIsRunning(boolean isRunning) {
-    this.isRunning = isRunning;
-  }
+  } 
 
 }

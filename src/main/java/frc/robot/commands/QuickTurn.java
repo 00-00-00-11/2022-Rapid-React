@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveSubsystem;
@@ -43,7 +42,7 @@ public class QuickTurn extends CommandBase {
 
     driveSub.curveDrive(0, -speed, true);
 
-    SmartDashboard.putNumber("Quick Turn Speed", speed);
+  //  SmartDashboard.putNumber("Quick Turn Speed", speed);
   }
 
   // Called once the command ends or is interrupted.
