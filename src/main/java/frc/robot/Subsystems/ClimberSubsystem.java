@@ -4,9 +4,12 @@
 
 package frc.robot.subsystems;
 
+import javax.swing.JToggleButton;
+
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -55,20 +58,41 @@ public class ClimberSubsystem extends SubsystemBase {
   @Override
   public void periodic() {}
 
-  public void elevatorToggle() {
-    if (elevatorMotor.getEncoder().getPosition() < (elevMax - elevMargin) && elevatorMotor.getEncoder().getPosition() > (elevMin + elevMargin)) {
-      if (!elevatorExtended && elevatorMotor.getEncoder().getPosition() < (elevMax - elevMargin)) {
-        elevatorMotor.set(ElevSpeed);
-      } else {
-        elevatorMotor.set(0);
-      }
+  public void elevatorExtend() {
+    if (elevatorMotor.getEncoder().getPosition() < (elevMax - elevMargin)) {
+      elevatorMotor.set(ElevSpeed);
+    } else {
+      elevatorMotor.set(0);
+      elevatorExtended = true;
+    }
+  }
 
-      if (elevatorExtended && elevatorMotor.getEncoder().getPosition() > (elevMin + elevMargin)) {
-        elevatorMotor.set(-ElevSpeed);
+  public void elevatorRetract() {
+    if (elevatorMotor.getEncoder().getPosition() > (elevMin + elevMargin)) {
+      elevatorMotor.set(-ElevSpeed);
+    } else {
+      elevatorMotor.set(0);
+      elevatorExtended = false;
+    }
+  }
+
+  public void anglerControl(PS4Controller gamepad) {
+    anglerMotorLeft.set(gamepad.getLeftY());
+    anglerMotorRight.set(gamepad.getRightY());
+  }
+
+  public void climberControl(PS4Controller gamepad) {
+    if (gamepad.getL1Button()) {
+      if (!elevatorExtended) {
+        elevatorExtend();
+      } else if (elevatorExtended) {
+        elevatorRetract();
       } else {
-        elevatorMotor.set(0);
+        System.out.println("Something has gone wrong in elevator software bounding");
       }
     }
+
+    anglerControl(gamepad);
   }
 }
 
