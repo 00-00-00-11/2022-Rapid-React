@@ -24,42 +24,80 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.SparkMaxPIDController;
+import frc.robot.utility.TalonFXUtility;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+
+import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
+
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+
+
 import frc.robot.utility.SparkMaxUtility;
+import com.revrobotics.CANSparkMax;
+
+import java.util.TreeMap;
+
+// import com.revrobotics.CANSparkMax.ControlType;
+// import com.revrobotics.SparkMaxPIDController;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-  
-  /* Shooter CANSpark Definition */
-  CANSparkMax feederMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.SHOOTER_FEEDER_CAN, true);
-  CANSparkMax flyWheelMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.SHOOTER_FLYWHEEL_CAN, true);
+  /* Velocity Conversion */
+  double velConv = 10.0 / 4096;
+
+  /* Interpolating Table */
+
+
+  /* Shooter Talon FX Definition */
+  TalonFX feederMotor = TalonFXUtility.constructTalonFX(Constants.RobotMap.SHOOTER_FEEDER_CAN);
+  TalonFX flyWheelMotor = TalonFXUtility.constructTalonFX(Constants.RobotMap.SHOOTER_FLYWHEEL_CAN);
 
   CANSparkMax intakeMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INTAKE_CAN, true);
 
   public ShooterSubsystem() {
-    
+
+    /* Preferences */
+    Preferences.setDouble("Feeder KP", Constants.ShooterConstants.FLYWHEEL_KP);
+
+    /* Set PID */
+    flyWheelMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
+
+    flyWheelMotor.config_kP(0, Preferences.getDouble("Feeder KP", 0), 0);
+    flyWheelMotor.config_kI(0, 0, 0);
+    flyWheelMotor.config_kD(0, 0, 0);
+    flyWheelMotor.config_kF(0, 0, 0);
+
   }
 
+  public void toSetPoint(double setpoint) {
+    feederMotor.set(TalonFXControlMode.Velocity, setpoint);
+  }
 
   public void shootBalls(boolean shoot) {
     if (!shoot) {
-      feederMotor.set(0);
-      flyWheelMotor.set(0);
+      // feederMotor.set();
+      // flyWheelMotor.set(0);
     }
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    
+    SmartDashboard.putNumber("Shooter Vel", flyWheelMotor.getSelectedSensorVelocity() * velConv);
   }
 
   public void shootCIM(double speed) {
-    feederMotor.set(.15); //.15
-    flyWheelMotor.set(.85 ); //.8
+    feederMotor.set(ControlMode.PercentOutput, .15); //.15
+    flyWheelMotor.set(ControlMode.PercentOutput, .85 ); //.8
   }
 
   public void spinIntake(double speed) {

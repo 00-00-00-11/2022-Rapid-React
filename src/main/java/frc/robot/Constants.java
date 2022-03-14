@@ -69,6 +69,7 @@ public final class Constants {
   public final class ShooterConstants {
     public static final double multiplier = .85;
     public static final double kCIMSpeed = 1;
+    public static final double FLYWHEEL_KP = 0;
   }
 
   public static final class IntakeConstants {
