@@ -21,6 +21,7 @@ public class ClimberSubsystem extends SubsystemBase {
   CANSparkMax anglerMotorRight;
 
   boolean elevatorExtended = false;
+  boolean elevatorRunning = false;
 
   double ElevSpeed = Constants.ElevatorConstants.ELEVATOR_SPEED;
   
@@ -59,20 +60,22 @@ public class ClimberSubsystem extends SubsystemBase {
   public void periodic() {}
 
   public void elevatorExtend() {
-    if (elevatorMotor.getEncoder().getPosition() < (elevMax - elevMargin)) {
+    if (elevatorMotor.getEncoder().getPosition() < (elevMax - elevMargin) && elevatorRunning) {
       elevatorMotor.set(ElevSpeed);
     } else {
       elevatorMotor.set(0);
       elevatorExtended = true;
+      elevatorRunning = false;
     }
   }
 
   public void elevatorRetract() {
-    if (elevatorMotor.getEncoder().getPosition() > (elevMin + elevMargin)) {
+    if (elevatorMotor.getEncoder().getPosition() > (elevMin + elevMargin) && elevatorRunning) {
       elevatorMotor.set(-ElevSpeed);
     } else {
       elevatorMotor.set(0);
       elevatorExtended = false;
+      elevatorRunning = false;
     }
   }
 
@@ -83,6 +86,10 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void climberControl(PS4Controller gamepad) {
     if (gamepad.getL1Button()) {
+      elevatorRunning = true;
+    }
+
+    if (elevatorRunning) {
       if (!elevatorExtended) {
         elevatorExtend();
       } else if (elevatorExtended) {
