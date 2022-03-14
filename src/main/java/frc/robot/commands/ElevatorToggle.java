@@ -7,9 +7,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
-public class ClimberManual extends CommandBase {
+public class ElevatorToggle extends CommandBase {
   /** Creates a new ManualClimber. */
-  public ClimberManual() {
+  public ElevatorToggle() {
     addRequirements(RobotContainer.m_climberSubsystem);
   }
 
@@ -20,7 +20,7 @@ public class ClimberManual extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_climberSubsystem.climberDriver(RobotContainer.operatorGamepad);
+    RobotContainer.m_climberSubsystem.elevatorToggle();
   }
 
   // Called once the command ends or is interrupted.

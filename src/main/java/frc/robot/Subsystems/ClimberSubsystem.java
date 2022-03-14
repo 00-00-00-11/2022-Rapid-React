@@ -57,7 +57,17 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void elevatorToggle() {
     if (elevatorMotor.getEncoder().getPosition() < (elevMax - elevMargin) && elevatorMotor.getEncoder().getPosition() > (elevMin + elevMargin)) {
-      
+      if (!elevatorExtended && elevatorMotor.getEncoder().getPosition() < (elevMax - elevMargin)) {
+        elevatorMotor.set(ElevSpeed);
+      } else {
+        elevatorMotor.set(0);
+      }
+
+      if (elevatorExtended && elevatorMotor.getEncoder().getPosition() > (elevMin + elevMargin)) {
+        elevatorMotor.set(-ElevSpeed);
+      } else {
+        elevatorMotor.set(0);
+      }
     }
   }
 }
