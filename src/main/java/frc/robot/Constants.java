@@ -1,6 +1,12 @@
 package frc.robot;
 
 public final class Constants {
+
+  public final class FieldConstants {
+    public static final double HIGH_GOAL_HEIGHT = 108;
+  }
+
+
   public final class RobotMap {
     /* CONTROLLERS AND INPUTS */
     public static final int DRIVER_CONTROLLER_PORT = 0;
@@ -67,10 +73,16 @@ public final class Constants {
   }
 
   public final class ShooterConstants {
-    public static final double multiplier = .85;
-    public static final double kCIMSpeed = 1;
-  }
+    // public static final double multiplier = .85;
+    // public static final double kCIMSpeed = 1;
 
+    public static final double SHOOTER_ANGLE = 0; // TODO get real angle
+    public static final double LIMELIGHT_HEIGHT = 0; // TODO get real height
+    public static final double GOAL_HEIGHT = 104; // inches
+    public static final double PIPELINE = 0; // TODO do pipeline ting
+
+
+  }
   public static final class IntakeConstants {
     public static double intakeSpeed = .6;
   }

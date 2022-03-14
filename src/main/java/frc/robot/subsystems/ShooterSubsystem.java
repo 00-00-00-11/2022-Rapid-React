@@ -28,19 +28,23 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.Constants.*;
 import frc.robot.utility.SparkMaxUtility;
+import frc.robot.vision.Limelight;
 
 public class ShooterSubsystem extends SubsystemBase {
 
   
   /* Shooter CANSpark Definition */
-  CANSparkMax feederMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.SHOOTER_FEEDER_CAN, true);
-  CANSparkMax flyWheelMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.SHOOTER_FLYWHEEL_CAN, true);
+  CANSparkMax feederMotor = SparkMaxUtility.constructSparkMax(RobotMap.SHOOTER_FEEDER_CAN, true);
+  CANSparkMax flyWheelMotor = SparkMaxUtility.constructSparkMax(RobotMap.SHOOTER_FLYWHEEL_CAN, true);
 
-  CANSparkMax intakeMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INTAKE_CAN, true);
+  CANSparkMax intakeMotor = SparkMaxUtility.constructSparkMax(RobotMap.INTAKE_CAN, true);
+
+  Limelight limelight;
 
   public ShooterSubsystem() {
+    Limelight = new Limelight(ShooterConstants.SHOOTER_ANGLE, ShooterConstants.LIMELIGHT_HEIGHT, FieldConstants.HIGH_GOAL_HEIGHT, ShooterConstants.PIPELINE);
     
   }
 
