@@ -17,9 +17,15 @@ public class ClimberSubsystem extends SubsystemBase {
   CANSparkMax anglerMotorLeft;
   CANSparkMax anglerMotorRight;
 
+  boolean elevatorExtended = false;
+
   double ElevSpeed = Constants.ElevatorConstants.ELEVATOR_SPEED;
   
   double AnglerSpeed = Constants.ElevatorConstants.ANGLER_SPEED;
+
+  double elevMin = Constants.ElevatorConstants.ELEVATOR_MIN;
+  double elevMax = Constants.ElevatorConstants.ELEVATOR_MAX;
+  double elevMargin = Constants.ElevatorConstants.ELEVATOR_MARGIN;
 
   public ClimberSubsystem() {
     elevatorMotor = new CANSparkMax(
@@ -49,11 +55,9 @@ public class ClimberSubsystem extends SubsystemBase {
   @Override
   public void periodic() {}
 
-  public void elevatorDriver(PS4Controller joystick) {
-    if (-joystick.getLeftY() < 0) {
-      elevatorMotor.set(-0.8*joystick.getLeftY());
-    } else {
-      elevatorMotor.set(-0.8*joystick.getLeftY());
+  public void elevatorToggle() {
+    if (elevatorMotor.getEncoder().getPosition() < (elevMax - elevMargin) && elevatorMotor.getEncoder().getPosition() > (elevMin + elevMargin)) {
+      
     }
   }
 }

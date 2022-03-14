@@ -20,7 +20,7 @@ public class ClimberManual extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_climberSubsystem.elevatorDriver(RobotContainer.operatorGamepad);
+    RobotContainer.m_climberSubsystem.climberDriver(RobotContainer.operatorGamepad);
   }
 
   // Called once the command ends or is interrupted.

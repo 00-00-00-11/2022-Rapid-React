@@ -87,11 +87,8 @@ public final class Constants {
     public static final String SHUFFLEBOARD_TAB = "drive";
 
     public static final double ELEVATOR_MIN = 0; 
-    public static final double ELEVATOR_RETRACTED = 0.1;
-    public static final double ELEVATOR_SMALL_DISTANCE = 0.2; 
-    public static final double ELEVATOR_LARGE_DISTANCE = 0.5;
-    public static final double ELEVATOR_EXTENDED = 0.8;
-    public static final double ELEVATOR_MAX = 1; 
+    public static final double ELEVATOR_MARGIN = 10;
+    public static final double ELEVATOR_MAX = 100; 
 
 
     public static final double ANGLER_SMALL_ANGLE = 0.1; 
@@ -100,5 +97,6 @@ public final class Constants {
 
     public static final double ELEVATOR_SPEED = 0.05; 
     public static final double ANGLER_SPEED = 0.05; 
+
   }
 }
