@@ -28,14 +28,14 @@ public class ShootBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_shooter_subsystem.shootCIM(0.65);
+    RobotContainer.m_shooter_subsystem.changeSetpoints(10000, 10000);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     if (interrupted) {
-      RobotContainer.m_shooter_subsystem.shootBalls(false);
+      RobotContainer.m_shooter_subsystem.changeSetpoints(0, 0);
     }
   }
 

@@ -1,6 +1,16 @@
+> Task :compileJava
+> Task :processResources NO-SOURCE
+> Task :classes
+> Task :downloadDepsPreemptively
+> Task :jar
+> Task :assemble
+> Task :extractReleaseNative UP-TO-DATE
+> Task :compileTestJava NO-SOURCE
+> Task :processTestResources NO-SOURCE
+> Task :testClasses UP-TO-DATE
+> Task :test NO-SOURCE
+> Task :check UP-TO-DATE
+> Task :build
 
-> Task :compileJava FAILED
-Compilation Error!
-GradleRIO detected this build failed due to a Compile Error (compileJava).
-Check that all your files are saved, then scroll up in this log for more information.
-1 actionable task: 1 executed
+BUILD SUCCESSFUL in 5s
+4 actionable tasks: 3 executed, 1 up-to-date

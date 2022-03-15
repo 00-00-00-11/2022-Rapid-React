@@ -74,7 +74,7 @@ public final class Constants {
 
   public final class ShooterConstants {
     // public static final double multiplier = .85;
-    // public static final double kCIMSpeed = 1;
+    public static final double kCIMSpeed = 1;
 
     public static final double SHOOTER_ANGLE = 0; // TODO get real angle
     public static final double LIMELIGHT_HEIGHT = 0; // TODO get real height

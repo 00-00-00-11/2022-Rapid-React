@@ -24,49 +24,70 @@
 
 package frc.robot.subsystems;
 
+import java.util.HashMap;
+
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.SparkMaxPIDController;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
+import frc.robot.utility.LimelightUtility;
+import frc.robot.utility.LoggingUtil;
 import frc.robot.utility.SparkMaxUtility;
 import frc.robot.vision.Limelight;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-  
-  /* Shooter CANSpark Definition */
-  CANSparkMax feederMotor = SparkMaxUtility.constructSparkMax(RobotMap.SHOOTER_FEEDER_CAN, true);
-  CANSparkMax flyWheelMotor = SparkMaxUtility.constructSparkMax(RobotMap.SHOOTER_FLYWHEEL_CAN, true);
-
-  CANSparkMax intakeMotor = SparkMaxUtility.constructSparkMax(RobotMap.INTAKE_CAN, true);
-
+  CANSparkMax feederMotor; 
+  CANSparkMax flyWheelMotor;
+  CANSparkMax intakeMotor;
   Limelight limelight;
 
+  HashMap <String, Double> setpoints = new HashMap<String, Double>();
+
   public ShooterSubsystem() {
-    Limelight = new Limelight(ShooterConstants.SHOOTER_ANGLE, ShooterConstants.LIMELIGHT_HEIGHT, FieldConstants.HIGH_GOAL_HEIGHT, ShooterConstants.PIPELINE);
-    
+    feederMotor = SparkMaxUtility.constructSparkMax(RobotMap.SHOOTER_FEEDER_CAN, true);
+    flyWheelMotor = SparkMaxUtility.constructSparkMax(RobotMap.SHOOTER_FLYWHEEL_CAN, true);
+    intakeMotor = SparkMaxUtility.constructSparkMax(RobotMap.INTAKE_CAN, true);
+    limelight  = LimelightUtility.constructLimelight(ShooterConstants.SHOOTER_ANGLE, ShooterConstants.LIMELIGHT_HEIGHT, FieldConstants.HIGH_GOAL_HEIGHT, ShooterConstants.PIPELINE);
+
+    setpoints.put("flyWheelSetpoint", 0.0);
+    setpoints.put("feederSetpoint", 0.0);
   }
 
-
-  public void shootBalls(boolean shoot) {
-    if (!shoot) {
-      feederMotor.set(0);
-      flyWheelMotor.set(0);
-    }
+  public void spinShooter(double setpoint1, double setpoint2) {
+    System.out.println(setpoint1);
+    System.out.println(setpoint2);
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-  }
-
-  public void shootCIM(double speed) {
-    feederMotor.set(.15); //.15
-    flyWheelMotor.set(.85 ); //.8
+    limelight.update();
+    spinShooter(getSetpoints().get("flyWheelSetpoint"), getSetpoints().get("feederSetpoint"));
+    log();
   }
 
   public void spinIntake(double speed) {
     SparkMaxUtility.runSparkMax(intakeMotor, speed);
   }
+
+  public void changeSetpoints(double setpoint1, double setpoint2) {
+    setpoints.put("flyWheelSetpoint", setpoint1);
+    setpoints.put("feederSetpoint", setpoint2);
+  }
+
+  public HashMap<String, Double> getSetpoints() {
+    return setpoints;
+  }
+
+  public void calculateSetpoints() {
+    double flyWheelSetpoint = limelight.getHorizontalOffset();
+    double feederSetpoint = limelight.getVerticalOffset();
+    changeSetpoints(flyWheelSetpoint, feederSetpoint);
+  }
+
+  public void log() {
+    LoggingUtil.log("Shooter", "Flywheel Setpoint", getSetpoints().get("flyWheelSetpoint"));
+    LoggingUtil.log("Shooter", "Feeder Setpoint", getSetpoints().get("feederSetpoint"));
+  }
+
 }
