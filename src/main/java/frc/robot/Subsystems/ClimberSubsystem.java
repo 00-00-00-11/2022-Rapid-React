@@ -85,9 +85,9 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void climberControl(PS4Controller gamepad) {
-    if (gamepad.getL1Button()) {
-      elevatorRunning = true;
-    }
+    
+      elevatorRunning = gamepad.getL1Button();
+    
 
     if (elevatorRunning) {
       if (!elevatorExtended) {
