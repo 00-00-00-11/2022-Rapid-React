@@ -42,7 +42,16 @@
   },
   "NetworkTables": {
     "SmartDashboard": {
+      "Limelight": {
+        "open": true
+      },
+      "Limelight (Simulated)": {
+        "open": true
+      },
       "Shooter": {
+        "open": true
+      },
+      "Simulated Limelight": {
         "open": true
       },
       "open": true

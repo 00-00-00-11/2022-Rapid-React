@@ -81,7 +81,11 @@ public final class Constants {
     public static final double GOAL_HEIGHT = 104; // inches
     public static final double PIPELINE = 0; // TODO do pipeline ting
 
+    public static final double MAX_ALIGN_SPEED = 0.5;
+    public static final double ALIGN_KP = 0.1d;
+    public static final double ALIGN_THRESHOLD = 1d;
 
+    public static final double ALIGN_SETPOINT = 0;
   }
   public static final class IntakeConstants {
     public static double intakeSpeed = .6;

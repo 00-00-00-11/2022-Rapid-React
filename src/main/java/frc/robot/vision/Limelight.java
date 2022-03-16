@@ -28,6 +28,14 @@ public class Limelight {
         return (limelightTable.get("goalHeightInches") - limelightTable.get("limelightHeight") / Math.tan(limelightTable.get("shooterAngle") + limelightTable.get("ty")));
     }
 
+    public double getHorizontalOffset() {
+        return limelightTable.get("tx");
+    }
+
+    public double getVerticalOffset() {
+        return limelightTable.get("ty");
+    }
+
     public void update() {
         limelightTable.put("ty", Units.degreesToRadians(table.getEntry("ty").getDouble(0.0)));
         limelightTable.put("tx", Units.degreesToRadians(table.getEntry("tx").getDouble(0.0)));

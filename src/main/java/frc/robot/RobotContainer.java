@@ -65,7 +65,9 @@ public class RobotContainer {
     System.out.println(m_driveSubsystem.getSelectedFromChooser());
     switch (m_driveSubsystem.getSelectedFromChooser()) {
       case 0:
-        return new OneBall();
+        // return new OneBall();
+        // return new AutoAimAndShoot();
+        return new AutoAimAndShoot(); //bind to controller
       case 2:
         return m_driveSubsystem.TwoBallAuto(m_driveSubsystem);
       case 3:
