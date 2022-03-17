@@ -29,7 +29,6 @@ public class ShootBall extends CommandBase {
   @Override
   public void execute() {
     RobotContainer.m_shooter_subsystem.changeSetpoints(10000, 10000);
-    System.out.println("SHOOOOTING");
   }
 
   // Called once the command ends or is interrupted.
