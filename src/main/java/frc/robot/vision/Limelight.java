@@ -22,6 +22,8 @@ public class Limelight {
 
         setpoints.put("Feeder Setpoint", 0.0);
         setpoints.put("Flywheel Setpoint", 0.0);
+        setPipeline(2);
+
     }
 
     public double getDistanceToGoal() {
@@ -29,7 +31,7 @@ public class Limelight {
     }
 
     public double getHorizontalOffset() {
-        return limelightTable.get("tx");
+        return table.getEntry("tx").getDouble(0.0);
     }
 
     public double getVerticalOffset() {

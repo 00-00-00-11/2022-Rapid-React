@@ -35,13 +35,13 @@ public class ExitTarmac extends CommandBase {
 
     if(isForward) {
       if (RobotContainer.m_driveSubsystem.getEncoderPosition() < 0 ) {
-        RobotContainer.m_driveSubsystem.tankDriveAuto(0.6, 0.6);
+        RobotContainer.m_driveSubsystem.tankDriveAuto(0.2, 0.2);
       } else {
         finished = true;
       }
     } else {
       if (Math.abs(RobotContainer.m_driveSubsystem.getEncoderPosition()) < Units.feetToMeters(Constants.AutoConstants.AUTO_DIST)) {
-        RobotContainer.m_driveSubsystem.tankDriveAuto(-0.6, -0.6);
+        RobotContainer.m_driveSubsystem.tankDriveAuto(-0.2, -0.2);
       } else {
         RobotContainer.m_driveSubsystem.tankDriveAuto(0, 0);
         finished = true;

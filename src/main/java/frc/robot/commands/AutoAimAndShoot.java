@@ -18,13 +18,13 @@ public class AutoAimAndShoot extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new AutoAim(),
-      new InstantCommand(
-        () -> {
-          LoggingUtil.log("Limelight", "Aligning Status", "SHOOTING");
-        }
-      ),
-      new ShootBall()
+      new AutoAim()
+      // new InstantCommand(
+      //   () -> {
+      //     LoggingUtil.log("Limelight", "Aligning Status", "SHOOTING");
+      //   }
+      // ),
+      // new ShootBall()
     );
   }
 }

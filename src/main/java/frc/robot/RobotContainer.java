@@ -53,12 +53,12 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
 
-    manualClimbToggle.toggleWhenPressed(new ClimberManual());
+    // manualClimbToggle.toggleWhenPressed(new ClimberManual());
 
-    toggleIntakeButton.toggleWhenPressed(new IntakeToggle());
-    intakeAndIndexerButton.whileHeld(new IntakeAndIndex());
-    indxerAndShootButton.whileHeld(new IndexerAndShoot());
-    intakeDown.whileHeld(new IndexerDown());
+    // toggleIntakeButton.toggleWhenPressed(new IntakeToggle());
+    // intakeAndIndexerButton.whileHeld(new IntakeAndIndex());
+    // indxerAndShootButton.whileHeld(new IndexerAndShoot());
+    // intakeDown.whileHeld(new IndexerDown());
   }
 
   public Command getAutonomousCommand() {
@@ -66,8 +66,9 @@ public class RobotContainer {
     switch (m_driveSubsystem.getSelectedFromChooser()) {
       case 0:
         // return new OneBall();
-        // return new AutoAimAndShoot();
-        return new AutoAimAndShoot(); //bind to controller
+        return new AutoAimAndShoot();
+        // return new AutoAimAndShoot(); //bind to controller 
+        // return new ExitTarmac(true);
       case 2:
         return m_driveSubsystem.TwoBallAuto(m_driveSubsystem);
       case 3:

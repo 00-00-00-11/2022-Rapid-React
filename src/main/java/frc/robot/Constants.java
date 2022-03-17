@@ -15,10 +15,10 @@ public final class Constants {
     /* DRIVE SUBSYSTEM */
     public static final int RIGHT_MASTER_CAN = 1;
     public static final int RIGHT_SLAVE_CAN1 = 2;
-    public static final int RIGHT_SLAVE_CAN2 = 3;
-    public static final int LEFT_MASTER_CAN = 4;
-    public static final int LEFT_SLAVE_CAN1 = 5;
-    public static final int LEFT_SLAVE_CAN2 = 6;
+    public static final int RIGHT_SLAVE_CAN2 = 24;
+    public static final int LEFT_MASTER_CAN = 3;
+    public static final int LEFT_SLAVE_CAN1 = 4;
+    public static final int LEFT_SLAVE_CAN2 = 29;
 
     /* INTAKE SUBSYSTEM */
     public static final int INTAKE_CAN = 7;
@@ -81,7 +81,7 @@ public final class Constants {
     public static final double GOAL_HEIGHT = 104; // inches
     public static final double PIPELINE = 0; // TODO do pipeline ting
 
-    public static final double MAX_ALIGN_SPEED = 0.5;
+    public static final double MAX_ALIGN_SPEED = 0.6;
     public static final double ALIGN_KP = 0.1d;
     public static final double ALIGN_THRESHOLD = 1d;
 

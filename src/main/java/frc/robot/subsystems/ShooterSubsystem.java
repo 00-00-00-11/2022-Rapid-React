@@ -114,18 +114,18 @@ public class ShooterSubsystem extends SubsystemBase {
     if (error > ShooterConstants.ALIGN_THRESHOLD) {
       LoggingUtil.log("Limelight", "Align Threshold", ShooterConstants.ALIGN_THRESHOLD);
       LoggingUtil.log("Limelight", "Aligning Status", "ALIGNING");
-      RobotContainer.m_driveSubsystem.curveDrive(0.0, speed, true);
+      RobotContainer.m_driveSubsystem.curveDrive(0.0, -speed, true);
     } else if (error < -ShooterConstants.ALIGN_THRESHOLD) {
       LoggingUtil.log("Limelight", "Align Threshold", ShooterConstants.ALIGN_THRESHOLD);
       LoggingUtil.log("Limelight", "Aligning Status", "ALIGNING");
-      RobotContainer.m_driveSubsystem.curveDrive(0.0, -speed, true);
+      RobotContainer.m_driveSubsystem.curveDrive(0.0, speed, true);
     } else {
       LoggingUtil.log("Limelight", "Aligning Status", "ALIGNED");
       RobotContainer.m_driveSubsystem.curveDrive(0.0, 0.0, false);
-      if(Robot.isReal()) {
-        limelight.setLEDMode(1);
-        LoggingUtil.log("Limelight", "LED STATUS", "FORCE OFF");
-      }
+      // if(Robot.isReal()) {
+      //   limelight.setLEDMode(1);
+      //   LoggingUtil.log("Limelight", "LED STATUS", "FORCE OFF");
+      // }
     }
 
   }

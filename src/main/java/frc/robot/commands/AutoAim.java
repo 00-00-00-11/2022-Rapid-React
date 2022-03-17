@@ -33,10 +33,12 @@ public class AutoAim extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Math.abs(RobotContainer.m_shooter_subsystem.getHorizontalErrorToTarget(0)) < Constants.ShooterConstants.ALIGN_THRESHOLD) {
-      return true;
-    } else {
-      return false;
-    }
+    // if(Math.abs(RobotContainer.m_shooter_subsystem.getHorizontalErrorToTarget(0)) < Constants.ShooterConstants.ALIGN_THRESHOLD) {
+    //   return true;
+    // } else {
+    //   return false;
+    // }
+
+    return false;
   }
 }
