@@ -48,9 +48,6 @@ public class ClimberSubsystem extends SubsystemBase {
     );
 
     elevatorMotor.setIdleMode(IdleMode.kBrake);
-    elevatorMotor.getEncoder().setPosition(0);
-
-
     anglerMotorLeft.setIdleMode(IdleMode.kBrake);
     anglerMotorRight.setIdleMode(IdleMode.kBrake);
 
@@ -58,20 +55,10 @@ public class ClimberSubsystem extends SubsystemBase {
     anglerMotorLeft.setInverted(false);
     anglerMotorRight.setInverted(false);
   }
-/*
 
   @Override
   public void periodic() {}
 
-  */
-  
-  /*
-  public void elevatorReset() {
-    elevatorMotor.getEncoder().setPosition(0);
-    
-  }
-
-  */
   public void elevatorExtend() {
     if (elevatorMotor.getEncoder().getPosition() < (elevMax - elevMargin) && elevatorRunning) {
       elevatorMotor.set(ElevSpeed);
@@ -98,9 +85,10 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void climberControl(PS4Controller gamepad) {
-    
-      elevatorRunning = gamepad.getL1Button();
-    
+    if (gamepad.getL1Button()) {
+      elevatorRunning = true;
+    } 
+
     if (elevatorRunning) {
       if (!elevatorExtended) {
         elevatorExtend();
