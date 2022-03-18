@@ -44,10 +44,6 @@ public class VisionSubsystem extends SubsystemBase {
     LoggingUtil.logWithNetworkTable(table, "Horizontal Error", error);
     double speed = VisionConstants.ALIGN_KP * error;
 
-    if(error<0) {
-      speed = -speed;
-    }
-
     if(speed > VisionConstants.MAX_ALIGN_SPEED) {
       speed = VisionConstants.MAX_ALIGN_SPEED;
     } else if(speed < -VisionConstants.MAX_ALIGN_SPEED) {
@@ -63,7 +59,7 @@ public class VisionSubsystem extends SubsystemBase {
     } else if (error < -VisionConstants.ALIGN_THRESHOLD) {
       LoggingUtil.logWithNetworkTable(table, "Align Threshold", VisionConstants.ALIGN_THRESHOLD);
       LoggingUtil.logWithNetworkTable(table, "Aligning Status", "ALIGNING");
-      RobotContainer.m_driveSubsystem.curveDrive(0.0, -speed, true);
+      RobotContainer.m_driveSubsystem.curveDrive(0.0, speed, true);
     } else {
       LoggingUtil.logWithNetworkTable(table, "Aligning Status", "ALIGNED");
       RobotContainer.m_driveSubsystem.curveDrive(0.0, 0.0, false);

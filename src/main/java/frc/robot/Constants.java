@@ -6,7 +6,6 @@ public final class Constants {
     public static final double HIGH_GOAL_HEIGHT = 108;
   }
 
-
   public final class RobotMap {
     /* CONTROLLERS AND INPUTS */
     public static final int DRIVER_CONTROLLER_PORT = 0;
@@ -73,15 +72,14 @@ public final class Constants {
   }
 
   public final class ShooterConstants {
-    // public static final double multiplier = .85;
     public static final double kCIMSpeed = 1;
   }
   public static final class IntakeConstants {
-    public static double intakeSpeed = .6;
+    public static double intakeSpeed = 1;
   }
 
   public final class IndexerConstants {
-    public static final double indexerSpeed = 0.5;
+    public static final double indexerSpeed = 1;
   }
 
   public final class AutoConstants {
@@ -89,15 +87,13 @@ public final class Constants {
   }
 
   public final class VisionConstants {
-    public static final double LIMELIGHT_ANGLE = 0; // TODO get real angle
-    public static final double LIMELIGHT_HEIGHT = 0; // TODO get real height
-    public static final double GOAL_HEIGHT = 104; // inches
-    public static final int PIPELINE = 0; // TODO do pipeline ting
-
+    public static final double LIMELIGHT_ANGLE = 0; // get real angle
+    public static final double LIMELIGHT_HEIGHT = 0; // get real height
+    public static final double GOAL_HEIGHT = 104;
+    public static final int PIPELINE = 0; 
     public static final double MAX_ALIGN_SPEED = 0.6;
     public static final double ALIGN_KP = 0.1d;
     public static final double ALIGN_THRESHOLD = 1d;
-
     public static final double ALIGN_SETPOINT = 0;
   }
     
@@ -110,7 +106,6 @@ public final class Constants {
     public static final double ELEVATOR_LARGE_DISTANCE = 0.5;
     public static final double ELEVATOR_EXTENDED = 0.8;
     public static final double ELEVATOR_MAX = 1; 
-
 
     public static final double ANGLER_SMALL_ANGLE = 0.1; 
     public static final double ANGLER_LARGE_ANGLE = 0.3; 

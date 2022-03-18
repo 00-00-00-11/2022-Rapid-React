@@ -24,20 +24,13 @@
 
 package frc.robot.subsystems;
 
-import java.util.HashMap;
-
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Robot;
-import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
-import frc.robot.simulation.LimelightSim;
-import frc.robot.utility.LimelightUtility;
 import frc.robot.utility.LoggingUtil;
 import frc.robot.utility.ShooterSpeeds;
 import frc.robot.utility.SparkMaxUtility;
-import frc.robot.vision.Limelight;
 
 public class ShooterSubsystem extends SubsystemBase {
 
