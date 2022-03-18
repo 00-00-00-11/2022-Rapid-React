@@ -11,7 +11,7 @@ public class IntakeToggle extends CommandBase {
   /** Creates a new IntakeToggle. */
   public IntakeToggle() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_intake);
+    addRequirements(RobotContainer.m_intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -21,13 +21,13 @@ public class IntakeToggle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_intake.forwardIntake();
+    RobotContainer.m_intakeSubsystem.forwardIntake();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.m_intake.reverseIntake();
+    RobotContainer.m_intakeSubsystem.reverseIntake();
   }
 
   // Returns true when the command should end.

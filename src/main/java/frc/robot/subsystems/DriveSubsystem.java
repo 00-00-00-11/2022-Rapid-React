@@ -418,7 +418,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         new InstantCommand(
             () -> {
-              RobotContainer.m_intake.forwardIntake();
+              RobotContainer.m_intakeSubsystem.forwardIntake();
               SmartDashboard.putString("AUTO STATUS", "EXTENDED INTAKE");
             }),
 
@@ -429,7 +429,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         new InstantCommand(
             () -> {
-              RobotContainer.m_intake.reverseIntake();
+              RobotContainer.m_intakeSubsystem.reverseIntake();
               SmartDashboard.putString("AUTO STATUS", "RETRACTED INTAKE");
             }),
 
@@ -452,7 +452,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         new InstantCommand(
             () -> {
-              RobotContainer.m_intake.forwardIntake();
+              RobotContainer.m_intakeSubsystem.forwardIntake();
               SmartDashboard.putString("AUTO STATUS", "EXTENDED INTAKE");
             }),
 
@@ -461,7 +461,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         new InstantCommand(
             () -> {
-              RobotContainer.m_intake.reverseIntake();
+              RobotContainer.m_intakeSubsystem.reverseIntake();
               SmartDashboard.putString("AUTO STATUS", "RETRACTED INTAKE");
             }),
 
@@ -502,7 +502,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         new InstantCommand(
             () -> {
-              RobotContainer.m_intake.forwardIntake();
+              RobotContainer.m_intakeSubsystem.forwardIntake();
               SmartDashboard.putString("AUTO STATUS", "EXTENDED INTAKE");
             }),
 
@@ -513,13 +513,13 @@ public class DriveSubsystem extends SubsystemBase {
 
         new InstantCommand(
             () -> {
-              RobotContainer.m_intake.reverseIntake();
+              RobotContainer.m_intakeSubsystem.reverseIntake();
               SmartDashboard.putString("AUTO STATUS", "RETRACTED INTAKE");
             }),
 
         new InstantCommand(
             () -> {
-              RobotContainer.m_intake.forwardIntake();
+              RobotContainer.m_intakeSubsystem.forwardIntake();
               SmartDashboard.putString("AUTO STATUS", "EXTENDED INTAKE");
             }),
 
@@ -530,7 +530,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         new InstantCommand(
             () -> {
-              RobotContainer.m_intake.reverseIntake();
+              RobotContainer.m_intakeSubsystem.reverseIntake();
               SmartDashboard.putString("AUTO STATUS", "RETRACTED INTAKE");
             }),
 
@@ -553,7 +553,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         new InstantCommand(
             () -> {
-              RobotContainer.m_intake.forwardIntake();
+              RobotContainer.m_intakeSubsystem.forwardIntake();
               SmartDashboard.putString("AUTO STATUS", "EXTENDED INTAKE");
             }),
 

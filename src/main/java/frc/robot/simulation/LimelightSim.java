@@ -24,7 +24,7 @@ public class LimelightSim extends Limelight {
     }
 
     @Override
-    public double getHorizontalOffset() {
+    public double getTx() {
         if(tx > 0.0) {
             tx -= 0.1;
         } else {
@@ -35,7 +35,7 @@ public class LimelightSim extends Limelight {
     }
 
     @Override
-    public double getVerticalOffset() {
+    public double getTy() {
         return ty;
     }
 

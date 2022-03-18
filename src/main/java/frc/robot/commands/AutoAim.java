@@ -12,7 +12,7 @@ import frc.robot.RobotContainer;
 public class AutoAim extends CommandBase {
   /** Creates a new AutoAim. */
   public AutoAim() {
-    addRequirements(RobotContainer.m_shooter_subsystem);
+    addRequirements(RobotContainer.m_visionSubsystem);
     addRequirements(RobotContainer.m_driveSubsystem);
   }
 
@@ -23,7 +23,7 @@ public class AutoAim extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_shooter_subsystem.autoAlignWithGoal(0);
+    RobotContainer.m_visionSubsystem.autoAlignWithGoal(0);
   }
 
   // Called once the command ends or is interrupted.

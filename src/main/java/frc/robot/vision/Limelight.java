@@ -3,45 +3,29 @@ package frc.robot.vision;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-
-import java.util.HashMap;
-import java.util.Hashtable;
-
+import frc.robot.Constants.VisionConstants;
 public class Limelight {
 
-    Hashtable<String, Double> limelightTable = new Hashtable<>();
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
 
-    HashMap<String, Double> setpoints = new HashMap<>();
-
     public Limelight(double shooterAngle, double limelightHeight, double goalHeight, double pipeline) {
-        limelightTable.put("limelightHeight", limelightHeight);
-        limelightTable.put("shooterAngle", shooterAngle);
-        limelightTable.put("goalHeightInches", goalHeight);
-        limelightTable.put("pipeline", pipeline);
-
-        setpoints.put("Feeder Setpoint", 0.0);
-        setpoints.put("Flywheel Setpoint", 0.0);
-        setPipeline(2);
-
+        setPipeline(VisionConstants.PIPELINE);
     }
 
     public double getDistanceToGoal() {
-        return (limelightTable.get("goalHeightInches") - limelightTable.get("limelightHeight") / Math.tan(limelightTable.get("shooterAngle") + limelightTable.get("ty")));
+        return ((VisionConstants.GOAL_HEIGHT - VisionConstants.LIMELIGHT_HEIGHT) / Math.tan(Units.degreesToRadians(VisionConstants.LIMELIGHT_ANGLE + getTy())));
     }
 
-    public double getHorizontalOffset() {
+    public double getTx() {
         return table.getEntry("tx").getDouble(0.0);
     }
 
-    public double getVerticalOffset() {
-        return limelightTable.get("ty");
+    public double getTy() {
+        return table.getEntry("ty").getDouble(0.0);
     }
 
-    public void update() {
-        limelightTable.put("ty", Units.degreesToRadians(table.getEntry("ty").getDouble(0.0)));
-        limelightTable.put("tx", Units.degreesToRadians(table.getEntry("tx").getDouble(0.0)));
-        limelightTable.put("tv", Units.degreesToRadians(table.getEntry("tv").getDouble(0.0)));
+    public boolean getTv() {
+        return table.getEntry("tv").getDouble(0.0) == 1.0;
     }
 
     public void setLEDMode(int mode) {

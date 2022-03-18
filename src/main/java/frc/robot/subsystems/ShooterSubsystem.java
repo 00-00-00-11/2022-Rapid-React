@@ -44,24 +44,13 @@ public class ShooterSubsystem extends SubsystemBase {
   CANSparkMax feederMotor; 
   CANSparkMax flyWheelMotor;
   CANSparkMax intakeMotor;
-
-  Limelight limelight;
-
   ShooterSpeeds speeds;
 
   public ShooterSubsystem() {
     feederMotor = SparkMaxUtility.constructSparkMax(RobotMap.SHOOTER_FEEDER_CAN, true); // TODO change to falcon
     flyWheelMotor = SparkMaxUtility.constructSparkMax(RobotMap.SHOOTER_FLYWHEEL_CAN, true); // TODO change to falcon
     intakeMotor = SparkMaxUtility.constructSparkMax(RobotMap.INTAKE_CAN, true); // TODO move to its own subsystem
-
     speeds = new ShooterSpeeds(0.0, 0.0);
-
-    if(Robot.isReal()) {
-      limelight  = LimelightUtility.constructLimelight(ShooterConstants.SHOOTER_ANGLE, ShooterConstants.LIMELIGHT_HEIGHT, FieldConstants.HIGH_GOAL_HEIGHT, ShooterConstants.PIPELINE);
-    } else {
-      limelight = LimelightUtility.constructLimelightSim(ShooterConstants.SHOOTER_ANGLE, ShooterConstants.LIMELIGHT_HEIGHT, FieldConstants.HIGH_GOAL_HEIGHT, 0, 500, 30);
-    }
-
   }
 
   public void spinShooter() {
@@ -71,7 +60,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    limelight.update();
     spinShooter();
     log();
   }
@@ -85,77 +73,9 @@ public class ShooterSubsystem extends SubsystemBase {
     speeds.setFeederRPM(setpoint2);
   }
 
-  public double getFlywheelSetpoint() {
-    return speeds.getFlywheelRPM();
-  }
-
-  public double getFeederSetpoint() {
-    return speeds.getFeederRPM();
-  }
-
-  public void autoAlignWithGoal(double setpoint) {
-
-    if(Robot.isReal()) {
-      limelight.setLEDMode(3);
-      LoggingUtil.log("Limelight", "LED STATUS", "FORCE ON");
-    }
-
-    double error = (setpoint - LimelightUtility.getTx(limelight));
-    double speed = ShooterConstants.ALIGN_KP * error;
-
-    if(speed > ShooterConstants.MAX_ALIGN_SPEED) {
-      speed = ShooterConstants.MAX_ALIGN_SPEED;
-    } else if(speed < -ShooterConstants.MAX_ALIGN_SPEED) {
-      speed = -ShooterConstants.MAX_ALIGN_SPEED;
-    }
-
-    LoggingUtil.log("Limelight", "Alignment Speed", speed);
-
-    if (error > ShooterConstants.ALIGN_THRESHOLD) {
-      LoggingUtil.log("Limelight", "Align Threshold", ShooterConstants.ALIGN_THRESHOLD);
-      LoggingUtil.log("Limelight", "Aligning Status", "ALIGNING");
-      RobotContainer.m_driveSubsystem.curveDrive(0.0, -speed, true);
-    } else if (error < -ShooterConstants.ALIGN_THRESHOLD) {
-      LoggingUtil.log("Limelight", "Align Threshold", ShooterConstants.ALIGN_THRESHOLD);
-      LoggingUtil.log("Limelight", "Aligning Status", "ALIGNING");
-      RobotContainer.m_driveSubsystem.curveDrive(0.0, speed, true);
-    } else {
-      LoggingUtil.log("Limelight", "Aligning Status", "ALIGNED");
-      RobotContainer.m_driveSubsystem.curveDrive(0.0, 0.0, false);
-      // if(Robot.isReal()) {
-      //   limelight.setLEDMode(1);
-      //   LoggingUtil.log("Limelight", "LED STATUS", "FORCE OFF");
-      // }
-    }
-
-  }
-
-  public boolean isAligned(double setpoint) {
-    return (setpoint - LimelightUtility.getTx(limelight)) < ShooterConstants.ALIGN_THRESHOLD;
-  }
-
-  public double getHorizontalErrorToTarget(double setpoint) {
-    return (setpoint - LimelightUtility.getTx(limelight));
-  }
-
-  public double getVerticalErrorToTarget(double setpoint) {
-    return (setpoint - LimelightUtility.getTy(limelight));
-  }
-
   public void log() {
     LoggingUtil.log("Shooter", "Flywheel Setpoint", speeds.getFlywheelRPM());
     LoggingUtil.log("Shooter", "Feeder Setpoint", speeds.getFeederRPM());
-    
-    if(Robot.isSimulation()) {
-      LoggingUtil.log("Limelight (Simulated)", "tx", LimelightUtility.getTx(limelight));
-      LoggingUtil.log("Limelight (Simulated)", "ty", LimelightUtility.getTy(limelight));
-    } else {
-      LoggingUtil.log("Limelight", "tx", LimelightUtility.getTx(limelight));
-      LoggingUtil.log("Limelight", "ty", LimelightUtility.getTy(limelight));
-    }
-
-    LoggingUtil.log("Limelight", "Horizontal Error", getHorizontalErrorToTarget(0));
-    LoggingUtil.log("Limelight", "Vertical Error", getVerticalErrorToTarget(0));
   }
 
 }

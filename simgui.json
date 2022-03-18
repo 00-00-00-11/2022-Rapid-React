@@ -15,6 +15,7 @@
       "/LiveWindow/Ungrouped/PIDController[5]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
+      "/LiveWindow/VisionSubsystem": "Subsystem",
       "/Shuffleboard/Drive/Differential Drive": "DifferentialDrive",
       "/Shuffleboard/Drive/Field View": "Field2d",
       "/Shuffleboard/Drive/Gyro": "Gyro",
@@ -54,6 +55,9 @@
       "Simulated Limelight": {
         "open": true
       },
+      "open": true
+    },
+    "Vision": {
       "open": true
     }
   },

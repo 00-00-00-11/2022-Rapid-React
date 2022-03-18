@@ -18,7 +18,7 @@ public class ShootBall extends CommandBase {
    */
   public ShootBall() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_shooter_subsystem);
+    addRequirements(RobotContainer.m_shooterSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -28,14 +28,14 @@ public class ShootBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_shooter_subsystem.changeSetpoints(10000, 10000);
+    RobotContainer.m_shooterSubsystem.changeSetpoints(10000, 10000);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     if (interrupted) {
-      RobotContainer.m_shooter_subsystem.changeSetpoints(0, 0);
+      RobotContainer.m_shooterSubsystem.changeSetpoints(0, 0);
     }
   }
 
