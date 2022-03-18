@@ -29,7 +29,7 @@ public class VisionSubsystem extends SubsystemBase {
     if(Robot.isReal()) {
       limelight  = LimelightUtility.constructLimelight(VisionConstants.LIMELIGHT_ANGLE, VisionConstants.LIMELIGHT_HEIGHT, FieldConstants.HIGH_GOAL_HEIGHT, VisionConstants.PIPELINE);
     } else {
-      limelight = LimelightUtility.constructLimelightSim(VisionConstants.LIMELIGHT_ANGLE, VisionConstants.LIMELIGHT_HEIGHT, FieldConstants.HIGH_GOAL_HEIGHT, 0, 120, 30);
+      limelight = LimelightUtility.constructLimelightSim(VisionConstants.LIMELIGHT_ANGLE, VisionConstants.LIMELIGHT_HEIGHT, FieldConstants.HIGH_GOAL_HEIGHT, 0, -120, 30);
     }
   }
 
@@ -41,7 +41,12 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     double error = (setpoint - limelight.getTx());
+    LoggingUtil.logWithNetworkTable(table, "Horizontal Error", error);
     double speed = VisionConstants.ALIGN_KP * error;
+
+    if(error<0) {
+      speed = -speed;
+    }
 
     if(speed > VisionConstants.MAX_ALIGN_SPEED) {
       speed = VisionConstants.MAX_ALIGN_SPEED;
@@ -49,18 +54,18 @@ public class VisionSubsystem extends SubsystemBase {
       speed = -VisionConstants.MAX_ALIGN_SPEED;
     }
 
-    LoggingUtil.log("Limelight", "Alignment Speed", speed);
+    LoggingUtil.logWithNetworkTable(table, "Alignment Speed", speed);
 
     if (error > VisionConstants.ALIGN_THRESHOLD) {
-      LoggingUtil.log("Limelight", "Align Threshold", VisionConstants.ALIGN_THRESHOLD);
-      LoggingUtil.log("Limelight", "Aligning Status", "ALIGNING");
-      RobotContainer.m_driveSubsystem.curveDrive(0.0, -speed, true);
-    } else if (error < -VisionConstants.ALIGN_THRESHOLD) {
-      LoggingUtil.log("Limelight", "Align Threshold", VisionConstants.ALIGN_THRESHOLD);
-      LoggingUtil.log("Limelight", "Aligning Status", "ALIGNING");
+      LoggingUtil.logWithNetworkTable(table, "Align Threshold", VisionConstants.ALIGN_THRESHOLD);
+      LoggingUtil.logWithNetworkTable(table, "Aligning Status", "ALIGNING");
       RobotContainer.m_driveSubsystem.curveDrive(0.0, speed, true);
+    } else if (error < -VisionConstants.ALIGN_THRESHOLD) {
+      LoggingUtil.logWithNetworkTable(table, "Align Threshold", VisionConstants.ALIGN_THRESHOLD);
+      LoggingUtil.logWithNetworkTable(table, "Aligning Status", "ALIGNING");
+      RobotContainer.m_driveSubsystem.curveDrive(0.0, -speed, true);
     } else {
-      LoggingUtil.log("Limelight", "Aligning Status", "ALIGNED");
+      LoggingUtil.logWithNetworkTable(table, "Aligning Status", "ALIGNED");
       RobotContainer.m_driveSubsystem.curveDrive(0.0, 0.0, false);
       if(Robot.isReal()) {
         limelight.setLEDMode(1);
@@ -71,10 +76,10 @@ public class VisionSubsystem extends SubsystemBase {
   }
 
   public boolean isAligned(double setpoint) {
-    return (setpoint - limelight.getTx()) < VisionConstants.ALIGN_THRESHOLD;
+    return Math.abs(setpoint - limelight.getTx()) < VisionConstants.ALIGN_THRESHOLD;
   }
 
-  public ShooterSpeeds calculateSetpoints(double distanceToGoal) {
+  public ShooterSpeeds calculateShooterSetpoints(double distanceToGoal) {
     return new ShooterSpeeds(0.0, 0.0);
   }
 

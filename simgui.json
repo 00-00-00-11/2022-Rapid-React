@@ -59,6 +59,9 @@
     },
     "Vision": {
       "open": true
+    },
+    "limelight": {
+      "open": true
     }
   },
   "Plot": {
