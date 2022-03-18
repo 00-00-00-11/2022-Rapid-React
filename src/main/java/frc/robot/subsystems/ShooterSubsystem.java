@@ -95,9 +95,10 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Shooter Vel", flyWheelMotor.getSelectedSensorVelocity() * velConv);
   }
 
-  public void shootCIM(double speed) {
-    feederMotor.set(ControlMode.PercentOutput, .15); //.15
-    flyWheelMotor.set(ControlMode.PercentOutput, .85 ); //.8
+  public void shootTalon(double speed) {
+    feederMotor.set(TalonFXControlMode.PercentOutput, speed);
+    flyWheelMotor.set(TalonFXControlMode.PercentOutput, speed);
+
   }
 
   public void spinIntake(double speed) {
