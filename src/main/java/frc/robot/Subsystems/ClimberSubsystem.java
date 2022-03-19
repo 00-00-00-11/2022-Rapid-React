@@ -4,32 +4,33 @@
 
 package frc.robot.subsystems;
 
-import javax.swing.JToggleButton;
-
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.IdleMode;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
 
+  // Initializing motors and limit switches
   CANSparkMax elevatorMotor;
   CANSparkMax anglerMotorLeft;
   CANSparkMax anglerMotorRight;
 
+  // Booleans to handle elevator toggle functionality
   boolean elevatorExtended = false;
   boolean elevatorRunning = false;
 
-  double ElevSpeed = Constants.ElevatorConstants.ELEVATOR_SPEED;
-  
-  double AnglerSpeed = Constants.ElevatorConstants.ANGLER_SPEED;
-
+  // Pulling variables from constants
+  double elevSpeed = Constants.ElevatorConstants.ELEVATOR_SPEED;
   double elevMin = Constants.ElevatorConstants.ELEVATOR_MIN;
   double elevMax = Constants.ElevatorConstants.ELEVATOR_MAX;
   double elevMargin = Constants.ElevatorConstants.ELEVATOR_MARGIN;
+
+  double AnglerSpeed = Constants.ElevatorConstants.ANGLER_SPEED;
+
+
 
   public ClimberSubsystem() {
     elevatorMotor = new CANSparkMax(
@@ -61,7 +62,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void elevatorExtend() {
     if (elevatorMotor.getEncoder().getPosition() < (elevMax - elevMargin) && elevatorRunning) {
-      elevatorMotor.set(ElevSpeed);
+      elevatorMotor.set(elevSpeed);
     } else {
       elevatorMotor.set(0);
       elevatorExtended = true;
@@ -71,7 +72,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void elevatorRetract() {
     if (elevatorMotor.getEncoder().getPosition() > (elevMin + elevMargin) && elevatorRunning) {
-      elevatorMotor.set(-ElevSpeed);
+      elevatorMotor.set(-elevSpeed);
     } else {
       elevatorMotor.set(0);
       elevatorExtended = false;
