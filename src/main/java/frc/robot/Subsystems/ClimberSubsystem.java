@@ -54,6 +54,8 @@ public class ClimberSubsystem extends SubsystemBase {
     elevatorMotor.setInverted(false);
     anglerMotorLeft.setInverted(false);
     anglerMotorRight.setInverted(false);
+
+    elevatorMotor.getEncoder().setPosition(0); //to avoid troubleshootin issues
   }
 
   @Override
@@ -84,18 +86,18 @@ public class ClimberSubsystem extends SubsystemBase {
     anglerMotorRight.set(gamepad.getRightY());
   }
 
-  public void climberControl(PS4Controller gamepad) {
-    if (gamepad.getL1Button()) {
-      elevatorRunning = true;
-    } 
+  public void climberControl(PS4Controller gamepad) {   //seperating retract and extend process to account for error[TESTINGmode]
+  
+      elevatorRunning = gamepad.getL1Button();
+  
 
-    if (elevatorRunning) {
+    if (elevatorRunning) {   
       if (!elevatorExtended) {
         elevatorExtend();
       } else if (elevatorExtended) {
         elevatorRetract();
       } else {
-        System.out.println("Something has gone wrong in elevator software bounding");
+        System.out.println("error in elevator marginal bounding");  //error if elevator not extended or retracted
       }
     }
 
