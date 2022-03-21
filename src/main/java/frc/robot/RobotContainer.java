@@ -52,9 +52,7 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-
     manualClimbToggle.toggleWhenPressed(new ClimberManual());
-
     toggleIntakeButton.toggleWhenPressed(new IntakeToggle());
     intakeAndIndexerButton.whileHeld(new IntakeAndIndex());
     indxerAndShootButton.whileHeld(new IndexerAndShoot());

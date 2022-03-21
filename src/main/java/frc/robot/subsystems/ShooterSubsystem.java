@@ -101,6 +101,6 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void spinIntake(double speed) {
-    SparkMaxUtility.runSparkMax(intakeMotor, speed);
+    SparkMaxUtility.runSparkMax(intakeMotor, -speed);
   }
 }

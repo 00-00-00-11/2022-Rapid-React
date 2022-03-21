@@ -438,7 +438,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         new InstantCommand(
             () -> {
-              RobotContainer.m_shooter_subsystem.shootCIM(Constants.ShooterConstants.kCIMSpeed);
+              // RobotContainer.m_shooter_subsystem.shootCIM(Constants.ShooterConstants.kCIMSpeed);
               SmartDashboard.putString("AUTO STATUS", "SHOOTING");
             }),
 
@@ -446,7 +446,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         new InstantCommand(
             () -> {
-              RobotContainer.m_shooter_subsystem.shootCIM(0);
+              // RobotContainer.m_shooter_subsystem.shootCIM(0);
               SmartDashboard.putString("AUTO STATUS", "STOPPED SHOOTING");
             }),
 
@@ -470,7 +470,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         new InstantCommand(
             () -> {
-              RobotContainer.m_shooter_subsystem.shootCIM(Constants.ShooterConstants.kCIMSpeed);
+              // RobotContainer.m_shooter_subsystem.shootCIM(Constants.ShooterConstants.kCIMSpeed);
               SmartDashboard.putString("AUTO STATUS", "SHOOTING");
             }),
 
@@ -478,7 +478,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         new InstantCommand(
             () -> {
-              RobotContainer.m_shooter_subsystem.shootCIM(0);
+              // RobotContainer.m_shooter_subsystem.shootCIM(0);
               SmartDashboard.putString("AUTO STATUS", "STOPPED SHOOTING");
             }),
 
@@ -539,7 +539,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         new InstantCommand(
             () -> {
-              RobotContainer.m_shooter_subsystem.shootCIM(Constants.ShooterConstants.kCIMSpeed);
+              // RobotContainer.m_shooter_subsystem.shootCIM(Constants.ShooterConstants.kCIMSpeed);
               SmartDashboard.putString("AUTO STATUS", "SHOOTING");
             }),
 
@@ -547,7 +547,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         new InstantCommand(
             () -> {
-              RobotContainer.m_shooter_subsystem.shootCIM(0);
+              // RobotContainer.m_shooter_subsystem.shootCIM(0);
               SmartDashboard.putString("AUTO STATUS", "STOPPED SHOOTING");
             }),
 
