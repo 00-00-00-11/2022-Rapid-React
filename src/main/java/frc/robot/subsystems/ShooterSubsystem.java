@@ -96,12 +96,17 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void shootTalon(double speed) {
-    feederMotor.set(TalonFXControlMode.PercentOutput, speed);
-    flyWheelMotor.set(TalonFXControlMode.PercentOutput, speed);
+    if(speed == 0) {
+      feederMotor.set(TalonFXControlMode.PercentOutput, 0);
+      flyWheelMotor.set(TalonFXControlMode.PercentOutput, 0);
+    } else {
+      feederMotor.set(TalonFXControlMode.PercentOutput, 1);
+      flyWheelMotor.set(TalonFXControlMode.PercentOutput, 0.6);
+    }
 
   }
 
   public void spinIntake(double speed) {
-    SparkMaxUtility.runSparkMax(intakeMotor, speed);
+    SparkMaxUtility.runSparkMax(intakeMotor, -speed);
   }
 }

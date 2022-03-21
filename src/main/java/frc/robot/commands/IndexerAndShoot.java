@@ -17,7 +17,7 @@ public class IndexerAndShoot extends ParallelCommandGroup {
     addCommands(
       new ShootBall(),
       new SequentialCommandGroup(
-        new WaitCommand(0.6),
+        new WaitCommand(2),
         new RunIndexer()
       )
     );
