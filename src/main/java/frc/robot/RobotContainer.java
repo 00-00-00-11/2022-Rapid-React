@@ -34,12 +34,11 @@ public class RobotContainer {
   public static final PS4Controller driverGamepad = new PS4Controller(Constants.RobotMap.DRIVER_CONTROLLER_PORT);
   public static final PS4Controller operatorGamepad = new PS4Controller(Constants.RobotMap.OPERATOR_CONTROLLER_PORT);
 
-  // JoystickButton indxerAndShootButton = new JoystickButton(driverGamepad, 1);
-  // JoystickButton toggleIntakeButton = new JoystickButton(driverGamepad, 3);
-  // JoystickButton intakeAndIndexerButton = new JoystickButton(driverGamepad, 2);
-  // JoystickButton intakeDown = new JoystickButton(driverGamepad, 4);
-  // JoystickButton manualClimbToggle = new JoystickButton(operatorGamepad, PS4Controller.Button.kSquare.value);
-  JoystickButton shootButton = new JoystickButton(driverGamepad, 1);
+  JoystickButton indxerAndShootButton = new JoystickButton(driverGamepad, 1);
+  JoystickButton toggleIntakeButton = new JoystickButton(driverGamepad, 3);
+  JoystickButton intakeAndIndexerButton = new JoystickButton(driverGamepad, 2);
+  JoystickButton intakeDown = new JoystickButton(driverGamepad, 4);
+  JoystickButton manualClimbToggle = new JoystickButton(operatorGamepad, PS4Controller.Button.kSquare.value);
 
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final ShooterSubsystem m_shooter_subsystem = new ShooterSubsystem();
@@ -53,14 +52,11 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-
-    // manualClimbToggle.toggleWhenPressed(new ClimberManual());
-
-    // toggleIntakeButton.toggleWhenPressed(new IntakeToggle());
-    // intakeAndIndexerButton.whileHeld(new IntakeAndIndex());
-    // indxerAndShootButton.whileHeld(new IndexerAndShoot());
-    // intakeDown.whileHeld(new IndexerDown());
-    shootButton.whileHeld(new ShootBall());
+    manualClimbToggle.toggleWhenPressed(new ClimberManual());
+    toggleIntakeButton.toggleWhenPressed(new IntakeToggle());
+    intakeAndIndexerButton.whileHeld(new IntakeAndIndex());
+    indxerAndShootButton.whileHeld(new IndexerAndShoot());
+    intakeDown.whileHeld(new IndexerDown());
   }
 
   public Command getAutonomousCommand() {
