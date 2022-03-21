@@ -82,8 +82,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void shootBalls(boolean shoot) {
     if (!shoot) {
-      // feederMotor.set();
-      // flyWheelMotor.set(0);
+      feederMotor.set(ControlMode.PercentOutput,0);
+      flyWheelMotor.set(ControlMode.PercentOutput,0);
     }
   }
 
@@ -96,8 +96,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void shootCIM(double speed) {
-    feederMotor.set(ControlMode.PercentOutput, .15); //.15
-    flyWheelMotor.set(ControlMode.PercentOutput, .85 ); //.8
+    feederMotor.set(ControlMode.PercentOutput, 1); //.15
+    flyWheelMotor.set(ControlMode.PercentOutput, .70 ); //.8
   }
 
   public void spinIntake(double speed) {
