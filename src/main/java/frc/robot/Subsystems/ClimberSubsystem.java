@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -17,6 +18,9 @@ public class ClimberSubsystem extends SubsystemBase {
   CANSparkMax elevatorMotor;
   CANSparkMax anglerMotorLeft;
   CANSparkMax anglerMotorRight;
+
+  DigitalInput elevTopSwitch;
+  DigitalInput elevBottomSwitch;
 
   // Booleans to handle elevator toggle functionality
   boolean elevatorExtended = false;
@@ -60,8 +64,17 @@ public class ClimberSubsystem extends SubsystemBase {
   @Override
   public void periodic() {}
 
+  public void elevatorCalibrate() {
+
+  }
+
+  // Checks if elevator limit switches are triggered (edge of hardware bounds).
+  public boolean checkLimitSwitch() {
+    return elevBottomSwitch.get() && elevTopSwitch.get();
+  }
+
   public void elevatorExtend() {
-    if (elevatorMotor.getEncoder().getPosition() < (elevMax - elevMargin) && elevatorRunning) {
+    if (elevatorMotor.getEncoder().getPosition() < (elevMax - elevMargin) && elevatorRunning && !checkLimitSwitch()) {
       elevatorMotor.set(elevSpeed);
     } else {
       elevatorMotor.set(0);
@@ -71,7 +84,7 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void elevatorRetract() {
-    if (elevatorMotor.getEncoder().getPosition() > (elevMin + elevMargin) && elevatorRunning) {
+    if (elevatorMotor.getEncoder().getPosition() > (elevMin + elevMargin) && elevatorRunning && !checkLimitSwitch()) {
       elevatorMotor.set(-elevSpeed);
     } else {
       elevatorMotor.set(0);
