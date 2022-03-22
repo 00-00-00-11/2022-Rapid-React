@@ -26,9 +26,9 @@ public final class Constants {
     public static final int SHOOTER_FLYWHEEL_CAN = 11;
 
     /* CLIMBER SUBSYSTEM */
-    public static final int CLIMBER_LINEAR_CAN = 12;
-    public static final int CLIMBER_LEFT_ARM_CAN = 13;
-    public static final int CLIMBER_RIGHT_ARM_CAN = 14;
+    public static final int CLIMBER_LINEAR_CAN = 14;
+    public static final int CLIMBER_LEFT_ARM_CAN = 99;
+    public static final int CLIMBER_RIGHT_ARM_CAN = 12;
 
     /* PNEUMATICS SUBSYSTEM */
     public static final int HUB_CAN = 15;
@@ -99,7 +99,7 @@ public final class Constants {
     public static final double ANGLER_LARGE_ANGLE = 0.3; 
     public static final double ANGLER_IMPACT_ANGLE = 0.2; 
 
-    public static final double ELEVATOR_SPEED = 0.05; 
+    public static final double ELEVATOR_SPEED = 0.2; 
     public static final double ANGLER_SPEED = 0.05; 
   }
 }

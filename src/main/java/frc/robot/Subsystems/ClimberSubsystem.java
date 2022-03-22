@@ -8,6 +8,7 @@ import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -50,11 +51,13 @@ public class ClimberSubsystem extends SubsystemBase {
   public void periodic() {}
 
   public void elevatorDriver(PS4Controller joystick) {
-    if (-joystick.getLeftY() < 0) {
-      elevatorMotor.set(-0.8*joystick.getLeftY());
+    System.out.println("ELEVATOR STATE: "+(-0.2*joystick.getLeftY()));
+    elevatorMotor.set(-0.2*joystick.getLeftY());
+    /*if (-joystick.getLeftY() < 0) {2
+    
     } else {
       elevatorMotor.set(-0.8*joystick.getLeftY());
-    }
+    }*/
   }
 }
 
