@@ -12,7 +12,7 @@ import frc.robot.RobotContainer;
 public class IndexerDown extends CommandBase {
   /** Creates a new IndexerDown. */
   public IndexerDown() {
-    addRequirements(RobotContainer.m_shooter_subsystem);
+    addRequirements(RobotContainer.m_shooterSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -24,13 +24,13 @@ public class IndexerDown extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_shooter_subsystem.spinIntake(-Constants.IntakeConstants.intakeSpeed);
+    RobotContainer.m_shooterSubsystem.spinIntake(-Constants.IntakeConstants.intakeSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.m_shooter_subsystem.spinIntake(0);
+    RobotContainer.m_shooterSubsystem.spinIntake(0);
   }
 
   // Returns true when the command should end.

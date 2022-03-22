@@ -37,8 +37,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
-
+import frc.robot.utility.ShooterSpeeds;
 import frc.robot.utility.SparkMaxUtility;
 import com.revrobotics.CANSparkMax;
 
@@ -58,10 +57,12 @@ public class ShooterSubsystem extends SubsystemBase {
   /* Shooter Talon FX Definition */
   TalonFX feederMotor = TalonFXUtility.constructTalonFX(Constants.RobotMap.SHOOTER_FEEDER_CAN);
   TalonFX flyWheelMotor = TalonFXUtility.constructTalonFX(Constants.RobotMap.SHOOTER_FLYWHEEL_CAN);
+  ShooterSpeeds speeds;
 
   CANSparkMax intakeMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INTAKE_CAN, true);
 
   public ShooterSubsystem() {
+    speeds = new ShooterSpeeds(0.0, 0.0);
 
     /* Preferences */
     Preferences.setDouble("Feeder KP", Constants.ShooterConstants.FLYWHEEL_KP);
@@ -80,30 +81,35 @@ public class ShooterSubsystem extends SubsystemBase {
     feederMotor.set(TalonFXControlMode.Velocity, setpoint);
   }
 
-  public void shootBalls(boolean shoot) {
-    if (!shoot) {
-      feederMotor.set(ControlMode.PercentOutput,0);
-      flyWheelMotor.set(ControlMode.PercentOutput,0);
-    }
+  public void shootPID() {
+      feederMotor.set(ControlMode.PercentOutput,speeds.getFeederRPM()); // BOTTOM
+      flyWheelMotor.set(ControlMode.PercentOutput,speeds.getFlywheelRPM()); //TOP
   }
+
+
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-
-    
     SmartDashboard.putNumber("TOP Shooter Vel", flyWheelMotor.getSelectedSensorVelocity() * velConv);
     SmartDashboard.putNumber("BOTTOM Shooter Vel", feederMotor.getSelectedSensorVelocity() * velConv);
+    log();
 
-  }
-
-  public void shootCIM(double speed) {
-    feederMotor.set(ControlMode.PercentOutput, .9); //BOTTOM
-    flyWheelMotor.set(ControlMode.PercentOutput, .3); // TOP
-    System.out.println("Top: " + flyWheelMotor.getSelectedSensorVelocity()+" Bottom: "+feederMotor.getSelectedSensorVelocity());
   }
 
   public void spinIntake(double speed) {
     SparkMaxUtility.runSparkMax(intakeMotor, -speed);
   }
+
+  public void changeSetpoints(double setpoint1, double setpoint2) {
+    speeds.setFlywheelRPM(setpoint1);
+    speeds.setFeederRPM(setpoint2);
+  }
+
+  public void log() {
+    SmartDashboard.putNumber("TOP Shooter Vel", flyWheelMotor.getSelectedSensorVelocity() * velConv);
+    SmartDashboard.putNumber("BOTTOM Shooter Vel", feederMotor.getSelectedSensorVelocity() * velConv);
+    SmartDashboard.putNumber("TOP Shooter Setpoint", speeds.getFlywheelRPM());
+    SmartDashboard.putNumber("BOTTOM Shooter Setpoint", speeds.getFeederRPM());
+  }
+
 }

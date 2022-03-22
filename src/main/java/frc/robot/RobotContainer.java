@@ -42,11 +42,12 @@ public class RobotContainer {
   JoystickButton spinTurretToggle = new JoystickButton(operatorGamepad, PS4Controller.Button.kTriangle.value);
 
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
-  public static final ShooterSubsystem m_shooter_subsystem = new ShooterSubsystem();
-  public static final IntakeSubsystem m_intake = new IntakeSubsystem();
-  public static final IndexerSubsystem m_IndexerSubsystem = new IndexerSubsystem();
+  public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  public static final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  public static final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
   public static final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
   public static final TurretSubsystem m_turretSubsystem = new TurretSubsystem();
+  public static final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
 
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(new SimDrive());
@@ -67,7 +68,10 @@ public class RobotContainer {
     System.out.println(m_driveSubsystem.getSelectedFromChooser());
     switch (m_driveSubsystem.getSelectedFromChooser()) {
       case 0:
-        return new OneBall();
+        // return new OneBall();
+        return new AutoAimAndShoot();
+        // return new AutoAimAndShoot(); //bind to controller 
+        // return new ExitTarmac(true);
       case 2:
         return m_driveSubsystem.TwoBallAuto(m_driveSubsystem);
       case 3:

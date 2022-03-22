@@ -15,6 +15,7 @@
       "/LiveWindow/Ungrouped/PIDController[5]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
+      "/LiveWindow/VisionSubsystem": "Subsystem",
       "/Shuffleboard/Drive/Differential Drive": "DifferentialDrive",
       "/Shuffleboard/Drive/Field View": "Field2d",
       "/Shuffleboard/Drive/Gyro": "Gyro",
@@ -42,7 +43,54 @@
   },
   "NetworkTables": {
     "SmartDashboard": {
+      "Limelight": {
+        "open": true
+      },
+      "Limelight (Simulated)": {
+        "open": true
+      },
+      "Shooter": {
+        "open": true
+      },
+      "Simulated Limelight": {
+        "open": true
+      },
       "open": true
+    },
+    "Vision": {
+      "open": true
+    },
+    "limelight": {
+      "open": true
+    }
+  },
+  "Plot": {
+    "Plot <0>": {
+      "plots": [
+        {
+          "height": 338,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/feeder setpoint"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/flywheel setpoint"
+            }
+          ]
+        }
+      ]
     }
   }
 }
