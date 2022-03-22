@@ -92,12 +92,15 @@ public class ShooterSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
 
     
-    SmartDashboard.putNumber("Shooter Vel", flyWheelMotor.getSelectedSensorVelocity() * velConv);
+    SmartDashboard.putNumber("TOP Shooter Vel", flyWheelMotor.getSelectedSensorVelocity() * velConv);
+    SmartDashboard.putNumber("BOTTOM Shooter Vel", feederMotor.getSelectedSensorVelocity() * velConv);
+
   }
 
   public void shootCIM(double speed) {
-    feederMotor.set(ControlMode.PercentOutput, 1); //.15
-    flyWheelMotor.set(ControlMode.PercentOutput, .70 ); //.8
+    feederMotor.set(ControlMode.PercentOutput, .9); //BOTTOM
+    flyWheelMotor.set(ControlMode.PercentOutput, .3); // TOP
+    System.out.println("Top: " + flyWheelMotor.getSelectedSensorVelocity()+" Bottom: "+feederMotor.getSelectedSensorVelocity());
   }
 
   public void spinIntake(double speed) {
