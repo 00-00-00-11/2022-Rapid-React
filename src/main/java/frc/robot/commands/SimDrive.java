@@ -36,7 +36,7 @@ public class SimDrive extends CommandBase {
     RobotContainer.m_driveSubsystem.curveDrive(filter.calculate(speed), leftAxis, false);
 
     if (Math.abs(rightAxis) > Constants.DriveConstants.DEADZONE) { 
-      RobotContainer.m_driveSubsystem.curveDrive(0, rightAxis*Constants.DriveConstants.TURN_SPEED, true); 
+      RobotContainer.m_driveSubsystem.curveDrive(0, rightAxis, true); 
     }
   }
 
