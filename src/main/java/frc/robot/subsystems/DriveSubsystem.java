@@ -264,6 +264,11 @@ public class DriveSubsystem extends SubsystemBase {
         xSpeed * DriveConstants.DRIVE_SPEED, rotation * DriveConstants.TURN_SPEED, turn);
   }
 
+  public void arcadeDrive(double xSpeed, double rotation, boolean stabilize) {
+    m_drive.arcadeDrive(
+        xSpeed * DriveConstants.DRIVE_SPEED, rotation * DriveConstants.TURN_SPEED, stabilize);
+  }
+
   /**
    * Controls the left and right sides of the drive directly with voltages.
    *
