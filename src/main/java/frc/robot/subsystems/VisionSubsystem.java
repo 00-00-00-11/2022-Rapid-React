@@ -37,36 +37,68 @@ public class VisionSubsystem extends SubsystemBase {
     }
   }
 
-  public void AutoAlignWithGoal(double setpoint) {
-
-    if (Robot.isReal()) {
-      limelight.setLEDMode(3);
-      LoggingUtil.logWithNetworkTable(table, "LED Status", "FORCE ON");
-    }
-
+  public void log(){
+    double setpoint = 0;
     double errorx = -(setpoint - limelight.getTx());
     double errory = -(setpoint - limelight.getTy());
-
-    LoggingUtil.logWithNetworkTable(table, "Horizontal Error", errorx);
-    LoggingUtil.logWithNetworkTable(table, "Vertical Error", errory);
+    SmartDashboard.putNumber("HORIZONTAL ERROR",errorx);
+    SmartDashboard.putNumber("VERTICAL ERROR",errory);
 
     double x_adjust = 0;
     if (Math.abs(errorx) > VisionConstants.ALIGN_THRESHOLD) {
       x_adjust = VisionConstants.ALIGN_KP_X * errorx;
     }
     double y_adjust = VisionConstants.ALIGN_KP_Y * errory;
+    SmartDashboard.putNumber("X ADJUST",x_adjust);
+    SmartDashboard.putNumber("Y ADJUST",y_adjust);
+    double leftSpeed = x_adjust + y_adjust;
+    double rightSpeed = y_adjust - x_adjust;
+    
+    SmartDashboard.putString("AUTO STATE","ALIGNING");
+    SmartDashboard.putNumber("LEFT SPEED",leftSpeed);
+    SmartDashboard.putNumber("RIGHT SPEED",rightSpeed);
+
+
+  }
+  public void autoAlignWithGoal(double setpoint) {
+    SmartDashboard.putString("AUTO ALIGNING","TRUE");
+
+    if (Robot.isReal()) {
+      SmartDashboard.putString("ROBOT REAL","TRUE");
+      limelight.setLEDMode(3);
+      LoggingUtil.logWithNetworkTable(table, "LED Status", "FORCE ON");
+    }
+
+    double errorx = -(setpoint - limelight.getTx());
+    double errory = -(setpoint - limelight.getTy());
+    SmartDashboard.putNumber("HORIZONTAL ERROR",errorx);
+    SmartDashboard.putNumber("VERTICAL ERROR",errory);
+
+    double x_adjust = 0;
+    if (Math.abs(errorx) > VisionConstants.ALIGN_THRESHOLD) {
+      x_adjust = VisionConstants.ALIGN_KP_X * errorx;
+    }
+    double y_adjust = VisionConstants.ALIGN_KP_Y * errory;
+    SmartDashboard.putNumber("X ADJUST",x_adjust);
+    SmartDashboard.putNumber("Y ADJUST",y_adjust);
+
 
     double leftSpeed = x_adjust + y_adjust;
     double rightSpeed = y_adjust - x_adjust;
-
+    
+    SmartDashboard.putString("AUTO STATE","ALIGNING");
+    SmartDashboard.putNumber("LEFT SPEED",leftSpeed);
+    SmartDashboard.putNumber("RIGHT SPEED",rightSpeed);
+    RobotContainer.m_driveSubsystem.tankDriveAuto(leftSpeed, rightSpeed);
     if (x_adjust < .1 || y_adjust < .1) {
+     /* SmartDashboard.putString("AUTO STATE","FINISHED");
       LoggingUtil.logWithNetworkTable(table, "Aligning Status", "FINISHED ALIGNING");
       if (Robot.isReal()) {
         // limelight.setLEDMode(1);
         LoggingUtil.logWithNetworkTable(table, "LED Status", "FORCE OFF");
-      }
+      }*/
     } else {
-      RobotContainer.m_driveSubsystem.tankDriveAuto(leftSpeed, rightSpeed);
+
     }
 
 
@@ -82,7 +114,8 @@ public class VisionSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    update();
+    log();
+   // update();
   }
 
   public void update() {
@@ -94,3 +127,4 @@ public class VisionSubsystem extends SubsystemBase {
     LoggingUtil.logWithNetworkTable(table, "Feeder RPM Setpoint", speeds.getFeederVelocity());
   }
 }
+

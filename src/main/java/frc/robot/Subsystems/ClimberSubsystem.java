@@ -47,8 +47,6 @@ public class ClimberSubsystem extends SubsystemBase {
     anglerMotorRight.setInverted(false);
   }
 
-  @Override
-  public void periodic() {}
 
   public void elevatorDriver(PS4Controller joystick) {
     System.out.println("ELEVATOR STATE: "+(-0.2*joystick.getLeftY()));

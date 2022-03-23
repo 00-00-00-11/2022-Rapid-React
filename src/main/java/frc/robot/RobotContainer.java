@@ -62,7 +62,6 @@ public class RobotContainer {
     indxerAndShootButton.whileHeld(new IndexerAndShoot());
     spinTurretToggle.whileHeld(new TurretSpin());
     startVision.whileHeld(new AutoAim());
-
     
     intakeDown.whileHeld(new IndexerDown());
   }

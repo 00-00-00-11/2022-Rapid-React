@@ -21,7 +21,7 @@ public class ShootBall extends CommandBase {
     addRequirements(RobotContainer.m_shooterSubsystem);
   }
 
-  // Called when the command is initially scheduled.
+   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
 
@@ -35,6 +35,7 @@ public class ShootBall extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     if (interrupted) {
+      RobotContainer.m_shooterSubsystem.stopMotors();
       RobotContainer.m_shooterSubsystem.changeSetpoints(0, 0);
     }
   }

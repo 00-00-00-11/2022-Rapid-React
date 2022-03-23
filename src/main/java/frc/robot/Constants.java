@@ -50,7 +50,7 @@ public final class Constants {
   public final class DriveConstants {
 
     public static final double DRIVE_SPEED = .5d;
-    public static final double TURN_SPEED = 1.0d;
+    public static final double TURN_SPEED = .8d;
 
     public static final double turnKP = -0.0225;
     public static final double turnKI = 0;
@@ -80,7 +80,7 @@ public final class Constants {
     public static final double FLYWHEEL_KP = 0;
   }
   public static final class IntakeConstants {
-    public static double intakeSpeed = 1;
+    public static double intakeSpeed = .5;
   }
 
   public final class IndexerConstants {

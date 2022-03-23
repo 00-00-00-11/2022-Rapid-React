@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.VisionConstants;
@@ -22,7 +23,8 @@ public class AutoAim extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_visionSubsystem.AutoAlignWithGoal(0);
+    SmartDashboard.putString("PRESSED BUTTON","OPTIONS");
+    RobotContainer.m_visionSubsystem.autoAlignWithGoal(0);
   }
 
   // Called once the command ends or is interrupted.
