@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
@@ -16,7 +17,6 @@ import frc.robot.vision.Limelight;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.VisionConstants;
 
-
 public class VisionSubsystem extends SubsystemBase {
 
   Limelight limelight;
@@ -26,48 +26,49 @@ public class VisionSubsystem extends SubsystemBase {
   public VisionSubsystem() {
     speeds = new ShooterSpeeds(0.0, 0.0);
     table = NetworkTableInstance.getDefault().getTable("Vision");
-    if(Robot.isReal()) {
-      limelight  = LimelightUtility.constructLimelight(VisionConstants.LIMELIGHT_ANGLE, VisionConstants.LIMELIGHT_HEIGHT, FieldConstants.HIGH_GOAL_HEIGHT, VisionConstants.PIPELINE);
+    // limelight.setLEDMode(1);
+
+    if (Robot.isReal()) {
+      limelight = LimelightUtility.constructLimelight(VisionConstants.LIMELIGHT_ANGLE, VisionConstants.LIMELIGHT_HEIGHT,
+          FieldConstants.HIGH_GOAL_HEIGHT, VisionConstants.PIPELINE);
     } else {
-      limelight = LimelightUtility.constructLimelightSim(VisionConstants.LIMELIGHT_ANGLE, VisionConstants.LIMELIGHT_HEIGHT, FieldConstants.HIGH_GOAL_HEIGHT, 0, -120, 30);
+      limelight = LimelightUtility.constructLimelightSim(VisionConstants.LIMELIGHT_ANGLE,
+          VisionConstants.LIMELIGHT_HEIGHT, FieldConstants.HIGH_GOAL_HEIGHT, 0, -120, 30);
     }
   }
 
-  public void autoAlignWithGoal(double setpoint) {
+  public void AutoAlignWithGoal(double setpoint) {
 
-    if(Robot.isReal()) {
+    if (Robot.isReal()) {
       limelight.setLEDMode(3);
       LoggingUtil.logWithNetworkTable(table, "LED Status", "FORCE ON");
     }
 
-    double error = (setpoint - limelight.getTx());
-    LoggingUtil.logWithNetworkTable(table, "Horizontal Error", error);
-    double speed = VisionConstants.ALIGN_KP * error;
+    double errorx = -(setpoint - limelight.getTx());
+    double errory = -(setpoint - limelight.getTy());
 
-    if(speed > VisionConstants.MAX_ALIGN_SPEED) {
-      speed = VisionConstants.MAX_ALIGN_SPEED;
-    } else if(speed < -VisionConstants.MAX_ALIGN_SPEED) {
-      speed = -VisionConstants.MAX_ALIGN_SPEED;
+    LoggingUtil.logWithNetworkTable(table, "Horizontal Error", errorx);
+    LoggingUtil.logWithNetworkTable(table, "Vertical Error", errory);
+
+    double x_adjust = 0;
+    if (Math.abs(errorx) > VisionConstants.ALIGN_THRESHOLD) {
+      x_adjust = VisionConstants.ALIGN_KP_X * errorx;
     }
+    double y_adjust = VisionConstants.ALIGN_KP_Y * errory;
 
-    LoggingUtil.logWithNetworkTable(table, "Alignment Speed", speed);
+    double leftSpeed = x_adjust + y_adjust;
+    double rightSpeed = y_adjust - x_adjust;
 
-    if (error > VisionConstants.ALIGN_THRESHOLD) {
-      LoggingUtil.logWithNetworkTable(table, "Align Threshold", VisionConstants.ALIGN_THRESHOLD);
-      LoggingUtil.logWithNetworkTable(table, "Aligning Status", "ALIGNING");
-      RobotContainer.m_driveSubsystem.curveDrive(0.0, speed, true);
-    } else if (error < -VisionConstants.ALIGN_THRESHOLD) {
-      LoggingUtil.logWithNetworkTable(table, "Align Threshold", VisionConstants.ALIGN_THRESHOLD);
-      LoggingUtil.logWithNetworkTable(table, "Aligning Status", "ALIGNING");
-      RobotContainer.m_driveSubsystem.curveDrive(0.0, speed, true);
-    } else {
-      LoggingUtil.logWithNetworkTable(table, "Aligning Status", "ALIGNED");
-      RobotContainer.m_driveSubsystem.curveDrive(0.0, 0.0, false);
-      if(Robot.isReal()) {
-        limelight.setLEDMode(1);
+    if (x_adjust < .1 || y_adjust < .1) {
+      LoggingUtil.logWithNetworkTable(table, "Aligning Status", "FINISHED ALIGNING");
+      if (Robot.isReal()) {
+        // limelight.setLEDMode(1);
         LoggingUtil.logWithNetworkTable(table, "LED Status", "FORCE OFF");
       }
+    } else {
+      RobotContainer.m_driveSubsystem.tankDriveAuto(leftSpeed, rightSpeed);
     }
+
 
   }
 
@@ -89,7 +90,7 @@ public class VisionSubsystem extends SubsystemBase {
     LoggingUtil.logWithNetworkTable(table, "ty", limelight.getTy());
     LoggingUtil.logWithNetworkTable(table, "tv", limelight.getTv());
     LoggingUtil.logWithNetworkTable(table, "Distance", limelight.getDistanceToGoal());
-    LoggingUtil.logWithNetworkTable(table, "Flywheel RPM Setpoint", speeds.getFlywheelRPM());
-    LoggingUtil.logWithNetworkTable(table, "Feeder RPM Setpoint", speeds.getFeederRPM());
+    LoggingUtil.logWithNetworkTable(table, "Flywheel RPM Setpoint", speeds.getFlywheelVelocity());
+    LoggingUtil.logWithNetworkTable(table, "Feeder RPM Setpoint", speeds.getFeederVelocity());
   }
 }

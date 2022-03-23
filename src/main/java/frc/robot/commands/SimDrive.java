@@ -9,7 +9,7 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 public class SimDrive extends CommandBase {
-  SlewRateLimiter filter = new SlewRateLimiter(0.9);
+  SlewRateLimiter filter = new SlewRateLimiter(1.5);
 
   /** Creates a new SimDrive. */
   public SimDrive() {
@@ -33,7 +33,7 @@ public class SimDrive extends CommandBase {
     double l2 = RobotContainer.driverGamepad.getL2Axis();
 
     double speed = (r2 - l2) * valetSpeed;
-    RobotContainer.m_driveSubsystem.curveDrive(speed, leftAxis, false);
+    RobotContainer.m_driveSubsystem.curveDrive(filter.calculate(speed), leftAxis, false);
 
     if (Math.abs(rightAxis) > Constants.DriveConstants.DEADZONE) { 
       RobotContainer.m_driveSubsystem.curveDrive(0, rightAxis, true); 

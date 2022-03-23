@@ -2,27 +2,27 @@ package frc.robot.utility;
 
 public class ShooterSpeeds {
 
-    double flywheelRPM;
-    double feederRPM;
+    double feederVelocity;
+    double flywheelVelocity;
 
-    public ShooterSpeeds(double flywheelRPM, double feederRPM) {
-        this.flywheelRPM = flywheelRPM;
-        this.feederRPM = feederRPM;
+    public ShooterSpeeds(double flywheelVelocity, double feederVelocity) {
+        this.feederVelocity = feederVelocity;
+        this.flywheelVelocity = flywheelVelocity;
     }
 
-    public double getFlywheelRPM() {
-        return flywheelRPM;
+    public double getFlywheelVelocity() {
+        return flywheelVelocity;
     }
 
-    public double getFeederRPM() {
-        return feederRPM;
+    public double getFeederVelocity() {
+        return feederVelocity;
     }
 
-    public void setFlywheelRPM(double flywheelRPM) {
-        this.flywheelRPM = flywheelRPM;
+    public void setFlywheelVelocity(double flywheelVelocity) {
+        this.flywheelVelocity = flywheelVelocity;
     }
 
-    public void setFeederRPM(double feederRPM) {
-        this.feederRPM = feederRPM;
+    public void setFeederVelocity(double feederVelocity) {
+        this.feederVelocity = feederVelocity;
     }
 }

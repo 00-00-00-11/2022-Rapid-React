@@ -22,7 +22,7 @@ public class AutoAim extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_visionSubsystem.autoAlignWithGoal(0);
+    RobotContainer.m_visionSubsystem.AutoAlignWithGoal(0);
   }
 
   // Called once the command ends or is interrupted.

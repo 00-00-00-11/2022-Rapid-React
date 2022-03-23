@@ -40,6 +40,7 @@ public class RobotContainer {
   JoystickButton intakeDown = new JoystickButton(driverGamepad, 4);
   JoystickButton manualClimbToggle = new JoystickButton(operatorGamepad, PS4Controller.Button.kSquare.value);
   JoystickButton spinTurretToggle = new JoystickButton(operatorGamepad, PS4Controller.Button.kTriangle.value);
+  JoystickButton startVision = new JoystickButton(driverGamepad, PS4Controller.Button.kOptions.value);
 
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
@@ -60,7 +61,9 @@ public class RobotContainer {
     intakeAndIndexerButton.whileHeld(new IntakeAndIndex());
     indxerAndShootButton.whileHeld(new IndexerAndShoot());
     spinTurretToggle.whileHeld(new TurretSpin());
+    startVision.whileHeld(new AutoAim());
 
+    
     intakeDown.whileHeld(new IndexerDown());
   }
 

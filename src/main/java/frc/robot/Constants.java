@@ -49,8 +49,8 @@ public final class Constants {
   
   public final class DriveConstants {
 
-    public static final double DRIVE_SPEED = 0.5d;
-    public static final double TURN_SPEED = 0.2;
+    public static final double DRIVE_SPEED = .5d;
+    public static final double TURN_SPEED = 1.0d;
 
     public static final double turnKP = -0.0225;
     public static final double turnKI = 0;
@@ -97,7 +97,8 @@ public final class Constants {
     public static final double GOAL_HEIGHT = 104;
     public static final int PIPELINE = 0; 
     public static final double MAX_ALIGN_SPEED = 0.6;
-    public static final double ALIGN_KP = 0.1d;
+    public static final double ALIGN_KP_X = 0.1d;
+    public static final double ALIGN_KP_Y = 0.1d;
     public static final double ALIGN_THRESHOLD = 1d;
     public static final double ALIGN_SETPOINT = 0;
   }

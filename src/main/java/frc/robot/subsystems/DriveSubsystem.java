@@ -163,8 +163,8 @@ public class DriveSubsystem extends SubsystemBase {
     ultrasonicDist = driveTab.add("Distance to target", 500).getEntry();
 
     driveTab.add("Turn PID", turnPID).withWidget(BuiltInWidgets.kPIDController);
-
-    rightMotors.setInverted(true);
+    leftMotors.setInverted(false);
+    rightMotors.setInverted(false);
     setBrake(true);
 
     m_driveSim =
