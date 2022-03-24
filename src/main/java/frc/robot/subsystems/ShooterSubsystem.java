@@ -83,8 +83,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void shootPID() { 
      // feederMotor.set(TalonFXControlMode.Velocity,12.880859/velConv); // BOTTOM
-     feederMotor.set(TalonFXControlMode.PercentOutput,1); //.9
-     flyWheelMotor.set(TalonFXControlMode.PercentOutput,1); //TOP
+     feederMotor.set(TalonFXControlMode.PercentOutput,.8); //.9
+     flyWheelMotor.set(TalonFXControlMode.PercentOutput,.6); //TOP
   }
   public void stopMotors() { 
     // feederMotor.set(TalonFXControlMode.Velocity,12.880859/velConv); // BOTTOM

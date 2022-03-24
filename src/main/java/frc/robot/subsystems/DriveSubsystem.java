@@ -88,6 +88,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   RelativeEncoder leftEncoder;
   RelativeEncoder rightEncoder;
+  RelativeEncoder leftEncoder2;
+  RelativeEncoder rightEncoder2;
+  RelativeEncoder leftEncoder3;
+  RelativeEncoder rightEncoder3;
 
   DifferentialDrive m_drive;
   DifferentialDrivetrainSim m_driveSim;
@@ -130,9 +134,19 @@ public class DriveSubsystem extends SubsystemBase {
 
     leftEncoder = leftMaster.getEncoder();
     rightEncoder = rightMaster.getEncoder();
+    leftEncoder2 = leftSlave1.getEncoder();
+    rightEncoder2 = rightSlave1.getEncoder();
+    leftEncoder3 = leftSlave2.getEncoder();
+    rightEncoder3 = rightSlave2.getEncoder();
 
     leftEncoder.setPosition(0d);
     rightEncoder.setPosition(0d);
+    leftEncoder2.setPosition(0d);
+    rightEncoder2.setPosition(0d);
+    leftEncoder3.setPosition(0d);
+    rightEncoder3.setPosition(0d);
+
+
 
     leftEncoder.setPositionConversionFactor(
         (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI)
@@ -140,6 +154,19 @@ public class DriveSubsystem extends SubsystemBase {
     rightEncoder.setPositionConversionFactor(
         (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI)
             / Constants.DriveConstants.GEAR_RATIO);
+    leftEncoder2.setPositionConversionFactor(
+        (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI)
+            / Constants.DriveConstants.GEAR_RATIO);
+    rightEncoder2.setPositionConversionFactor(
+        (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI)
+            / Constants.DriveConstants.GEAR_RATIO);
+    leftEncoder3.setPositionConversionFactor(
+        (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI)
+            / Constants.DriveConstants.GEAR_RATIO);
+    rightEncoder3.setPositionConversionFactor(
+        (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI)
+            / Constants.DriveConstants.GEAR_RATIO);
+
 
     leftMotors = new MotorControllerGroup(leftMaster, leftSlave1, leftSlave2);
     rightMotors = new MotorControllerGroup(rightMaster, rightSlave1, rightSlave2);
@@ -164,7 +191,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     driveTab.add("Turn PID", turnPID).withWidget(BuiltInWidgets.kPIDController);
     leftMotors.setInverted(false);
-    rightMotors.setInverted(false);
+    rightMotors.setInverted(true);
     setBrake(true);
 
     m_driveSim =
@@ -332,8 +359,12 @@ public class DriveSubsystem extends SubsystemBase {
     field.setRobotPose(pose);
     
     SmartDashboard.putNumber("Current Angle", getAngleBetween(getHeading(), 0));
-    SmartDashboard.putNumber("Left Wheel: ", leftEncoder.getVelocity());
-    SmartDashboard.putNumber("Right Wheel: ", rightEncoder.getVelocity());
+    SmartDashboard.putNumber("Motor 4: ", leftEncoder.getVelocity());
+    SmartDashboard.putNumber("Motor 1: ", rightEncoder.getVelocity());
+    SmartDashboard.putNumber("Motor 5: ", leftEncoder2.getVelocity());
+    SmartDashboard.putNumber("Motor 6: ", leftEncoder3.getVelocity());
+    SmartDashboard.putNumber("Motor 2: ", rightEncoder2.getVelocity());
+    SmartDashboard.putNumber("Motor 3: ", rightEncoder3.getVelocity());
 
   }
 

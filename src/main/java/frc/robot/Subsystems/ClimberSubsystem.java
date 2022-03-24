@@ -30,8 +30,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
     anglerMotorLeft = new CANSparkMax(
         Constants.RobotMap.CLIMBER_LEFT_ARM_CAN, 
-        CANSparkMaxLowLevel.MotorType.kBrushless
-      );
+        CANSparkMaxLowLevel.MotorType.kBrushless);
 
     anglerMotorRight = new CANSparkMax(
       Constants.RobotMap.CLIMBER_RIGHT_ARM_CAN, 
