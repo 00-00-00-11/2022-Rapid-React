@@ -25,9 +25,11 @@ public class SimDrive extends CommandBase {
   @Override
   public void execute() {
 
-    double valetSpeed;
+    RobotContainer.m_driveSubsystem.tankDriveAuto(.6,.6);
 
-    valetSpeed = 1;
+   /* double valetSpeed;
+
+    valetSpeed = 1;'/'
     double leftAxis = RobotContainer.driverGamepad.getLeftX();
     double rightAxis = RobotContainer.driverGamepad.getRightX();
     double r2 = RobotContainer.driverGamepad.getR2Axis();
@@ -41,8 +43,9 @@ public class SimDrive extends CommandBase {
     RobotContainer.m_driveSubsystem.curveDrive(adjustedSpeed, leftAxis, false);
 
     if (Math.abs(rightAxis) > Constants.DriveConstants.DEADZONE) { 
-      RobotContainer.m_driveSubsystem.curveDrive(0, rightAxis*Constants.DriveConstants.TURN_SPEED, true); 
-    }
+      RobotContainer.m_driveSubsystem.tankDriveAuto(rightAxis*.4,-rightAxis*.4);
+   //   RobotContainer.m_driveSubsystem.curveDrive(0, rightAxis*Constants.DriveConstants.TURN_SPEED, true); 
+    }*/
   }
 
   @Override

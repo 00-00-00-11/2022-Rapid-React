@@ -332,6 +332,9 @@ public class DriveSubsystem extends SubsystemBase {
     field.setRobotPose(pose);
     
     SmartDashboard.putNumber("Current Angle", getAngleBetween(getHeading(), 0));
+    SmartDashboard.putNumber("Left Wheel: ", leftEncoder.getVelocity());
+    SmartDashboard.putNumber("Right Wheel: ", rightEncoder.getVelocity());
+
   }
 
   @Override
