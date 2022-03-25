@@ -96,7 +96,7 @@ public final class Constants {
     public static final double GOAL_HEIGHT = 104;
     public static final int PIPELINE = 0; 
     public static final double MAX_ALIGN_SPEED = 0.6;
-    public static final double ALIGN_KP_X = 0.1d;
+    public static final double ALIGN_KP_X = 0.05d;
     public static final double ALIGN_KP_Y = 0.1d;
     public static final double ALIGN_THRESHOLD = 1d;
     public static final double ALIGN_SETPOINT = 0;

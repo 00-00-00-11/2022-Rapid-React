@@ -98,7 +98,14 @@ public class VisionSubsystem extends SubsystemBase {
     if (Math.abs(rightSpeed) > Constants.VisionConstants.MAX_ALIGN_SPEED){
       rightSpeed = Math.signum(rightSpeed)*Constants.VisionConstants.MAX_ALIGN_SPEED;
     }
-    RobotContainer.m_driveSubsystem.tankDriveAuto(leftSpeed, rightSpeed);
+    if(Math.abs(errorx) < 1 && Math.abs(errory) < 1){
+      if (Robot.isReal()) {
+    //     limelight.setLEDMode(1);
+        //LoggingUtil.logWithNetworkTable(table, "LED Status", "FORCE OFF");
+      }
+    }else {
+      RobotContainer.m_driveSubsystem.tankDriveAuto(leftSpeed, rightSpeed);
+    }
     if (x_adjust < .1 || y_adjust < .1) {
      /* SmartDashboard.putString("AUTO STATE","FINISHED");
       LoggingUtil.logWithNetworkTable(table, "Aligning Status", "FINISHED ALIGNING");
