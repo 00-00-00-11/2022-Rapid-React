@@ -33,7 +33,6 @@ public final class Constants {
     /* TURRET SUBSYSTEM */
     public static final int TURRET_TURN_CAN = 25;
 
-
     /* CLIMBER SUBSYSTEM */
     public static final int CLIMBER_LINEAR_CAN = 14;
     public static final int CLIMBER_LEFT_ARM_CAN = 99;
@@ -50,7 +49,7 @@ public final class Constants {
   public final class DriveConstants {
 
     public static final double DRIVE_SPEED = .5d;
-    public static final double TURN_SPEED = .8d;
+    public static final double TURN_SPEED = .5d;
 
     public static final double turnKP = -0.0225;
     public static final double turnKI = 0;

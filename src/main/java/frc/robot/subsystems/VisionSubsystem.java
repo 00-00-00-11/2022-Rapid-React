@@ -4,10 +4,13 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.utility.LimelightUtility;
@@ -89,6 +92,12 @@ public class VisionSubsystem extends SubsystemBase {
     SmartDashboard.putString("AUTO STATE","ALIGNING");
     SmartDashboard.putNumber("LEFT SPEED",leftSpeed);
     SmartDashboard.putNumber("RIGHT SPEED",rightSpeed);
+    if (Math.abs(leftSpeed) > Constants.VisionConstants.MAX_ALIGN_SPEED){
+      leftSpeed = Math.signum(leftSpeed)*Constants.VisionConstants.MAX_ALIGN_SPEED;
+    }
+    if (Math.abs(rightSpeed) > Constants.VisionConstants.MAX_ALIGN_SPEED){
+      rightSpeed = Math.signum(rightSpeed)*Constants.VisionConstants.MAX_ALIGN_SPEED;
+    }
     RobotContainer.m_driveSubsystem.tankDriveAuto(leftSpeed, rightSpeed);
     if (x_adjust < .1 || y_adjust < .1) {
      /* SmartDashboard.putString("AUTO STATE","FINISHED");
