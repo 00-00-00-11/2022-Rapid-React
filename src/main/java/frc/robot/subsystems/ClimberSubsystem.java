@@ -72,7 +72,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
   // Checks if elevator limit switches are triggered (edge of hardware bounds).
   public boolean limitSwitchIsTriggered() {
-    return false;
+      return limitSwitch.get();
+    //return false;
    // return !limitSwitch.get();
   }
 
