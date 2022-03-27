@@ -24,6 +24,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -38,9 +39,10 @@ public class RobotContainer {
   JoystickButton toggleIntakeButton = new JoystickButton(driverGamepad, 3);
   JoystickButton intakeAndIndexerButton = new JoystickButton(driverGamepad, 2);
   JoystickButton intakeDown = new JoystickButton(driverGamepad, 4);
-  JoystickButton manualClimbToggle = new JoystickButton(operatorGamepad, PS4Controller.Button.kSquare.value);
   JoystickButton spinTurretToggle = new JoystickButton(operatorGamepad, PS4Controller.Button.kTriangle.value);
   JoystickButton startVision = new JoystickButton(driverGamepad, PS4Controller.Button.kOptions.value);
+  JoystickButton toggleClimber = new JoystickButton(operatorGamepad, PS4Controller.Button.kR1.value);
+
 
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
@@ -56,7 +58,9 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    manualClimbToggle.toggleWhenPressed(new ClimberManual());
+
+    toggleClimber.toggleWhenPressed(new ClimberToggle(operatorGamepad));
+
     toggleIntakeButton.toggleWhenPressed(new IntakeToggle());
     intakeAndIndexerButton.whileHeld(new IntakeAndIndex());
     indxerAndShootButton.whileHeld(new IndexerAndShoot());
