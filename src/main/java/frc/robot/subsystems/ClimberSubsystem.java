@@ -62,7 +62,11 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {}
+  public void periodic() {
+    if(checkLimitSwitch()){
+
+    }
+  }
 
   public void elevatorCalibrate() {
 
@@ -103,7 +107,8 @@ public class ClimberSubsystem extends SubsystemBase {
       elevatorRunning = true;
     } 
 
-    if (elevatorRunning) {
+    elevatorMotor.set(-0.2*gamepad.getLeftY());
+   /* if (elevatorRunning) {
       if (!elevatorExtended) {
         elevatorExtend();
       } else if (elevatorExtended) {
@@ -111,7 +116,7 @@ public class ClimberSubsystem extends SubsystemBase {
       } else {
         System.out.println("Something has gone wrong in elevator software bounding");
       }
-    }
+    }*/
 
     anglerControl(gamepad);
   }
