@@ -36,7 +36,6 @@ public class ShootBall extends CommandBase {
   public void end(boolean interrupted) {
     if (interrupted) {
       RobotContainer.m_shooterSubsystem.stopMotors();
-      RobotContainer.m_shooterSubsystem.changeSetpoints(0, 0);
     }
   }
 

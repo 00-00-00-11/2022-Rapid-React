@@ -24,34 +24,27 @@
 
 package frc.robot.subsystems;
 
-import frc.robot.utility.TalonFXUtility;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
-import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
-
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.utility.ShooterSpeeds;
 import frc.robot.utility.SparkMaxUtility;
-import com.revrobotics.CANSparkMax;
+import frc.robot.utility.TalonFXUtility;
 
 // import com.revrobotics.CANSparkMax.ControlType;
 // import com.revrobotics.SparkMaxPIDController;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-  /* Velocity Conversion */
-  double velConv = 10.0 / 2048;
-
   /* Interpolating Table */
-
 
   /* Shooter Talon FX Definition */
   TalonFX feederMotor = TalonFXUtility.constructTalonFX(Constants.RobotMap.SHOOTER_FEEDER_CAN);
@@ -62,31 +55,25 @@ public class ShooterSubsystem extends SubsystemBase {
 
   CANSparkMax intakeMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INTAKE_CAN, true);
 
-  int val = 2048;
+  int encoderTicks = 2048;
 
-  SimpleMotorFeedforward feedforwardBottom = new SimpleMotorFeedforward(0.71363 / val,0.10695 / val,0.0046128 / val);
-  SimpleMotorFeedforward feedforwardTop = new SimpleMotorFeedforward(0.52303 / val,0.10904 / val,0.0041191/ val);
+  // The below calculations convert generated values from sysID from revolutions to ticks
+  SimpleMotorFeedforward feedforwardBottom = new SimpleMotorFeedforward(0.71363 / encoderTicks, 0.10695 / encoderTicks, 0.0046128 / encoderTicks);
+  SimpleMotorFeedforward feedforwardTop = new SimpleMotorFeedforward(0.52303 / encoderTicks, 0.10904 / encoderTicks, 0.0041191 / encoderTicks);
 
-  public ShooterSubsystem() 
-  {
-    speeds = new ShooterSpeeds(60, 60);
-
-    /* Preferences */
-    Preferences.setDouble("Feeder KP", Constants.ShooterConstants.FLYWHEEL_KP);
+  public ShooterSubsystem() {
+    speeds = new ShooterSpeeds(15000, 15000);
 
     /* Set PID */
     flyWheelMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
-    //00025
     flyWheelMotor.config_kP(0, 0.085035, 0);
     flyWheelMotor.config_kI(0, .00035, 0);
     flyWheelMotor.config_kD(0, 0, 0);
- 
-    feederMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
 
-    feederMotor.config_kP(0, 0.092851, 0);//.092851
+    feederMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
+    feederMotor.config_kP(0, 0.092851, 0);// .092851
     feederMotor.config_kI(0, .00035, 0);
     feederMotor.config_kD(0, 0, 0);
-
 
   }
 
@@ -95,62 +82,35 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void shootPID() {
-    speeds = new ShooterSpeeds(15000, 15000);
-
-
-    // double targetVelo=2048*Constants.ShooterConstants.targetVelocityRPM/600;
-    // speeds.setFeederVelocity(targetVelo);
-    // speeds.setFlywheelVelocity(targetVelo);
 
     SmartDashboard.putNumber("speeds", speeds.getFeederVelocity());
-    flyWheelMotor.config_kF(0, 0.048973143759,0);
-    feederMotor.config_kF(0, 0.048973143759, 0);
-    // feederMotor.set(TalonFXControlMode.PercentOutput,.9); //.9 bottom
+    flyWheelMotor.config_kF(0, ShooterConstants.SHOOTER_KF, 0);
+    feederMotor.config_kF(0, ShooterConstants.SHOOTER_KF, 0);
 
     SmartDashboard.putNumber("FF Constant", feedforwardBottom.calculate(speeds.getFeederVelocity()));
 
-    //  flyWheelMotor.set(TalonFXControlMode.PercentOutput,1); //.4 top 
-    // feederMotor.set(TalonFXControlMode.PercentOutput,1);
-    
-  //  feederMotor.set(TalonFXControlMode.Velocity, 60); //.9 Bottom
-  //  flyWheelMotor.set(TalonFXControlMode.Velocity, 60); //Top
+    feederMotor.set(TalonFXControlMode.Velocity, speeds.getFeederVelocity()); 
+    flyWheelMotor.set(TalonFXControlMode.Velocity, speeds.getFlywheelVelocity());
 
-    feederMotor.set(TalonFXControlMode.Velocity, speeds.getFeederVelocity()); //.9 Bottom
-   flyWheelMotor.set(TalonFXControlMode.Velocity, speeds.getFlywheelVelocity()); //Top
-   
   }
-  public void stopMotors() { 
-    // feederMotor.set(TalonFXControlMode.Velocity,12.880859/velConv); // BOTTOM
-    feederMotor.set(TalonFXControlMode.PercentOutput,0); //.9 Bottom
-    flyWheelMotor.set(TalonFXControlMode.PercentOutput,0); //Top
- }
 
-
+  public void stopMotors() {
+    feederMotor.set(TalonFXControlMode.PercentOutput, 0); // .9 Bottom
+    flyWheelMotor.set(TalonFXControlMode.PercentOutput, 0); // Top
+  }
 
   @Override
   public void periodic() {
-    // speeds.setFeederVelocity(204.8);
-    // speeds.setFlywheelVelocity(204.8);      
-    SmartDashboard.putNumber("TOP Shooter Velx", flyWheelMotor.getSelectedSensorVelocity());
-    //SmartDashboard.putNumber("TOP Shooter Vel conversion", 23000/flyWheelMotor.getSelectedSensorVelocity() );
-
-    SmartDashboard.putNumber("BOTTOM Shooter Velx", feederMotor.getSelectedSensorVelocity());
     log();
-
   }
-   
+
   public void spinIntake(double speed) {
     SparkMaxUtility.runSparkMax(intakeMotor, -speed);
   }
 
-  public void changeSetpoints(double setpoint1, double setpoint2) {
-    speeds.setFlywheelVelocity(setpoint1);
-    speeds.setFeederVelocity(setpoint2);
-  }
-
   public void log() {
-    SmartDashboard.putNumber("TOP Shooter Vel", flyWheelMotor.getSelectedSensorVelocity() );
-    SmartDashboard.putNumber("BOTTOM Shooter Vel", feederMotor.getSelectedSensorVelocity() );
+    SmartDashboard.putNumber("TOP Shooter Vel", flyWheelMotor.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("BOTTOM Shooter Vel", feederMotor.getSelectedSensorVelocity());
     SmartDashboard.putNumber("TOP Shooter Setpoint", speeds.getFlywheelVelocity());
     SmartDashboard.putNumber("BOTTOM Shooter Setpoint", speeds.getFeederVelocity());
   }
