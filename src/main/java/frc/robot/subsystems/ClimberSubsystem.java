@@ -9,8 +9,10 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.ElevatorConstants;
 
 public class ClimberSubsystem extends SubsystemBase {
 
@@ -19,38 +21,33 @@ public class ClimberSubsystem extends SubsystemBase {
   CANSparkMax anglerMotorLeft;
   CANSparkMax anglerMotorRight;
 
-  DigitalInput elevTopSwitch;
-  DigitalInput elevBottomSwitch;
+  DigitalInput limitSwitch;
 
   // Booleans to handle elevator toggle functionality
   boolean elevatorExtended = false;
-  boolean elevatorRunning = false;
 
   // Pulling variables from constants
   double elevSpeed = Constants.ElevatorConstants.ELEVATOR_SPEED;
-  double elevMin = Constants.ElevatorConstants.ELEVATOR_MIN;
-  double elevMax = Constants.ElevatorConstants.ELEVATOR_MAX;
-  double elevMargin = Constants.ElevatorConstants.ELEVATOR_MARGIN;
 
   double AnglerSpeed = Constants.ElevatorConstants.ANGLER_SPEED;
 
-
-
   public ClimberSubsystem() {
     elevatorMotor = new CANSparkMax(
-        Constants.RobotMap.CLIMBER_LINEAR_CAN, 
-        CANSparkMaxLowLevel.MotorType.kBrushless
-      );
+        Constants.RobotMap.CLIMBER_LINEAR_CAN,
+        CANSparkMaxLowLevel.MotorType.kBrushless);
 
     anglerMotorLeft = new CANSparkMax(
-        Constants.RobotMap.CLIMBER_LEFT_ARM_CAN, 
-        CANSparkMaxLowLevel.MotorType.kBrushless
-      );
+        Constants.RobotMap.CLIMBER_LEFT_ARM_CAN,
+        CANSparkMaxLowLevel.MotorType.kBrushless);
 
     anglerMotorRight = new CANSparkMax(
-      Constants.RobotMap.CLIMBER_RIGHT_ARM_CAN, 
-      CANSparkMaxLowLevel.MotorType.kBrushless
-    );
+        Constants.RobotMap.CLIMBER_RIGHT_ARM_CAN,
+        CANSparkMaxLowLevel.MotorType.kBrushless);
+
+    limitSwitch = new DigitalInput(0);
+
+   // elevatorMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, ElevatorConstants.ELEVATOR_MAX); // FIXME check direction and elevator max
+  //  elevatorMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward,0); // FIXME check direction and elevator max
 
     elevatorMotor.setIdleMode(IdleMode.kBrake);
     anglerMotorLeft.setIdleMode(IdleMode.kBrake);
@@ -63,9 +60,10 @@ public class ClimberSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if(checkLimitSwitch()){
-
+    if(limitSwitchIsTriggered()){
+      elevatorMotor.getEncoder().setPosition(0);
     }
+    SmartDashboard.putNumber("ELEVATOR POSITION",elevatorMotor.getEncoder().getPosition());
   }
 
   public void elevatorCalibrate() {
@@ -73,27 +71,26 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   // Checks if elevator limit switches are triggered (edge of hardware bounds).
-  public boolean checkLimitSwitch() {
-    return elevBottomSwitch.get() && elevTopSwitch.get();
+  public boolean limitSwitchIsTriggered() {
+    return false;
+   // return !limitSwitch.get();
   }
 
   public void elevatorExtend() {
-    if (elevatorMotor.getEncoder().getPosition() < (elevMax - elevMargin) && elevatorRunning && !checkLimitSwitch()) {
+    if (elevatorMotor.getEncoder().getPosition() < ElevatorConstants.ELEVATOR_MAX) {
       elevatorMotor.set(elevSpeed);
     } else {
       elevatorMotor.set(0);
       elevatorExtended = true;
-      elevatorRunning = false;
     }
   }
 
   public void elevatorRetract() {
-    if (elevatorMotor.getEncoder().getPosition() > (elevMin + elevMargin) && elevatorRunning && !checkLimitSwitch()) {
+    if (!limitSwitchIsTriggered()) {
       elevatorMotor.set(-elevSpeed);
     } else {
       elevatorMotor.set(0);
       elevatorExtended = false;
-      elevatorRunning = false;
     }
   }
 
@@ -103,10 +100,7 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void climberControl(PS4Controller gamepad) {
-    if (gamepad.getL1Button()) {
-      elevatorRunning = true;
-    } 
-
+    SmartDashboard.putNumber("ELEVATOR INPUT",-0.2*gamepad.getLeftY());
     elevatorMotor.set(-0.2*gamepad.getLeftY());
    /* if (elevatorRunning) {
       if (!elevatorExtended) {
@@ -118,7 +112,5 @@ public class ClimberSubsystem extends SubsystemBase {
       }
     }*/
 
-    anglerControl(gamepad);
   }
 }
-

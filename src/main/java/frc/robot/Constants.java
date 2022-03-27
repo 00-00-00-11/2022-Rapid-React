@@ -26,11 +26,10 @@ public final class Constants {
     public static final int SHOOTER_FLYWHEEL_CAN = 11;
 
     /* CLIMBER SUBSYSTEM */
-    public static final int CLIMBER_LINEAR_CAN = 12;
+    public static final int CLIMBER_LINEAR_CAN = 14;
     public static final int CLIMBER_LEFT_ARM_CAN = 13;
     public static final int CLIMBER_RIGHT_ARM_CAN = 14;
-    public static final int CLIMBER_TOP_SWITCH_CAN = 15;
-    public static final int CLIMBER_BOTTOM_SWITCH_CAN = 16;
+
 
     /* PNEUMATICS SUBSYSTEM */
     public static final int HUB_CAN = 15;
@@ -88,9 +87,7 @@ public final class Constants {
   public final class ElevatorConstants {
     public static final String SHUFFLEBOARD_TAB = "drive";
 
-    public static final double ELEVATOR_MIN = 0; 
-    public static final double ELEVATOR_MARGIN = 10;
-    public static final double ELEVATOR_MAX = 100; 
+    public static final float ELEVATOR_MAX = 1000; // FIXME get actual value
 
     public static final double ANGLER_SMALL_ANGLE = 0.1; 
     public static final double ANGLER_LARGE_ANGLE = 0.3; 
