@@ -62,7 +62,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   CANSparkMax intakeMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INTAKE_CAN, true);
 
-  int val = 1024;
+  int val = 2048;
 
   SimpleMotorFeedforward feedforwardBottom = new SimpleMotorFeedforward(0.71363 / val,0.10695 / val,0.0046128 / val);
   SimpleMotorFeedforward feedforwardTop = new SimpleMotorFeedforward(0.52303 / val,0.10904 / val,0.0041191/ val);
@@ -76,15 +76,15 @@ public class ShooterSubsystem extends SubsystemBase {
 
     /* Set PID */
     flyWheelMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
-    
+    //00025
     flyWheelMotor.config_kP(0, 0.085035, 0);
-    flyWheelMotor.config_kI(0, 0, 0);
+    flyWheelMotor.config_kI(0, .00035, 0);
     flyWheelMotor.config_kD(0, 0, 0);
  
     feederMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
 
     feederMotor.config_kP(0, 0.092851, 0);//.092851
-    feederMotor.config_kI(0, 0, 0);
+    feederMotor.config_kI(0, .00035, 0);
     feederMotor.config_kD(0, 0, 0);
 
 
@@ -95,7 +95,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void shootPID() {
-    speeds = new ShooterSpeeds(12000, 12000);
+    speeds = new ShooterSpeeds(15000, 15000);
 
 
     // double targetVelo=2048*Constants.ShooterConstants.targetVelocityRPM/600;
@@ -103,14 +103,14 @@ public class ShooterSubsystem extends SubsystemBase {
     // speeds.setFlywheelVelocity(targetVelo);
 
     SmartDashboard.putNumber("speeds", speeds.getFeederVelocity());
-    flyWheelMotor.config_kF(0, feedforwardTop.calculate(speeds.getFlywheelVelocity()),0);
-    feederMotor.config_kF(0, feedforwardBottom.calculate(speeds.getFeederVelocity()), 0);
+    flyWheelMotor.config_kF(0, 0.048973143759,0);
+    feederMotor.config_kF(0, 0.048973143759, 0);
     // feederMotor.set(TalonFXControlMode.PercentOutput,.9); //.9 bottom
 
     SmartDashboard.putNumber("FF Constant", feedforwardBottom.calculate(speeds.getFeederVelocity()));
 
-     //flyWheelMotor.set(TalonFXControlMode.PercentOutput,.4); //.4 top 
-   //  feederMotor.set(TalonFXControlMode.PercentOutput,1);
+    //  flyWheelMotor.set(TalonFXControlMode.PercentOutput,1); //.4 top 
+    // feederMotor.set(TalonFXControlMode.PercentOutput,1);
     
   //  feederMotor.set(TalonFXControlMode.Velocity, 60); //.9 Bottom
   //  flyWheelMotor.set(TalonFXControlMode.Velocity, 60); //Top
