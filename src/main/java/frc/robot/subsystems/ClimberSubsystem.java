@@ -56,6 +56,8 @@ public class ClimberSubsystem extends SubsystemBase {
     elevatorMotor.setInverted(false);
     anglerMotorLeft.setInverted(false);
     anglerMotorRight.setInverted(false);
+
+    elevatorMotor.getEncoder().setPosition(0); //to avoid troubleshootin issues
   }
 
   @Override
@@ -72,7 +74,6 @@ public class ClimberSubsystem extends SubsystemBase {
 
   // Checks if elevator limit switches are triggered (edge of hardware bounds).
   public boolean limitSwitchIsTriggered() {
-  //  return false;
     return !limitSwitch.get();
   }
 
@@ -137,7 +138,7 @@ public class ClimberSubsystem extends SubsystemBase {
       } else if (elevatorExtended) {
         elevatorRetract();
       } else {
-        System.out.println("Something has gone wrong in elevator software bounding");
+        System.out.println("error in elevator marginal bounding");  //error if elevator not extended or retracted
       }
     }*/
 
