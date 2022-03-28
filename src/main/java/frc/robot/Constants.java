@@ -113,7 +113,7 @@ public final class Constants {
     public static final double ELEVATOR_SMALL_DISTANCE = 0.2; 
     public static final double ELEVATOR_LARGE_DISTANCE = 0.5;
     public static final double ELEVATOR_EXTENDED = 0.8;
-    public static final double ELEVATOR_MAX = 1; 
+    public static final float ELEVATOR_MAX = 375; 
 
     public static final double ANGLER_SMALL_ANGLE = 0.1; 
     public static final double ANGLER_LARGE_ANGLE = 0.3; 

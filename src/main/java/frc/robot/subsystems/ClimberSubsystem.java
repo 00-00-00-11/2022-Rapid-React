@@ -46,8 +46,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
     limitSwitch = new DigitalInput(0);
 
-   // elevatorMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, ElevatorConstants.ELEVATOR_MAX); // FIXME check direction and elevator max
-  //  elevatorMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward,0); // FIXME check direction and elevator max
+   //elevatorMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, ElevatorConstants.ELEVATOR_MAX); // FIXME check direction and elevator max
+    //elevatorMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse,0);// FIXME check direction and elevator max
 
     elevatorMotor.setIdleMode(IdleMode.kBrake);
     anglerMotorLeft.setIdleMode(IdleMode.kBrake);
@@ -72,8 +72,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
   // Checks if elevator limit switches are triggered (edge of hardware bounds).
   public boolean limitSwitchIsTriggered() {
-    return false;
-   // return !limitSwitch.get();
+  //  return false;
+    return !limitSwitch.get();
   }
 
   public void elevatorExtend() {
@@ -98,10 +98,39 @@ public class ClimberSubsystem extends SubsystemBase {
     anglerMotorLeft.set(gamepad.getLeftY());
     anglerMotorRight.set(gamepad.getRightY());
   }
+  
+  public void reachedLowLimit(){
+    
+  }
 
   public void climberControl(PS4Controller gamepad) {
-    SmartDashboard.putNumber("ELEVATOR INPUT",-0.2*gamepad.getLeftY());
-    elevatorMotor.set(-0.2*gamepad.getLeftY());
+    double input = -0.95*gamepad.getLeftY();
+    double position = elevatorMotor.getEncoder().getPosition();
+    if(position <= 0){
+      if(input>0){
+        SmartDashboard.putString("ELEVATOR STATE", "MOVING UP FROM BOTTOM");
+        elevatorMotor.set(input);
+      }else {
+        SmartDashboard.putString("ELEVATOR STATE", "AT BOTTOM, CAN NOT MOVE FURTHER");
+        elevatorMotor.set(0);
+
+      }
+    }else if(position >= Constants.ElevatorConstants.ELEVATOR_MAX) {
+      if(input < 0){
+        SmartDashboard.putString("ELEVATOR STATE", "MOVING DOWN FROM TOP");
+        elevatorMotor.set(input);
+      }else {
+        SmartDashboard.putString("ELEVATOR STATE", "AT TOP, CAN NOT MOVE FURTHER");
+        elevatorMotor.set(0);
+      }
+    }else{
+      elevatorMotor.set(input);
+      SmartDashboard.putString("ELEVATOR STATE", "MOVING");
+
+    }
+    SmartDashboard.putNumber("ELEVATOR INPUT",input);
+
+
    /* if (elevatorRunning) {
       if (!elevatorExtended) {
         elevatorExtend();
