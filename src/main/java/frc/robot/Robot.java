@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
    SmartDashboard.putBoolean("Compressor Sensor", compressor.getPressureSwitchValue());
     if (compressor.getPressureSwitchValue()) {
-      compressor.enableDigital();
+     compressor.enableDigital();
     } else compressor.disable();
   }
 

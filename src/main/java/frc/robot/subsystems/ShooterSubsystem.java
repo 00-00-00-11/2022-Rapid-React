@@ -89,8 +89,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
     SmartDashboard.putNumber("FF Constant", feedforwardBottom.calculate(speeds.getFeederVelocity()));
 
-    feederMotor.set(TalonFXControlMode.Velocity, speeds.getFeederVelocity()); 
-    flyWheelMotor.set(TalonFXControlMode.Velocity, speeds.getFlywheelVelocity());
+    //feederMotor.set(TalonFXControlMode.Velocity, speeds.getFeederVelocity()); 
+    //flyWheelMotor.set(TalonFXControlMode.Velocity, speeds.getFlywheelVelocity());
+    flyWheelMotor.set(TalonFXControlMode.Velocity, 20000*.535);
+    feederMotor.set(TalonFXControlMode.Velocity, 20000*.435);
 
   }
 

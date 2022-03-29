@@ -105,7 +105,7 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void climberControl(PS4Controller gamepad) {
-    double input = -0.95*gamepad.getLeftY();
+    double input = -gamepad.getLeftY();
     double position = elevatorMotor.getEncoder().getPosition();
     if(position <= 0){
       if(input>0){

@@ -35,14 +35,21 @@ public class RobotContainer {
   public static final PS4Controller driverGamepad = new PS4Controller(Constants.RobotMap.DRIVER_CONTROLLER_PORT);
   public static final PS4Controller operatorGamepad = new PS4Controller(Constants.RobotMap.OPERATOR_CONTROLLER_PORT);
 
-  JoystickButton indxerAndShootButton = new JoystickButton(driverGamepad, 1);
-  JoystickButton toggleIntakeButton = new JoystickButton(driverGamepad, 3);
-  JoystickButton intakeAndIndexerButton = new JoystickButton(driverGamepad, 2);
-  JoystickButton intakeDown = new JoystickButton(driverGamepad, 4);
-  JoystickButton spinTurretToggle = new JoystickButton(operatorGamepad, PS4Controller.Button.kTriangle.value);
-  JoystickButton startVision = new JoystickButton(driverGamepad, PS4Controller.Button.kOptions.value);
-  JoystickButton toggleClimber = new JoystickButton(operatorGamepad, PS4Controller.Button.kR1.value);
+  //driver controls
 
+
+  //operator controls
+
+  JoystickButton toggleClimber = new JoystickButton(operatorGamepad, PS4Controller.Button.kR1.value);
+  JoystickButton startVision = new JoystickButton(operatorGamepad, PS4Controller.Button.kOptions.value);
+  JoystickButton reverseIntake = new JoystickButton(operatorGamepad, 4);
+  JoystickButton toggleIntakeButton = new JoystickButton(operatorGamepad, PS4Controller.Button.kCircle.value);
+  JoystickButton intakeAndIndexerButton = new JoystickButton(operatorGamepad, 2);
+  JoystickButton indexerAndShootButton = new JoystickButton(operatorGamepad, 1);
+
+
+  //vestigial organs
+  //JoystickButton spinTurretToggle = new JoystickButton(operatorGamepad, PS4Controller.Button.kTriangle.value);
 
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
@@ -63,13 +70,12 @@ public class RobotContainer {
 
     toggleIntakeButton.toggleWhenPressed(new IntakeToggle());
     intakeAndIndexerButton.whileHeld(new IntakeAndIndex());
-    indxerAndShootButton.whileHeld(new IndexerAndShoot());
-    spinTurretToggle.whileHeld(new TurretSpin());
+    indexerAndShootButton.whileHeld(new IndexerAndShoot());
+    //spinTurretToggle.whileHeld(new TurretSpin());
     startVision.whileHeld(new AutoAim());
     
-    intakeDown.whileHeld(new IndexerDown());
+    reverseIntake.whileHeld(new IndexerDown());
   }
-
   public Command getAutonomousCommand() {
     System.out.println(m_driveSubsystem.getSelectedFromChooser());
     switch (m_driveSubsystem.getSelectedFromChooser()) {
