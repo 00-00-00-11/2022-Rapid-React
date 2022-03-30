@@ -124,7 +124,7 @@ public final class Constants {
   }
 
   public final class ColorConstants {
-    public static final int PROXIMITY_THRESHOLD = 2000; //TODO change
+    public static final int PROXIMITY_THRESHOLD = 2300; //TODO change
 
 
   }
