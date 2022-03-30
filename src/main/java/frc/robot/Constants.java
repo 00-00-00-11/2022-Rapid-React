@@ -122,4 +122,8 @@ public final class Constants {
     public static final double ELEVATOR_SPEED = 0.2; 
     public static final double ANGLER_SPEED = 0.05; 
   }
+
+  public final class ColorConstants {
+    public static final int PROXIMITY_THRESHOLD = 200;
+  }
 }

@@ -42,7 +42,9 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
@@ -66,6 +68,7 @@ import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.IntakeAndIndex;
+import frc.robot.utility.LoggingUtil;
 import frc.robot.utility.RamseteUtility;
 import frc.robot.utility.TrajectoryUtility;
 import frc.robot.utility.SparkMaxUtility;
@@ -100,6 +103,7 @@ public class DriveSubsystem extends SubsystemBase {
   PIDController turnPID;
 
   ShuffleboardTab driveTab;
+  NetworkTable table;
 
   DifferentialDriveKinematics kinematics;
   DifferentialDriveOdometry odometry;
@@ -177,6 +181,8 @@ public class DriveSubsystem extends SubsystemBase {
     driveTab = Shuffleboard.getTab("Drive");   
     driveTab.add("Gyro", gyro).withWidget(BuiltInWidgets.kGyro);
     driveTab.add("Field View", field).withWidget("Field");
+
+    table = NetworkTableInstance.getDefault().getTable("Drive");
 
     turnPID = new PIDController(
         Constants.DriveConstants.turnKP,
@@ -321,50 +327,18 @@ public class DriveSubsystem extends SubsystemBase {
     return gyro.getAngle();
   }
 
-  // public double getDirection() {
-  // double leftV = leftEncoder.getVelocity();
-  // double rightV = -rightEncoder.getVelocity();
-
-  // SmartDashboard.putNumber("Left V", leftV);
-  // SmartDashboard.putNumber("Right V", rightV);
-
-  // double average = (leftV + rightV) / 2.0;
-  // SmartDashboard.putNumber("Average V", average);
-  // SmartDashboard.putBoolean("Direction", average > .1);
-
-  // return average;
-  // }
-
-  public double getAngleBetween(double current, double target) {
-    double degrees = target - current;
-    degrees %= 360;
-    if (degrees > 180)
-      degrees -= 360;
-    if (degrees < -180)
-      degrees += 360;
-    return degrees;
-  }
-
   public PIDController getTurnPID() {
     return turnPID;
   }
 
   @Override
   public void periodic() {
-
     pose = odometry.update(
         gyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition() * simInvert);
 
     field.setRobotPose(pose);
     
-    SmartDashboard.putNumber("Current Angle", getAngleBetween(getHeading(), 0));
-    SmartDashboard.putNumber("Motor 4: ", leftEncoder.getVelocity());
-    SmartDashboard.putNumber("Motor 1: ", rightEncoder.getVelocity());
-    SmartDashboard.putNumber("Motor 5: ", leftEncoder2.getVelocity());
-    SmartDashboard.putNumber("Motor 6: ", leftEncoder3.getVelocity());
-    SmartDashboard.putNumber("Motor 2: ", rightEncoder2.getVelocity());
-    SmartDashboard.putNumber("Motor 3: ", rightEncoder3.getVelocity());
-
+    log();
   }
 
   @Override
@@ -620,4 +594,13 @@ public class DriveSubsystem extends SubsystemBase {
             .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)).withTimeout(15));
   }
 
+  public void log() {
+    LoggingUtil.logWithNetworkTable(table, "Heading", getHeading());
+    LoggingUtil.logWithNetworkTable(table, "L1 Vel", leftEncoder.getVelocity());
+    LoggingUtil.logWithNetworkTable(table, "L2 Vel", leftEncoder2.getVelocity());
+    LoggingUtil.logWithNetworkTable(table, "L3 Vel", leftEncoder3.getVelocity());
+    LoggingUtil.logWithNetworkTable(table, "R1 Vel", rightEncoder.getVelocity());
+    LoggingUtil.logWithNetworkTable(table, "R2 Vel", rightEncoder2.getVelocity());
+    LoggingUtil.logWithNetworkTable(table, "R3 Vel", rightEncoder3.getVelocity());
+  }
 }

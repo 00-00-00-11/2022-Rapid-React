@@ -36,7 +36,7 @@ public class LoggingUtil {
         table.getEntry(name).setBoolean(message);
     }
 
-    public static void logWithNetworkTable(NetworkTable table, String name, Integer message) {
+    public static void logWithNetworkTable(NetworkTable table, String name, int message) {
         table.getEntry(name).setNumber(message);
     }
 

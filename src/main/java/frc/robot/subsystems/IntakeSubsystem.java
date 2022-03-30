@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -12,6 +13,10 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.utility.LoggingUtil;
+import edu.wpi.first.networktables.NetworkTable;
+
+
 
 public class IntakeSubsystem extends SubsystemBase {
   private DoubleSolenoid leftSolenoid;
@@ -19,9 +24,15 @@ public class IntakeSubsystem extends SubsystemBase {
   ShuffleboardTab intakeTab;
   NetworkTableEntry leftSolenoidState;
   NetworkTableEntry rightSolenoidState;
+  
   boolean isExtended;
 
+  NetworkTable table;
+
   public IntakeSubsystem() {
+    
+    table = NetworkTableInstance.getDefault().getTable("Intake");
+
     leftSolenoid =
         new DoubleSolenoid(
             Constants.RobotMap.HUB_CAN,
@@ -40,6 +51,11 @@ public class IntakeSubsystem extends SubsystemBase {
     rightSolenoid.set(Value.kReverse);
   }
 
+  @Override
+  public void periodic() {
+    log();
+  }
+
   public void forwardIntake() {
     leftSolenoid.set(Value.kForward);
     rightSolenoid.set(Value.kForward);
@@ -54,6 +70,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public boolean isExtended() {
     return isExtended;
+  }
+
+  public void log() {
+    LoggingUtil.logWithNetworkTable(table, "Extended", isExtended());
   }
 
 }

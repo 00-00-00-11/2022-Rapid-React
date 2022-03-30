@@ -9,10 +9,8 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class RunIndexer extends CommandBase {
-  boolean override = false;
   /** Creates a new IndexerCommand. */
-  public RunIndexer(boolean override) {
-    this.override = override;
+  public RunIndexer() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.m_indexerSubsystem);
   }
@@ -20,19 +18,19 @@ public class RunIndexer extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-   RobotContainer.m_indexerSubsystem.runIndexer(0d, this.override);
+   RobotContainer.m_indexerSubsystem.runIndexerWithProximity(0d);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_indexerSubsystem.runIndexer(Constants.IndexerConstants.indexerSpeed, this.override);
+    RobotContainer.m_indexerSubsystem.runIndexerWithProximity(Constants.IndexerConstants.indexerSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.m_indexerSubsystem.runIndexer(0d,this.override);
+    RobotContainer.m_indexerSubsystem.runIndexerWithProximity(0d);
   }
 
   // Returns true when the command should end.

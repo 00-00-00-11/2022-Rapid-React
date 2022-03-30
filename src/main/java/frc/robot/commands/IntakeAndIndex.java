@@ -14,7 +14,7 @@ public class IntakeAndIndex extends ParallelCommandGroup {
   public IntakeAndIndex() {
     addCommands(
       new IntakeSpin(),
-      new RunIndexer(false)
+      new RunIndexer()
     );
   }
 }

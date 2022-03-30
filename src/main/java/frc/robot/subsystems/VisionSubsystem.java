@@ -42,68 +42,71 @@ public class VisionSubsystem extends SubsystemBase {
 
   public void log(){
     double setpoint = 0;
-    double errorx = -(setpoint - limelight.getTx());
-    double errory = -(setpoint - limelight.getTy());
-    SmartDashboard.putNumber("HORIZONTAL ERROR",errorx);
-    SmartDashboard.putNumber("VERTICAL ERROR",errory);
+    double x_error = -(setpoint - limelight.getTx());
+    double y_error = -(setpoint - limelight.getTy());
+
+    LoggingUtil.logWithNetworkTable(table, "Auto Align", false);
+    LoggingUtil.logWithNetworkTable(table, "LED Status", "Off");
+
+    LoggingUtil.logWithNetworkTable(table, "X Err", x_error);
+    LoggingUtil.logWithNetworkTable(table, "Y Err", y_error);
 
     double x_adjust = 0;
-    if (Math.abs(errorx) > VisionConstants.ALIGN_THRESHOLD) {
-      x_adjust = VisionConstants.ALIGN_KP_X * errorx;
+    if (Math.abs(x_error) > VisionConstants.ALIGN_THRESHOLD) {
+      x_adjust = VisionConstants.ALIGN_KP_X * x_error;
     }
-    double y_adjust = VisionConstants.ALIGN_KP_Y * errory;
-    SmartDashboard.putNumber("X ADJUST",x_adjust);
-    SmartDashboard.putNumber("Y ADJUST",y_adjust);
+    double y_adjust = VisionConstants.ALIGN_KP_Y * y_error;
+
+    LoggingUtil.logWithNetworkTable(table, "X Adjust", x_adjust);
+    LoggingUtil.logWithNetworkTable(table, "Y Adjust", y_adjust);
+
     double leftSpeed = x_adjust + y_adjust;
     double rightSpeed = y_adjust - x_adjust;
-    
-    SmartDashboard.putString("AUTO STATE","ALIGNING");
-    SmartDashboard.putNumber("LEFT SPEED",leftSpeed);
-    SmartDashboard.putNumber("RIGHT SPEED",rightSpeed);
 
+    LoggingUtil.logWithNetworkTable(table, "Auto State", "Aligning");
+    LoggingUtil.logWithNetworkTable(table, "Left Speed", leftSpeed);
+    LoggingUtil.logWithNetworkTable(table, "Right Speed", rightSpeed);
 
   }
+
   public void autoAlignWithGoal(double setpoint) {
-    SmartDashboard.putString("AUTO ALIGNING","TRUE");
+    LoggingUtil.logWithNetworkTable(table, "Auto Align", true);
 
-    if (Robot.isReal()) {
-      SmartDashboard.putString("ROBOT REAL","TRUE");
-      limelight.setLEDMode(3);
-      LoggingUtil.logWithNetworkTable(table, "LED Status", "FORCE ON");
-    }
+    double x_error = -(setpoint - limelight.getTx());
+    double y_error = -(setpoint - limelight.getTy());
 
-    double errorx = -(setpoint - limelight.getTx());
-    double errory = -(setpoint - limelight.getTy());
-    SmartDashboard.putNumber("HORIZONTAL ERROR",errorx);
-    SmartDashboard.putNumber("VERTICAL ERROR",errory);
+    LoggingUtil.logWithNetworkTable(table, "X Err", x_error);
+    LoggingUtil.logWithNetworkTable(table, "Y Err", y_error);
 
     double x_adjust = 0;
-    if (Math.abs(errorx) > VisionConstants.ALIGN_THRESHOLD) {
-      x_adjust = VisionConstants.ALIGN_KP_X * errorx;
+    if (Math.abs(x_error) > VisionConstants.ALIGN_THRESHOLD) {
+      x_adjust = VisionConstants.ALIGN_KP_X * x_error;
     }
-    double y_adjust = VisionConstants.ALIGN_KP_Y * errory;
-    SmartDashboard.putNumber("X ADJUST",x_adjust);
-    SmartDashboard.putNumber("Y ADJUST",y_adjust);
+    double y_adjust = VisionConstants.ALIGN_KP_Y * y_error;
+
+    LoggingUtil.logWithNetworkTable(table, "X Adjust", x_adjust);
+    LoggingUtil.logWithNetworkTable(table, "Y Adjust", y_adjust);
 
 
     double leftSpeed = x_adjust + y_adjust;
     double rightSpeed = y_adjust - x_adjust;
     
-    SmartDashboard.putString("AUTO STATE","ALIGNING");
-    SmartDashboard.putNumber("LEFT SPEED",leftSpeed);
-    SmartDashboard.putNumber("RIGHT SPEED",rightSpeed);
+    LoggingUtil.logWithNetworkTable(table, "Auto State", "Aligning");
+    LoggingUtil.logWithNetworkTable(table, "Left Speed", leftSpeed);
+    LoggingUtil.logWithNetworkTable(table, "Right Speed", rightSpeed);
+
     if (Math.abs(leftSpeed) > Constants.VisionConstants.MAX_ALIGN_SPEED){
       leftSpeed = Math.signum(leftSpeed)*Constants.VisionConstants.MAX_ALIGN_SPEED;
     }
     if (Math.abs(rightSpeed) > Constants.VisionConstants.MAX_ALIGN_SPEED){
       rightSpeed = Math.signum(rightSpeed)*Constants.VisionConstants.MAX_ALIGN_SPEED;
     }
-    if(Math.abs(errorx) < 1 && Math.abs(errory) < 1){
+    if (Math.abs(x_error) < 1 && Math.abs(y_error) < 1) {
       if (Robot.isReal()) {
     //     limelight.setLEDMode(1);
         //LoggingUtil.logWithNetworkTable(table, "LED Status", "FORCE OFF");
       }
-    }else {
+    } else {
       RobotContainer.m_driveSubsystem.tankDriveAuto(leftSpeed, rightSpeed);
     }
     if (x_adjust < .1 || y_adjust < .1) {
@@ -113,9 +116,7 @@ public class VisionSubsystem extends SubsystemBase {
         // limelight.setLEDMode(1);
         LoggingUtil.logWithNetworkTable(table, "LED Status", "FORCE OFF");
       }*/
-    } else {
-
-    }
+    } 
 
 
   }
@@ -131,7 +132,7 @@ public class VisionSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     log();
-   // update();
+    // update();
   }
 
   public void update() {

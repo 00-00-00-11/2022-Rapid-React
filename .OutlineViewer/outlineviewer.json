@@ -1,9 +1,14 @@
 {
+  "Connections": {
+    "open": true
+  },
+  "Indexer": {
+    "open": true
+  },
   "NetworkTables Settings": {
     "mode": "Client",
-    "serverTeam": "10.68.97.2"
+    "serverTeam": "6897"
   },
-  "SmartDashboard": {
-    "open": true
-  }
+  "connections": true,
+  "timestamp": true
 }
