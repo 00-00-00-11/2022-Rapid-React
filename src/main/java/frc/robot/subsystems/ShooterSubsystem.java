@@ -53,7 +53,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
   PIDController feederPID = new PIDController(Constants.ShooterConstants.FLYWHEEL_KP, 0, 0);
 
-  CANSparkMax intakeMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INTAKE_CAN, true);
 
   int encoderTicks = 2048;
 
@@ -107,7 +106,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void spinIntake(double speed) {
-    SparkMaxUtility.runSparkMax(intakeMotor, -speed);
+  //  SparkMaxUtility.runSparkMax(intakeMotor, -speed);
   }
 
   public void log() {

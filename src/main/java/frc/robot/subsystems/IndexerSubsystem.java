@@ -32,15 +32,18 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.utility.SparkMaxUtility;
 
+
 public class IndexerSubsystem extends SubsystemBase {
 
   private CANSparkMax transitionMotor;
   private CANSparkMax beltMotor;
+  
+
 
   public IndexerSubsystem() {
     transitionMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INDEXER_TRANSITION_CAN, true);
     beltMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INDEXER_BELT_CAN, true);
-    
+
   }
 
   public void runIndexer(double speed) {

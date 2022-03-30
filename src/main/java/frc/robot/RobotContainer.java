@@ -26,6 +26,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
@@ -58,6 +59,7 @@ public class RobotContainer {
   public static final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
   public static final TurretSubsystem m_turretSubsystem = new TurretSubsystem();
   public static final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
+  public static final ColorSubsystem m_colorSubsystem = new ColorSubsystem();
 
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(new SimDrive());
