@@ -51,7 +51,6 @@ public class IndexerSubsystem extends SubsystemBase {
     transitionMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INDEXER_TRANSITION_CAN, true);
     beltMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INDEXER_BELT_CAN, true);
     table = NetworkTableInstance.getDefault().getTable("Indexer");
-
     LoggingUtil.logWithNetworkTable(table, "Should be running", false);
   }
 

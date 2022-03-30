@@ -2,7 +2,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.utility.LoggingUtil;
 
 import com.revrobotics.ColorSensorV3;
@@ -10,7 +9,6 @@ import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ColorSubsystem extends SubsystemBase {
     private final I2C.Port i2cPort = I2C.Port.kOnboard; // defining port I2C class reference
