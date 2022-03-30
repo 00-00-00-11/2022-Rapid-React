@@ -24,13 +24,12 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.utility.ShuffleboardDashboard;
 public class RobotContainer {
 
   public static final PS4Controller driverGamepad = new PS4Controller(Constants.RobotMap.DRIVER_CONTROLLER_PORT);
@@ -47,6 +46,8 @@ public class RobotContainer {
   JoystickButton toggleIntakeButton = new JoystickButton(operatorGamepad, PS4Controller.Button.kCircle.value);
   JoystickButton intakeAndIndexerButton = new JoystickButton(operatorGamepad, 2);
   JoystickButton indexerAndShootButton = new JoystickButton(operatorGamepad, 1);
+  JoystickButton intakeAndTransitionButton = new JoystickButton(operatorGamepad, PS4Controller.Button.kShare.value);
+
 
 
   //vestigial organs
@@ -64,6 +65,7 @@ public class RobotContainer {
   public RobotContainer() {
     m_driveSubsystem.setDefaultCommand(new SimDrive());
     configureButtonBindings();
+    ShuffleboardDashboard.log();
   }
 
   private void configureButtonBindings() {
@@ -73,6 +75,8 @@ public class RobotContainer {
     toggleIntakeButton.toggleWhenPressed(new IntakeToggle());
     intakeAndIndexerButton.whileHeld(new IntakeAndIndex());
     indexerAndShootButton.whileHeld(new IndexerAndShoot());
+    intakeAndTransitionButton.whileHeld(new IntakeAndTransition());
+
     //spinTurretToggle.whileHeld(new TurretSpin());
     startVision.whileHeld(new AutoAim());
     

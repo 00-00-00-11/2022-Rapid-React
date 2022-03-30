@@ -11,34 +11,43 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ColorSubsystem {
     private final I2C.Port i2cPort = I2C.Port.kOnboard; // defining port I2C class reference
+    private final I2C.Port mxpi2cPort = I2C.Port.kMXP; // defining port I2C class reference
+
     private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort); // sensor to return color
     private final ColorMatch m_colorMatcher = new ColorMatch();
-    private final Color kBlueTarget = new Color(0.143, 0.427, 0.429);
-    private final Color kRedTarget = new Color(0.561, 0.232, 0.114);
+    private final Color kBlueTarget = new Color(0.2275, 0.4736, 0.2991);
+    private final Color kRedTarget = new Color(0.2771, 0.468, 0.256);
 
     public ColorSubsystem() {
-        m_colorMatcher.addColorMatch(Color.kBlue);
-        m_colorMatcher.addColorMatch(Color.kRed);
+        m_colorMatcher.addColorMatch(kBlueTarget);
+        m_colorMatcher.addColorMatch(kRedTarget);
        // m_colorMatcher.addColorMatch(Color.kLightCoral);
     }
 
-    public String matchedBall() { // changed to void from String
+    public String intakeBallMatcher() { // changed to void from String
         Color detectedColor = m_colorSensor.getColor();
+        int proximity = m_colorSensor.getProximity();
         SmartDashboard.putString("color ting", "R"+detectedColor.red+" G"+detectedColor.green+" B"+detectedColor.blue);// to get this jit
+        SmartDashboard.putString("proxy color", proximity + " idk units"); // gets proximity using IR
 
-        ColorMatchResult matchedColor = m_colorMatcher.matchClosestColor(detectedColor);
-        if (matchedColor.color == Color.kBlue && matchedColor.confidence > .43) {
-            SmartDashboard.putString("Matched Color", "blue");
-            SmartDashboard.putNumber("Color Confidence",matchedColor.confidence);
+        if (proximity < 60) {
             return "blue";
-        } else if (matchedColor.color == Color.kRed && matchedColor.confidence > .43) {
-            SmartDashboard.putString("Matched Color", "red");
-            SmartDashboard.putNumber("Color Confidence",matchedColor.confidence);
-            return "red"; 
+        } else {
+            return "none";
         }
-        SmartDashboard.putString("Matched Color", "none");
-        SmartDashboard.putNumber("Color Confidence",matchedColor.confidence);
-        return "none";
+        // ColorMatchResult matchedColor = m_colorMatcher.matchClosestColor(detectedColor);
+        // if (matchedColor.color == kBlueTarget && matchedColor.confidence > .43) {
+        //     SmartDashboard.putString("Matched Color", "blue");
+        //     SmartDashboard.putNumber("Color Confidence",matchedColor.confidence);
+        //     return "blue";
+        // } else if (matchedColor.color == kRedTarget && matchedColor.confidence > .43) {
+        //     SmartDashboard.putString("Matched Color", "red");
+        //     SmartDashboard.putNumber("Color Confidence",matchedColor.confidence);
+        //     return "red"; 
+        // }
+        // SmartDashboard.putString("Matched Color", "none");
+        // SmartDashboard.putNumber("Color Confidence",matchedColor.confidence);
 
+        
     }
 }

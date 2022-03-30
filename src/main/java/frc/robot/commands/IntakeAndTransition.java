@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class IntakeAndIndex extends ParallelCommandGroup {
+public class IntakeAndTransition extends ParallelCommandGroup {
   /** Creates a new IntakeAndIndex. */
-  public IntakeAndIndex() {
+  public IntakeAndTransition() {
     addCommands(
       new IntakeSpin(),
-      new RunIndexer(false)
+      new RunIndexerTransition()
     );
   }
 }

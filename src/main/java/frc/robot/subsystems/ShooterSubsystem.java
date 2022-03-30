@@ -28,6 +28,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -49,6 +50,8 @@ public class ShooterSubsystem extends SubsystemBase {
   /* Shooter Talon FX Definition */
   TalonFX feederMotor = TalonFXUtility.constructTalonFX(Constants.RobotMap.SHOOTER_FEEDER_CAN);
   TalonFX flyWheelMotor = TalonFXUtility.constructTalonFX(Constants.RobotMap.SHOOTER_FLYWHEEL_CAN);
+  
+  CANSparkMax intakeMotor = new CANSparkMax(Constants.RobotMap.INTAKE_CAN, CANSparkMaxLowLevel.MotorType.kBrushless);
   ShooterSpeeds speeds;
 
   PIDController feederPID = new PIDController(Constants.ShooterConstants.FLYWHEEL_KP, 0, 0);
@@ -106,7 +109,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void spinIntake(double speed) {
-  //  SparkMaxUtility.runSparkMax(intakeMotor, -speed);
+    SparkMaxUtility.runSparkMax(intakeMotor, -speed);
   }
 
   public void log() {

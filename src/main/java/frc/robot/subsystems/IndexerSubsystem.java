@@ -28,27 +28,44 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.utility.SparkMaxUtility;
-
 
 public class IndexerSubsystem extends SubsystemBase {
 
   private CANSparkMax transitionMotor;
   private CANSparkMax beltMotor;
-  
-
 
   public IndexerSubsystem() {
     transitionMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INDEXER_TRANSITION_CAN, true);
     beltMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INDEXER_BELT_CAN, true);
+  }
+
+  public void runIndexer(double speed, boolean override) {
+    SmartDashboard.putString("INDEXER STATE",
+        RobotContainer.m_colorSubsystem.intakeBallMatcher() + " OVERRIDE: " + override);
+
+    if (RobotContainer.m_colorSubsystem.intakeBallMatcher().equals("none") || override) {
+      SmartDashboard.putBoolean("Running Indexer", true);
+      SparkMaxUtility.runSparkMax(transitionMotor, speed);
+      SparkMaxUtility.runSparkMax(beltMotor, -speed);
+    } else {
+      SmartDashboard.putBoolean("Running Indexer", false);
+      SparkMaxUtility.runSparkMax(transitionMotor, 0);
+      SparkMaxUtility.runSparkMax(beltMotor, 0);
+    }
 
   }
 
-  public void runIndexer(double speed) {
+  public void runIndexerTransition(double speed) {
+
+    SmartDashboard.putBoolean("Running Indexer", true);
     SparkMaxUtility.runSparkMax(transitionMotor, speed);
-    SparkMaxUtility.runSparkMax(beltMotor, -speed);
-  } 
+    // SparkMaxUtility.runSparkMax(beltMotor, -speed);
+
+  }
 
 }

@@ -14,11 +14,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
-   private DoubleSolenoid leftSolenoid;
-   private DoubleSolenoid rightSolenoid;
+  private DoubleSolenoid leftSolenoid;
+  private DoubleSolenoid rightSolenoid;
   ShuffleboardTab intakeTab;
   NetworkTableEntry leftSolenoidState;
   NetworkTableEntry rightSolenoidState;
+  boolean isExtended;
 
   public IntakeSubsystem() {
     leftSolenoid =
@@ -37,24 +38,22 @@ public class IntakeSubsystem extends SubsystemBase {
 
     leftSolenoid.set(Value.kReverse);
     rightSolenoid.set(Value.kReverse);
-
-    intakeTab = Shuffleboard.getTab("Dashboard");
-    leftSolenoidState = intakeTab.add("Left Solenoid", "off").getEntry();
-    rightSolenoidState = intakeTab.add("Right Solenoid", "off").getEntry();
   }
 
   public void forwardIntake() {
     leftSolenoid.set(Value.kForward);
     rightSolenoid.set(Value.kForward);
-    leftSolenoidState.setValue("Extended");
-    rightSolenoidState.setValue("Extended");
+    isExtended = true;
   }
 
   public void reverseIntake() {
     leftSolenoid.set(Value.kReverse);
     rightSolenoid.set(Value.kReverse);
-    leftSolenoidState.setValue("Retracted");
-    rightSolenoidState.setValue("Retracted");
+    isExtended = false;
+  }
+
+  public boolean isExtended() {
+    return isExtended;
   }
 
 }
