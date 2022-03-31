@@ -33,8 +33,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.utility.LoggingUtil;
+import frc.robot.utility.PS4Utility;
 import frc.robot.utility.SparkMaxUtility;
-
+import frc.robot.utility.ControllerRumbleType;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
@@ -51,9 +52,6 @@ public class IndexerSubsystem extends SubsystemBase {
   public IndexerSubsystem() {
     transitionMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INDEXER_TRANSITION_CAN, true);
     beltMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INDEXER_BELT_CAN, true);
-
-
-
     table = NetworkTableInstance.getDefault().getTable("Indexer");
     LoggingUtil.logWithNetworkTable(table, "Should be running", false);
   }
@@ -63,43 +61,30 @@ public class IndexerSubsystem extends SubsystemBase {
     log();
   }
 
-  // public void runIndexerWithProximity(double speed) {
-  //   if (beltShouldBeRunning()) {
-  //     beltIsRunning = true;
-  //     SparkMaxUtility.runSparkMax(transitionMotor, speed);
-  //     SparkMaxUtility.runSparkMax(beltMotor, -speed);
-  //   } else if (!beltShouldBeRunning())  {   // ball at first sensor
-  //     beltIsRunning = false;
-  //     SparkMaxUtility.runSparkMax(transitionMotor, speed);
-  //     SparkMaxUtility.runSparkMax(beltMotor, 0);
-
-  //     if (!transitionShouldBeRunning()) {
-  //       SparkMaxUtility.runSparkMax(transitionMotor, 0);
-  //     }
-  //   } 
-  // }
-
   public void runIndexerWithProximity(double speed) {
     if (beltShouldBeRunning()) {
       beltIsRunning = true;
       SparkMaxUtility.runSparkMax(transitionMotor, speed);
       SparkMaxUtility.runSparkMax(beltMotor, -speed);
+    } else {
+      beltIsRunning = false;
+      SparkMaxUtility.runSparkMax(transitionMotor, 0);
+      SparkMaxUtility.runSparkMax(beltMotor, 0);
+      PS4Utility.rumble(RobotContainer.operatorGamepad, ControllerRumbleType.kLight, 0.5);
     }
   }
 
-  
-
-  public void runIndexer(double speed) { //triggered by sparkmax Utility
+  public void runIndexer(double speed) { 
     SmartDashboard.putBoolean("Running Indexer", true);
     SparkMaxUtility.runSparkMax(transitionMotor, speed);
     SparkMaxUtility.runSparkMax(beltMotor, -speed);
-
   }
 
   public void runIndexerTransition(double speed) {
     SmartDashboard.putBoolean("Running Indexer", true);
     SparkMaxUtility.runSparkMax(transitionMotor, speed);
   }
+
   public boolean beltShouldBeRunning() {   
     if (RobotContainer.m_colorSubsystem.getProximityTop() < Constants.ColorConstants.PROXIMITY_THRESHOLD) {
       return true;
@@ -108,24 +93,9 @@ public class IndexerSubsystem extends SubsystemBase {
     }
   }
 
-  // public boolean transitionShouldBeRunning() {   
-  //   if (RobotContainer.m_colorSubsystem.getProximityBottom() < Constants.ColorConstants.PROXIMITY_THRESHOLD) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
-
   public void log() {
     LoggingUtil.logWithNetworkTable(table, "Belt should run", beltShouldBeRunning());
-    // LoggingUtil.logWithNetworkTable(table, "Trans should run", transitionShouldBeRunning());
     LoggingUtil.logWithNetworkTable(table, "Belt Running", beltIsRunning);
     LoggingUtil.logWithNetworkTable(table, "Transition Running", transitionIsRunning);
   }
 }
-
-
-
-
-
-//First triggered: belt stops hen the second senosr is triggerd, then transition stops 

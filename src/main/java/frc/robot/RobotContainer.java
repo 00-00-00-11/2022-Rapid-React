@@ -18,46 +18,45 @@
  *    R::::::R     R:::::R oo:::::::::::oo b:::::::::::::::b   oo:::::::::::oo         tt:::::::::::tt          CCC::::::::::::C oo:::::::::::oo   n::::n    n::::n        tt:::::::::::tt a::::::::::aa:::ai::::::i n::::n    n::::n  ee:::::::::::::e   r:::::r
  *    RRRRRRRR     RRRRRRR   ooooooooooo   bbbbbbbbbbbbbbbb      ooooooooooo             ttttttttttt               CCCCCCCCCCCCC   ooooooooooo     nnnnnn    nnnnnn          ttttttttttt    aaaaaaaaaa  aaaaiiiiiiii nnnnnn    nnnnnn    eeeeeeeeeeeeee   rrrrrrr
  *
- *
  */
-
 
 package frc.robot;
 
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.*;
+import frc.robot.commands.ChainedCommands.IndexerAndShoot;
+import frc.robot.commands.ChainedCommands.IntakeAndIndex;
+import frc.robot.commands.ChainedCommands.IntakeAndTransition;
+import frc.robot.commands.ClimbCommands.ClimberToggle;
+import frc.robot.commands.DriveCommands.OneBall;
+import frc.robot.commands.DriveCommands.SimDrive;
+import frc.robot.commands.IndexerCommands.IndexerDown;
+import frc.robot.commands.IntakeCommands.IntakeToggle;
+import frc.robot.commands.VisionCommands.AutoAim;
 import frc.robot.subsystems.*;
 import frc.robot.utility.ShuffleboardDashboard;
+
 public class RobotContainer {
 
+  /* GAMEPADS */
   public static final PS4Controller driverGamepad = new PS4Controller(Constants.RobotMap.DRIVER_CONTROLLER_PORT);
   public static final PS4Controller operatorGamepad = new PS4Controller(Constants.RobotMap.OPERATOR_CONTROLLER_PORT);
 
-  //driver controls
+  /* DRIVE CONTROLS */
+  JoystickButton autoAimButton = new JoystickButton(operatorGamepad, PS4Controller.Button.kCross.value);
+  JoystickButton indexerAndShootButton = new JoystickButton(operatorGamepad, PS4Controller.Button.kSquare.value);
 
-
-  //operator controls
-
+  /* OPERATOR CONTROLS */
   JoystickButton toggleClimber = new JoystickButton(operatorGamepad, PS4Controller.Button.kR1.value);
-  JoystickButton startVision = new JoystickButton(operatorGamepad, PS4Controller.Button.kOptions.value);
   JoystickButton reverseIntake = new JoystickButton(operatorGamepad, 4);
   JoystickButton toggleIntakeButton = new JoystickButton(operatorGamepad, PS4Controller.Button.kCircle.value);
   JoystickButton intakeAndIndexerButton = new JoystickButton(operatorGamepad, 2);
-  JoystickButton indexerAndShootButton = new JoystickButton(operatorGamepad, 1);
   JoystickButton intakeAndTransitionButton = new JoystickButton(operatorGamepad, PS4Controller.Button.kShare.value);
 
-
-
-  //vestigial organs
-  //JoystickButton spinTurretToggle = new JoystickButton(operatorGamepad, PS4Controller.Button.kTriangle.value);
-
+  /* SUBSYSTEMS */
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
-  
   public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-  public static final ShooterSubsystemTwo m_shooterSubsystemTwo = new ShooterSubsystemTwo();
-
   public static final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   public static final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
   public static final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
@@ -73,26 +72,23 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
 
-    toggleClimber.toggleWhenPressed(new ClimberToggle(operatorGamepad));
-
-    toggleIntakeButton.toggleWhenPressed(new IntakeToggle());
-    intakeAndIndexerButton.whileHeld(new IntakeAndIndex());
+    /* DRIVER CONTROLS */
+    autoAimButton.whileHeld(new AutoAim());
     indexerAndShootButton.whileHeld(new IndexerAndShoot());
-    intakeAndTransitionButton.whileHeld(new IntakeAndTransition());
 
-    //spinTurretToggle.whileHeld(new TurretSpin());
-    startVision.whileHeld(new AutoAim());
-    
+    /* OPERATOR CONTROLS */
+    intakeAndIndexerButton.whileHeld(new IntakeAndIndex());
+    toggleClimber.toggleWhenPressed(new ClimberToggle(operatorGamepad));
+    toggleIntakeButton.toggleWhenPressed(new IntakeToggle());
     reverseIntake.whileHeld(new IndexerDown());
+    
   }
+
   public Command getAutonomousCommand() {
     System.out.println(m_driveSubsystem.getSelectedFromChooser());
     switch (m_driveSubsystem.getSelectedFromChooser()) {
       case 0:
-        // return new OneBall();
-        return new AutoAimAndShoot();
-        // return new AutoAimAndShoot(); //bind to controller 
-        // return new ExitTarmac(true);
+        return new OneBall();
       case 2:
         return m_driveSubsystem.TwoBallAuto(m_driveSubsystem);
       case 3:

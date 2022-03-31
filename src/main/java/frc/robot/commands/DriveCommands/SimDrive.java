@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.DriveCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -10,7 +10,7 @@ import frc.robot.RobotContainer;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class SimDrive extends CommandBase {
-  SlewRateLimiter filter = new SlewRateLimiter(1.5);
+  SlewRateLimiter filter = new SlewRateLimiter(5);
 
   /** Creates a new SimDrive. */
   public SimDrive() {

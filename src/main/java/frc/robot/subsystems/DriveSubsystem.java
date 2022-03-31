@@ -67,7 +67,7 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.commands.IntakeAndIndex;
+import frc.robot.commands.ChainedCommands.IntakeAndIndex;
 import frc.robot.utility.LoggingUtil;
 import frc.robot.utility.RamseteUtility;
 import frc.robot.utility.TrajectoryUtility;

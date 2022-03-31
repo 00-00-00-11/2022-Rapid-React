@@ -48,8 +48,6 @@ import frc.robot.utility.TalonFXUtility;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-  /* Interpolating Table */
-
   /* Shooter Talon FX Definition */
   TalonFX feederMotor = TalonFXUtility.constructTalonFX(Constants.RobotMap.SHOOTER_FEEDER_CAN);
   TalonFX flyWheelMotor = TalonFXUtility.constructTalonFX(Constants.RobotMap.SHOOTER_FLYWHEEL_CAN);
@@ -83,6 +81,12 @@ public class ShooterSubsystem extends SubsystemBase {
     feederMotor.config_kI(0, .00035, 0);
     feederMotor.config_kD(0, 0, 0);
 
+    LoggingUtil.logWithNetworkTable(table, "Is Shooter Ready", false);
+    LoggingUtil.logWithNetworkTable(table, "Top Vel", 0);
+    LoggingUtil.logWithNetworkTable(table, "Bot Vel", 0);
+    LoggingUtil.logWithNetworkTable(table, "Top Setpt", 0);
+    LoggingUtil.logWithNetworkTable(table, "Bot Setpt", 0);
+
   }
 
   public void toSetPoint(double setpoint) {
@@ -97,10 +101,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     SmartDashboard.putNumber("FF Constant", feedforwardBottom.calculate(speeds.getFeederVelocity()));
 
-    //feederMotor.set(TalonFXControlMode.Velocity, speeds.getFeederVelocity()); 
-    //flyWheelMotor.set(TalonFXControlMode.Velocity, speeds.getFlywheelVelocity());
-    flyWheelMotor.set(TalonFXControlMode.Velocity, 20000*.535);
-    feederMotor.set(TalonFXControlMode.Velocity, 20000*.435);
+    flyWheelMotor.set(TalonFXControlMode.Velocity, speeds.getFlywheelVelocity());
+    feederMotor.set(TalonFXControlMode.Velocity, speeds.getFeederVelocity());
 
   }
 
@@ -127,7 +129,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void log() {
-
+    LoggingUtil.logWithNetworkTable(table, "Is Shooter Ready", checkAtSetpoint());
     LoggingUtil.logWithNetworkTable(table, "Top Vel", flyWheelMotor.getSelectedSensorVelocity());
     LoggingUtil.logWithNetworkTable(table, "Bot Vel", feederMotor.getSelectedSensorVelocity());
     LoggingUtil.logWithNetworkTable(table, "Top Setpt", speeds.getFlywheelVelocity());

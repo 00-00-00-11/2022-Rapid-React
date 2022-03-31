@@ -23,6 +23,7 @@ public class Robot extends TimedRobot {
     try {
       m_robotContainer = new RobotContainer();
     } catch (Exception err) {
+      err.printStackTrace();
       throw new ExceptionInInitializerError("[ERROR] COULDN'T INITIALIZE ROBOT CONTAINER");
     }
 
@@ -48,7 +49,6 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {}
 
-  /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
     RobotContainer.m_driveSubsystem.resetEncoders();
@@ -57,8 +57,7 @@ public class Robot extends TimedRobot {
     }
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
-    // schedule the autonomous command (example)
+    
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }

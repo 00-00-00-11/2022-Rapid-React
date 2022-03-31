@@ -77,7 +77,7 @@ public final class Constants {
   public final class ShooterConstants {
     public static final double kCIMSpeed = 1;
     public static final double FLYWHEEL_KP = 0.085035;
-    public static final double targetVelocityRPM=60;
+    public static final double targetVelocityRPM=10000;
     public static final double targetVelocityTalon=targetVelocityRPM * 2048 / 60;
     public static final double SHOOTER_KF = 0.048973143759;
     public static final double TARGET_THRESHOLD = 50; // to check if shooter is at target
