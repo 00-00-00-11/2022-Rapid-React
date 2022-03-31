@@ -5,8 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -16,10 +14,7 @@ public class IndexerAndShoot extends ParallelCommandGroup {
   public IndexerAndShoot() {
     addCommands(
       new ShootBall(),
-      new SequentialCommandGroup(
-        new WaitCommand(1.25),   //1.25 works consitently for one ball
-        new RunIndexerWithoutProximity()
-      )
+      new RunIndexerWithoutProximity()
     );
   }
 }
