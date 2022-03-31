@@ -68,9 +68,9 @@ public class ClimberSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("ELEVATOR POSITION",elevatorMotor.getEncoder().getPosition());
   }
 
-  public void elevatorCalibrate() {
+  // public void elevatorCalibrate() {
 
-  }
+  // }
 
   // Checks if elevator limit switches are triggered (edge of hardware bounds).
   public boolean limitSwitchIsTriggered() {
@@ -100,9 +100,9 @@ public class ClimberSubsystem extends SubsystemBase {
     anglerMotorRight.set(gamepad.getRightY());
   }
   
-  public void reachedLowLimit(){
+  // public void reachedLowLimit(){
     
-  }
+  // }
 
   public void climberControl(PS4Controller gamepad) {
     double input = -gamepad.getLeftY();

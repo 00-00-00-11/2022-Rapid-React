@@ -27,7 +27,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ChainedCommands.IndexerAndShoot;
 import frc.robot.commands.ChainedCommands.IntakeAndIndex;
-import frc.robot.commands.ChainedCommands.IntakeAndTransition;
 import frc.robot.commands.ClimbCommands.ClimberToggle;
 import frc.robot.commands.DriveCommands.OneBall;
 import frc.robot.commands.DriveCommands.SimDrive;

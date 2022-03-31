@@ -23,7 +23,7 @@ public class RunIndexerWithoutProximity extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (true) {
+    if (RobotContainer.m_shooterSubsystem.checkAtSetpoint()) {
       RobotContainer.m_indexerSubsystem.runIndexer(Constants.IndexerConstants.indexerSpeed);
     } else {
       RobotContainer.m_indexerSubsystem.runIndexer(0d);
