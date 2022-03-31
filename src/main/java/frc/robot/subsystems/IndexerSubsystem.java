@@ -45,7 +45,7 @@ public class IndexerSubsystem extends SubsystemBase {
 
   private NetworkTable table;
 
-  boolean TransitionIsRunning;
+  boolean transitionIsRunning;
   boolean beltIsRunning;
 
   public IndexerSubsystem() {
@@ -63,26 +63,33 @@ public class IndexerSubsystem extends SubsystemBase {
     log();
   }
 
+  // public void runIndexerWithProximity(double speed) {
+  //   if (beltShouldBeRunning()) {
+  //     beltIsRunning = true;
+  //     SparkMaxUtility.runSparkMax(transitionMotor, speed);
+  //     SparkMaxUtility.runSparkMax(beltMotor, -speed);
+  //   } else if (!beltShouldBeRunning())  {   // ball at first sensor
+  //     beltIsRunning = false;
+  //     SparkMaxUtility.runSparkMax(transitionMotor, speed);
+  //     SparkMaxUtility.runSparkMax(beltMotor, 0);
+
+  //     if (!transitionShouldBeRunning()) {
+  //       SparkMaxUtility.runSparkMax(transitionMotor, 0);
+  //     }
+  //   } 
+  // }
+
   public void runIndexerWithProximity(double speed) {
     if (beltShouldBeRunning()) {
       beltIsRunning = true;
       SparkMaxUtility.runSparkMax(transitionMotor, speed);
       SparkMaxUtility.runSparkMax(beltMotor, -speed);
-    } else if (!beltShouldBeRunning())  {   // ball at first sensor
-      beltIsRunning = false;
-      SparkMaxUtility.runSparkMax(transitionMotor, speed);
-      SparkMaxUtility.runSparkMax(beltMotor, 0);
-
-      if (!transitionShouldBeRunning()) {
-        SparkMaxUtility.runSparkMax(transitionMotor, 0);
-      }
-    } 
+    }
   }
 
   
 
   public void runIndexer(double speed) { //triggered by sparkmax Utility
-    
     SmartDashboard.putBoolean("Running Indexer", true);
     SparkMaxUtility.runSparkMax(transitionMotor, speed);
     SparkMaxUtility.runSparkMax(beltMotor, -speed);
@@ -101,19 +108,19 @@ public class IndexerSubsystem extends SubsystemBase {
     }
   }
 
-  public boolean transitionShouldBeRunning() {   
-    if (RobotContainer.m_colorSubsystem.getProximityBottom() < Constants.ColorConstants.PROXIMITY_THRESHOLD) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // public boolean transitionShouldBeRunning() {   
+  //   if (RobotContainer.m_colorSubsystem.getProximityBottom() < Constants.ColorConstants.PROXIMITY_THRESHOLD) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   public void log() {
     LoggingUtil.logWithNetworkTable(table, "Belt should run", beltShouldBeRunning());
-    LoggingUtil.logWithNetworkTable(table, "Trans should run", transitionShouldBeRunning());
+    // LoggingUtil.logWithNetworkTable(table, "Trans should run", transitionShouldBeRunning());
     LoggingUtil.logWithNetworkTable(table, "Belt Running", beltIsRunning);
-    LoggingUtil.logWithNetworkTable(table, "Transition Running", TransitionIsRunning);
+    LoggingUtil.logWithNetworkTable(table, "Transition Running", transitionIsRunning);
   }
 }
 

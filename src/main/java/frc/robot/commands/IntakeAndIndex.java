@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class IntakeAndIndex extends ParallelCommandGroup {
   /** Creates a new IntakeAndIndex. */
-  public IntakeAndIndex() {
+  public IntakeAndIndex() { 
     addCommands(
       new IntakeSpin(),
       new RunIndexer()

@@ -11,12 +11,8 @@ import frc.robot.RobotContainer;
 public class RunIndexerWithoutProximity extends CommandBase {
   /** Creates a new IndexerCommand. */
   public RunIndexerWithoutProximity() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(
-      RobotContainer.m_indexerSubsystem, 
-      RobotContainer.m_shooterSubsystem
-    );
-    
+    addRequirements(RobotContainer.m_indexerSubsystem);
+    addRequirements(RobotContainer.m_shooterSubsystem);
   }
 
   // Called when the command is initially scheduled.

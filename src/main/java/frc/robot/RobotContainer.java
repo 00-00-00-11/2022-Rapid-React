@@ -54,7 +54,10 @@ public class RobotContainer {
   //JoystickButton spinTurretToggle = new JoystickButton(operatorGamepad, PS4Controller.Button.kTriangle.value);
 
   public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  
   public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  public static final ShooterSubsystemTwo m_shooterSubsystemTwo = new ShooterSubsystemTwo();
+
   public static final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   public static final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
   public static final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();

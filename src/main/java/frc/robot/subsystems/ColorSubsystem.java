@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj.I2C;
 
 public class ColorSubsystem extends SubsystemBase {
     private final I2C.Port i2cPort = I2C.Port.kOnboard; // defining port I2C class reference
-    private final I2C.Port mxpi2cPort = I2C.Port.kMXP; // defining port I2C class reference
+    // private final I2C.Port mxpi2cPort = I2C.Port.kMXP; // defining port I2C class reference
 
     private final ColorSensorV3 m_colorSensorTop = new ColorSensorV3(i2cPort); // TOP SENSOR 
-    private final ColorSensorV3 m_colorSensorBottom = new ColorSensorV3(mxpi2cPort); // BOTTOM SENSOR 
+    // private final ColorSensorV3 m_colorSensorBottom = new ColorSensorV3(mxpi2cPort); // BOTTOM SENSOR 
 
     // private final ColorMatch m_colorMatcher = new ColorMatch();
     // private final Color kBlueTarget = new Color(0.2275, 0.4736, 0.2991);
@@ -85,13 +85,13 @@ public class ColorSubsystem extends SubsystemBase {
 
     */
 
-    public int getProximityBottom() {
-        return m_colorSensorBottom.getProximity();
-    }
+    // public int getProximityBottom() {
+    //     return m_colorSensorBottom.getProximity();
+    // }
 
     public void log() {
         LoggingUtil.logWithNetworkTable(table, "Proximity Top", getProximityTop());
-        LoggingUtil.logWithNetworkTable(table, "Proximity Bottom", getProximityBottom());
+        // LoggingUtil.logWithNetworkTable(table, "Proximity Bottom", getProximityBottom());
         
     }
 }
