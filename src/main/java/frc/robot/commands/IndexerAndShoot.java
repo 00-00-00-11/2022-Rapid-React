@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -18,8 +17,8 @@ public class IndexerAndShoot extends ParallelCommandGroup {
     addCommands(
       new ShootBall(),
       new SequentialCommandGroup(
-        new WaitCommand(1.25),
-        new RunIndexer()
+        new WaitCommand(1.25),   //1.25 works consitently for one ball
+        new RunIndexerWithoutProximity()
       )
     );
   }

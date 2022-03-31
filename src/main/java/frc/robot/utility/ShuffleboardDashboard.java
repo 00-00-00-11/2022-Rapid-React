@@ -17,7 +17,9 @@ public class ShuffleboardDashboard {
     }
 
     public static void log() {
+
         logToDashboard("Dashboard", "Gyro", RobotContainer.m_driveSubsystem.getHeading());
         logToDashboard("Dashboard", "Intake Extended", RobotContainer.m_intakeSubsystem.isExtended());
+        
     }
 }

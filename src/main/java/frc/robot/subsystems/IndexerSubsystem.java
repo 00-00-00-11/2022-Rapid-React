@@ -45,11 +45,15 @@ public class IndexerSubsystem extends SubsystemBase {
 
   private NetworkTable table;
 
-  boolean isRunning;
+  boolean TransitionIsRunning;
+  boolean beltIsRunning;
 
   public IndexerSubsystem() {
     transitionMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INDEXER_TRANSITION_CAN, true);
     beltMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INDEXER_BELT_CAN, true);
+
+
+
     table = NetworkTableInstance.getDefault().getTable("Indexer");
     LoggingUtil.logWithNetworkTable(table, "Should be running", false);
   }
@@ -60,29 +64,45 @@ public class IndexerSubsystem extends SubsystemBase {
   }
 
   public void runIndexerWithProximity(double speed) {
-    if (shouldBeRunning()) {
-      isRunning = true;
+    if (beltShouldBeRunning()) {
+      beltIsRunning = true;
       SparkMaxUtility.runSparkMax(transitionMotor, speed);
       SparkMaxUtility.runSparkMax(beltMotor, -speed);
-    } else {
-      isRunning = false;
-      SparkMaxUtility.runSparkMax(transitionMotor, 0);
+    } else if (!beltShouldBeRunning())  {   // ball at first sensor
+      beltIsRunning = false;
+      SparkMaxUtility.runSparkMax(transitionMotor, speed);
       SparkMaxUtility.runSparkMax(beltMotor, 0);
-    }
+
+      if (!transitionShouldBeRunning()) {
+        SparkMaxUtility.runSparkMax(transitionMotor, 0);
+      }
+    } 
   }
 
-  public void runIndexer(double speed) {
+  
+
+  public void runIndexer(double speed) { //triggered by sparkmax Utility
+    
     SmartDashboard.putBoolean("Running Indexer", true);
     SparkMaxUtility.runSparkMax(transitionMotor, speed);
     SparkMaxUtility.runSparkMax(beltMotor, -speed);
+
   }
 
   public void runIndexerTransition(double speed) {
     SmartDashboard.putBoolean("Running Indexer", true);
     SparkMaxUtility.runSparkMax(transitionMotor, speed);
   }
-  public boolean shouldBeRunning() {   
-    if (RobotContainer.m_colorSubsystem.getProximity() < Constants.ColorConstants.PROXIMITY_THRESHOLD) {
+  public boolean beltShouldBeRunning() {   
+    if (RobotContainer.m_colorSubsystem.getProximityTop() < Constants.ColorConstants.PROXIMITY_THRESHOLD) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public boolean transitionShouldBeRunning() {   
+    if (RobotContainer.m_colorSubsystem.getProximityBottom() < Constants.ColorConstants.PROXIMITY_THRESHOLD) {
       return true;
     } else {
       return false;
@@ -90,7 +110,15 @@ public class IndexerSubsystem extends SubsystemBase {
   }
 
   public void log() {
-    LoggingUtil.logWithNetworkTable(table, "Should be running", shouldBeRunning());
-    LoggingUtil.logWithNetworkTable(table, "Running", isRunning);
+    LoggingUtil.logWithNetworkTable(table, "Belt should run", beltShouldBeRunning());
+    LoggingUtil.logWithNetworkTable(table, "Trans should run", transitionShouldBeRunning());
+    LoggingUtil.logWithNetworkTable(table, "Belt Running", beltIsRunning);
+    LoggingUtil.logWithNetworkTable(table, "Transition Running", TransitionIsRunning);
   }
 }
+
+
+
+
+
+//First triggered: belt stops hen the second senosr is triggerd, then transition stops 

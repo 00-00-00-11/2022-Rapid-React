@@ -80,13 +80,14 @@ public final class Constants {
     public static final double targetVelocityRPM=60;
     public static final double targetVelocityTalon=targetVelocityRPM * 2048 / 60;
     public static final double SHOOTER_KF = 0.048973143759;
+    public static final double TARGET_THRESHOLD = 50; // to check if shooter is at target
   }
   public static final class IntakeConstants {
-    public static double intakeSpeed = .5;
+    public static double intakeSpeed = .75; // 3/30 .5
   }
 
   public final class IndexerConstants {
-    public static final double indexerSpeed = 1;
+    public static final double indexerSpeed = 0.25;
   }
 
   public final class AutoConstants {
@@ -124,7 +125,7 @@ public final class Constants {
   }
 
   public final class ColorConstants {
-    public static final int PROXIMITY_THRESHOLD = 2300; //TODO change
+    public static final int PROXIMITY_THRESHOLD = 200; //TODO change
 
 
   }

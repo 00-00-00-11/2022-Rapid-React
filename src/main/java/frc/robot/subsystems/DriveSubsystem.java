@@ -595,7 +595,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void log() {
-    LoggingUtil.logWithNetworkTable(table, "Heading", getHeading());
+    LoggingUtil.logWithNetworkTable(table, "Heading", getHeading()); 
     LoggingUtil.logWithNetworkTable(table, "L1 Vel", leftEncoder.getVelocity());
     LoggingUtil.logWithNetworkTable(table, "L2 Vel", leftEncoder2.getVelocity());
     LoggingUtil.logWithNetworkTable(table, "L3 Vel", leftEncoder3.getVelocity());

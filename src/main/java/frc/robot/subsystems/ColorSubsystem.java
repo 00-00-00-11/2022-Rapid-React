@@ -12,9 +12,11 @@ import edu.wpi.first.wpilibj.I2C;
 
 public class ColorSubsystem extends SubsystemBase {
     private final I2C.Port i2cPort = I2C.Port.kOnboard; // defining port I2C class reference
-    // private final I2C.Port mxpi2cPort = I2C.Port.kMXP; // defining port I2C class reference
+    private final I2C.Port mxpi2cPort = I2C.Port.kMXP; // defining port I2C class reference
 
-    private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort); // sensor to return color
+    private final ColorSensorV3 m_colorSensorTop = new ColorSensorV3(i2cPort); // TOP SENSOR 
+    private final ColorSensorV3 m_colorSensorBottom = new ColorSensorV3(mxpi2cPort); // BOTTOM SENSOR 
+
     // private final ColorMatch m_colorMatcher = new ColorMatch();
     // private final Color kBlueTarget = new Color(0.2275, 0.4736, 0.2991);
     // private final Color kRedTarget = new Color(0.2771, 0.468, 0.256);
@@ -63,13 +65,33 @@ public class ColorSubsystem extends SubsystemBase {
         
     // }
 
-    public int getProximity() {
+    public int getProximityTop() {
         // 2047 closest ~ 0.25 inches; 0 farthest ~ 6 inches
-        return m_colorSensor.getProximity();
+        return m_colorSensorTop.getProximity();
+    }
+
+    /*
+    public int getProximity(int sensorNumber) {
+        // 2047 closest ~ 0.25 inches; 0 farthest ~ 6 inches
+        if(sensorNumber==1) {
+            return m_colorSensor.getProximity();
+        } else if(sensorNumber==2) {
+            return m_colorSensor2.getProximity();
+        } else {
+            return -10; //line should not occur indicates error in PARAMETER CALL
+        }
+
+    }
+
+    */
+
+    public int getProximityBottom() {
+        return m_colorSensorBottom.getProximity();
     }
 
     public void log() {
-        LoggingUtil.logWithNetworkTable(table, "Proximity", getProximity());
+        LoggingUtil.logWithNetworkTable(table, "Proximity Top", getProximityTop());
+        LoggingUtil.logWithNetworkTable(table, "Proximity Bottom", getProximityBottom());
         
     }
 }

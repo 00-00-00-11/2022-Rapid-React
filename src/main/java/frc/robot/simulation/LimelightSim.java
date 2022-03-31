@@ -1,6 +1,5 @@
 package frc.robot.simulation;
 
-import frc.robot.RobotContainer;
 import frc.robot.vision.Limelight;
 
 public class LimelightSim extends Limelight {

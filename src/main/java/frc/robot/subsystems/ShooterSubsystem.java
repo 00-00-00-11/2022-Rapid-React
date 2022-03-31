@@ -32,10 +32,13 @@ import com.revrobotics.CANSparkMaxLowLevel;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.utility.LoggingUtil;
 import frc.robot.utility.ShooterSpeeds;
 import frc.robot.utility.SparkMaxUtility;
 import frc.robot.utility.TalonFXUtility;
@@ -56,6 +59,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   PIDController feederPID = new PIDController(Constants.ShooterConstants.FLYWHEEL_KP, 0, 0);
 
+  NetworkTable table;
 
   int encoderTicks = 2048;
 
@@ -65,6 +69,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public ShooterSubsystem() {
     speeds = new ShooterSpeeds(15000, 15000);
+
+    table = NetworkTableInstance.getDefault().getTable("Shooter");
 
     /* Set PID */
     flyWheelMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
@@ -112,11 +118,20 @@ public class ShooterSubsystem extends SubsystemBase {
     SparkMaxUtility.runSparkMax(intakeMotor, -speed);
   }
 
+  public boolean checkAtSetpoint() {
+    if((Math.abs(flyWheelMotor.getSelectedSensorVelocity() - speeds.getFlywheelVelocity()) < Constants.ShooterConstants.TARGET_THRESHOLD) && (Math.abs(feederMotor.getSelectedSensorVelocity() - speeds.getFeederVelocity()) < Constants.ShooterConstants.TARGET_THRESHOLD)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   public void log() {
-    SmartDashboard.putNumber("TOP Shooter Vel", flyWheelMotor.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("BOTTOM Shooter Vel", feederMotor.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("TOP Shooter Setpoint", speeds.getFlywheelVelocity());
-    SmartDashboard.putNumber("BOTTOM Shooter Setpoint", speeds.getFeederVelocity());
+
+    LoggingUtil.logWithNetworkTable(table, "Top Vel", flyWheelMotor.getSelectedSensorVelocity());
+    LoggingUtil.logWithNetworkTable(table, "Bot Vel", feederMotor.getSelectedSensorVelocity());
+    LoggingUtil.logWithNetworkTable(table, "Top Setpt", speeds.getFlywheelVelocity());
+    LoggingUtil.logWithNetworkTable(table, "Bot Setpt", speeds.getFeederVelocity());
   }
 
 }
