@@ -5,14 +5,13 @@
 package frc.robot.commands.DriveCommands;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class SimDrive extends CommandBase {
 
-    SlewRateLimiter filter = new SlewRateLimiter(5);
+    SlewRateLimiter filter = new SlewRateLimiter(2);
 
     /** Creates a new SimDrive. */
     public SimDrive() {
@@ -35,16 +34,15 @@ public class SimDrive extends CommandBase {
         double l2 = RobotContainer.driverGamepad.getL2Axis();
 
         double speed = (r2 - l2) * valetSpeed * (-1);
-        speed = Math.signum(speed) * speed * speed;
+        // speed = Math.signum(speed) * speed * speed;
         double adjustedSpeed = filter.calculate(speed);
-        SmartDashboard.putNumber("adjustedSpeed", adjustedSpeed);
-        SmartDashboard.putNumber("leftAxis", leftAxis);
+        // SmartDashboard.putNumber("adjustedSpeed", adjustedSpeed);
+        // SmartDashboard.putNumber("leftAxis", leftAxis);
 
         RobotContainer.m_driveSubsystem.curveDrive(adjustedSpeed, leftAxis, false);
 
         if (Math.abs(rightAxis) > Constants.DriveConstants.DEADZONE) {
-            RobotContainer.m_driveSubsystem.tankDriveAuto(rightAxis * .4, -rightAxis * .4);
-            RobotContainer.m_driveSubsystem.curveDrive(0, rightAxis * Constants.DriveConstants.TURN_SPEED, true);
+            RobotContainer.m_driveSubsystem.tankDriveAuto(rightAxis * Constants.DriveConstants.TURN_SPEED, -rightAxis * Constants.DriveConstants.TURN_SPEED);
         }
     }
 

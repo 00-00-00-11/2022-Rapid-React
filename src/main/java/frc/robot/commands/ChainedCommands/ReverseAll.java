@@ -24,7 +24,7 @@ public class ReverseAll extends CommandBase {
     @Override
     public void execute() {
         RobotContainer.m_indexerSubsystem.runIndexer(-Constants.IndexerConstants.indexerSpeed);
-        RobotContainer.m_shooterSubsystem.spinIntake(-Constants.IntakeConstants.intakeSpeed);
+        RobotContainer.m_shooterSubsystem.spinIntake(Constants.IntakeConstants.intakeSpeed);
     }
 
     // Called once the command ends or is interrupted.

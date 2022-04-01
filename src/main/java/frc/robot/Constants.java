@@ -52,7 +52,7 @@ public final class Constants {
 
         /* CLIMBER SUBSYSTEM */
         public static final int CLIMBER_LINEAR_CAN = 14;
-        public static final int CLIMBER_LEFT_ARM_CAN = 99;
+        public static final int CLIMBER_LEFT_ARM_CAN = 24;
         public static final int CLIMBER_RIGHT_ARM_CAN = 12;
 
         /* PNEUMATICS SUBSYSTEM */
@@ -66,7 +66,7 @@ public final class Constants {
     public final class DriveConstants {
 
         public static final double DRIVE_SPEED = .5d;
-        public static final double TURN_SPEED = .5d;
+        public static final double TURN_SPEED = .7d;
 
         public static final double turnKP = -0.0225;
         public static final double turnKI = 0;
@@ -89,6 +89,7 @@ public final class Constants {
         public static final double kI = 0.0;
         public static final double kD = 0.0;
         public static final double DEADZONE = 0.05;
+		public static final double AUTO_SPEED = 0.4;
     }
 
     public final class ShooterConstants {

@@ -18,7 +18,7 @@ public class ZeroElevator extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        RobotContainer.m_climberSubsystem.elevatorRetract();
+        RobotContainer.m_climberSubsystem.retractElevator();
     }
 
     // Returns true when the command should end.

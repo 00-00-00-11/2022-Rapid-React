@@ -14,6 +14,8 @@ public class IntakeSpin extends CommandBase {
     public IntakeSpin() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.m_shooterSubsystem);
+        addRequirements(RobotContainer.m_intakeSubsystem);
+
     }
 
     // Called when the command is initially scheduled.

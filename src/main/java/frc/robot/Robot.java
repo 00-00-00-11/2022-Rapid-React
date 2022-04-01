@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 
 public class Robot extends TimedRobot {
 
@@ -17,6 +18,8 @@ public class Robot extends TimedRobot {
     private RobotContainer m_robotContainer;
 
     public static Compressor compressor;
+
+    boolean finishedElevatorHoming = false;
 
     @Override
     public void robotInit() {
@@ -77,13 +80,20 @@ public class Robot extends TimedRobot {
             m_autonomousCommand.cancel();
         }
 
+        finishedElevatorHoming = false;
+
         if (RobotContainer.m_driveSubsystem != null) {
             RobotContainer.m_driveSubsystem.setBrake(true);
         }
     }
 
     @Override
-    public void teleopPeriodic() {}
+    public void teleopPeriodic() {
+        if (!finishedElevatorHoming) {
+            finishedElevatorHoming = RobotContainer.m_climberSubsystem.retractElevator();
+        }
+        
+    }
 
     @Override
     public void testInit() {

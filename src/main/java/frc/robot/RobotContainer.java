@@ -31,6 +31,7 @@ import frc.robot.commands.ChainedCommands.IntakeAndIndex;
 import frc.robot.commands.ChainedCommands.IntakeAndTransition;
 import frc.robot.commands.ChainedCommands.ReverseAll;
 import frc.robot.commands.ClimbCommands.ClimberToggle;
+import frc.robot.commands.DriveCommands.ExitTarmac;
 import frc.robot.commands.DriveCommands.OneBall;
 import frc.robot.commands.DriveCommands.SimDrive;
 import frc.robot.commands.IntakeCommands.IntakeToggle;
@@ -56,6 +57,7 @@ public class RobotContainer {
     POVButton shootButton = new POVButton(operatorGamepad, 0);
     JoystickButton intakeAndTransitionButton = new JoystickButton(operatorGamepad, PS4Controller.Button.kTriangle.value);
 
+
     /* SUBSYSTEMS */
     public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
     public static final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
@@ -78,10 +80,14 @@ public class RobotContainer {
         indexerAndShootButton.whileHeld(new IndexerAndShoot());
 
         /* OPERATOR CONTROLS */
-        intakeAndIndexerButton.whileHeld(new IntakeAndIndex());
         reverseIntake.whileHeld(new ReverseAll());
         toggleClimber.toggleWhenPressed(new ClimberToggle(operatorGamepad));
         toggleIntakeButton.toggleWhenPressed(new IntakeToggle());
+        
+        intakeAndIndexerButton.whileHeld(new IntakeAndIndex());
+
+       // toggleIntakeButton.whileHeld(new IntakeAndIndex());
+
         shootButton.whileHeld(new IndexerAndShoot());
         intakeAndTransitionButton.whileHeld(new IntakeAndTransition());
     }
@@ -91,6 +97,8 @@ public class RobotContainer {
         switch (m_driveSubsystem.getSelectedFromChooser()) {
             case 0:
                 return new OneBall();
+            case 1:
+                return m_driveSubsystem.OneBall(m_driveSubsystem);
             case 2:
                 return m_driveSubsystem.TwoBallAuto(m_driveSubsystem);
             case 3:

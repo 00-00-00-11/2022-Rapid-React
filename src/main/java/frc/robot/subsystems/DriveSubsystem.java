@@ -79,8 +79,6 @@ public class DriveSubsystem extends SubsystemBase {
 
     AHRS gyro;
 
-    UsbCamera driverCamera;
-
     CANSparkMax leftMaster;
     CANSparkMax leftSlave1;
     CANSparkMax leftSlave2;
@@ -129,7 +127,6 @@ public class DriveSubsystem extends SubsystemBase {
     int simInvert;
 
     public DriveSubsystem() {
-        CameraServer.startAutomaticCapture();
         gyro = new AHRS(SPI.Port.kMXP);
 
         rightMaster = SparkMaxUtility.constructSparkMax(Constants.RobotMap.RIGHT_MASTER_CAN, true);
@@ -225,6 +222,7 @@ public class DriveSubsystem extends SubsystemBase {
         m_chooser.addOption("4 Ball Routine", 4);
         m_chooser.addOption("3 Ball Routine", 3);
         m_chooser.addOption("2 Ball Routine", 2);
+        m_chooser.addOption("1 Ball Routine", 1);
         m_chooser.setDefaultOption("Exit Tarmac", 0);
         SmartDashboard.putData("Auto Routine Chooser", m_chooser);
 
@@ -380,6 +378,9 @@ public class DriveSubsystem extends SubsystemBase {
         return kinematics;
     }
 
+    /**
+     * Resets encoder positions
+     */
     public void resetEncoders() {
         leftMaster.getEncoder().setPosition(0.0);
         rightMaster.getEncoder().setPosition(0.0);
@@ -390,10 +391,17 @@ public class DriveSubsystem extends SubsystemBase {
         odometry.resetPosition(pose, gyro.getRotation2d());
     }
 
+    /**
+     * Sets drive motors in volts
+     * 
+     * @param leftVolts Left motor in volts
+     * @param rightVolts Right motor in volts
+     */
     public void setOutput(double leftVolts, double rightVolts) {
         leftMotors.set(leftVolts / 12);
         rightMotors.set(rightVolts / 12);
     }
+
 
     public double getEncoderPosition() {
         return leftEncoder.getPosition();
@@ -565,6 +573,17 @@ public class DriveSubsystem extends SubsystemBase {
                 .createRamseteCommand(traj4, RobotContainer.m_driveSubsystem, false)
                 .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0))
                 .withTimeout(15)
+        );
+    }
+
+    public SequentialCommandGroup OneBall(DriveSubsystem drive) {
+        Trajectory traj1 = TrajectoryUtility.createNewTrajectoryFromJSON("1Ball-1");
+        Trajectory traj2 = TrajectoryUtility.createNewTrajectoryFromJSON("2Ball-2");
+        resetOdometry(traj1.getInitialPose());
+        setBrake(true);
+
+        return new SequentialCommandGroup(
+            RamseteUtility.createRamseteCommand(traj1, RobotContainer.m_driveSubsystem, false).andThen(() -> {RobotContainer.m_driveSubsystem.setOutput(0,0);})
         );
     }
 
