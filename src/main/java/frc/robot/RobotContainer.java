@@ -46,11 +46,11 @@ public class RobotContainer {
 
     /* DRIVE CONTROLS */
     JoystickButton autoAimButton = new JoystickButton(driverGamepad, PS4Controller.Button.kCross.value); //X driver
-    JoystickButton indexerAndShootButton = new JoystickButton(driverGamepad, PS4Controller.Button.kSquare.value);   //SQUARE Driver
+    JoystickButton indexerAndShootButton = new JoystickButton(driverGamepad, PS4Controller.Button.kSquare.value); //SQUARE Driver
 
     /* OPERATOR CONTROLS */
     JoystickButton toggleClimber = new JoystickButton(operatorGamepad, PS4Controller.Button.kR1.value);
-    JoystickButton intakeAndIndexerButton = new JoystickButton(operatorGamepad, PS4Controller.Button.kCross.value);  //X Operator
+    JoystickButton intakeAndIndexerButton = new JoystickButton(operatorGamepad, PS4Controller.Button.kCross.value); //X Operator
     JoystickButton reverseIntake = new JoystickButton(operatorGamepad, PS4Controller.Button.kSquare.value);
     JoystickButton toggleIntakeButton = new JoystickButton(operatorGamepad, PS4Controller.Button.kCircle.value);
     POVButton shootButton = new POVButton(operatorGamepad, 0);

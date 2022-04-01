@@ -30,6 +30,8 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.RelativeEncoder;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
 import edu.wpi.first.math.controller.PIDController;
@@ -72,10 +74,6 @@ import frc.robot.utility.LoggingUtil;
 import frc.robot.utility.RamseteUtility;
 import frc.robot.utility.SparkMaxUtility;
 import frc.robot.utility.TrajectoryUtility;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.UsbCamera;
-
-
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -131,7 +129,6 @@ public class DriveSubsystem extends SubsystemBase {
     int simInvert;
 
     public DriveSubsystem() {
-
         CameraServer.startAutomaticCapture();
         gyro = new AHRS(SPI.Port.kMXP);
 
@@ -241,8 +238,6 @@ public class DriveSubsystem extends SubsystemBase {
             );
         leftPID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
         rightPID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
-        
-
         /*
         //Integrating Camera Feed
         driverCamera =CameraServer.startAutomaticCapture();

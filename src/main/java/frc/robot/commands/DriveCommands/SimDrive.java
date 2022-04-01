@@ -34,7 +34,7 @@ public class SimDrive extends CommandBase {
         double r2 = RobotContainer.driverGamepad.getR2Axis();
         double l2 = RobotContainer.driverGamepad.getL2Axis();
 
-        double speed = (r2 - l2) * valetSpeed *(-1);
+        double speed = (r2 - l2) * valetSpeed * (-1);
         speed = Math.signum(speed) * speed * speed;
         double adjustedSpeed = filter.calculate(speed);
         SmartDashboard.putNumber("adjustedSpeed", adjustedSpeed);

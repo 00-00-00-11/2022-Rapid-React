@@ -10,13 +10,13 @@ public final class Constants {
     public final class RobotMap {
 
         //X=> intake and indexer  DONE
-        // Triangel intake + transition motor done 
+        // Triangel intake + transition motor done
         // Circle: pneumnatics DONE
         // Square: reverse (Intake +transitoin motor) done DONE
-        // Up arrow: Shooter DONE 
+        // Up arrow: Shooter DONE
 
         // R2: ElevatorUp wellllllll?
-        // L2: ElevatorDown 
+        // L2: ElevatorDown
 
         // Left Joystick: left side-arm (direclty)
         // Right joystick right arm (directly)
@@ -102,8 +102,6 @@ public final class Constants {
     }
 
     public static final class IntakeConstants {
-
-       
 
         public static double intakeSpeed = .75; // 3/30 .5
     }
