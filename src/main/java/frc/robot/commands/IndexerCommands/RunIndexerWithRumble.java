@@ -9,16 +9,13 @@ import frc.robot.RobotContainer;
 import frc.robot.commands.RumblePS4;
 import frc.robot.utility.ControllerRumbleType;
 
-
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class RunIndexerWithRumble extends SequentialCommandGroup {
-  /** Creates a new RunIndexerWithRumble. */
-  public RunIndexerWithRumble() {
-    addCommands(
-      new RunIndexer(),
-      new RumblePS4(RobotContainer.operatorGamepad, ControllerRumbleType.kHeavy, 0.5).withTimeout(0.5)
-    );
-  }
+
+    /** Creates a new RunIndexerWithRumble. */
+    public RunIndexerWithRumble() {
+        addCommands(new RunIndexer(), new RumblePS4(RobotContainer.operatorGamepad, ControllerRumbleType.kHeavy, 0.5).withTimeout(0.5));
+    }
 }

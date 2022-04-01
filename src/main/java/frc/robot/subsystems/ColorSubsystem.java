@@ -1,21 +1,19 @@
-
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utility.LoggingUtil;
-
 import com.revrobotics.ColorSensorV3;
-
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.utility.LoggingUtil;
 
 public class ColorSubsystem extends SubsystemBase {
+
     private final I2C.Port i2cPort = I2C.Port.kOnboard; // defining port I2C class reference
     // private final I2C.Port mxpi2cPort = I2C.Port.kMXP; // defining port I2C class reference
 
-    private final ColorSensorV3 m_colorSensorTop = new ColorSensorV3(i2cPort); // TOP SENSOR 
-    // private final ColorSensorV3 m_colorSensorBottom = new ColorSensorV3(mxpi2cPort); // BOTTOM SENSOR 
+    private final ColorSensorV3 m_colorSensorTop = new ColorSensorV3(i2cPort); // TOP SENSOR
+    // private final ColorSensorV3 m_colorSensorBottom = new ColorSensorV3(mxpi2cPort); // BOTTOM SENSOR
 
     // private final ColorMatch m_colorMatcher = new ColorMatch();
     // private final Color kBlueTarget = new Color(0.2275, 0.4736, 0.2991);
@@ -39,7 +37,7 @@ public class ColorSubsystem extends SubsystemBase {
     //     // Color detectedColor = m_colorSensor.getColor();
     //     int proximity = m_colorSensor.getProximity();
     //     // SmartDashboard.putString("color ting", "R"+detectedColor.red+" G"+detectedColor.green+" B"+detectedColor.blue);// to get this jit
-        
+
     //     // 2047 closest ~0.25 inches, 0 farthest ~6 inches
     //     LoggingUtil.logWithNetworkTable(table, "Proximity", proximity);
     //     if (proximity > Constants.ColorConstants.PROXIMITY_THRESHOLD) {
@@ -47,7 +45,6 @@ public class ColorSubsystem extends SubsystemBase {
     //     } else {
     //         return "none";
     //     }
-
 
     //     ColorMatchResult matchedColor = m_colorMatcher.matchClosestColor(detectedColor);
     //     if (matchedColor.color == kBlueTarget && matchedColor.confidence > .43) {
@@ -57,12 +54,11 @@ public class ColorSubsystem extends SubsystemBase {
     //     } else if (matchedColor.color == kRedTarget && matchedColor.confidence > .43) {
     //         SmartDashboard.putString("Matched Color", "red");
     //         SmartDashboard.putNumber("Color Confidence",matchedColor.confidence);
-    //         return "red"; 
+    //         return "red";
     //     }
     //     SmartDashboard.putString("Matched Color", "none");
     //     SmartDashboard.putNumber("Color Confidence",matchedColor.confidence);
 
-        
     // }
 
     public int getProximityTop() {
@@ -92,6 +88,6 @@ public class ColorSubsystem extends SubsystemBase {
     public void log() {
         LoggingUtil.logWithNetworkTable(table, "Proximity Top", getProximityTop());
         // LoggingUtil.logWithNetworkTable(table, "Proximity Bottom", getProximityBottom());
-        
+
     }
 }

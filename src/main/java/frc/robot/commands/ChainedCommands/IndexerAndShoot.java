@@ -5,6 +5,8 @@
 package frc.robot.commands.ChainedCommands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.IndexerCommands.RunIndexerWithoutProximity;
 import frc.robot.commands.ShooterCommands.ShootBall;
 
@@ -12,11 +14,14 @@ import frc.robot.commands.ShooterCommands.ShootBall;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class IndexerAndShoot extends ParallelCommandGroup {
-  /** Creates a new IndexerAndShoot. */
-  public IndexerAndShoot() { 
-    addCommands(
-      new ShootBall(),
-      new RunIndexerWithoutProximity()
-    );
-  }
+
+    /** Creates a new IndexerAndShoot. */
+    public IndexerAndShoot() {
+        addCommands(
+        new ShootBall(), 
+        new SequentialCommandGroup(
+          new WaitCommand(1.25),
+          new RunIndexerWithoutProximity() 
+        ));
+    }
 }

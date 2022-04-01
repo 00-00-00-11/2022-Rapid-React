@@ -1,13 +1,13 @@
 package frc.robot.utility;
 
-import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.PS4Controller;
 
 public class PS4Utility {
 
     /**
      *  Rumbles the PS4 Controller
-     * 
+     *
      * @param controller the controller to rumble
      * @param side 0 (light), 1 (heavy)
      * @param intensity boolean from 0 to 1
@@ -18,6 +18,5 @@ public class PS4Utility {
         } else if (type == ControllerRumbleType.kLight) {
             controller.setRumble(RumbleType.kRightRumble, intensity);
         }
-
     }
 }

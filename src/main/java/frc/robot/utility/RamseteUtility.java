@@ -8,7 +8,7 @@ import frc.robot.subsystems.DriveSubsystem;
 public class RamseteUtility {
 
     public static RamseteCommand createRamseteCommand(Trajectory trajectory, DriveSubsystem driveSubsystem, boolean setPose) {
-        return new RamseteCommand (
+        return new RamseteCommand(
             trajectory,
             driveSubsystem::getPose,
             new RamseteController(2, 0.7),

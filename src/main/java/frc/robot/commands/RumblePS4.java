@@ -11,35 +11,35 @@ import frc.robot.utility.PS4Utility;
 
 public class RumblePS4 extends CommandBase {
 
-  PS4Controller controller;
-  ControllerRumbleType type;
-  double intensity;
+    PS4Controller controller;
+    ControllerRumbleType type;
+    double intensity;
 
-  public RumblePS4(PS4Controller controller, ControllerRumbleType type, double intensity) {
-    this.controller = controller;
-    this.type = type;
-    this.intensity = intensity;
-  }
+    public RumblePS4(PS4Controller controller, ControllerRumbleType type, double intensity) {
+        this.controller = controller;
+        this.type = type;
+        this.intensity = intensity;
+    }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    PS4Utility.rumble(controller, type, intensity);
-  }
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {
+        PS4Utility.rumble(controller, type, intensity);
+    }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    PS4Utility.rumble(controller, type, 0);
-  }
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
+        PS4Utility.rumble(controller, type, 0);
+    }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }

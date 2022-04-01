@@ -8,36 +8,33 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
-
-
 public class ClimberToggle extends CommandBase {
 
-  PS4Controller elevGamepad;
+    PS4Controller elevGamepad;
 
-  /** Creates a new ManualClimber. */
-  public ClimberToggle(PS4Controller gamepad) {
-    addRequirements(RobotContainer.m_climberSubsystem);
-    elevGamepad = gamepad;
-  }
+    /** Creates a new ManualClimber. */
+    public ClimberToggle(PS4Controller gamepad) {
+        addRequirements(RobotContainer.m_climberSubsystem);
+        elevGamepad = gamepad;
+    }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    RobotContainer.m_climberSubsystem.climberControl(elevGamepad);
-  }
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {
+        RobotContainer.m_climberSubsystem.climberControl(elevGamepad);
+    }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }

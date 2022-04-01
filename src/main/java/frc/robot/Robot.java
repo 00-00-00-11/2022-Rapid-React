@@ -11,103 +11,102 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
-  private Command m_autonomousCommand;
 
-  private RobotContainer m_robotContainer;
+    private Command m_autonomousCommand;
 
-  public static Compressor compressor;
+    private RobotContainer m_robotContainer;
 
-  @Override
-  public void robotInit() {
-    compressor = new Compressor(Constants.RobotMap.HUB_CAN, PneumaticsModuleType.REVPH);
-    try {
-      m_robotContainer = new RobotContainer();
-    } catch (Exception err) {
-      err.printStackTrace();
-      throw new ExceptionInInitializerError("[ERROR] COULDN'T INITIALIZE ROBOT CONTAINER");
+    public static Compressor compressor;
+
+    @Override
+    public void robotInit() {
+        compressor = new Compressor(Constants.RobotMap.HUB_CAN, PneumaticsModuleType.REVPH);
+        try {
+            m_robotContainer = new RobotContainer();
+        } catch (Exception err) {
+            err.printStackTrace();
+            throw new ExceptionInInitializerError("[ERROR] COULDN'T INITIALIZE ROBOT CONTAINER");
+        }
+
+        SmartDashboard.putString("AUTO STATUS", "NO CHOSEN AUTO");
     }
 
-    SmartDashboard.putString("AUTO STATUS", "NO CHOSEN AUTO");
-  }
-
-  @Override
-  public void robotPeriodic() {
-    CommandScheduler.getInstance().run();
-   SmartDashboard.putBoolean("Compressor Sensor", compressor.getPressureSwitchValue());
-    if (compressor.getPressureSwitchValue()) {
-     compressor.enableDigital();
-    } else compressor.disable();
-  }
-
-  @Override
-  public void disabledInit() {
-    if (RobotContainer.m_driveSubsystem != null) {
-      RobotContainer.m_driveSubsystem.setBrake(false);
-    }
-  }
-
-  @Override
-  public void disabledPeriodic() {}
-
-  @Override
-  public void autonomousInit() {
-    RobotContainer.m_driveSubsystem.resetEncoders();
-    if (RobotContainer.m_driveSubsystem != null) {
-      RobotContainer.m_driveSubsystem.setBrake(true);
+    @Override
+    public void robotPeriodic() {
+        CommandScheduler.getInstance().run();
+        SmartDashboard.putBoolean("Compressor Sensor", compressor.getPressureSwitchValue());
+        if (compressor.getPressureSwitchValue()) {
+            compressor.enableDigital();
+        } else compressor.disable();
     }
 
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
-  }
-
-  /** This function is called periodically during autonomous. */
-  @Override
-  public void autonomousPeriodic() {}
-
-  @Override
-  public void teleopInit() {
-    CommandScheduler.getInstance().cancelAll();
-    RobotContainer.m_driveSubsystem.resetEncoders();
-
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+    @Override
+    public void disabledInit() {
+        if (RobotContainer.m_driveSubsystem != null) {
+            RobotContainer.m_driveSubsystem.setBrake(false);
+        }
     }
 
-    if (RobotContainer.m_driveSubsystem != null) {
-      RobotContainer.m_driveSubsystem.setBrake(true);
+    @Override
+    public void disabledPeriodic() {}
+
+    @Override
+    public void autonomousInit() {
+        RobotContainer.m_driveSubsystem.resetEncoders();
+        if (RobotContainer.m_driveSubsystem != null) {
+            RobotContainer.m_driveSubsystem.setBrake(true);
+        }
+
+        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+        if (m_autonomousCommand != null) {
+            m_autonomousCommand.schedule();
+        }
     }
-  }
 
-  @Override
-  public void teleopPeriodic() {
-    
-  }
+    /** This function is called periodically during autonomous. */
+    @Override
+    public void autonomousPeriodic() {}
 
-  @Override
-  public void testInit() {
-    // Cancels all running commands at the start of test mode.
-    CommandScheduler.getInstance().cancelAll();
-  }
+    @Override
+    public void teleopInit() {
+        CommandScheduler.getInstance().cancelAll();
+        RobotContainer.m_driveSubsystem.resetEncoders();
 
-  /** This function is called periodically during test mode. */
-  @Override
-  public void testPeriodic() {}
+        if (m_autonomousCommand != null) {
+            m_autonomousCommand.cancel();
+        }
 
-  @Override
-  public void simulationInit() {
-    CANSparkMax[] motors = RobotContainer.m_driveSubsystem.getMotors();
-    for (CANSparkMax motor : motors) {
-      REVPhysicsSim.getInstance().addSparkMax(motor, DCMotor.getNEO(1));
+        if (RobotContainer.m_driveSubsystem != null) {
+            RobotContainer.m_driveSubsystem.setBrake(true);
+        }
     }
-  }
 
-  @Override
-  public void simulationPeriodic() {
-    // REVPhysicsSim.getInstance().run();
+    @Override
+    public void teleopPeriodic() {}
 
-    // The above is not needed because we set velocity values manually in Drive Subsystem
-  }
+    @Override
+    public void testInit() {
+        // Cancels all running commands at the start of test mode.
+        CommandScheduler.getInstance().cancelAll();
+    }
+
+    /** This function is called periodically during test mode. */
+    @Override
+    public void testPeriodic() {}
+
+    @Override
+    public void simulationInit() {
+        CANSparkMax[] motors = RobotContainer.m_driveSubsystem.getMotors();
+        for (CANSparkMax motor : motors) {
+            REVPhysicsSim.getInstance().addSparkMax(motor, DCMotor.getNEO(1));
+        }
+    }
+
+    @Override
+    public void simulationPeriodic() {
+        // REVPhysicsSim.getInstance().run();
+
+        // The above is not needed because we set velocity values manually in Drive Subsystem
+    }
 }

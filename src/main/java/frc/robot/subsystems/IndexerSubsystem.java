@@ -27,75 +27,74 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.utility.ControllerRumbleType;
 import frc.robot.utility.LoggingUtil;
 import frc.robot.utility.PS4Utility;
 import frc.robot.utility.SparkMaxUtility;
-import frc.robot.utility.ControllerRumbleType;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class IndexerSubsystem extends SubsystemBase {
 
-  private CANSparkMax transitionMotor;
-  private CANSparkMax beltMotor;
+    private CANSparkMax transitionMotor;
+    private CANSparkMax beltMotor;
 
-  private NetworkTable table;
+    private NetworkTable table;
 
-  boolean transitionIsRunning;
-  boolean beltIsRunning;
+    boolean transitionIsRunning;
+    boolean beltIsRunning;
 
-  public IndexerSubsystem() {
-    transitionMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INDEXER_TRANSITION_CAN, true);
-    beltMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INDEXER_BELT_CAN, true);
-    table = NetworkTableInstance.getDefault().getTable("Indexer");
-    LoggingUtil.logWithNetworkTable(table, "Should be running", false);
-  }
-
-  @Override
-  public void periodic() {
-    log();
-  }
-
-  public void runIndexerWithProximity(double speed) {
-    if (beltShouldBeRunning()) {
-      beltIsRunning = true;
-      SparkMaxUtility.runSparkMax(transitionMotor, speed);
-      SparkMaxUtility.runSparkMax(beltMotor, -speed);
-    } else {
-      beltIsRunning = false;
-      SparkMaxUtility.runSparkMax(transitionMotor, 0);
-      SparkMaxUtility.runSparkMax(beltMotor, 0);
-      PS4Utility.rumble(RobotContainer.operatorGamepad, ControllerRumbleType.kLight, 0.5);
+    public IndexerSubsystem() {
+        transitionMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INDEXER_TRANSITION_CAN, true);
+        beltMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INDEXER_BELT_CAN, true);
+        table = NetworkTableInstance.getDefault().getTable("Indexer");
+        LoggingUtil.logWithNetworkTable(table, "Should be running", false);
     }
-  }
 
-  public void runIndexer(double speed) { 
-    SmartDashboard.putBoolean("Running Indexer", true);
-    SparkMaxUtility.runSparkMax(transitionMotor, speed);
-    SparkMaxUtility.runSparkMax(beltMotor, -speed);
-  }
-
-  public void runIndexerTransition(double speed) {
-    SmartDashboard.putBoolean("Running Indexer", true);
-    SparkMaxUtility.runSparkMax(transitionMotor, speed);
-  }
-
-  public boolean beltShouldBeRunning() {   
-    if (RobotContainer.m_colorSubsystem.getProximityTop() < Constants.ColorConstants.PROXIMITY_THRESHOLD) {
-      return true;
-    } else {
-      return false;
+    @Override
+    public void periodic() {
+        log();
     }
-  }
 
-  public void log() {
-    LoggingUtil.logWithNetworkTable(table, "Belt should run", beltShouldBeRunning());
-    LoggingUtil.logWithNetworkTable(table, "Belt Running", beltIsRunning);
-    LoggingUtil.logWithNetworkTable(table, "Transition Running", transitionIsRunning);
-  }
+    public void runIndexerWithProximity(double speed) {
+        if (beltShouldBeRunning()) {
+            beltIsRunning = true;
+            SparkMaxUtility.runSparkMax(transitionMotor, speed);
+            SparkMaxUtility.runSparkMax(beltMotor, -speed);
+        } else {
+            beltIsRunning = false;
+            SparkMaxUtility.runSparkMax(transitionMotor, 0);
+            SparkMaxUtility.runSparkMax(beltMotor, 0);
+            PS4Utility.rumble(RobotContainer.operatorGamepad, ControllerRumbleType.kLight, 0.5);
+        }
+    }
+
+    public void runIndexer(double speed) {
+        SmartDashboard.putBoolean("Running Indexer", true);
+        SparkMaxUtility.runSparkMax(transitionMotor, speed);
+        SparkMaxUtility.runSparkMax(beltMotor, -speed);
+    }
+
+    public void runIndexerTransition(double speed) {
+        SmartDashboard.putBoolean("Running Indexer", true);
+        SparkMaxUtility.runSparkMax(transitionMotor, speed);
+    }
+
+    public boolean beltShouldBeRunning() {
+        if (RobotContainer.m_colorSubsystem.getProximityTop() < Constants.ColorConstants.PROXIMITY_THRESHOLD) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void log() {
+        LoggingUtil.logWithNetworkTable(table, "Belt should run", beltShouldBeRunning());
+        LoggingUtil.logWithNetworkTable(table, "Belt Running", beltIsRunning);
+        LoggingUtil.logWithNetworkTable(table, "Transition Running", transitionIsRunning);
+    }
 }

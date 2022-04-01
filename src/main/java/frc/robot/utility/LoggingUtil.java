@@ -4,6 +4,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LoggingUtil {
+
     public static void log(String subsystem, String name, String message) {
         SmartDashboard.putString(subsystem + "/" + name, message);
     }
@@ -43,5 +44,4 @@ public class LoggingUtil {
     public static void logWithNetworkTable(NetworkTable table, String name, Object message) {
         table.getEntry(name).setString(message.toString());
     }
-
 }

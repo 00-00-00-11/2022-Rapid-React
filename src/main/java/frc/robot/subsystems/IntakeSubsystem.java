@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -13,66 +14,64 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.utility.LoggingUtil;
-import edu.wpi.first.networktables.NetworkTable;
-
-
 
 public class IntakeSubsystem extends SubsystemBase {
-  private DoubleSolenoid leftSolenoid;
-  private DoubleSolenoid rightSolenoid;
-  ShuffleboardTab intakeTab;
-  NetworkTableEntry leftSolenoidState;
-  NetworkTableEntry rightSolenoidState;
-  
-  boolean isExtended;
 
-  NetworkTable table;
+    private DoubleSolenoid leftSolenoid;
+    private DoubleSolenoid rightSolenoid;
+    ShuffleboardTab intakeTab;
+    NetworkTableEntry leftSolenoidState;
+    NetworkTableEntry rightSolenoidState;
 
-  public IntakeSubsystem() {
-    
-    table = NetworkTableInstance.getDefault().getTable("Intake");
+    boolean isExtended;
 
-    leftSolenoid =
-        new DoubleSolenoid(
-            Constants.RobotMap.HUB_CAN,
-            PneumaticsModuleType.REVPH,
-            Constants.RobotMap.HUB_SOLENOID1_2,
-            Constants.RobotMap.HUB_SOLENOID1_1);
+    NetworkTable table;
 
-    rightSolenoid =
-        new DoubleSolenoid(
-            Constants.RobotMap.HUB_CAN,
-            PneumaticsModuleType.REVPH,
-            Constants.RobotMap.HUB_SOLENOID2_2,
-            Constants.RobotMap.HUB_SOLENOID2_1);
+    public IntakeSubsystem() {
+        table = NetworkTableInstance.getDefault().getTable("Intake");
 
-    leftSolenoid.set(Value.kReverse);
-    rightSolenoid.set(Value.kReverse);
-  }
+        leftSolenoid =
+            new DoubleSolenoid(
+                Constants.RobotMap.HUB_CAN,
+                PneumaticsModuleType.REVPH,
+                Constants.RobotMap.HUB_SOLENOID1_2,
+                Constants.RobotMap.HUB_SOLENOID1_1
+            );
 
-  @Override
-  public void periodic() {
-    log();
-  }
+        rightSolenoid =
+            new DoubleSolenoid(
+                Constants.RobotMap.HUB_CAN,
+                PneumaticsModuleType.REVPH,
+                Constants.RobotMap.HUB_SOLENOID2_2,
+                Constants.RobotMap.HUB_SOLENOID2_1
+            );
 
-  public void forwardIntake() {
-    leftSolenoid.set(Value.kForward);
-    rightSolenoid.set(Value.kForward);
-    isExtended = true;
-  }
+        leftSolenoid.set(Value.kReverse);
+        rightSolenoid.set(Value.kReverse);
+    }
 
-  public void reverseIntake() {
-    leftSolenoid.set(Value.kReverse);
-    rightSolenoid.set(Value.kReverse);
-    isExtended = false;
-  }
+    @Override
+    public void periodic() {
+        log();
+    }
 
-  public boolean isExtended() {
-    return isExtended;
-  }
+    public void forwardIntake() {
+        leftSolenoid.set(Value.kForward);
+        rightSolenoid.set(Value.kForward);
+        isExtended = true;
+    }
 
-  public void log() {
-    LoggingUtil.logWithNetworkTable(table, "Extended", isExtended());
-  }
+    public void reverseIntake() {
+        leftSolenoid.set(Value.kReverse);
+        rightSolenoid.set(Value.kReverse);
+        isExtended = false;
+    }
 
+    public boolean isExtended() {
+        return isExtended;
+    }
+
+    public void log() {
+        LoggingUtil.logWithNetworkTable(table, "Extended", isExtended());
+    }
 }

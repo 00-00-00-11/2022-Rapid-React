@@ -7,8 +7,7 @@ public class LimelightSim extends Limelight {
     double tx = 0.0;
     double ty = 0.0;
 
-    public LimelightSim(double shooterAngle, double limelightHeight, double goalHeight, double pipeline, double tx,
-            double ty) {
+    public LimelightSim(double shooterAngle, double limelightHeight, double goalHeight, double pipeline, double tx, double ty) {
         super(shooterAngle, limelightHeight, goalHeight, pipeline);
         this.tx = tx;
         this.ty = ty;
@@ -24,12 +23,12 @@ public class LimelightSim extends Limelight {
 
     @Override
     public double getTx() {
-        if(tx > 0.0) {
+        if (tx > 0.0) {
             tx -= 0.1;
         } else {
             tx += 0.1;
         }
-        
+
         return tx;
     }
 
@@ -37,5 +36,4 @@ public class LimelightSim extends Limelight {
     public double getTy() {
         return ty;
     }
-
 }

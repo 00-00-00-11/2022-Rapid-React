@@ -10,18 +10,19 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoAimAndShoot extends SequentialCommandGroup {
-  /** Creates a new AutoAimAndShoot. */
-  public AutoAimAndShoot() {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
-      new AutoAim()
-      // new InstantCommand(
-      //   () -> {
-      //     LoggingUtil.log("Limelight", "Aligning Status", "SHOOTING");
-      //   }
-      // ),
-      // new ShootBall()
-    );
-  }
+
+    /** Creates a new AutoAimAndShoot. */
+    public AutoAimAndShoot() {
+        // Add your commands in the addCommands() call, e.g.
+        // addCommands(new FooCommand(), new BarCommand());
+        addCommands(
+            new AutoAim()
+            // new InstantCommand(
+            //   () -> {
+            //     LoggingUtil.log("Limelight", "Aligning Status", "SHOOTING");
+            //   }
+            // ),
+            // new ShootBall()
+        );
+    }
 }

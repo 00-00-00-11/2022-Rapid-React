@@ -2,131 +2,156 @@ package frc.robot;
 
 public final class Constants {
 
-  public final class FieldConstants {
-    public static final double HIGH_GOAL_HEIGHT = 108;
-  }
+    public final class FieldConstants {
 
-  public final class RobotMap {
-    /* CONTROLLERS AND INPUTS */
-    public static final int DRIVER_CONTROLLER_PORT = 0;
-    public static final int OPERATOR_CONTROLLER_PORT = 1;
-    
-    /* DRIVE SUBSYSTEM */
-    public static final int RIGHT_MASTER_CAN = 1;
-    public static final int RIGHT_SLAVE_CAN1 = 2;
-    public static final int RIGHT_SLAVE_CAN2 = 3;
-    public static final int LEFT_MASTER_CAN = 4;
-    public static final int LEFT_SLAVE_CAN1 = 5;
-    public static final int LEFT_SLAVE_CAN2 = 6;
+        public static final double HIGH_GOAL_HEIGHT = 108;
+    }
 
-    /* INTAKE SUBSYSTEM */
-    public static final int INTAKE_CAN = 7;
+    public final class RobotMap {
 
-    /* INDEXER SUBSYSTEM */
-    public static final int INDEXER_TRANSITION_CAN = 8;
-    public static final int INDEXER_BELT_CAN = 9;
+        //X=> intake and indexer  DONE
+        // Triangel intake + transition motor done 
+        // Circle: pneumnatics DONE
+        // Square: reverse (Intake +transitoin motor) done DONE
+        // Up arrow: Shooter DONE 
 
-    /* SHOOTER SUBSYSTEM */
-    public static final int SHOOTER_FEEDER_CAN = 10;
-    public static final int SHOOTER_FLYWHEEL_CAN = 11;
+        // R2: ElevatorUp wellllllll?
+        // L2: ElevatorDown 
 
-    /* TURRET SUBSYSTEM */
-    public static final int TURRET_TURN_CAN = 25;
+        // Left Joystick: left side-arm (direclty)
+        // Right joystick right arm (directly)
+        // Left arrow Button(D-PAd): both sidemars simelateanously move DOWNNADLY
+        // right arrow Button(D-PAd): both sidemars simelateanously move UPWARDS
+        // Circle(driver): shooting at the fender
 
-    /* CLIMBER SUBSYSTEM */
-    public static final int CLIMBER_LINEAR_CAN = 14;
-    public static final int CLIMBER_LEFT_ARM_CAN = 99;
-    public static final int CLIMBER_RIGHT_ARM_CAN = 12;
+        /* CONTROLLERS AND INPUTS */
+        public static final int DRIVER_CONTROLLER_PORT = 0;
+        public static final int OPERATOR_CONTROLLER_PORT = 1;
 
-    /* PNEUMATICS SUBSYSTEM */
-    public static final int HUB_CAN = 15;
-    public static final int HUB_SOLENOID1_1 = 14;
-    public static final int HUB_SOLENOID1_2 = 15;
-    public static final int HUB_SOLENOID2_1 = 13;
-    public static final int HUB_SOLENOID2_2 = 12;
-  }
-  
-  public final class DriveConstants {
+        /* DRIVE SUBSYSTEM */
+        public static final int RIGHT_MASTER_CAN = 1;
+        public static final int RIGHT_SLAVE_CAN1 = 2;
+        public static final int RIGHT_SLAVE_CAN2 = 3;
+        public static final int LEFT_MASTER_CAN = 4;
+        public static final int LEFT_SLAVE_CAN1 = 5;
+        public static final int LEFT_SLAVE_CAN2 = 6;
 
-    public static final double DRIVE_SPEED = .5d;
-    public static final double TURN_SPEED = .5d;
+        /* INTAKE SUBSYSTEM */
+        public static final int INTAKE_CAN = 7;
 
-    public static final double turnKP = -0.0225;
-    public static final double turnKI = 0;
-    public static final double turnKD = 0;
-    public static final double QUICK_TURN_TOLERANCE = 1;
+        /* INDEXER SUBSYSTEM */
+        public static final int INDEXER_TRANSITION_CAN = 8;
+        public static final int INDEXER_BELT_CAN = 9;
 
-    public static final double WHEEL_DIAMETER = 6.0;
-    public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
-    public static final double GEAR_RATIO = 10.71;
+        /* SHOOTER SUBSYSTEM */
+        public static final int SHOOTER_FEEDER_CAN = 10;
+        public static final int SHOOTER_FLYWHEEL_CAN = 11;
 
-    public static final double ksVolts = .145;
-    public static final double kvVoltSecondsPerMeter = 2.8;
-    public static final double kaVoltSecondsSquaredPerMeter = .425;
+        /* TURRET SUBSYSTEM */
+        public static final int TURRET_TURN_CAN = 25;
 
-    public static final double jKg_METERS_SQUARED = 7.5; 
-    public static final double ROBOT_MASS = 60; 
-    public static final double TRACK_WIDTH = 0.7112; 
+        /* CLIMBER SUBSYSTEM */
+        public static final int CLIMBER_LINEAR_CAN = 14;
+        public static final int CLIMBER_LEFT_ARM_CAN = 99;
+        public static final int CLIMBER_RIGHT_ARM_CAN = 12;
 
-    public static final double kP = 0.01;
-    public static final double kI = 0.0;
-    public static final double kD = 0.0;
-    public static final double DEADZONE = 0.05;
-  }
+        /* PNEUMATICS SUBSYSTEM */
+        public static final int HUB_CAN = 15;
+        public static final int HUB_SOLENOID1_1 = 14;
+        public static final int HUB_SOLENOID1_2 = 15;
+        public static final int HUB_SOLENOID2_1 = 13;
+        public static final int HUB_SOLENOID2_2 = 12;
+    }
 
-  public final class ShooterConstants {
-    public static final double kCIMSpeed = 1;
-    public static final double FLYWHEEL_KP = 0.085035;
-    public static final double targetVelocityRPM=10000;
-    public static final double targetVelocityTalon=targetVelocityRPM * 2048 / 60;
-    public static final double SHOOTER_KF = 0.048973143759;
-    public static final double TARGET_THRESHOLD = 50; // to check if shooter is at target
-  }
-  public static final class IntakeConstants {
-    public static double intakeSpeed = .75; // 3/30 .5
-  }
+    public final class DriveConstants {
 
-  public final class IndexerConstants {
-    public static final double indexerSpeed = 0.25;
-  }
+        public static final double DRIVE_SPEED = .5d;
+        public static final double TURN_SPEED = .5d;
 
-  public final class AutoConstants {
-    public static final double AUTO_DIST = 6;
-  }
+        public static final double turnKP = -0.0225;
+        public static final double turnKI = 0;
+        public static final double turnKD = 0;
+        public static final double QUICK_TURN_TOLERANCE = 1;
 
-  public final class VisionConstants {
-    public static final double LIMELIGHT_ANGLE = 0; // get real angle
-    public static final double LIMELIGHT_HEIGHT = 0; // get real height
-    public static final double GOAL_HEIGHT = 104;
-    public static final int PIPELINE = 0; 
-    public static final double MAX_ALIGN_SPEED = 0.6;
-    public static final double ALIGN_KP_X = 0.05d;
-    public static final double ALIGN_KP_Y = 0.13d; //have to be careful cus can be over aggressive - akarsh
-    public static final double ALIGN_THRESHOLD = 1d;
-    public static final double ALIGN_SETPOINT = 0;
-  }
-    
-  public final class ElevatorConstants {
-    public static final String SHUFFLEBOARD_TAB = "drive";
+        public static final double WHEEL_DIAMETER = 6.0;
+        public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
+        public static final double GEAR_RATIO = 10.71;
 
-    public static final double ELEVATOR_MIN = 0; 
-    public static final double ELEVATOR_RETRACTED = 0.1;
-    public static final double ELEVATOR_SMALL_DISTANCE = 0.2; 
-    public static final double ELEVATOR_LARGE_DISTANCE = 0.5;
-    public static final double ELEVATOR_EXTENDED = 0.8;
-    public static final float ELEVATOR_MAX = 375; 
+        public static final double ksVolts = .145;
+        public static final double kvVoltSecondsPerMeter = 2.8;
+        public static final double kaVoltSecondsSquaredPerMeter = .425;
 
-    public static final double ANGLER_SMALL_ANGLE = 0.1; 
-    public static final double ANGLER_LARGE_ANGLE = 0.3; 
-    public static final double ANGLER_IMPACT_ANGLE = 0.2; 
+        public static final double jKg_METERS_SQUARED = 7.5;
+        public static final double ROBOT_MASS = 60;
+        public static final double TRACK_WIDTH = 0.7112;
 
-    public static final double ELEVATOR_SPEED = 0.2; 
-    public static final double ANGLER_SPEED = 0.05; 
-  }
+        public static final double kP = 0.01;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
+        public static final double DEADZONE = 0.05;
+    }
 
-  public final class ColorConstants {
-    public static final int PROXIMITY_THRESHOLD = 200; //TODO change
+    public final class ShooterConstants {
 
+        public static final double kCIMSpeed = 1;
+        public static final double FLYWHEEL_KP = 0.085035;
+        public static final double targetVelocityRPM = 10000;
+        public static final double targetVelocityTalon = targetVelocityRPM * 2048 / 600;
+        public static final double SHOOTER_KF = 0.048973143759;
+        public static final double TARGET_THRESHOLD = 50; // to check if shooter is at target
+    }
 
-  }
+    public static final class IntakeConstants {
+
+       
+
+        public static double intakeSpeed = .75; // 3/30 .5
+    }
+
+    public final class IndexerConstants {
+
+        public static final double indexerSpeed = 0.25;
+    }
+
+    public final class AutoConstants {
+
+        public static final double AUTO_DIST = 6;
+    }
+
+    public final class VisionConstants {
+
+        public static final double LIMELIGHT_ANGLE = 0; // get real angle
+        public static final double LIMELIGHT_HEIGHT = 0; // get real height
+        public static final double GOAL_HEIGHT = 104;
+        public static final int PIPELINE = 0;
+        public static final double MAX_ALIGN_SPEED = 0.6;
+        public static final double ALIGN_KP_X = 0.05d;
+        public static final double ALIGN_KP_Y = 0.13d; //have to be careful cus can be over aggressive - akarsh
+        public static final double ALIGN_THRESHOLD = 1d;
+        public static final double ALIGN_SETPOINT = 0;
+    }
+
+    public final class ElevatorConstants {
+
+        public static final String SHUFFLEBOARD_TAB = "drive";
+
+        public static final double ELEVATOR_MIN = 0;
+        public static final double ELEVATOR_RETRACTED = 0.1;
+        public static final double ELEVATOR_SMALL_DISTANCE = 0.2;
+        public static final double ELEVATOR_LARGE_DISTANCE = 0.5;
+        public static final double ELEVATOR_EXTENDED = 0.8;
+        public static final float ELEVATOR_MAX = 375;
+
+        public static final double ANGLER_SMALL_ANGLE = 0.1;
+        public static final double ANGLER_LARGE_ANGLE = 0.3;
+        public static final double ANGLER_IMPACT_ANGLE = 0.2;
+
+        public static final double ELEVATOR_SPEED = 0.2;
+        public static final double ANGLER_SPEED = 0.05;
+    }
+
+    public final class ColorConstants {
+
+        public static final int PROXIMITY_THRESHOLD = 200; //TODO change
+    }
 }

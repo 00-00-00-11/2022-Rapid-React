@@ -9,18 +9,21 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 
 public class OneBall extends SequentialCommandGroup {
-  /** Creates a new OneBall. */
-  public OneBall() {
-    addCommands(
-      // new ExitTarmac(false),
-      // new ExitTarmac(true),
-      // new SequentialCommandGroup(
-      //   new InstantCommand(() -> SmartDashboard.putString("AUTO STATUS", "SHOOTING")),
-      //   new IndexerAndShoot()
-      // )
 
-      new InstantCommand(() -> {RobotContainer.m_driveSubsystem.curveDrive(0, 0.2, true);}).withTimeout(40)
-      
-    );
-  }
+    /** Creates a new OneBall. */
+    public OneBall() {
+        addCommands(
+            // new ExitTarmac(false),
+            // new ExitTarmac(true),
+            // new SequentialCommandGroup(
+            //   new InstantCommand(() -> SmartDashboard.putString("AUTO STATUS", "SHOOTING")),
+            //   new IndexerAndShoot()
+            // )
+
+            new InstantCommand(() -> {
+                RobotContainer.m_driveSubsystem.curveDrive(0, 0.2, true);
+            })
+                .withTimeout(40)
+        );
+    }
 }

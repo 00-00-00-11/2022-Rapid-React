@@ -4,6 +4,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.Constants.VisionConstants;
+
 public class Limelight {
 
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -13,7 +14,10 @@ public class Limelight {
     }
 
     public double getDistanceToGoal() {
-        return ((VisionConstants.GOAL_HEIGHT - VisionConstants.LIMELIGHT_HEIGHT) / Math.tan(Units.degreesToRadians(VisionConstants.LIMELIGHT_ANGLE + getTy())));
+        return (
+            (VisionConstants.GOAL_HEIGHT - VisionConstants.LIMELIGHT_HEIGHT) /
+            Math.tan(Units.degreesToRadians(VisionConstants.LIMELIGHT_ANGLE + getTy()))
+        );
     }
 
     public double getTx() {
@@ -35,5 +39,4 @@ public class Limelight {
     public void setPipeline(int pipe) {
         table.getEntry("pipeline").setNumber(pipe);
     }
-
 }

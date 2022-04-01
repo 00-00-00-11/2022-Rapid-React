@@ -12,11 +12,9 @@ import frc.robot.commands.IntakeCommands.IntakeSpin;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class IntakeAndTransition extends ParallelCommandGroup {
-  /** Creates a new IntakeAndIndex. */
-  public IntakeAndTransition() {
-    addCommands(
-      new IntakeSpin(),
-      new RunIndexerTransition()
-    );
-  }
+
+    /** Creates a new IntakeAndIndex. */
+    public IntakeAndTransition() {
+        addCommands(new IntakeSpin(), new RunIndexerTransition());
+    }
 }
