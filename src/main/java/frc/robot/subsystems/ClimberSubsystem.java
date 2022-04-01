@@ -118,8 +118,8 @@ public class ClimberSubsystem extends SubsystemBase {
             LoggingUtil.logWithNetworkTable(table, "State", "Moving");
         }
 
-        anglerMotorLeft.set(0);
-        anglerMotorRight.set(0);
+        anglerMotorLeft.set(leftArmInput*.1);
+        anglerMotorRight.set(rightArmInput*.1*-1);
 
         LoggingUtil.logWithNetworkTable(table, "Input", elevatorInput);
         LoggingUtil.logWithNetworkTable(table, "L Arm Pos", anglerMotorLeft.getEncoder().getPosition());

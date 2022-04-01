@@ -75,7 +75,7 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         CommandScheduler.getInstance().cancelAll();
         RobotContainer.m_driveSubsystem.resetEncoders();
-
+       // RobotContainer.m_intakeSubsystem.reverseIntake();
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }

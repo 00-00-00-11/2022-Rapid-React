@@ -4,17 +4,22 @@
 
 package frc.robot.commands.IntakeCommands;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
 public class IntakeSpin extends CommandBase {
+    NetworkTable table;
+    boolean isExtended;
 
     /** Creates a new IntakeSpin. */
     public IntakeSpin() {
+        
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.m_shooterSubsystem);
-        addRequirements(RobotContainer.m_intakeSubsystem);
+        
 
     }
 
@@ -27,7 +32,12 @@ public class IntakeSpin extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        RobotContainer.m_shooterSubsystem.spinIntake(-0.5);
+        table = NetworkTableInstance.getDefault().getTable("Intake");
+        isExtended = table.getEntry("Extended").getBoolean(true);
+        if(isExtended){
+            RobotContainer.m_shooterSubsystem.spinIntake(-0.5);
+
+        }
     }
 
     // Called once the command ends or is interrupted.

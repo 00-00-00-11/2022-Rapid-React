@@ -48,11 +48,11 @@ public final class Constants {
         public static final int SHOOTER_FLYWHEEL_CAN = 11;
 
         /* TURRET SUBSYSTEM */
-        public static final int TURRET_TURN_CAN = 25;
+        public static final int TURRET_TURN_CAN = 99;
 
         /* CLIMBER SUBSYSTEM */
         public static final int CLIMBER_LINEAR_CAN = 14;
-        public static final int CLIMBER_LEFT_ARM_CAN = 24;
+        public static final int CLIMBER_LEFT_ARM_CAN = 25;
         public static final int CLIMBER_RIGHT_ARM_CAN = 12;
 
         /* PNEUMATICS SUBSYSTEM */
