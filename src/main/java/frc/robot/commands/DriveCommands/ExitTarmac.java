@@ -24,28 +24,30 @@ public class ExitTarmac extends CommandBase {
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {}
+    public void initialize() {
+    }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
         // if (isForward) {
-        //     if (RobotContainer.m_driveSubsystem.getEncoderPosition() < 0) {
-        //         RobotContainer.m_driveSubsystem.tankDriveAuto(0.2, 0.2);
-        //     } else {
-        //         finished = true;
-        //     }
+        // if (RobotContainer.m_driveSubsystem.getEncoderPosition() < 0) {
+        // RobotContainer.m_driveSubsystem.tankDriveAuto(0.2, 0.2);
         // } else {
-        //     if (Math.abs(RobotContainer.m_driveSubsystem.getEncoderPosition()) < Units.feetToMeters(Constants.AutoConstants.AUTO_DIST)) {
-        //         RobotContainer.m_driveSubsystem.tankDriveAuto(-0.2, -0.2);
-        //     } else {
-        //         RobotContainer.m_driveSubsystem.tankDriveAuto(0, 0);
-        //         finished = true;
-        //     }
+        // finished = true;
+        // }
+        // } else {
+        // if (Math.abs(RobotContainer.m_driveSubsystem.getEncoderPosition()) <
+        // Units.feetToMeters(Constants.AutoConstants.AUTO_DIST)) {
+        // RobotContainer.m_driveSubsystem.tankDriveAuto(-0.2, -0.2);
+        // } else {
+        // RobotContainer.m_driveSubsystem.tankDriveAuto(0, 0);
+        // finished = true;
+        // }
         // }
 
         RobotContainer.m_driveSubsystem.tankDriveAuto(0.2, 0.2);
-        System.out.println();
+        // System.out.println();
     }
 
     // Called once the command ends or is interrupted.

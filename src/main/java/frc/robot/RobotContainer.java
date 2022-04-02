@@ -49,18 +49,20 @@ public class RobotContainer {
     public static final PS4Controller operatorGamepad = new PS4Controller(Constants.RobotMap.OPERATOR_CONTROLLER_PORT);
 
     /* DRIVE CONTROLS */
-    JoystickButton autoAimButton = new JoystickButton(driverGamepad, PS4Controller.Button.kCross.value); //X driver
-    JoystickButton indexerAndShootButton = new JoystickButton(driverGamepad, PS4Controller.Button.kSquare.value); //SQUARE Driver
+    JoystickButton autoAimButton = new JoystickButton(driverGamepad, PS4Controller.Button.kCross.value); // X driver
+    JoystickButton indexerAndShootButton = new JoystickButton(driverGamepad, PS4Controller.Button.kSquare.value); // SQUARE
+                                                                                                                  // Driver
 
     /* OPERATOR CONTROLS */
     JoystickButton toggleClimber = new JoystickButton(operatorGamepad, PS4Controller.Button.kR1.value);
-    JoystickButton intakeAndIndexerButton = new JoystickButton(operatorGamepad, PS4Controller.Button.kCross.value); //X Operator
+    JoystickButton intakeAndIndexerButton = new JoystickButton(operatorGamepad, PS4Controller.Button.kCross.value); // X
+                                                                                                                    // Operator
     JoystickButton reverseIntake = new JoystickButton(operatorGamepad, PS4Controller.Button.kSquare.value);
     JoystickButton toggleIntakeButton = new JoystickButton(operatorGamepad, PS4Controller.Button.kCircle.value);
     POVButton shootButton = new POVButton(operatorGamepad, 0);
-    JoystickButton intakeAndTransitionButton = new JoystickButton(operatorGamepad, PS4Controller.Button.kTriangle.value);
+    JoystickButton intakeAndTransitionButton = new JoystickButton(operatorGamepad,
+            PS4Controller.Button.kTriangle.value);
     JoystickButton shootFromFender = new JoystickButton(driverGamepad, PS4Controller.Button.kTriangle.value);
-
 
     /* SUBSYSTEMS */
     public static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
@@ -88,17 +90,18 @@ public class RobotContainer {
         reverseIntake.whileHeld(new ReverseAll());
         toggleClimber.toggleWhenPressed(new ClimberToggle(operatorGamepad));
         toggleIntakeButton.toggleWhenPressed(new IntakeToggle());
-        
+
         intakeAndIndexerButton.whileHeld(new IntakeAndIndex());
 
-       // toggleIntakeButton.whileHeld(new IntakeAndIndex());
+        // toggleIntakeButton.whileHeld(new IntakeAndIndex());
 
         shootButton.whileHeld(new IndexerAndShoot());
         intakeAndTransitionButton.whileHeld(new IntakeAndTransition());
     }
 
     public Command getAutonomousCommand() {
+        return new OneBall();
         // return m_driveSubsystem.StraightBack(m_driveSubsystem);
-        return null;
+        // return null;
     }
 }

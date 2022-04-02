@@ -4,14 +4,19 @@
 
 package frc.robot.commands.DriveCommands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.ChainedCommands.*;;
 
 public class OneBall extends SequentialCommandGroup {
-
-    /** Creates a new OneBall. */
-    public OneBall() {
-        addCommands(
-            new DriveToDistance(2.0)
-        );
-    }
+  /** Creates a new OneBall. */
+  public OneBall() {
+    addCommands(
+        new ExitTarmac(false),
+        new ExitTarmac(true),
+        new SequentialCommandGroup(
+            new InstantCommand(() -> SmartDashboard.putString("AUTO STATUS", "SHOOTING")),
+            new IndexerAndShoot()));
+  }
 }
