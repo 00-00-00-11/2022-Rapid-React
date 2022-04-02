@@ -23,7 +23,7 @@ public class ReverseAll extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        RobotContainer.m_indexerSubsystem.runIndexer(-Constants.IndexerConstants.indexerSpeed);
+        RobotContainer.m_indexerSubsystem.runIndexer(-.50);
         RobotContainer.m_shooterSubsystem.spinIntake(Constants.IntakeConstants.intakeSpeed);
     }
 

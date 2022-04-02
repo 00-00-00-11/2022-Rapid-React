@@ -8,15 +8,20 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.IndexerCommands.RunIndexerWithoutProximity;
-import frc.robot.commands.ShooterCommands.ShootBall;
+import frc.robot.commands.ShooterCommands.ShootFromFender;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class IndexerAndShoot extends ParallelCommandGroup {
-
-    /** Creates a new IndexerAndShoot. */
-    public IndexerAndShoot() {
-        addCommands(new ShootBall(), new SequentialCommandGroup(new WaitCommand(.5), new RunIndexerWithoutProximity())); //origional 1.25
-    }
+public class IndexerAndFender extends ParallelCommandGroup {
+  /** Creates a new IndexerAndFender. */
+  public IndexerAndFender() {
+    addCommands(
+      new ShootFromFender(),
+      new SequentialCommandGroup(
+        new WaitCommand(1.25),
+        new RunIndexerWithoutProximity()
+      )
+    );
+  }
 }

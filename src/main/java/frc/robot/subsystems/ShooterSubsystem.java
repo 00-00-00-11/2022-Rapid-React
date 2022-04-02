@@ -113,9 +113,22 @@ public class ShooterSubsystem extends SubsystemBase {
 
         SmartDashboard.putNumber("FF Constant", feedforwardBottom.calculate(speeds.getFeederVelocity()));
 
-        flyWheelMotor.set(TalonFXControlMode.Velocity, 21000 * .2); //21000*1 possible clearing velocity
+        flyWheelMotor.set(TalonFXControlMode.Velocity, 21000 * .25); //21000*1 possible clearing velocity
         // flyWheelMotor.setNeutralMode(NeutralMode.Brake);
-        feederMotor.set(TalonFXControlMode.Velocity, 21000 * .5);  //21000* 0.8 <1.0 possible clearing velocity
+        feederMotor.set(TalonFXControlMode.Velocity, 21000 * .55);  //21000* 0.8 <1.0 possible clearing velocity
+        // feederMotor.setNeutralMode(NeutralMode.Brake);
+    }
+
+    public void shootFromFender() {
+        SmartDashboard.putNumber("speeds", speeds.getFeederVelocity());
+        flyWheelMotor.config_kF(0, ShooterConstants.SHOOTER_KF, 0);
+        feederMotor.config_kF(0, ShooterConstants.SHOOTER_KF, 0);
+
+        SmartDashboard.putNumber("FF Constant", feedforwardBottom.calculate(speeds.getFeederVelocity()));
+
+        flyWheelMotor.set(TalonFXControlMode.Velocity, 21000 * .05); //21000*1 possible clearing velocity
+        // flyWheelMotor.setNeutralMode(NeutralMode.Brake);
+        feederMotor.set(TalonFXControlMode.Velocity, 21000 * .75);  //21000* 0.8 <1.0 possible clearing velocity
         // feederMotor.setNeutralMode(NeutralMode.Brake);
     }
 

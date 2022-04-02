@@ -26,15 +26,18 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc.robot.commands.ChainedCommands.IndexerAndFender;
 import frc.robot.commands.ChainedCommands.IndexerAndShoot;
 import frc.robot.commands.ChainedCommands.IntakeAndIndex;
 import frc.robot.commands.ChainedCommands.IntakeAndTransition;
 import frc.robot.commands.ChainedCommands.ReverseAll;
 import frc.robot.commands.ClimbCommands.ClimberToggle;
+import frc.robot.commands.DriveCommands.DriveToDistance;
 import frc.robot.commands.DriveCommands.ExitTarmac;
 import frc.robot.commands.DriveCommands.OneBall;
 import frc.robot.commands.DriveCommands.SimDrive;
 import frc.robot.commands.IntakeCommands.IntakeToggle;
+import frc.robot.commands.ShooterCommands.ShootFromFender;
 import frc.robot.commands.VisionCommands.AutoAim;
 import frc.robot.subsystems.*;
 import frc.robot.utility.ShuffleboardDashboard;
@@ -56,6 +59,7 @@ public class RobotContainer {
     JoystickButton toggleIntakeButton = new JoystickButton(operatorGamepad, PS4Controller.Button.kCircle.value);
     POVButton shootButton = new POVButton(operatorGamepad, 0);
     JoystickButton intakeAndTransitionButton = new JoystickButton(operatorGamepad, PS4Controller.Button.kTriangle.value);
+    JoystickButton shootFromFender = new JoystickButton(driverGamepad, PS4Controller.Button.kTriangle.value);
 
 
     /* SUBSYSTEMS */
@@ -78,6 +82,7 @@ public class RobotContainer {
         /* DRIVER CONTROLS */
         autoAimButton.whileHeld(new AutoAim());
         indexerAndShootButton.whileHeld(new IndexerAndShoot());
+        shootFromFender.whileHeld(new IndexerAndFender());
 
         /* OPERATOR CONTROLS */
         reverseIntake.whileHeld(new ReverseAll());
@@ -93,20 +98,7 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        System.out.println(m_driveSubsystem.getSelectedFromChooser());
-        switch (m_driveSubsystem.getSelectedFromChooser()) {
-            case 0:
-                return new OneBall();
-            case 1:
-                return m_driveSubsystem.OneBall(m_driveSubsystem);
-            case 2:
-                return m_driveSubsystem.TwoBallAuto(m_driveSubsystem);
-            case 3:
-                return m_driveSubsystem.ThreeBallAuto(m_driveSubsystem);
-            case 4:
-                return m_driveSubsystem.FourBallAuto(m_driveSubsystem);
-            default:
-                return null;
-        }
+        // return m_driveSubsystem.StraightBack(m_driveSubsystem);
+        return null;
     }
 }

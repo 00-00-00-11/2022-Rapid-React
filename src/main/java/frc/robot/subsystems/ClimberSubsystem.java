@@ -43,7 +43,7 @@ public class ClimberSubsystem extends SubsystemBase {
         anglerMotorRight = new CANSparkMax(Constants.RobotMap.CLIMBER_RIGHT_ARM_CAN, CANSparkMaxLowLevel.MotorType.kBrushless);
 
         limitSwitch = new DigitalInput(0);
-
+ 
         table = NetworkTableInstance.getDefault().getTable("Elevator");
 
         elevatorMotor.setIdleMode(IdleMode.kBrake);

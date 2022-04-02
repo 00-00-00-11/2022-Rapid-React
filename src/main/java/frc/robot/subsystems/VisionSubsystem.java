@@ -12,8 +12,10 @@ import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.utility.ControllerRumbleType;
 import frc.robot.utility.LimelightUtility;
 import frc.robot.utility.LoggingUtil;
+import frc.robot.utility.PS4Utility;
 import frc.robot.utility.ShooterSpeeds;
 import frc.robot.vision.Limelight;
 
@@ -21,10 +23,8 @@ public class VisionSubsystem extends SubsystemBase {
 
     Limelight limelight;
     NetworkTable table;
-    ShooterSpeeds speeds;
 
     public VisionSubsystem() {
-        speeds = new ShooterSpeeds(0.0, 0.0);
         table = NetworkTableInstance.getDefault().getTable("Vision");
         // limelight.setLEDMode(1);
 
@@ -109,21 +109,13 @@ public class VisionSubsystem extends SubsystemBase {
             rightSpeed = Math.signum(rightSpeed) * Constants.VisionConstants.MAX_ALIGN_SPEED;
         }
         if (Math.abs(x_error) < 1 && Math.abs(y_error) < 1) {
-            if (Robot.isReal()) {
-                //     limelight.setLEDMode(1);
-                //LoggingUtil.logWithNetworkTable(table, "LED Status", "FORCE OFF");
-            }
+            // aligned
+
         } else {
             RobotContainer.m_driveSubsystem.tankDriveAuto(leftSpeed, rightSpeed);
         }
-        if (x_adjust < .1 || y_adjust < .1) {
-            /* SmartDashboard.putString("AUTO STATE","FINISHED");
-      LoggingUtil.logWithNetworkTable(table, "Aligning Status", "FINISHED ALIGNING");
-      if (Robot.isReal()) {
-        // limelight.setLEDMode(1);
-        LoggingUtil.logWithNetworkTable(table, "LED Status", "FORCE OFF");
-      }*/
-        }
+
+        rumble(x_error, y_error);
     }
 
     public boolean isAligned(double setpoint) {
@@ -145,7 +137,13 @@ public class VisionSubsystem extends SubsystemBase {
         LoggingUtil.logWithNetworkTable(table, "ty", limelight.getTy());
         LoggingUtil.logWithNetworkTable(table, "tv", limelight.getTv());
         LoggingUtil.logWithNetworkTable(table, "Distance", limelight.getDistanceToGoal());
-        LoggingUtil.logWithNetworkTable(table, "Flywheel RPM Setpoint", speeds.getFlywheelVelocity());
-        LoggingUtil.logWithNetworkTable(table, "Feeder RPM Setpoint", speeds.getFeederVelocity());
+    }
+
+    public void rumble(double x_error, double y_error) {
+        if(x_error < 1.0 && y_error < 1.0) {
+            PS4Utility.rumble(RobotContainer.driverGamepad, ControllerRumbleType.kHeavy, 0.5);
+        } else {
+            PS4Utility.rumble(RobotContainer.driverGamepad, ControllerRumbleType.kHeavy, 0);
+        }
     }
 }

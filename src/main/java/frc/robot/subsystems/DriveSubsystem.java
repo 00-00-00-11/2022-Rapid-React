@@ -587,6 +587,16 @@ public class DriveSubsystem extends SubsystemBase {
         );
     }
 
+    public SequentialCommandGroup StraightBack(DriveSubsystem drive) {
+        Trajectory traj1 = TrajectoryUtility.createNewTrajectoryFromJSON("Straight");
+        resetOdometry(traj1.getInitialPose());
+        setBrake(true);
+
+        return new SequentialCommandGroup(
+            RamseteUtility.createRamseteCommand(traj1, RobotContainer.m_driveSubsystem, false).andThen(() -> {RobotContainer.m_driveSubsystem.setOutput(0,0);})
+        );
+    }
+
     public void log() {
         LoggingUtil.logWithNetworkTable(table, "Heading", getHeading());
         LoggingUtil.logWithNetworkTable(table, "L1 Vel", leftEncoder.getVelocity());
