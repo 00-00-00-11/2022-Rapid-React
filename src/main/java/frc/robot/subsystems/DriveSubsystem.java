@@ -127,6 +127,7 @@ public class DriveSubsystem extends SubsystemBase {
     int simInvert;
 
     public DriveSubsystem() {
+
         gyro = new AHRS(SPI.Port.kMXP);
 
         rightMaster = SparkMaxUtility.constructSparkMax(Constants.RobotMap.RIGHT_MASTER_CAN, true);
@@ -152,23 +153,23 @@ public class DriveSubsystem extends SubsystemBase {
         rightEncoder3.setPosition(0d);
 
         leftEncoder.setPositionConversionFactor(
-            (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI) / Constants.DriveConstants.GEAR_RATIO
-        );
+                (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI)
+                        / Constants.DriveConstants.GEAR_RATIO);
         rightEncoder.setPositionConversionFactor(
-            (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI) / Constants.DriveConstants.GEAR_RATIO
-        );
+                (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI)
+                        / Constants.DriveConstants.GEAR_RATIO);
         leftEncoder2.setPositionConversionFactor(
-            (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI) / Constants.DriveConstants.GEAR_RATIO
-        );
+                (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI)
+                        / Constants.DriveConstants.GEAR_RATIO);
         rightEncoder2.setPositionConversionFactor(
-            (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI) / Constants.DriveConstants.GEAR_RATIO
-        );
+                (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI)
+                        / Constants.DriveConstants.GEAR_RATIO);
         leftEncoder3.setPositionConversionFactor(
-            (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI) / Constants.DriveConstants.GEAR_RATIO
-        );
+                (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI)
+                        / Constants.DriveConstants.GEAR_RATIO);
         rightEncoder3.setPositionConversionFactor(
-            (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI) / Constants.DriveConstants.GEAR_RATIO
-        );
+                (Units.inchesToMeters(Constants.DriveConstants.WHEEL_DIAMETER) * Math.PI)
+                        / Constants.DriveConstants.GEAR_RATIO);
 
         leftMotors = new MotorControllerGroup(leftMaster, leftSlave1, leftSlave2);
         rightMotors = new MotorControllerGroup(rightMaster, rightSlave1, rightSlave2);
@@ -183,7 +184,8 @@ public class DriveSubsystem extends SubsystemBase {
 
         table = NetworkTableInstance.getDefault().getTable("Drive");
 
-        turnPID = new PIDController(Constants.DriveConstants.turnKP, Constants.DriveConstants.turnKI, Constants.DriveConstants.turnKD);
+        turnPID = new PIDController(Constants.DriveConstants.turnKP, Constants.DriveConstants.turnKI,
+                Constants.DriveConstants.turnKD);
 
         turnPID.setSetpoint(0);
         turnPID.setTolerance(Constants.DriveConstants.QUICK_TURN_TOLERANCE);
@@ -195,28 +197,26 @@ public class DriveSubsystem extends SubsystemBase {
         rightMotors.setInverted(true);
         setBrake(true);
 
-        m_driveSim =
-            new DifferentialDrivetrainSim(
+        m_driveSim = new DifferentialDrivetrainSim(
                 DCMotor.getNEO(3),
                 Constants.DriveConstants.GEAR_RATIO,
                 Constants.DriveConstants.jKg_METERS_SQUARED,
                 DriveConstants.ROBOT_MASS,
                 Units.inchesToMeters(DriveConstants.WHEEL_DIAMETER / 2),
                 DriveConstants.TRACK_WIDTH,
-                null
-            );
+                null);
 
         kinematics = new DifferentialDriveKinematics(Constants.DriveConstants.TRACK_WIDTH);
         odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
 
-        feedforward =
-            new SimpleMotorFeedforward(
+        feedforward = new SimpleMotorFeedforward(
                 Constants.DriveConstants.ksVolts,
                 Constants.DriveConstants.kvVoltSecondsPerMeter,
-                Constants.DriveConstants.kaVoltSecondsSquaredPerMeter
-            );
-        leftPID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
-        rightPID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
+                Constants.DriveConstants.kaVoltSecondsSquaredPerMeter);
+        leftPID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI,
+                Constants.DriveConstants.kD);
+        rightPID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI,
+                Constants.DriveConstants.kD);
 
         m_chooser = new SendableChooser<>();
         m_chooser.addOption("4 Ball Routine", 4);
@@ -228,20 +228,21 @@ public class DriveSubsystem extends SubsystemBase {
 
         simInvert = Robot.isReal() ? -1 : 1;
 
-        feedforward =
-            new SimpleMotorFeedforward(
+        feedforward = new SimpleMotorFeedforward(
                 Constants.DriveConstants.ksVolts,
                 Constants.DriveConstants.kvVoltSecondsPerMeter,
-                Constants.DriveConstants.kaVoltSecondsSquaredPerMeter
-            );
-        leftPID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
-        rightPID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
+                Constants.DriveConstants.kaVoltSecondsSquaredPerMeter);
+        leftPID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI,
+                Constants.DriveConstants.kD);
+        rightPID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI,
+                Constants.DriveConstants.kD);
         /*
-        //Integrating Camera Feed
-        driverCamera =CameraServer.startAutomaticCapture();
-        driveTab.add("Driver Cam", driverCamera).withWidget(BuiltInWidgets.kCameraStream);
-
-        */
+         * //Integrating Camera Feed
+         * driverCamera =CameraServer.startAutomaticCapture();
+         * driveTab.add("Driver Cam",
+         * driverCamera).withWidget(BuiltInWidgets.kCameraStream);
+         * 
+         */
     }
 
     /**
@@ -339,12 +340,11 @@ public class DriveSubsystem extends SubsystemBase {
     @Override
     public void simulationPeriodic() {
         m_driveSim.setInputs(
-            // Left and right CAN IDs are flipped on the robot so right and left sides are
-            // flipped for
-            // simulation
-            rightMotors.get() * RobotController.getInputVoltage(),
-            leftMotors.get() * RobotController.getInputVoltage()
-        );
+                // Left and right CAN IDs are flipped on the robot so right and left sides are
+                // flipped for
+                // simulation
+                rightMotors.get() * RobotController.getInputVoltage(),
+                leftMotors.get() * RobotController.getInputVoltage());
         m_driveSim.update(0.02);
 
         leftEncoder.setPosition(m_driveSim.getLeftPositionMeters());
@@ -394,14 +394,13 @@ public class DriveSubsystem extends SubsystemBase {
     /**
      * Sets drive motors in volts
      * 
-     * @param leftVolts Left motor in volts
+     * @param leftVolts  Left motor in volts
      * @param rightVolts Right motor in volts
      */
     public void setOutput(double leftVolts, double rightVolts) {
         leftMotors.set(leftVolts / 12);
         rightMotors.set(rightVolts / 12);
     }
-
 
     public double getEncoderPosition() {
         return leftEncoder.getPosition();
@@ -413,9 +412,10 @@ public class DriveSubsystem extends SubsystemBase {
 
     public DifferentialDriveWheelSpeeds getSpeeds() {
         return new DifferentialDriveWheelSpeeds(
-            leftMaster.getEncoder().getVelocity() / Constants.DriveConstants.GEAR_RATIO * 2 * Math.PI * Units.inchesToMeters(3.0) / 60,
-            rightMaster.getEncoder().getVelocity() / Constants.DriveConstants.GEAR_RATIO * 2 * Math.PI * Units.inchesToMeters(3.0) / 60
-        );
+                leftMaster.getEncoder().getVelocity() / Constants.DriveConstants.GEAR_RATIO * 2 * Math.PI
+                        * Units.inchesToMeters(3.0) / 60,
+                rightMaster.getEncoder().getVelocity() / Constants.DriveConstants.GEAR_RATIO * 2 * Math.PI
+                        * Units.inchesToMeters(3.0) / 60);
     }
 
     public Integer getSelectedFromChooser() {
@@ -432,60 +432,58 @@ public class DriveSubsystem extends SubsystemBase {
         long startTime = System.currentTimeMillis();
 
         return new SequentialCommandGroup(
-            new InstantCommand(() -> {
-                RobotContainer.m_intakeSubsystem.forwardIntake();
-                SmartDashboard.putString("AUTO STATUS", "EXTENDED INTAKE");
-            }),
-            new ParallelRaceGroup(
+                new InstantCommand(() -> {
+                    RobotContainer.m_intakeSubsystem.forwardIntake();
+                    SmartDashboard.putString("AUTO STATUS", "EXTENDED INTAKE");
+                }),
+                new ParallelRaceGroup(
+                        RamseteUtility
+                                .createRamseteCommand(traj1, RobotContainer.m_driveSubsystem, false)
+                                .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+                        new IntakeAndIndex()),
+                new InstantCommand(() -> {
+                    RobotContainer.m_intakeSubsystem.reverseIntake();
+                    SmartDashboard.putString("AUTO STATUS", "RETRACTED INTAKE");
+                }),
                 RamseteUtility
-                    .createRamseteCommand(traj1, RobotContainer.m_driveSubsystem, false)
-                    .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
-                new IntakeAndIndex()
-            ),
-            new InstantCommand(() -> {
-                RobotContainer.m_intakeSubsystem.reverseIntake();
-                SmartDashboard.putString("AUTO STATUS", "RETRACTED INTAKE");
-            }),
-            RamseteUtility
-                .createRamseteCommand(traj2, RobotContainer.m_driveSubsystem, false)
-                .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
-            new InstantCommand(() -> {
-                // RobotContainer.m_shooter_subsystem.shootCIM(Constants.ShooterConstants.kCIMSpeed);
-                SmartDashboard.putString("AUTO STATUS", "SHOOTING");
-            }),
-            new WaitCommand(2),
-            new InstantCommand(() -> {
-                // RobotContainer.m_shooter_subsystem.shootCIM(0);
-                SmartDashboard.putString("AUTO STATUS", "STOPPED SHOOTING");
-            }),
-            new InstantCommand(() -> {
-                RobotContainer.m_intakeSubsystem.forwardIntake();
-                SmartDashboard.putString("AUTO STATUS", "EXTENDED INTAKE");
-            }),
-            RamseteUtility
-                .createRamseteCommand(traj3, RobotContainer.m_driveSubsystem, false)
-                .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
-            new InstantCommand(() -> {
-                RobotContainer.m_intakeSubsystem.reverseIntake();
-                SmartDashboard.putString("AUTO STATUS", "RETRACTED INTAKE");
-            }),
-            RamseteUtility
-                .createRamseteCommand(traj4, RobotContainer.m_driveSubsystem, false)
-                .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
-            new InstantCommand(() -> {
-                // RobotContainer.m_shooter_subsystem.shootCIM(Constants.ShooterConstants.kCIMSpeed);
-                SmartDashboard.putString("AUTO STATUS", "SHOOTING");
-            }),
-            new WaitCommand(2),
-            new InstantCommand(() -> {
-                // RobotContainer.m_shooter_subsystem.shootCIM(0);
-                SmartDashboard.putString("AUTO STATUS", "STOPPED SHOOTING");
-            }),
-            new InstantCommand(() -> {
-                long elapsedTime = System.currentTimeMillis() - startTime;
-                SmartDashboard.putNumber("AUTO TIME", elapsedTime / 1000);
-            })
-        );
+                        .createRamseteCommand(traj2, RobotContainer.m_driveSubsystem, false)
+                        .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+                new InstantCommand(() -> {
+                    // RobotContainer.m_shooter_subsystem.shootCIM(Constants.ShooterConstants.kCIMSpeed);
+                    SmartDashboard.putString("AUTO STATUS", "SHOOTING");
+                }),
+                new WaitCommand(2),
+                new InstantCommand(() -> {
+                    // RobotContainer.m_shooter_subsystem.shootCIM(0);
+                    SmartDashboard.putString("AUTO STATUS", "STOPPED SHOOTING");
+                }),
+                new InstantCommand(() -> {
+                    RobotContainer.m_intakeSubsystem.forwardIntake();
+                    SmartDashboard.putString("AUTO STATUS", "EXTENDED INTAKE");
+                }),
+                RamseteUtility
+                        .createRamseteCommand(traj3, RobotContainer.m_driveSubsystem, false)
+                        .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+                new InstantCommand(() -> {
+                    RobotContainer.m_intakeSubsystem.reverseIntake();
+                    SmartDashboard.putString("AUTO STATUS", "RETRACTED INTAKE");
+                }),
+                RamseteUtility
+                        .createRamseteCommand(traj4, RobotContainer.m_driveSubsystem, false)
+                        .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+                new InstantCommand(() -> {
+                    // RobotContainer.m_shooter_subsystem.shootCIM(Constants.ShooterConstants.kCIMSpeed);
+                    SmartDashboard.putString("AUTO STATUS", "SHOOTING");
+                }),
+                new WaitCommand(2),
+                new InstantCommand(() -> {
+                    // RobotContainer.m_shooter_subsystem.shootCIM(0);
+                    SmartDashboard.putString("AUTO STATUS", "STOPPED SHOOTING");
+                }),
+                new InstantCommand(() -> {
+                    long elapsedTime = System.currentTimeMillis() - startTime;
+                    SmartDashboard.putNumber("AUTO TIME", elapsedTime / 1000);
+                }));
     }
 
     public SequentialCommandGroup ThreeBallAuto(DriveSubsystem drive) {
@@ -496,57 +494,53 @@ public class DriveSubsystem extends SubsystemBase {
         resetOdometry(traj1.getInitialPose());
 
         return new SequentialCommandGroup(
-            new InstantCommand(() -> {
-                RobotContainer.m_intakeSubsystem.forwardIntake();
-                SmartDashboard.putString("AUTO STATUS", "EXTENDED INTAKE");
-            }),
-            new ParallelRaceGroup(
+                new InstantCommand(() -> {
+                    RobotContainer.m_intakeSubsystem.forwardIntake();
+                    SmartDashboard.putString("AUTO STATUS", "EXTENDED INTAKE");
+                }),
+                new ParallelRaceGroup(
+                        RamseteUtility
+                                .createRamseteCommand(traj1, RobotContainer.m_driveSubsystem, false)
+                                .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+                        new IntakeAndIndex()),
+                new InstantCommand(() -> {
+                    RobotContainer.m_intakeSubsystem.reverseIntake();
+                    SmartDashboard.putString("AUTO STATUS", "RETRACTED INTAKE");
+                }),
+                new InstantCommand(() -> {
+                    RobotContainer.m_intakeSubsystem.forwardIntake();
+                    SmartDashboard.putString("AUTO STATUS", "EXTENDED INTAKE");
+                }),
+                new ParallelRaceGroup(
+                        RamseteUtility
+                                .createRamseteCommand(traj2, RobotContainer.m_driveSubsystem, false)
+                                .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+                        new IntakeAndIndex()),
+                new InstantCommand(() -> {
+                    RobotContainer.m_intakeSubsystem.reverseIntake();
+                    SmartDashboard.putString("AUTO STATUS", "RETRACTED INTAKE");
+                }),
                 RamseteUtility
-                    .createRamseteCommand(traj1, RobotContainer.m_driveSubsystem, false)
-                    .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
-                new IntakeAndIndex()
-            ),
-            new InstantCommand(() -> {
-                RobotContainer.m_intakeSubsystem.reverseIntake();
-                SmartDashboard.putString("AUTO STATUS", "RETRACTED INTAKE");
-            }),
-            new InstantCommand(() -> {
-                RobotContainer.m_intakeSubsystem.forwardIntake();
-                SmartDashboard.putString("AUTO STATUS", "EXTENDED INTAKE");
-            }),
-            new ParallelRaceGroup(
-                RamseteUtility
-                    .createRamseteCommand(traj2, RobotContainer.m_driveSubsystem, false)
-                    .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
-                new IntakeAndIndex()
-            ),
-            new InstantCommand(() -> {
-                RobotContainer.m_intakeSubsystem.reverseIntake();
-                SmartDashboard.putString("AUTO STATUS", "RETRACTED INTAKE");
-            }),
-            RamseteUtility
-                .createRamseteCommand(traj3, RobotContainer.m_driveSubsystem, false)
-                .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
-            new InstantCommand(() -> {
-                // RobotContainer.m_shooter_subsystem.shootCIM(Constants.ShooterConstants.kCIMSpeed);
-                SmartDashboard.putString("AUTO STATUS", "SHOOTING");
-            }),
-            new WaitCommand(2),
-            new InstantCommand(() -> {
-                // RobotContainer.m_shooter_subsystem.shootCIM(0);
-                SmartDashboard.putString("AUTO STATUS", "STOPPED SHOOTING");
-            }),
-            new InstantCommand(() -> {
-                RobotContainer.m_intakeSubsystem.forwardIntake();
-                SmartDashboard.putString("AUTO STATUS", "EXTENDED INTAKE");
-            }),
-            new ParallelRaceGroup(
-                RamseteUtility
-                    .createRamseteCommand(traj4, RobotContainer.m_driveSubsystem, false)
-                    .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0))
-            ),
-            new IntakeAndIndex()
-        );
+                        .createRamseteCommand(traj3, RobotContainer.m_driveSubsystem, false)
+                        .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0)),
+                new InstantCommand(() -> {
+                    // RobotContainer.m_shooter_subsystem.shootCIM(Constants.ShooterConstants.kCIMSpeed);
+                    SmartDashboard.putString("AUTO STATUS", "SHOOTING");
+                }),
+                new WaitCommand(2),
+                new InstantCommand(() -> {
+                    // RobotContainer.m_shooter_subsystem.shootCIM(0);
+                    SmartDashboard.putString("AUTO STATUS", "STOPPED SHOOTING");
+                }),
+                new InstantCommand(() -> {
+                    RobotContainer.m_intakeSubsystem.forwardIntake();
+                    SmartDashboard.putString("AUTO STATUS", "EXTENDED INTAKE");
+                }),
+                new ParallelRaceGroup(
+                        RamseteUtility
+                                .createRamseteCommand(traj4, RobotContainer.m_driveSubsystem, false)
+                                .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0))),
+                new IntakeAndIndex());
     }
 
     public SequentialCommandGroup TwoBallAuto(DriveSubsystem drive) {
@@ -557,23 +551,22 @@ public class DriveSubsystem extends SubsystemBase {
         resetOdometry(traj1.getInitialPose());
 
         return new SequentialCommandGroup(
-            RamseteUtility
-                .createRamseteCommand(traj1, RobotContainer.m_driveSubsystem, false)
-                .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0))
-                .withTimeout(15),
-            RamseteUtility
-                .createRamseteCommand(traj2, RobotContainer.m_driveSubsystem, false)
-                .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0))
-                .withTimeout(15),
-            RamseteUtility
-                .createRamseteCommand(traj3, RobotContainer.m_driveSubsystem, false)
-                .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0))
-                .withTimeout(15),
-            RamseteUtility
-                .createRamseteCommand(traj4, RobotContainer.m_driveSubsystem, false)
-                .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0))
-                .withTimeout(15)
-        );
+                RamseteUtility
+                        .createRamseteCommand(traj1, RobotContainer.m_driveSubsystem, false)
+                        .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0))
+                        .withTimeout(15),
+                RamseteUtility
+                        .createRamseteCommand(traj2, RobotContainer.m_driveSubsystem, false)
+                        .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0))
+                        .withTimeout(15),
+                RamseteUtility
+                        .createRamseteCommand(traj3, RobotContainer.m_driveSubsystem, false)
+                        .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0))
+                        .withTimeout(15),
+                RamseteUtility
+                        .createRamseteCommand(traj4, RobotContainer.m_driveSubsystem, false)
+                        .andThen(() -> RobotContainer.m_driveSubsystem.setOutput(0, 0))
+                        .withTimeout(15));
     }
 
     public SequentialCommandGroup OneBall(DriveSubsystem drive) {
@@ -583,8 +576,9 @@ public class DriveSubsystem extends SubsystemBase {
         setBrake(true);
 
         return new SequentialCommandGroup(
-            RamseteUtility.createRamseteCommand(traj1, RobotContainer.m_driveSubsystem, false).andThen(() -> {RobotContainer.m_driveSubsystem.setOutput(0,0);})
-        );
+                RamseteUtility.createRamseteCommand(traj1, RobotContainer.m_driveSubsystem, false).andThen(() -> {
+                    RobotContainer.m_driveSubsystem.setOutput(0, 0);
+                }));
     }
 
     public SequentialCommandGroup StraightBack(DriveSubsystem drive) {
@@ -593,8 +587,9 @@ public class DriveSubsystem extends SubsystemBase {
         setBrake(true);
 
         return new SequentialCommandGroup(
-            RamseteUtility.createRamseteCommand(traj1, RobotContainer.m_driveSubsystem, false).andThen(() -> {RobotContainer.m_driveSubsystem.setOutput(0,0);})
-        );
+                RamseteUtility.createRamseteCommand(traj1, RobotContainer.m_driveSubsystem, false).andThen(() -> {
+                    RobotContainer.m_driveSubsystem.setOutput(0, 0);
+                }));
     }
 
     public void log() {

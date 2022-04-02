@@ -9,7 +9,7 @@ public final class Constants {
 
     public final class RobotMap {
 
-        //X=> intake and indexer  DONE
+        // X=> intake and indexer DONE
         // Triangel intake + transition motor done
         // Circle: pneumnatics DONE
         // Square: reverse (Intake +transitoin motor) done DONE
@@ -89,7 +89,9 @@ public final class Constants {
         public static final double kI = 0.0;
         public static final double kD = 0.0;
         public static final double DEADZONE = 0.05;
-		public static final double AUTO_SPEED = 0.4;
+        public static final double AUTO_SPEED = 0.4;
+
+        public static final double turnMultiplier = 0.05;
     }
 
     public final class ShooterConstants {
@@ -125,7 +127,7 @@ public final class Constants {
         public static final int PIPELINE = 0;
         public static final double MAX_ALIGN_SPEED = 0.6;
         public static final double ALIGN_KP_X = 0.05d;
-        public static final double ALIGN_KP_Y = 0.13d; //have to be careful cus can be over aggressive - akarsh
+        public static final double ALIGN_KP_Y = 0.13d; // have to be careful cus can be over aggressive - akarsh
         public static final double ALIGN_THRESHOLD = 1d;
         public static final double ALIGN_SETPOINT = 0;
     }
@@ -151,6 +153,6 @@ public final class Constants {
 
     public final class ColorConstants {
 
-        public static final int PROXIMITY_THRESHOLD = 200; //TODO change
+        public static final int PROXIMITY_THRESHOLD = 200; // TODO change
     }
 }

@@ -6,6 +6,7 @@ package frc.robot.commands.DriveCommands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class TurnDegrees extends CommandBase {
@@ -30,10 +31,17 @@ public class TurnDegrees extends CommandBase {
     initialDegrees = RobotContainer.m_driveSubsystem.getHeading();
   }
 
+  public boolean isClose() {
+    return (RobotContainer.m_driveSubsystem.getHeading() - initialDegrees
+        - degrees) < Constants.DriveConstants.turnTolerance ? true : false;
+  }
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    double factor = -MathUtil.clamp((RobotContainer.m_driveSubsystem.getHeading() - initialDegrees - degrees) / 20,
+  public void execute() { // arbitary use of Constant turn multiplier
+    double factor = -MathUtil.clamp(
+        (RobotContainer.m_driveSubsystem.getHeading() - initialDegrees - degrees)
+            * Constants.DriveConstants.turnMultiplier,
         -0.5, 0.5);
 
     RobotContainer.m_driveSubsystem.curveDrive(0, .7 * factor, true);
@@ -48,6 +56,6 @@ public class TurnDegrees extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Math.abs(RobotContainer.m_driveSubsystem.getHeading() - initialDegrees) >= Math.abs(degrees));
+    return isClose();
   }
 }
