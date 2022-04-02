@@ -92,6 +92,7 @@ public final class Constants {
         public static final double AUTO_SPEED = 0.4;
 
         public static final double turnMultiplier = 0.05;
+        public static final double turnTolerance = 5;
     }
 
     public final class ShooterConstants {
