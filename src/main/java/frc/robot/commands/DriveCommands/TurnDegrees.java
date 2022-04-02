@@ -42,7 +42,7 @@ public class TurnDegrees extends CommandBase {
     double factor = -MathUtil.clamp(
         (RobotContainer.m_driveSubsystem.getHeading() - initialDegrees - degrees)
             * Constants.DriveConstants.turnMultiplier,
-        -0.5, 0.5);
+        -0.3, 0.3);
 
     RobotContainer.m_driveSubsystem.curveDrive(0, .7 * factor, true);
   }
