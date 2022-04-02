@@ -30,12 +30,12 @@ public class TwoBall extends SequentialCommandGroup {
             }),
 
         new ParallelCommandGroup(
-            new DriveToDistance(10),
+            new DriveToDistance(0.5),
             new IntakeAndIndex()),
 
         new TurnDegrees(180),
 
-        new DriveToDistance(10),
+        new DriveToDistance(0.5),
 
         new ParallelRaceGroup(new IndexerAndShoot(), new WaitCommand(5.0)), // Waitcommand value arbitary
 
