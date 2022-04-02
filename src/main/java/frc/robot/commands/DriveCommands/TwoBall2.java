@@ -13,21 +13,18 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TwoBall2 extends SequentialCommandGroup {
   /** Creates a new TwoBall2. */
   public TwoBall2() {
     addCommands(
         new InstantCommand(
-        () -> {
-        RobotContainer.m_intakeSubsystem.forwardIntake();
-        }),
+            () -> {
+              RobotContainer.m_intakeSubsystem.forwardIntake();
+            }),
 
         new ParallelCommandGroup(
-        new DriveToDistance(0.5),
-        new IntakeAndIndex()),
+            new DriveToDistance(0.5),
+            new IntakeAndIndex()),
 
         new TurnDegrees(180),
 
@@ -36,6 +33,6 @@ public class TwoBall2 extends SequentialCommandGroup {
         new ParallelRaceGroup(new IndexerAndShoot(), new WaitCommand(5.0)),
 
         new AutoMoveBack());
-    );
+
   }
 }
