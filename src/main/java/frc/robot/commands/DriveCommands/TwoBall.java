@@ -22,7 +22,7 @@ public class TwoBall extends SequentialCommandGroup {
   public TwoBall() {
     addCommands(
 
-        new ExitTarmac(5),
+        new ExitTarmac(5), // TODO: calibrate
 
         new ParallelRaceGroup(
             new IndexerAndShoot(),
