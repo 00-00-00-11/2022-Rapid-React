@@ -22,7 +22,7 @@ public class TwoBall2 extends SequentialCommandGroup {
               RobotContainer.m_intakeSubsystem.forwardIntake();
             }),
 
-        new ParallelCommandGroup(
+        new ParallelRaceGroup(
             new DriveToDistance(0.5),
             new IntakeAndIndex()),
 
