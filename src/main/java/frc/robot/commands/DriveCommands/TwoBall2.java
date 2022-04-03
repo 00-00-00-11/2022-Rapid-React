@@ -17,13 +17,14 @@ public class TwoBall2 extends SequentialCommandGroup {
   /** Creates a new TwoBall2. */
   public TwoBall2() {
     addCommands(
+        new ExitTarmac(-65),
         new InstantCommand(
             () -> {
               RobotContainer.m_intakeSubsystem.forwardIntake();
             }),
 
         new ParallelRaceGroup(
-            new DriveToDistance(0.5),
+            new DriveToDistance(0.5), // make distance smaller if testing on field
             new IntakeAndIndex()),
 
         new TurnDegrees(180),
