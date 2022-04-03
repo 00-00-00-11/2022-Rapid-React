@@ -7,6 +7,7 @@ package frc.robot.commands.DriveCommands;
 import frc.robot.RobotContainer;
 import frc.robot.commands.ChainedCommands.IndexerAndShoot;
 import frc.robot.commands.ChainedCommands.IntakeAndIndex;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
@@ -34,7 +35,7 @@ public class TwoBall extends SequentialCommandGroup {
               RobotContainer.m_intakeSubsystem.forwardIntake();
             }),
 
-        new ParallelCommandGroup(
+        new ParallelRaceGroup(
             new DriveToDistance(0.25),
             new IntakeAndIndex()),
 

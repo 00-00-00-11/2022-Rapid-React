@@ -11,6 +11,7 @@ import frc.robot.RobotContainer;
 public class DriveToDistance extends CommandBase {
 
   double distance = 0;
+  boolean isFinished = false;
 
   public DriveToDistance(double distance) {
     this.distance = distance;
@@ -23,28 +24,33 @@ public class DriveToDistance extends CommandBase {
 
   @Override
   public void execute() {
-    if(distance > 0) {
-      if(Math.abs(RobotContainer.m_driveSubsystem.getEncoderPosition()) < distance) {
-        RobotContainer.m_driveSubsystem.tankDriveAuto(Constants.DriveConstants.AUTO_SPEED, Constants.DriveConstants.AUTO_SPEED);
+    if (distance > 0) {
+      if (Math.abs(RobotContainer.m_driveSubsystem.getEncoderPosition()) < distance) {
+        RobotContainer.m_driveSubsystem.tankDriveAuto(Constants.DriveConstants.AUTO_SPEED,
+            Constants.DriveConstants.AUTO_SPEED);
       } else {
-        RobotContainer.m_driveSubsystem.tankDriveAuto(0,0);
+        RobotContainer.m_driveSubsystem.tankDriveAuto(0, 0);
+        isFinished = true;
       }
     } else if (distance < 0) {
-      if(Math.abs(RobotContainer.m_driveSubsystem.getEncoderPosition()) < distance) {
-        RobotContainer.m_driveSubsystem.tankDriveAuto(Constants.DriveConstants.AUTO_SPEED, Constants.DriveConstants.AUTO_SPEED);
+      if (Math.abs(RobotContainer.m_driveSubsystem.getEncoderPosition()) < distance) {
+        RobotContainer.m_driveSubsystem.tankDriveAuto(Constants.DriveConstants.AUTO_SPEED,
+            Constants.DriveConstants.AUTO_SPEED);
       } else {
-        RobotContainer.m_driveSubsystem.tankDriveAuto(0,0);
+        RobotContainer.m_driveSubsystem.tankDriveAuto(0, 0);
+        isFinished = true;
       }
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isFinished;
   }
 }

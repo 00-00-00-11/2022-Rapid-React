@@ -32,8 +32,8 @@ public class TurnDegrees extends CommandBase {
   }
 
   public boolean isClose() {
-    return (RobotContainer.m_driveSubsystem.getHeading() - initialDegrees
-        - degrees) < Constants.DriveConstants.turnTolerance ? true : false;
+    return (Math.abs(RobotContainer.m_driveSubsystem.getHeading() - initialDegrees
+        - degrees)) < Constants.DriveConstants.turnTolerance;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
