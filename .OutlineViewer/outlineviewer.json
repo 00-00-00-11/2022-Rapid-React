@@ -1,0 +1,16 @@
+{
+  "Color": {
+    "open": true
+  },
+  "Connections": {
+    "open": true
+  },
+  "Drive": {
+    "open": true
+  },
+  "NetworkTables Settings": {
+    "mode": "Client"
+  },
+  "connections": true,
+  "timestamp": true
+}

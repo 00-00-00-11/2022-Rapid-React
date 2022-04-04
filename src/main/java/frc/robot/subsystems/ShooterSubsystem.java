@@ -24,45 +24,158 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.SparkMaxPIDController;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.utility.LoggingUtil;
+import frc.robot.utility.ShooterSpeeds;
 import frc.robot.utility.SparkMaxUtility;
+import frc.robot.utility.TalonFXUtility;
+
+// import com.revrobotics.CANSparkMax.ControlType;
+// import com.revrobotics.SparkMaxPIDController;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-  
-  /* Shooter CANSpark Definition */
-  CANSparkMax feederMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.SHOOTER_FEEDER_CAN, true);
-  CANSparkMax flyWheelMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.SHOOTER_FLYWHEEL_CAN, true);
+    /* Shooter Talon FX Definition */
+    TalonFX feederMotor;
+    TalonFX flyWheelMotor;
 
-  CANSparkMax intakeMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INTAKE_CAN, true);
+    CANSparkMax intakeMotor;
+    ShooterSpeeds speeds;
 
-  public ShooterSubsystem() {
-    
-  }
+    PIDController feederPID;
 
+    NetworkTable table;
 
-  public void shootBalls(boolean shoot) {
-    if (!shoot) {
-      feederMotor.set(0);
-      flyWheelMotor.set(0);
+    int encoderTicks = 2048;
+
+    // The below calculations convert generated values from sysID from revolutions to ticks
+    SimpleMotorFeedforward feedforwardBottom = new SimpleMotorFeedforward(
+        0.71363 / encoderTicks,
+        0.10695 / encoderTicks,
+        0.0046128 / encoderTicks
+    );
+    SimpleMotorFeedforward feedforwardTop = new SimpleMotorFeedforward(
+        0.52303 / encoderTicks,
+        0.10904 / encoderTicks,
+        0.0041191 / encoderTicks
+    );
+
+    public ShooterSubsystem() {
+        feederMotor = TalonFXUtility.constructTalonFX(Constants.RobotMap.SHOOTER_FEEDER_CAN);
+        flyWheelMotor = TalonFXUtility.constructTalonFX(Constants.RobotMap.SHOOTER_FLYWHEEL_CAN);
+
+        intakeMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.INTAKE_CAN, true);
+
+        feederPID = new PIDController(Constants.ShooterConstants.FLYWHEEL_KP, 0, 0);
+
+        speeds = new ShooterSpeeds(2000, 2000);
+
+        table = NetworkTableInstance.getDefault().getTable("Shooter");
+
+        /* Set PID */
+        flyWheelMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
+        flyWheelMotor.config_kP(0, 0.085035, 0);
+        flyWheelMotor.config_kI(0, .00035, 0);
+        flyWheelMotor.config_kD(0, 0, 0);
+
+        feederMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
+        feederMotor.config_kP(0, 0.092851, 0); // .092851
+        feederMotor.config_kI(0, .00035, 0);
+        feederMotor.config_kD(0, 0, 0);
+
+        LoggingUtil.logWithNetworkTable(table, "Is Shooter Ready", false);
+        LoggingUtil.logWithNetworkTable(table, "Top Vel", 0);
+        LoggingUtil.logWithNetworkTable(table, "Bot Vel", 0);
+        LoggingUtil.logWithNetworkTable(table, "Top Setpt", 0);
+        LoggingUtil.logWithNetworkTable(table, "Bot Setpt", 0);
     }
-  }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+    public void toSetPoint(double setpoint) {
+        feederMotor.set(TalonFXControlMode.Velocity, setpoint);
+    }
 
-  public void shootCIM(double speed) {
-    feederMotor.set(.15); //.15
-    flyWheelMotor.set(.85 ); //.8
-  }
+    public void shootPID() {
+        SmartDashboard.putNumber("speeds", speeds.getFeederVelocity());
+        flyWheelMotor.config_kF(0, ShooterConstants.SHOOTER_KF, 0);
+        feederMotor.config_kF(0, ShooterConstants.SHOOTER_KF, 0);
 
-  public void spinIntake(double speed) {
-    SparkMaxUtility.runSparkMax(intakeMotor, speed);
-  }
+        SmartDashboard.putNumber("FF Constant", feedforwardBottom.calculate(speeds.getFeederVelocity()));
+
+        flyWheelMotor.set(TalonFXControlMode.Velocity, 21000 * .25); //21000*1 possible clearing velocity
+        // flyWheelMotor.setNeutralMode(NeutralMode.Brake);
+        feederMotor.set(TalonFXControlMode.Velocity, 21000 * .55);  //21000* 0.8 <1.0 possible clearing velocity
+        // feederMotor.setNeutralMode(NeutralMode.Brake);
+    }
+
+    public void shootFromFender() {
+        SmartDashboard.putNumber("speeds", speeds.getFeederVelocity());
+        flyWheelMotor.config_kF(0, ShooterConstants.SHOOTER_KF, 0);
+        feederMotor.config_kF(0, ShooterConstants.SHOOTER_KF, 0);
+
+        SmartDashboard.putNumber("FF Constant", feedforwardBottom.calculate(speeds.getFeederVelocity()));
+
+        flyWheelMotor.set(TalonFXControlMode.Velocity, 21000 * .05); //21000*1 possible clearing velocity
+        // flyWheelMotor.setNeutralMode(NeutralMode.Brake);
+        feederMotor.set(TalonFXControlMode.Velocity, 21000 * .75);  //21000* 0.8 <1.0 possible clearing velocity
+        // feederMotor.setNeutralMode(NeutralMode.Brake);
+    }
+
+    //0.04966
+
+    public void shootBall() {
+        flyWheelMotor.set(TalonFXControlMode.PercentOutput, 0.75);
+        feederMotor.set(TalonFXControlMode.PercentOutput, 0.75);
+    }
+
+    public void stopMotors() {
+        feederMotor.set(TalonFXControlMode.PercentOutput, 0); // .9 Bottom
+        flyWheelMotor.set(TalonFXControlMode.PercentOutput, 0); // Top
+    }
+
+    @Override
+    public void periodic() {
+        log();
+    }
+
+    public void spinIntake(double speed) {
+        SparkMaxUtility.runSparkMax(intakeMotor, -speed);
+    }
+
+    public boolean checkAtSetpoint() {
+        if (
+            (
+                Math.abs(flyWheelMotor.getSelectedSensorVelocity() - speeds.getFlywheelVelocity()) <
+                Constants.ShooterConstants.TARGET_THRESHOLD
+            ) &&
+            (Math.abs(feederMotor.getSelectedSensorVelocity() - speeds.getFeederVelocity()) < Constants.ShooterConstants.TARGET_THRESHOLD)
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void log() {
+        LoggingUtil.logWithNetworkTable(table, "Is Shooter Ready", checkAtSetpoint());
+        LoggingUtil.logWithNetworkTable(table, "Top Vel", flyWheelMotor.getSelectedSensorVelocity());
+        LoggingUtil.logWithNetworkTable(table, "Bot Vel", feederMotor.getSelectedSensorVelocity());
+        LoggingUtil.logWithNetworkTable(table, "Top Setpt", speeds.getFlywheelVelocity());
+        LoggingUtil.logWithNetworkTable(table, "Bot Setpt", speeds.getFeederVelocity());
+        LoggingUtil.logWithNetworkTable(table, "Top Talon Curr Input", flyWheelMotor.getSupplyCurrent());
+        LoggingUtil.logWithNetworkTable(table, "Bot Talon Curr Input", feederMotor.getSupplyCurrent());
+        LoggingUtil.logWithNetworkTable(table, "Top Talon Curr Output", flyWheelMotor.getStatorCurrent());
+        LoggingUtil.logWithNetworkTable(table, "Bot Talon Curr Output", feederMotor.getStatorCurrent());
+    }
 }

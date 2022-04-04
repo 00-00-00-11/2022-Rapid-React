@@ -7,54 +7,130 @@ package frc.robot.subsystems;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.ElevatorConstants;
+import frc.robot.utility.LoggingUtil;
 
 public class ClimberSubsystem extends SubsystemBase {
 
-  CANSparkMax elevatorMotor;
-  CANSparkMax anglerMotorLeft;
-  CANSparkMax anglerMotorRight;
+    // Initializing motors and limit switches
+    CANSparkMax elevatorMotor;
+    CANSparkMax anglerMotorLeft;
+    CANSparkMax anglerMotorRight;
 
-  double ElevSpeed = Constants.ElevatorConstants.ELEVATOR_SPEED;
-  
-  double AnglerSpeed = Constants.ElevatorConstants.ANGLER_SPEED;
+    DigitalInput limitSwitch;
 
-  public ClimberSubsystem() {
-    elevatorMotor = new CANSparkMax(
-        Constants.RobotMap.CLIMBER_LINEAR_CAN, 
-        CANSparkMaxLowLevel.MotorType.kBrushless
-      );
+    NetworkTable table;
 
-    anglerMotorLeft = new CANSparkMax(
-        Constants.RobotMap.CLIMBER_LEFT_ARM_CAN, 
-        CANSparkMaxLowLevel.MotorType.kBrushless
-      );
+    // Booleans to handle elevator toggle functionality
+    boolean elevatorExtended = false;
 
-    anglerMotorRight = new CANSparkMax(
-      Constants.RobotMap.CLIMBER_RIGHT_ARM_CAN, 
-      CANSparkMaxLowLevel.MotorType.kBrushless
-    );
+    // Pulling variables from constants
+    double elevSpeed = Constants.ElevatorConstants.ELEVATOR_SPEED;
 
-    elevatorMotor.setIdleMode(IdleMode.kBrake);
-    anglerMotorLeft.setIdleMode(IdleMode.kBrake);
-    anglerMotorRight.setIdleMode(IdleMode.kBrake);
+    double anglerSpeed = Constants.ElevatorConstants.ANGLER_SPEED;
 
-    elevatorMotor.setInverted(false);
-    anglerMotorLeft.setInverted(false);
-    anglerMotorRight.setInverted(false);
-  }
+    public ClimberSubsystem() {
+        elevatorMotor = new CANSparkMax(Constants.RobotMap.CLIMBER_LINEAR_CAN, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-  @Override
-  public void periodic() {}
+        anglerMotorLeft = new CANSparkMax(Constants.RobotMap.CLIMBER_LEFT_ARM_CAN, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-  public void elevatorDriver(PS4Controller joystick) {
-    if (-joystick.getLeftY() < 0) {
-      elevatorMotor.set(-0.8*joystick.getLeftY());
-    } else {
-      elevatorMotor.set(-0.8*joystick.getLeftY());
+        anglerMotorRight = new CANSparkMax(Constants.RobotMap.CLIMBER_RIGHT_ARM_CAN, CANSparkMaxLowLevel.MotorType.kBrushless);
+
+        limitSwitch = new DigitalInput(0);
+ 
+        table = NetworkTableInstance.getDefault().getTable("Elevator");
+
+        elevatorMotor.setIdleMode(IdleMode.kBrake);
+        anglerMotorLeft.setIdleMode(IdleMode.kBrake);
+        anglerMotorRight.setIdleMode(IdleMode.kBrake);
+
+        elevatorMotor.setInverted(false);
+        anglerMotorLeft.setInverted(false);
+        anglerMotorRight.setInverted(false);
+
+        elevatorMotor.getEncoder().setPosition(0); //to avoid troubleshootin issues
     }
-  }
-}
 
+    @Override
+    public void periodic() {
+        if (limitSwitchIsTriggered()) {
+            elevatorMotor.getEncoder().setPosition(0);
+        }
+
+        log();
+    }
+
+    /**
+     * Checks if elevator limit switches are triggered (edge of hardware bounds)
+     * @return Limit switch is triggered
+     */
+    public boolean limitSwitchIsTriggered() {
+        return !limitSwitch.get();
+    }
+
+    public boolean retractElevator() {
+        if (limitSwitchIsTriggered()) {
+            elevatorMotor.set(0);
+            elevatorMotor.getEncoder().setPosition(0);
+            LoggingUtil.logWithNetworkTable(table, "Homing", "Done");
+            return true;
+        } else {
+            elevatorMotor.set(-1);
+            LoggingUtil.logWithNetworkTable(table, "Homing", "Doing");
+            return false;
+        }
+    }
+
+
+    /**
+     * Controls climber
+     * @param gamepad Operator gamepad
+     */
+    public void climberControl(PS4Controller gamepad) {
+        double elevatorInput = gamepad.getR2Axis() - gamepad.getL2Axis();
+        double leftArmInput = gamepad.getLeftY();
+        double rightArmInput = gamepad.getRightY();
+        double position = elevatorMotor.getEncoder().getPosition();
+        if (position <= 0) {
+            if (elevatorInput > 0) {
+                LoggingUtil.logWithNetworkTable(table, "State", "Moving, Up");
+                elevatorMotor.set(elevatorInput);
+            } else {
+                LoggingUtil.logWithNetworkTable(table, "State", "Not Moving, At Bottom");
+                elevatorMotor.set(0);
+            }
+        } else if (position >= Constants.ElevatorConstants.ELEVATOR_MAX) {
+            if (elevatorInput < 0) {
+                LoggingUtil.logWithNetworkTable(table, "State", "Moving, Down");
+                elevatorMotor.set(elevatorInput);
+            } else {
+                LoggingUtil.logWithNetworkTable(table, "State", "Not Moving, At Top");
+                elevatorMotor.set(0);
+            }
+        } else {
+            elevatorMotor.set(elevatorInput);
+            LoggingUtil.logWithNetworkTable(table, "State", "Moving");
+        }
+
+        anglerMotorLeft.set(leftArmInput*.1);
+        anglerMotorRight.set(rightArmInput*.1*-1);
+
+        LoggingUtil.logWithNetworkTable(table, "Input", elevatorInput);
+        LoggingUtil.logWithNetworkTable(table, "L Arm Pos", anglerMotorLeft.getEncoder().getPosition());
+        LoggingUtil.logWithNetworkTable(table, "R Arm Pos", anglerMotorRight.getEncoder().getPosition());
+
+    }
+
+    public void log() {
+        LoggingUtil.logWithNetworkTable(table, "Input", 0d);
+        LoggingUtil.logWithNetworkTable(table, "State", "Disabled");
+        LoggingUtil.logWithNetworkTable(table, "Position", elevatorMotor.getEncoder().getPosition());
+        LoggingUtil.logWithNetworkTable(table, "Limit Switch", limitSwitchIsTriggered());
+    }
+}
