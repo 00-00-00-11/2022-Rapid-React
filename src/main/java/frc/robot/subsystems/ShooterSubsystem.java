@@ -60,17 +60,16 @@ public class ShooterSubsystem extends SubsystemBase {
 
     int encoderTicks = 2048;
 
-    // The below calculations convert generated values from sysID from revolutions to ticks
+    // The below calculations convert generated values from sysID from revolutions
+    // to ticks
     SimpleMotorFeedforward feedforwardBottom = new SimpleMotorFeedforward(
-        0.71363 / encoderTicks,
-        0.10695 / encoderTicks,
-        0.0046128 / encoderTicks
-    );
+            0.71363 / encoderTicks,
+            0.10695 / encoderTicks,
+            0.0046128 / encoderTicks);
     SimpleMotorFeedforward feedforwardTop = new SimpleMotorFeedforward(
-        0.52303 / encoderTicks,
-        0.10904 / encoderTicks,
-        0.0041191 / encoderTicks
-    );
+            0.52303 / encoderTicks,
+            0.10904 / encoderTicks,
+            0.0041191 / encoderTicks);
 
     public ShooterSubsystem() {
         feederMotor = TalonFXUtility.constructTalonFX(Constants.RobotMap.SHOOTER_FEEDER_CAN);
@@ -113,9 +112,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
         SmartDashboard.putNumber("FF Constant", feedforwardBottom.calculate(speeds.getFeederVelocity()));
 
-        flyWheelMotor.set(TalonFXControlMode.Velocity, 21000 * .25); //21000*1 possible clearing velocity
+        flyWheelMotor.set(TalonFXControlMode.Velocity, 21000 * .25);
         // flyWheelMotor.setNeutralMode(NeutralMode.Brake);
-        feederMotor.set(TalonFXControlMode.Velocity, 21000 * .55);  //21000* 0.8 <1.0 possible clearing velocity
+        feederMotor.set(TalonFXControlMode.Velocity, 21000 * .55);
         // feederMotor.setNeutralMode(NeutralMode.Brake);
     }
 
@@ -126,13 +125,13 @@ public class ShooterSubsystem extends SubsystemBase {
 
         SmartDashboard.putNumber("FF Constant", feedforwardBottom.calculate(speeds.getFeederVelocity()));
 
-        flyWheelMotor.set(TalonFXControlMode.Velocity, 21000 * .05); //21000*1 possible clearing velocity
+        flyWheelMotor.set(TalonFXControlMode.Velocity, 21000 * .05); // 21000*1 possible clearing velocity
         // flyWheelMotor.setNeutralMode(NeutralMode.Brake);
-        feederMotor.set(TalonFXControlMode.Velocity, 21000 * .75);  //21000* 0.8 <1.0 possible clearing velocity
+        feederMotor.set(TalonFXControlMode.Velocity, 21000 * .75); // 21000* 0.8 <1.0 possible clearing velocity
         // feederMotor.setNeutralMode(NeutralMode.Brake);
     }
 
-    //0.04966
+    // 0.04966
 
     public void shootBall() {
         flyWheelMotor.set(TalonFXControlMode.PercentOutput, 0.75);
@@ -154,13 +153,10 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public boolean checkAtSetpoint() {
-        if (
-            (
-                Math.abs(flyWheelMotor.getSelectedSensorVelocity() - speeds.getFlywheelVelocity()) <
-                Constants.ShooterConstants.TARGET_THRESHOLD
-            ) &&
-            (Math.abs(feederMotor.getSelectedSensorVelocity() - speeds.getFeederVelocity()) < Constants.ShooterConstants.TARGET_THRESHOLD)
-        ) {
+        if ((Math.abs(flyWheelMotor.getSelectedSensorVelocity()
+                - speeds.getFlywheelVelocity()) < Constants.ShooterConstants.TARGET_THRESHOLD) &&
+                (Math.abs(feederMotor.getSelectedSensorVelocity()
+                        - speeds.getFeederVelocity()) < Constants.ShooterConstants.TARGET_THRESHOLD)) {
             return true;
         } else {
             return false;

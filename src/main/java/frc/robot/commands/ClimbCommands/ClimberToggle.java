@@ -4,8 +4,10 @@
 
 package frc.robot.commands.ClimbCommands;
 
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.TrapezoidProfileCommand;
 import frc.robot.RobotContainer;
 
 public class ClimberToggle extends CommandBase {
@@ -13,24 +15,25 @@ public class ClimberToggle extends CommandBase {
     PS4Controller elevGamepad;
 
     /** Creates a new ManualClimber. */
-    public ClimberToggle(PS4Controller gamepad) {
+    public ClimberToggle() {
         addRequirements(RobotContainer.m_climberSubsystem);
-        elevGamepad = gamepad;
     }
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        RobotContainer.m_climberSubsystem.climberControl(elevGamepad);
+        // RobotContainer.m_climberSubsystem.climberControl(elevGamepad);
+
     }
 
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {}
+    alled once 
+    he command 
+    nds or is 
+
+    rride
 
     // Returns true when the command should end.
     @Override

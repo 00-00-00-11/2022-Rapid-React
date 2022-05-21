@@ -150,6 +150,9 @@ public final class Constants {
 
         public static final double ELEVATOR_SPEED = 0.2;
         public static final double ANGLER_SPEED = 0.05;
+
+        public static final double MAX_VELOCITY = 0; // TODO change
+        public static final double MAX_ACCELERATION = 0; // TODO change
     }
 
     public final class ColorConstants {
