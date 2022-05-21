@@ -29,23 +29,19 @@ public class VisionSubsystem extends SubsystemBase {
         // limelight.setLEDMode(1);
 
         if (Robot.isReal()) {
-            limelight =
-                LimelightUtility.constructLimelight(
+            limelight = LimelightUtility.constructLimelight(
                     VisionConstants.LIMELIGHT_ANGLE,
                     VisionConstants.LIMELIGHT_HEIGHT,
                     FieldConstants.HIGH_GOAL_HEIGHT,
-                    VisionConstants.PIPELINE
-                );
+                    VisionConstants.PIPELINE);
         } else {
-            limelight =
-                LimelightUtility.constructLimelightSim(
+            limelight = LimelightUtility.constructLimelightSim(
                     VisionConstants.LIMELIGHT_ANGLE,
                     VisionConstants.LIMELIGHT_HEIGHT,
                     FieldConstants.HIGH_GOAL_HEIGHT,
                     0,
                     -120,
-                    30
-                );
+                    30);
         }
     }
 
@@ -95,8 +91,9 @@ public class VisionSubsystem extends SubsystemBase {
         LoggingUtil.logWithNetworkTable(table, "X Adjust", x_adjust);
         LoggingUtil.logWithNetworkTable(table, "Y Adjust", y_adjust);
 
-        double leftSpeed = x_adjust + y_adjust;
-        double rightSpeed = y_adjust - x_adjust;
+        double leftSpeed = y_adjust;
+        double rightSpeed = y_adjust;
+        double turretSpeed = x_adjust;
 
         LoggingUtil.logWithNetworkTable(table, "Auto State", "Aligning");
         LoggingUtil.logWithNetworkTable(table, "Left Speed", leftSpeed);
@@ -113,6 +110,7 @@ public class VisionSubsystem extends SubsystemBase {
 
         } else {
             RobotContainer.m_driveSubsystem.tankDriveAuto(leftSpeed, rightSpeed);
+            RobotContainer.m_turretSubsystem.runTurret(turretSpeed);
         }
 
         rumble(x_error, y_error);
@@ -140,7 +138,7 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     public void rumble(double x_error, double y_error) {
-        if(x_error < 1.0 && y_error < 1.0) {
+        if (x_error < 1.0 && y_error < 1.0) {
             PS4Utility.rumble(RobotContainer.driverGamepad, ControllerRumbleType.kHeavy, 0.5);
         } else {
             PS4Utility.rumble(RobotContainer.driverGamepad, ControllerRumbleType.kHeavy, 0);
