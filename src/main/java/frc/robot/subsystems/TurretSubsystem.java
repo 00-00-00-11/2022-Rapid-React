@@ -8,12 +8,22 @@ import frc.robot.utility.SparkMaxUtility;
 public class TurretSubsystem extends SubsystemBase {
 
     private CANSparkMax turretMotor;
-
+    private Encoder turretEncoder;
     public TurretSubsystem() {
         turretMotor = SparkMaxUtility.constructSparkMax(Constants.RobotMap.TURRET_TURN_CAN, true);
+        turretEncoder = turretMotor.getEncoder();
     }
 
     public void runTurret(double speed) {
-        SparkMaxUtility.runSparkMax(turretMotor, speed);
+        ticks = turretEncoder.get();
+        angle = ticks*(360/1024);
+        if (angle < 90) and (if angle > -90) 
+        {
+            SparkMaxUtility.runSparkMax(turretMotor, speed);    
+        }
+        else 
+        {
+            SparkMaxUtility.runSparkMax(turretMotor, 0);
+        }
     }
 }
